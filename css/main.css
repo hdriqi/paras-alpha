@@ -1,0 +1,13 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url('https://fonts.googleapis.com/css?family=Inter:400,500,600,700,800,900&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+button:disabled {
+  @apply opacity-25;
+}

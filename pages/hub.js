@@ -4,7 +4,7 @@ import NavMobile from '../components/navMobile'
 const HomePage = () => {
   return (
     <div>
-      Explore
+      Hub
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>

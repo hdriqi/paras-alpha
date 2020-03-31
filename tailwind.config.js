@@ -13,7 +13,9 @@ module.exports = {
         'black-6': '#DFDFDF'
       },
       padding: {
-        'half': '50%'
+        'third': '33.3%',
+        'half': '50%',
+        'full': '100%'
       }
     }
   }
