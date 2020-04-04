@@ -3,25 +3,14 @@ import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch } from "react-redux"
 import { toggleNewPost, toggleNewBlock } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
-
-const blockList = [
-  {
-    id: `123`,
-    title: `Dota 2`,
-    desc: `Dota 2 tips, tricks, memes and others.`
-  },
-  {
-    id: `124`,
-    title: `Travel`,
-    desc: `All my travel journey, from marocco to brazil.`
-  },
-]
+import { addPostList } from "../actions/me"
 
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
+  const blockList = useSelector(state => state.me.blockList)
   const dispatch = useDispatch()
 
-  const [chosenBlock, setChosenBlock] = useState(null)
+  const [chosenBlock, setChosenBlock] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([
     {
@@ -38,7 +27,10 @@ const NewPost = () => {
   const [step, setStep] = useState(0)
 
   const _close = () => {
-    setChosenBlock(null)
+    setChosenBlock('')
+    setPostText('')
+    setPostImageList([])
+    setStep(0)
     dispatch(toggleNewPost(!showNewPost))
   }
 
@@ -49,21 +41,36 @@ const NewPost = () => {
   }
 
   const _addImg = async (e) => {
-    const file = e.target.files[0]
-    const url = await readFileAsUrl(file)
-    const newImgList = [...postImageList]
-    newImgList.unshift({url: url})
-    setPostImageList(newImgList)
+    if(e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      const url = await readFileAsUrl(file)
+      const newImgList = [...postImageList]
+      newImgList.unshift({url: url})
+      setPostImageList(newImgList)
+    }
   }
 
   const _submit = async (e) => {
     e.preventDefault()
 
-    console.log({
-      block: chosenBlock,
-      text: postText,
-      imgList: postImageList
-    })
+    const id = Math.random().toString(36).substr(2, 9)
+    const blockObj = blockList.filter(block => block.id === chosenBlock)
+
+    dispatch(addPostList([
+      {
+        id: id,
+        block: blockObj[0],
+        text: postText,
+        imgList: postImageList,
+        author: {
+          username: 'riqi',
+          avatarUrl: 'https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw'
+        },
+        createdAt: new Date().toISOString()
+      }
+    ]))
+
+    _close()
   }
 
   const _validateSubmit = () => {
@@ -107,7 +114,7 @@ const NewPost = () => {
                           <div onClick={e => setChosenBlock(block.id)} key={block.id} 
                             className={`mt-4 w-full transition-all duration-300 text-black-3 leading-normal border p-2 rounded-sm
                             ${chosenBlock == block.id ? `border-black-3` : `border-black-6`}`}>
-                            <p className="text-black-2 font-bold">{ block.title }</p>
+                            <p className="text-black-2 font-bold">{ block.name }</p>
                             <p className="mt-1 truncate">{ block.desc }</p>
                           </div>
                         )
@@ -152,7 +159,7 @@ const NewPost = () => {
                   <div className="flex flex-nowrap overflow-x-auto">
                     <div className="w-1/3 min-w-third -ml-2 relative rounded-sm h-24 p-2">
                       <div className="absolute inset-0 opacity-0">
-                        <input type="file" onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
+                        <input type="file" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
                       </div>
                       <div className="flex items-center h-full bg-black-1">
                         <div className="m-auto">

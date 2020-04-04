@@ -1,35 +1,6 @@
-const postList = [
-  {
-    id: '1234',
-    block: {
-      name: 'Sunda Empire'
-    },
-    text: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.',
-    imgList: [
-      {
-        url: `https://images.pexels.com/photos/3664632/pexels-photo-3664632.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
-      }
-    ],
-    author: {
-      username: 'ranggasasana',
-      avatarUrl: 'https://images.pexels.com/photos/3862601/pexels-photo-3862601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    }
-  },
-  {
-    id: '1234',
-    block: {
-      name: 'Sunda Empire'
-    },
-    text: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.',
-    imgList: [
-      
-    ],
-    author: {
-      username: 'ranggasasana',
-      avatarUrl: 'https://images.pexels.com/photos/3862601/pexels-photo-3862601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    }
-  }
-]
+import { useSelector } from "react-redux"
+import { Carousel } from 'react-responsive-carousel'
+import { withRedux } from "../lib/redux"
 
 const Post = ({ data }) => {
   return (
@@ -44,17 +15,28 @@ const Post = ({ data }) => {
         </div>
       </div>
       <div>
-        <div className="flex flex-no-wrap">
-          {
-            data.imgList.map(img => {
-              return (
-                <div className="min-w-full pb-3/4 relative mb-4">
-                  <img className="absolute m-auto w-full h-full object-contain" src={img.url} />
-                </div>
-              )
-            })
-          }
-        </div>
+        {
+          data.imgList.length > 0 && (
+            <Carousel showArrows={false} showThumbs={false} showStatus={false} emulateTouch={true}>
+            {
+              data.imgList.map((img, idx) => {
+                return (
+                  <div className="w-full relative pb-3/4 bg-white" key={idx}>
+                    <img className="absolute m-auto w-full h-full object-contain" style={{
+                      display: 'block'
+                    }} src={img.url} />
+                  </div>
+                )
+              })
+            }
+            </Carousel>
+          )
+        }
+        {
+          data.imgList.length > 0 && data.text.length > 0 && (
+            <div className="mb-4"></div>
+          )
+        }
         <div className="px-4 pb-4">
           <p className="text-black-3">{ data.text }</p>
         </div>
@@ -64,8 +46,10 @@ const Post = ({ data }) => {
 }
 
 const Home = () => {
+  const postList = useSelector(state => state.me.postList)
+
   return (
-    <div className="bg-white-1">
+    <div className="bg-white-1 pb-32">
       <div className="pb-16">
         <div className="fixed z-10 top-0 left-0 right-0 bg-white shadow-subtle px-4 py-2">
           <div className="w-full h-full relative">
@@ -82,9 +66,11 @@ const Home = () => {
         </div>
       </div>
       {
-        postList.map(post => {
+        postList.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).map(post => {
           return (
-           <Post key={post.id} data={post} /> 
+            <div key={post.id}>
+              <Post data={post} />
+            </div>
           )
         })
       }
@@ -92,4 +78,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default withRedux(Home)

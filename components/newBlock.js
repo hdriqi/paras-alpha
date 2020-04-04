@@ -2,6 +2,7 @@ import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch } from "react-redux"
 import { toggleNewBlock } from "../actions/ui"
 import { useState } from "react"
+import { addBlockList } from "../actions/me"
 
 const NewBlock = () => {
   const showNewBlock = useSelector(state => state.ui.showNewBlock)
@@ -26,10 +27,17 @@ const NewBlock = () => {
   const _submit = (e) => {
     e.preventDefault()
 
-    console.log({
-      name: name,
-      desc: desc
-    })
+    const id = Math.random().toString(36).substr(2, 9)
+
+    dispatch(addBlockList([
+      {
+        id: id,
+        name: name,
+        desc: desc
+      }
+    ]))
+
+    _close()
   }
 
   return (
