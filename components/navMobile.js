@@ -78,7 +78,7 @@ const NavMobile = () => {
       </div>
       <Link href="/message">
         <div className={`w-1/5 flex items-center justify-center relative ${isActive(router.pathname, '/message') ? `text-black-1` : `text-black-3`}`}>
-          <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M0 6.89287L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 1.52588e-05L0 6.89287ZM7.84579 10.2772L4.25371 7.58315L17.5163 3.16229L13.0954 16.4249L10.4014 12.8328L14.2347 6.44385L7.84579 10.2772Z" fill="#616161"/>
           </svg>
           {
@@ -92,14 +92,14 @@ const NavMobile = () => {
           }
         </div>
       </Link>
-      <Link href="/profile">
-        <div className={`w-1/5 flex items-center justify-center relative ${isActive(router.pathname, '/profile') ? `text-black-1` : `text-black-3`}`}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="12" cy="6.5" rx="4" ry="4.5" stroke="#616161" strokeWidth="2.2"/>
-            <path d="M20 19C20 22.5 16 21.5 12 21.5C8 21.5 4 22.5 4 19C4 17 7.58172 14.5 12 14.5C16.4183 14.5 20 17 20 19Z" stroke="#616161" strokeWidth="2.2"/>
+      <Link href="/[username]" as={`/riqi`}>
+        <div className={`w-1/5 flex items-center justify-center relative ${isActive(router.pathname, '/[username]') ? `text-black-1` : `text-black-3`}`}>
+          <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="12" cy="6.5" rx="4" ry="4.5" />
+            <path d="M20 19C20 22.5 16 21.5 12 21.5C8 21.5 4 22.5 4 19C4 17 7.58172 14.5 12 14.5C16.4183 14.5 20 17 20 19Z" />
           </svg>
           {
-            isActive(router.pathname, '/profile') && (
+            isActive(router.pathname, '/[username]') && (
               <div className="absolute bottom-0 p-1">
                 <svg width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="2" cy="2" r="2" fill="#222222"/>

@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch } from "react-redux"
 import { toggleNewPost, toggleNewBlock } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
-import { addPostList } from "../actions/me"
+import { addPostList, addBlockList } from "../actions/me"
+import axios from "axios"
 
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
@@ -13,18 +14,32 @@ const NewPost = () => {
   const [chosenBlock, setChosenBlock] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([
-    {
-      url: `https://images.pexels.com/photos/3633626/pexels-photo-3633626.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
-    },
-    {
-      url: `https://images.pexels.com/photos/3218135/pexels-photo-3218135.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
-    },
-    {
-      url: `https://images.pexels.com/photos/3586911/pexels-photo-3586911.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
-    }
+    // {
+    //   url: `https://upload.wikimedia.org/wikipedia/commons/4/43/Aspect_ratio_4_3_example.jpg`
+    // },
+    // {
+    //   url: `https://images.pexels.com/photos/3218135/pexels-photo-3218135.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
+    // },
+    // {
+    //   url: `https://images.pexels.com/photos/3586911/pexels-photo-3586911.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
+    // }
   ])
-
   const [step, setStep] = useState(0)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3004/blocks?userId=${userId}`)
+        dispatch(addBlockList(response.data))
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    const userId = 'wokoee9'
+    if(blockList.length === 0) {
+      getData()
+    }
+  }, [])
 
   const _close = () => {
     setChosenBlock('')
@@ -54,21 +69,32 @@ const NewPost = () => {
     e.preventDefault()
 
     const id = Math.random().toString(36).substr(2, 9)
-    const blockObj = blockList.filter(block => block.id === chosenBlock)
+    // const blockObj = blockList.filter(block => block.id === chosenBlock)
 
-    dispatch(addPostList([
-      {
+    // dispatch(addPostList([
+    //   {
+    //     id: id,
+    //     block: blockObj[0],
+    //     body: postText,
+    //     imgList: postImageList,
+    //     userId: `wokoee9`,
+    //     createdAt: new Date().toISOString()
+    //   }
+    // ]))
+
+    try {
+      const response = await axios.post('http://localhost:3004/posts', {
         id: id,
-        block: blockObj[0],
-        text: postText,
+        blockId: chosenBlock,
+        body: postText,
         imgList: postImageList,
-        author: {
-          username: 'riqi',
-          avatarUrl: 'https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw'
-        },
+        userId: 'wokoee9',
         createdAt: new Date().toISOString()
-      }
-    ]))
+      })
+      console.log(response) 
+    } catch (err) {
+      console.log(err)
+    }
 
     _close()
   }
@@ -112,7 +138,7 @@ const NewPost = () => {
                       blockList.map(block => {
                         return (
                           <div onClick={e => setChosenBlock(block.id)} key={block.id} 
-                            className={`mt-4 w-full transition-all duration-300 text-black-3 leading-normal border p-2 rounded-sm
+                            className={`mt-4 w-full transition-all duration-300 text-black-3 leading-normal border p-2 rounded-md
                             ${chosenBlock == block.id ? `border-black-3` : `border-black-6`}`}>
                             <p className="text-black-2 font-bold">{ block.name }</p>
                             <p className="mt-1 truncate">{ block.desc }</p>
@@ -121,7 +147,7 @@ const NewPost = () => {
                       })
                     }
                     <button onClick={e => dispatch(toggleNewBlock(true))} 
-                      className="mt-4 w-full border border-black-1 bg-black-1 p-2 py-4 rounded-sm text-white font-semibold leading-relaxed">
+                      className="mt-4 w-full border border-black-1 bg-black-1 p-2 py-4 rounded-md text-white font-semibold leading-relaxed">
                       + Add New Block
                     </button>
                   </div>
@@ -157,7 +183,7 @@ const NewPost = () => {
                 <div className="h-40">
                   <label className="block text-sm font-semibold text-black-2">Image</label>
                   <div className="flex flex-nowrap overflow-x-auto">
-                    <div className="w-1/3 min-w-third -ml-2 relative rounded-sm h-24 p-2">
+                    <div className="w-1/3 min-w-third -ml-2 relative rounded-md h-24 p-2">
                       <div className="absolute inset-0 opacity-0">
                         <input type="file" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
                       </div>
@@ -174,8 +200,11 @@ const NewPost = () => {
                       postImageList.map((img, idx) => {
                         return (
                           <div key={img.url} className="w-1/3 h-24 min-w-third relative p-2">
-                            <div onClick={e => _removeImg(idx)} className="absolute top-0 right-0 mr-2 mt-2 z-10" >
-                              X
+                            <div onClick={e => _removeImg(idx)} className="absolute top-0 right-0 mr-3 mt-3 z-10" >
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.400024" y="0.400146" width="16.2" height="16.2" rx="8.1" fill="#222222"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M8.50008 9.64596L5.02283 13.1232L3.87732 11.9777L7.35456 8.50044L3.87732 5.0232L5.02283 3.87769L8.50008 7.35493L11.9773 3.87769L13.1228 5.0232L9.64559 8.50044L13.1228 11.9777L11.9773 13.1232L8.50008 9.64596Z" fill="white"/>
+                            </svg>
                             </div>
                             <img className="h-full m-auto object-contain" src={img.url} />
                           </div>

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { toggleNewBlock } from "../actions/ui"
 import { useState } from "react"
 import { addBlockList } from "../actions/me"
+import axios from 'axios'
 
 const NewBlock = () => {
   const showNewBlock = useSelector(state => state.ui.showNewBlock)
@@ -24,20 +25,31 @@ const NewBlock = () => {
     return false
   }
 
-  const _submit = (e) => {
+  const _submit = async (e) => {
     e.preventDefault()
 
     const id = Math.random().toString(36).substr(2, 9)
 
-    dispatch(addBlockList([
-      {
+    try {
+      await axios.post('http://localhost:3004/blocks', {
         id: id,
         name: name,
-        desc: desc
-      }
-    ]))
+        desc: desc,
+        userId: 'wokoee9'
+      }) 
 
-    _close()
+      dispatch(addBlockList([
+        {
+          id: id,
+          name: name,
+          desc: desc
+        }
+      ]))
+
+      _close()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -60,11 +72,11 @@ const NewBlock = () => {
           <div className="mt-8">
             <div>
               <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
-              <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-sm" type="text" placeholder="Block name" />
+              <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" placeholder="Block name" />
             </div>
             <div className="mt-4">
               <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
-              <textarea value={desc} onChange={e => setDesc(e.target.value)} className="resize-none w-full h-40 transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-sm" placeholder="Block description (optional)"></textarea>
+              <textarea value={desc} onChange={e => setDesc(e.target.value)} className="resize-none w-full h-40 transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" placeholder="Block description (optional)"></textarea>
             </div>
           </div>
         </div>
