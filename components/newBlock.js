@@ -7,6 +7,7 @@ import axios from 'axios'
 
 const NewBlock = () => {
   const showNewBlock = useSelector(state => state.ui.showNewBlock)
+  const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
 
   const [name, setName] = useState('')
@@ -35,7 +36,8 @@ const NewBlock = () => {
         id: id,
         name: name,
         desc: desc,
-        userId: 'wokoee9'
+        userId: profile.id,
+        createdAt: new Date().toISOString()
       }) 
 
       dispatch(addBlockList([

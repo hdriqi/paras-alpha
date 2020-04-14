@@ -9,37 +9,27 @@ import axios from "axios"
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
   const blockList = useSelector(state => state.me.blockList)
+  const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
 
   const [chosenBlock, setChosenBlock] = useState('')
   const [postText, setPostText] = useState('')
-  const [postImageList, setPostImageList] = useState([
-    // {
-    //   url: `https://upload.wikimedia.org/wikipedia/commons/4/43/Aspect_ratio_4_3_example.jpg`
-    // },
-    // {
-    //   url: `https://images.pexels.com/photos/3218135/pexels-photo-3218135.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
-    // },
-    // {
-    //   url: `https://images.pexels.com/photos/3586911/pexels-photo-3586911.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`
-    // }
-  ])
+  const [postImageList, setPostImageList] = useState([])
   const [step, setStep] = useState(0)
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3004/blocks?userId=${userId}`)
+        const response = await axios.get(`http://localhost:3004/blocks?userId=${profile.id}`)
         dispatch(addBlockList(response.data))
       } catch (err) {
         console.log(err)
       }
     }
-    const userId = 'wokoee9'
-    if(blockList.length === 0) {
+    if(blockList.length === 0 && profile.id) {
       getData()
     }
-  }, [])
+  }, [profile])
 
   const _close = () => {
     setChosenBlock('')
@@ -88,7 +78,7 @@ const NewPost = () => {
         blockId: chosenBlock,
         body: postText,
         imgList: postImageList,
-        userId: 'wokoee9',
+        userId: profile.id,
         createdAt: new Date().toISOString()
       })
       console.log(response) 

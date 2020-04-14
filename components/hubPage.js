@@ -25,7 +25,7 @@ const HubUser = ({ me, user, toggleFollow }) => {
           </div>
         </div>
         <div className="px-4 w-auto">
-          <Link href="/[username]" as={ user.username }>
+          <Link href="/[username]" as={ `/${user.username}` }>
             <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ user.username }</p>
           </Link>
           <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ user.bio }</p>
@@ -106,7 +106,7 @@ const HubBlock = ({ me, block, toggleFollow }) => {
   )
 }
 
-const HubPage = ({ me }) => {
+const HubPage = ({ me, list, page }) => {
   const _toggleFollow = async (me, user) => {
     // cannot follow/unfollow self
     if(me.id === user.id) {
@@ -148,8 +148,24 @@ const HubPage = ({ me }) => {
           <div className="fixed z-10 top-0 left-0 right-0 bg-white shadow-subtle px-4 py-2">
             <div className="w-full h-full relative">
               <div className="flex ">
-                <h1 className="text-3xl font-bold">Following</h1>
-                <h1 className="ml-4 text-3xl font-bold text-black-3">Recent</h1>
+                <Link href="/hub/following">
+                  {
+                    page === 'following' ? (
+                      <h1 className="text-3xl font-bold">Following</h1>
+                    ) : (
+                      <h1 className="text-3xl font-bold text-black-3">Following</h1>
+                    )
+                  }
+                </Link>
+                <Link href="/hub/recent">
+                  {
+                    page === 'recent' ? (
+                      <h1 className="ml-4 text-3xl font-bold">Newest</h1>
+                    ) : (
+                      <h1 className="ml-4 text-3xl font-bold text-black-3">Newest</h1>
+                    )
+                  }
+                </Link>
               </div>
               <div className="absolute top-0 right-0 py-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -160,19 +176,35 @@ const HubPage = ({ me }) => {
           </div>
         </div>
         {
-          me.following.map((following, idx) => {
-            return (
-              <div key={following.id} className="mt-6 shadow-subtle">
-                {
-                  following.type === 'user' ? (
-                    <HubUser me={me} user={me.followingDetail[idx]} toggleFollow={_toggleFollow} />
-                  ) : (
-                    <HubBlock me={me} block={me.followingDetail[idx]} toggleFollow={_toggleFollow} />
-                  )
-                }
-              </div>
-            )
-          })
+          page === 'following' ? (
+            list.map((following, idx) => {
+              return (
+                <div key={following.id} className="mt-6 shadow-subtle">
+                  {
+                    following.type === 'user' ? (
+                      <HubUser me={me} user={list[idx]} toggleFollow={_toggleFollow} />
+                    ) : (
+                      <HubBlock me={me} block={list[idx]} toggleFollow={_toggleFollow} />
+                    )
+                  }
+                </div>
+              )
+            })
+          ) : (
+            list.map((following, idx) => {
+              return (
+                <div key={following.id} className="mt-6 shadow-subtle">
+                  {
+                    following.type === 'user' ? (
+                      <HubUser me={me} user={list[idx]} toggleFollow={_toggleFollow} />
+                    ) : (
+                      <HubBlock me={me} block={list[idx]} toggleFollow={_toggleFollow} />
+                    )
+                  }
+                </div>
+              )
+            })
+          )
         }
       </div>
     ) : (

@@ -17,6 +17,7 @@ const HomePage = () => {
       const resUser = await axios.get(`http://localhost:3004/users/${profile.id}`)
       const user = resUser.data
       const userFollowing = user.following.filter(following => following.type === 'user').map(following => following.id)
+      userFollowing.push(profile.id)
       const blockFollowing = user.following.filter(following => following.type === 'block').map(following => following.id)
       const resPostAll = await axios.get(`http://localhost:3004/posts?_sort=createdAt&_order=desc`)
       const feedPost = resPostAll.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter(post => userFollowing.includes(post.userId) || blockFollowing.includes(post.blockId))

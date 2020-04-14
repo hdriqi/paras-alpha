@@ -25,12 +25,10 @@ const LoginPage = () => {
       await axios.post(`http://localhost:3004/users`, {
         id: id,
         username: username,
-        following: [{
-          type: 'user',
-          id: id
-        }],
+        following: [],
         avatarUrl: '',
-        bio: ''
+        bio: '',
+        createdAt: new Date().toISOString()
       })
 
       window.localStorage.setItem('meId', id)
