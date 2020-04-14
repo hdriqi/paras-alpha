@@ -2,8 +2,56 @@ import Post from "./post"
 import Link from 'next/link'
 import { useRouter } from "next/router"
 
-const Block = ({ block, postList }) => {
+import axios from 'axios'
+import { useState, useEffect } from "react"
+
+const Block = ({ me, block, postList }) => {
   const router = useRouter()
+
+  const [isFollowing, setIsFollowing] = useState(false)
+
+  useEffect(() => {
+    if(
+      (Array.isArray(me.following) && 
+      (me.following.filter(following => following.id === block.userId).length > 0 
+        || me.following.filter(following => following.id === block.id).length > 0))
+      ) {
+      setIsFollowing(true)
+    }
+  }, [me, block])
+
+  const _toggleFollow = async (me, block) => {
+    // cannot follow/unfollow block if me follow user
+    // if(Array.isArray(me.following) && me.following.filter(following => following.id === block.userId).length > 0) {
+    //   console.log('error, unfollow the owner to unfollow this block')
+    //   return
+    // }
+    const newMe = {...me}
+    if(Array.isArray(me.following)) {
+      const followingIdx = me.following.findIndex(following => following.id === block.id)
+      if(followingIdx > -1) {
+        const newFollowing = [...me.following]
+        newFollowing.splice(followingIdx, 1)
+        newMe.following = newFollowing
+      }
+      else {
+        const newFollowing = [...me.following]
+        newFollowing.push({
+          type: 'block',
+          id: block.id
+        })
+        newMe.following = newFollowing
+      }
+    }
+    else {
+      newMe.following = [{
+        type: 'block',
+        id: block.id
+      }]
+    }
+    await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
+    setIsFollowing(true)
+  }
 
   const _close = () => {
     router.back()
@@ -38,6 +86,23 @@ const Block = ({ block, postList }) => {
             )
           }
           <p className="mt-2 text-black-3">{block.desc}</p>
+          {
+            me.id && block.user && me.id !== block.user.id && (
+              <div className="px-4 mt-4">
+                {
+                  isFollowing ? (
+                    <button onClick={e => _toggleFollow(me, block)} className="font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md" style={{
+                      minWidth: `6rem`
+                    }}>Following</button>
+                  ) : (
+                    <button onClick={e => _toggleFollow(me, block)} className="font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md" style={{
+                      minWidth: `6rem`
+                    }}>Follow</button>
+                  )
+                }
+              </div>
+            )
+          }
         </div>
         <div>
           {

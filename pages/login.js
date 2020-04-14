@@ -1,13 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '../components/layout'
+
+import axios from 'axios'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('')
   const router = useRouter()
 
-  const _login = (e) => {
+  const _login = async (e) => {
     e.preventDefault()
+
+    const userRes = await axios.get(`http://localhost:3004/users?username=${username}`)
+    if(userRes.data.length > 0) {
+      // set local storage
+      const me = userRes.data[0]
+      window.localStorage.setItem('meId', me.id)
+      window.localStorage.setItem('meUsername', me.username)
+    }
+    else {
+      // create new
+      const id = Math.random().toString(36).substr(2, 9)
+
+      await axios.post(`http://localhost:3004/users`, {
+        id: id,
+        username: username,
+        following: [{
+          type: 'user',
+          id: id
+        }],
+        avatarUrl: '',
+        bio: ''
+      })
+
+      window.localStorage.setItem('meId', id)
+      window.localStorage.setItem('meUsername', username)
+    }
 
     router.replace('/')
   }

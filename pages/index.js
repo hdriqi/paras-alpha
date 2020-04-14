@@ -9,12 +9,18 @@ import { withRedux } from '../lib/redux'
 
 const HomePage = () => {
   const dispatch = useDispatch()
+  const profile = useSelector(state => state.me.profile)
   const postList = useSelector(state => state.me.postList)
 
   useEffect(() => {
     const getData = async () => {
-      const resPost = await axios.get('http://localhost:3004/posts?_sort=createdAt&_order=desc')
-      const data = await Promise.all(resPost.data.map(post => {
+      const resUser = await axios.get(`http://localhost:3004/users/${profile.id}`)
+      const user = resUser.data
+      const userFollowing = user.following.filter(following => following.type === 'user').map(following => following.id)
+      const blockFollowing = user.following.filter(following => following.type === 'block').map(following => following.id)
+      const resPostAll = await axios.get(`http://localhost:3004/posts?_sort=createdAt&_order=desc`)
+      const feedPost = resPostAll.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter(post => userFollowing.includes(post.userId) || blockFollowing.includes(post.blockId))
+      const data = await Promise.all(feedPost.map(post => {
         return new Promise(async (resolve) => {
           const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
           const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
@@ -22,13 +28,13 @@ const HomePage = () => {
           post.block = resBlock.data
           resolve(post)
         })
-      }))      
+      }))
       dispatch(addPostList(data))
     }
-    if(postList.length === 0) {
+    if(postList.length === 0 && profile.id) {
       getData()
     }
-  }, [])
+  }, [profile])
 
   return (
     <Layout>

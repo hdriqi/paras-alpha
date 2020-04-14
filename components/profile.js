@@ -1,6 +1,45 @@
 import Link from 'next/link'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 
-const Profile = ({ user, blockList }) => {
+const Profile = ({ me, user, blockList }) => {
+  const [isFollowing, setIsFollowing] = useState(false)
+
+  useEffect(() => {
+    if(Array.isArray(me.following) && me.following.filter(following => following.id === user.id).length > 0) {
+      setIsFollowing(true)
+    }
+  }, [me, user])
+
+  const _toggleFollow = async (me, user) => {
+    // cannot follow/unfollow self
+    if(me.id === user.id) {
+      return
+    }
+    const newMe = {...me}
+    if(Array.isArray(me.following)) {
+      const followingIdx = me.following.findIndex(following => following.id === user.id)
+      if(followingIdx > -1) {
+        const newFollowing = [...me.following]
+        newFollowing.splice(followingIdx, 1)
+        newMe.following = newFollowing
+      }
+      else {
+        const newFollowing = [...me.following]
+        newFollowing.push({
+          type: 'user',
+          id: user.id
+        })
+        newMe.following = newFollowing
+      }
+    }
+    else {
+      newMe.following = [user.id]
+    }
+    await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
+    setIsFollowing(!isFollowing)
+  }
+
   return (
     <div className="min-h-screen">
       <div className="pt-12">
@@ -17,6 +56,23 @@ const Profile = ({ user, blockList }) => {
           <img className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" src={user.avatarUrl} />
           <h4 className="mt-4 text-2xl font-bold">{user.username}</h4>
           <p className="text-black-3">{user.bio}</p>
+          {
+            me.id && user.id && me.id !== user.id && (
+              <div className="px-4 mt-4">
+                {
+                  isFollowing ? (
+                    <button onClick={e => _toggleFollow(me, user)} className="font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md" style={{
+                      minWidth: `6rem`
+                    }}>Following</button>
+                  ) : (
+                    <button onClick={e => _toggleFollow(me, user)} className="font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md" style={{
+                      minWidth: `6rem`
+                    }}>Follow</button>
+                  )
+                }
+              </div>
+            )
+          }
         </div>
         <div>
           {

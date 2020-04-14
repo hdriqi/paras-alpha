@@ -7,7 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 const PostDetail = ({ post , commentList }) => {
   const [comment, setComment] = useState('')
-  // const [newComment, setNewComment] = useState([])
+  const [newCommentList, setNewCommentList] = useState([])
   const router = useRouter()
 
   const _close = () => {
@@ -56,13 +56,30 @@ const PostDetail = ({ post , commentList }) => {
 
     const id = Math.random().toString(36).substr(2, 9)
 
-    const response = await axios.post('http://localhost:3004/comments', {
+    await axios.post('http://localhost:3004/comments', {
       id: id,
       postId: router.query.id,
       body: comment,
       userId: 'wokoee9',
       createdAt: new Date().toISOString()
     })
+
+    const localComment = [...newCommentList]
+    localComment.push({
+      id: id,
+      postId: router.query.id,
+      body: comment,
+      userId: 'wokoee9',
+      createdAt: new Date().toISOString(),
+      user: {
+        "id": "wokoee9",
+        "username": "riqi",
+        "avatarUrl": "https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw",
+        "bio": "Humanizing blockchain"
+      }
+    })
+    console.log(localComment)
+    setNewCommentList(localComment)
 
     setComment('')
   }
@@ -97,7 +114,17 @@ const PostDetail = ({ post , commentList }) => {
           })
         }
       </div>
-      
+      <div>
+        {
+          newCommentList.map(newComment => {
+            return (
+              <div key={newComment.id}>
+                <Comment comment={newComment} />
+              </div>
+            )
+          })
+        }
+      </div>
       <div className="fixed bottom-0 left-0 right-0">
         {
           onQuery && (

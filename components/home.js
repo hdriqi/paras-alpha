@@ -22,7 +22,7 @@ const Home = ({ postList }) => {
       {
         postList.map(post => {
           return (
-            <div className="mt-10 shadow-subtle" key={post.id}>
+            <div className="mt-6 shadow-subtle" key={post.id}>
               <Post post={post} />
             </div>
           )

@@ -81,19 +81,44 @@
       "body": "Well done!",
       "userId": "wokoee9",
       "createdAt": "2020-04-09T13:25:53.116Z"
+    },
+    {
+      "id": "l6uxl1fb6",
+      "postId": "34ymnplhg",
+      "body": "Totally agree!",
+      "userId": "wokoee9",
+      "createdAt": "2020-04-13T01:58:35.747Z"
     }
   ],
   "users": [
     {
       "id": "qwem03m",
       "username": "ranggasasana",
-      "avatarUrl": "https://images.pexels.com/photos/3862601/pexels-photo-3862601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+      "avatarUrl": "https://images.pexels.com/photos/3862601/pexels-photo-3862601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "following": [
+        {
+          "type": "block",
+          "id": "lr0x95myo"
+        }
+      ]
+    },
+    {
+      "id": "q2ekeme",
+      "username": "hendri",
+      "avatarUrl": "https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw",
+      "bio": "Fulltime Youtuber. Jkt - Jogja.",
+      "following": []
     },
     {
       "id": "wokoee9",
       "username": "riqi",
       "avatarUrl": "https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw",
-      "bio": "Humanizing blockchain"
+      "following": [
+        {
+          "type": "user",
+          "id": "wokoee9"
+        }
+      ]
     }
   ]
 }

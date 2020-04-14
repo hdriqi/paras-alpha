@@ -14,6 +14,7 @@ const isActive = (path, target) => {
 
 const NavMobile = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
+  const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -92,7 +93,7 @@ const NavMobile = () => {
           }
         </div>
       </Link>
-      <Link href="/[username]" as={`/riqi`}>
+      <Link href="/[username]" as={`/${profile.username}`}>
         <div className={`w-1/5 flex items-center justify-center relative ${isActive(router.pathname, '/[username]') ? `text-black-1` : `text-black-3`}`}>
           <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="12" cy="6.5" rx="4" ry="4.5" />
