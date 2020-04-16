@@ -46,7 +46,7 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <HubPage me={me} list={list} page={'following'} />
+      <HubPage me={me} setMe={setMe} list={list} setList={setList} page={'following'} />
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>

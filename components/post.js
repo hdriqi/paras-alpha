@@ -17,7 +17,7 @@ const Post = ({ post }) => {
             <img className="object-cover w-full h-full" src={post.user.avatarUrl} />
           </div>
           <div className="px-4">
-            <Link href="/[username]" as={ post.user.username }>
+            <Link href="/[username]" as={ `/${post.user.username}` }>
               <p className="font-semibold text-black-1">{ post.user.username }</p>
             </Link>
             <p>in&nbsp;

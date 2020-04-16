@@ -1,15 +1,32 @@
 import { withRedux } from "../lib/redux"
 import Post from './post'
+import Link from 'next/link'
 
-const Home = ({ postList }) => {
+const Home = ({ postList, page }) => {
   return (
     <div className="bg-white-1 pb-32">
       <div className="pb-16">
         <div className="fixed z-10 top-0 left-0 right-0 bg-white shadow-subtle px-4 py-2">
           <div className="w-full h-full relative">
-            <div className="flex ">
-              <h1 className="text-3xl font-bold">Feed</h1>
-              <h1 className="ml-4 text-3xl font-bold text-black-3">Recent</h1>
+            <div className="flex">
+              <Link href="/">
+                {
+                  page === 'feed' ? (
+                    <h1 className="text-3xl font-bold">Feed</h1>
+                  ) : (
+                    <h1 className="text-3xl font-bold text-black-3">Feed</h1>
+                  )
+                }
+              </Link>
+              <Link href="/feed/recent">
+                {
+                  page === 'recent' ? (
+                    <h1 className="ml-4 text-3xl font-bold">Recent</h1>
+                  ) : (
+                    <h1 className="ml-4 text-3xl font-bold text-black-3">Recent</h1>
+                  )
+                }
+              </Link>
             </div>
             <div className="absolute top-0 right-0 py-2">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

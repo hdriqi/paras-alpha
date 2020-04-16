@@ -106,7 +106,7 @@ const HubBlock = ({ me, block, toggleFollow }) => {
   )
 }
 
-const HubPage = ({ me, list, page }) => {
+const HubPage = ({ me, setMe, list, page }) => {
   const _toggleFollow = async (me, user) => {
     // cannot follow/unfollow self
     if(me.id === user.id) {
@@ -123,7 +123,7 @@ const HubPage = ({ me, list, page }) => {
       else {
         const newFollowing = [...me.following]
         newFollowing.push({
-          type: 'user',
+          type: user.type,
           id: user.id
         })
         newMe.following = newFollowing
@@ -132,13 +132,13 @@ const HubPage = ({ me, list, page }) => {
     else {
       newMe.following = [
         {
-          type: 'user',
+          type: user.type,
           id: user.id
         }
       ]
     }
-    delete newMe.followingDetail
     await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
+    setMe(newMe)
   }
 
   return (

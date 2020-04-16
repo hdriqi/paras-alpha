@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import NavMobile from '../components/navMobile'
-import Layout from '../components/layout'
-import Home from '../components/home'
+import NavMobile from '../../components/navMobile'
+import Layout from '../../components/layout'
+import Home from '../../components/home'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { addPostList } from '../actions/me'
-import { withRedux } from '../lib/redux'
+import { addPostList } from '../../actions/me'
+import { withRedux } from '../../lib/redux'
 
-const HomePage = () => {
+const FeedRecentPage = () => {
   const dispatch = useDispatch()
   const profile = useSelector(state => state.me.profile)
   const postList = useSelector(state => state.me.postList)
@@ -47,10 +47,4 @@ const HomePage = () => {
   )
 }
 
-// export async function getServerSideProps() {
-//   const response = await axios.get('http://localhost:3004/posts')
-
-//   return { props: { postList: response.data } }
-// }
-
-export default withRedux(HomePage)
+export default withRedux(FeedRecentPage)

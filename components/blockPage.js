@@ -11,11 +11,7 @@ const Block = ({ me, block, postList }) => {
   const [isFollowing, setIsFollowing] = useState(false)
 
   useEffect(() => {
-    if(
-      (Array.isArray(me.following) && 
-      (me.following.filter(following => following.id === block.userId).length > 0 
-        || me.following.filter(following => following.id === block.id).length > 0))
-      ) {
+    if(Array.isArray(me.following) && me.following.filter(following => following.id === block.id).length > 0) {
       setIsFollowing(true)
     }
   }, [me, block])
