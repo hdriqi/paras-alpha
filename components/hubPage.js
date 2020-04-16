@@ -23,7 +23,9 @@ const HubUser = ({ me, user, toggleFollow }) => {
       <div className="w-8/12 flex items-center p-4 overflow-hidden">
         <div>
           <div className="w-10 h-10 rounded-full overflow-hidden">
-            <img className="object-cover w-full h-full" src={user.avatarUrl} />
+            <img style={{
+              boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
+            }} className="object-cover w-full h-full" src={user.avatarUrl} />
           </div>
         </div>
         <div className="px-4 w-auto">
@@ -74,8 +76,8 @@ const HubBlock = ({ me, block, toggleFollow }) => {
     <div className="flex justify-between items-center bg-white ">
       <div className="w-8/12 flex items-center p-4 overflow-hidden">
         <div>
-          <div className="w-10 h-10 rounded-full overflow-hidden">
-            <img className="object-cover w-full h-full" src={block.avatarUrl} />
+          <div className="flex items-center w-10 h-10 rounded-full overflow-hidden bg-black-1">
+            <div className="w-5 h-5 m-auto bg-white"></div>
           </div>
         </div>
         <div className="px-4 w-auto">
