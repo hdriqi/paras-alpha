@@ -43,6 +43,9 @@ const NavMobile = () => {
         case '/': 
           dispatch(setActivePage('feed'))  
           break
+        case '/feed/recent': 
+          dispatch(setActivePage('feed'))  
+          break
         case '/hub/following': 
           dispatch(setActivePage('hub'))  
           break
