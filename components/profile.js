@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const Profile = ({ me, user, blockList }) => {
   const [isFollowing, setIsFollowing] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     if(Array.isArray(me.following) && me.following.filter(following => following.id === user.id).length > 0) {
@@ -40,13 +42,24 @@ const Profile = ({ me, user, blockList }) => {
     setIsFollowing(!isFollowing)
   }
 
+  const _close = () => {
+    router.back()
+  }
+
   return (
     <div className="min-h-screen">
-      <div className="pt-12">
-        <div className="fixed top-0 left-0 right-0 h-12 px-4 bg-white shadow-subtle">
+      <div className="pb-16">
+        <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
+            <div className="absolute left-0">
+              <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
+              </svg>
+            </div>
             <div>
               <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Profile</h3>
+            </div>
+            <div className="absolute right-0">
             </div>
           </div>
         </div>
