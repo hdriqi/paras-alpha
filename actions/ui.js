@@ -13,3 +13,11 @@ export const toggleNewBlock = (showNewBlock) => {
     showNewBlock: showNewBlock
   }
 }
+
+export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE'
+export const setActivePage = (activePage) => {
+  return {
+    type: SET_ACTIVE_PAGE,
+    activePage: activePage
+  }
+}

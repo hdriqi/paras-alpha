@@ -1,4 +1,4 @@
-import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK } from '../actions/ui'
+import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE } from '../actions/ui'
 
 const initialState = {
   showNewPost: false
@@ -15,6 +15,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showNewBlock: action.showNewBlock
+      }
+    case SET_ACTIVE_PAGE:
+      return {
+        ...state,
+        activePage: action.activePage
       }
     default:
       return state
