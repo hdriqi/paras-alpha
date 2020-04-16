@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Carousel } from 'react-responsive-carousel'
+import ParseBody from './parseBody'
 
 const Post = ({ post }) => {
   if(!post.id) {
@@ -53,12 +54,14 @@ const Post = ({ post }) => {
               )
             }
             {
-              post.imgList.length > 0 && post.body.length > 0 && (
+              post.bodyRaw && post.imgList.length > 0 && post.bodyRaw.length > 0 && (
                 <div className="mb-4"></div>
               )
             }
             <div className="px-4 pb-4">
-              <p className="text-black-3 whitespace-pre-line">{ post.body }</p>
+              <p className="text-black-3 whitespace-pre-line">
+                <ParseBody body={post.bodyRaw || ''} />
+              </p>
             </div>
           </div>
         </Link>

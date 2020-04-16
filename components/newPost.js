@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch } from "react-redux"
 import { toggleNewPost, toggleNewBlock } from "../actions/ui"
@@ -6,16 +6,26 @@ import { readFileAsUrl } from "../lib/utils"
 import { addPostList, addBlockList } from "../actions/me"
 import axios from "axios"
 
+import { MentionsInput, Mention } from 'react-mentions'
+
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
   const blockList = useSelector(state => state.me.blockList)
   const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
 
+  const bodyRef = useRef(null)
   const [chosenBlock, setChosenBlock] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
   const [step, setStep] = useState(0)
+
+  const _getUsers = async (query, callback) => {
+    if (!query) return
+    const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
+    const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
+    callback(list)
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -76,7 +86,8 @@ const NewPost = () => {
       const response = await axios.post('http://localhost:3004/posts', {
         id: id,
         blockId: chosenBlock,
-        body: postText,
+        body: bodyRef.current.value,
+        bodyRaw: postText,
         imgList: postImageList,
         userId: profile.id,
         createdAt: new Date().toISOString()
@@ -165,10 +176,49 @@ const NewPost = () => {
                 </div>
               </div>
             </div>
-            <div className="h-full mt-8">
-              <div className="h-full flex flex-col">
-                <div className="flex-auto pb-4">
-                  <textarea value={postText} onChange={e => setPostText(e.target.value)} className="w-full h-full outline-none" placeholder="Share your ideas, thought and creativity"></textarea>
+            <div className="mt-8">
+              <div className="">
+                <div className="pb-4">
+                  <MentionsInput className="outline-none break-words" style={{
+                  }} 
+                    style={{
+                      control: {
+                        fontSize: `16px`,
+                        fontWeight: `500`
+                      },
+                      input: {
+                        margin: 0,
+                        overflow: `auto`,
+                        height: `20rem`,
+                      },
+                      suggestions: {
+                        list: {
+                          backgroundColor: 'white',
+                          border: '1px solid rgba(0,0,0,0.15)',
+                          fontSize: 14,
+                        },
+                        item: {
+                          padding: '.5rem',
+                          borderBottom: '1px solid rgba(0,0,0,0.15)',
+                    
+                          '&focused': {
+                            backgroundColor: '#DFDFDF',
+                          },
+                        },
+                      },
+                    }}
+                    placeholder="Share your ideas, thought and creativity" 
+                    onChange={e => setPostText(e.target.value)} 
+                    value={postText}
+                    allowSuggestionsAboveCursor={true}
+                    inputRef={bodyRef}
+                  >
+                    <Mention
+                      trigger="@"
+                      data={_getUsers}
+                      appendSpaceOnAdd={true}
+                    />
+                  </MentionsInput>
                 </div>
                 <div className="h-40">
                   <label className="block text-sm font-semibold text-black-2">Image</label>
