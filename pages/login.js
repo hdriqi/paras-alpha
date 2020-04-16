@@ -3,10 +3,15 @@ import { useRouter } from 'next/router'
 import Layout from '../components/layout'
 
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { withRedux } from '../lib/redux'
+import { setProfile } from '../actions/me'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('')
   const router = useRouter()
+
+  const dispatch = useDispatch()
 
   const _login = async (e) => {
     e.preventDefault()
@@ -35,6 +40,8 @@ const LoginPage = () => {
       window.localStorage.setItem('meUsername', username)
     }
 
+    dispatch(setProfile({}))
+    
     router.replace('/')
   }
 
@@ -68,4 +75,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default withRedux(LoginPage)

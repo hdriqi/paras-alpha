@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const Home = ({ postList, page }) => {
   return (
-    <div className="bg-white-1 pb-32">
+    <div className="bg-white-1 pb-32 min-h-screen">
       <div className="pb-16">
         <div className="fixed z-10 top-0 left-0 right-0 bg-white shadow-subtle px-4 py-2">
           <div className="w-full h-full relative">
