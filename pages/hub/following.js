@@ -9,15 +9,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addData } from '../../actions/me'
 
 const HomePage = () => {
-  const [me, setMe] = useState({})
-  const [list, setList] = useState([])
+  const list = useSelector(state => state.me.data['/hub/following'])
   const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
   
   useEffect(() => {
     const getData = async () => {
-      const userRes = await axios.get(`http://localhost:3004/users/${profile.id}`)
-      const user = userRes.data
+      const user = profile
       if(Array.isArray(user.following)) {
         const following = await Promise.all(user.following.map(following => {
           return new Promise(async (resolve) => {
@@ -37,19 +35,17 @@ const HomePage = () => {
             }
           })
         }))
-        setList(following)
         dispatch(addData('/hub/following', following))
       }
-      setMe(user)
     }
-    if(profile.id) {
+    if(!list && profile.id) {
       getData()
     }
   }, [profile])
 
   return (
     <Layout>
-      <HubPage me={me} setMe={setMe} list={list} setList={setList} page={'following'} />
+      <HubPage me={profile} list={list} page={'following'} />
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>

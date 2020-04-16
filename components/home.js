@@ -37,7 +37,7 @@ const Home = ({ postList, page }) => {
         </div>
       </div>
       {
-        postList.map(post => {
+        postList && postList.map(post => {
           return (
             <div className="mt-6 shadow-subtle" key={post.id}>
               <Post post={post} />

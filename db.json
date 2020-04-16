@@ -151,7 +151,12 @@
       "id": "wokoee9",
       "username": "riqi",
       "avatarUrl": "https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw",
-      "following": [],
+      "following": [
+        {
+          "type": "user",
+          "id": "qwem03m"
+        }
+      ],
       "createdAt": "2020-04-13T01:58:35.747Z"
     }
   ]

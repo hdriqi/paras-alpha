@@ -4,13 +4,12 @@ import Layout from '../../components/layout'
 import Home from '../../components/home'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { addPostList } from '../../actions/me'
+import { addData } from '../../actions/me'
 import { withRedux } from '../../lib/redux'
 
 const FeedRecentPage = () => {
-  // const profile = useSelector(state => state.me.profile)
-
-  const [postList, setPostList] = useState([])
+  const dispatch = useDispatch()
+  const postList = useSelector(state => state.me.data['/feed/recent'])
 
   useEffect(() => {
     const getData = async () => {
@@ -25,9 +24,9 @@ const FeedRecentPage = () => {
           resolve(post)
         })
       }))
-      setPostList(data)
+      dispatch(addData('/feed/recent', data))
     }
-    if(postList.length === 0) {
+    if(!postList) {
       getData()
     }
   }, [])

@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { setProfile } from '../actions/me'
 
 const HubUser = ({ me, user, toggleFollow }) => {
   const [isFollowing, setIsFollowing] = useState(false)
@@ -106,7 +108,9 @@ const HubBlock = ({ me, block, toggleFollow }) => {
   )
 }
 
-const HubPage = ({ me, setMe, list, page }) => {
+const HubPage = ({ me, list, page }) => {
+  const dispatch = useDispatch()
+
   const _toggleFollow = async (me, user) => {
     // cannot follow/unfollow self
     if(me.id === user.id) {
@@ -138,7 +142,7 @@ const HubPage = ({ me, setMe, list, page }) => {
       ]
     }
     await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
-    setMe(newMe)
+    dispatch(setProfile(newMe))
   }
 
   return (

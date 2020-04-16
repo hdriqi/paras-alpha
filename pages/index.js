@@ -4,13 +4,13 @@ import Layout from '../components/layout'
 import Home from '../components/home'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { addPostList } from '../actions/me'
+import { addPostList, addData } from '../actions/me'
 import { withRedux } from '../lib/redux'
 
 const HomePage = () => {
   const dispatch = useDispatch()
   const profile = useSelector(state => state.me.profile)
-  const postList = useSelector(state => state.me.postList)
+  const postList = useSelector(state => state.me.data['/'])
 
   useEffect(() => {
     const getData = async () => {
@@ -30,9 +30,9 @@ const HomePage = () => {
           resolve(post)
         })
       }))
-      dispatch(addPostList(data))
+      dispatch(addData('/', data))
     }
-    if(postList.length === 0 && profile.id) {
+    if(!postList && profile.id) {
       getData()
     }
   }, [profile])
