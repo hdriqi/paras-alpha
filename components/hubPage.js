@@ -175,7 +175,7 @@ const HubPage = ({ me, setMe, list, page }) => {
         </div>
       </div>
       {
-        me.id ? 
+        me.id && list ? 
           page === 'following' ? (
               list.map((following, idx) => {
                 return (

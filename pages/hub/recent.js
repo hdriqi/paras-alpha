@@ -5,16 +5,17 @@ import Layout from '../../components/layout'
 
 import axios from 'axios'
 import { withRedux } from '../../lib/redux'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addData } from '../../actions/me'
 
 const HomePage = () => {
-  const [me, setMe] = useState({})
-  const [list, setList] = useState([])
   const profile = useSelector(state => state.me.profile)
+  const list = useSelector(state => state.me.data['/hub/recent'])
+  const dispatch = useDispatch()
   
   useEffect(() => {
-    const getMe = async () => {
-      const meRes = await axios.get(`http://localhost:3004/users/${profile.id}`)
+    const getData = async () => {
+      // const meRes = await axios.get(`http://localhost:3004/users/${profile.id}`)
       
       const userListRes = await axios.get(`http://localhost:3004/users`)
       const blockListRes = await axios.get(`http://localhost:3004/blocks`)
@@ -30,17 +31,18 @@ const HomePage = () => {
       const list = userList.concat(blockList)
       list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
-      setList(list)
-      setMe(meRes.data)
+      // setList(list)
+      dispatch(addData('/hub/recent', list))
+      // setMe(meRes.data)
     }
-    if(profile.id) {
-      getMe()
+    if(!list && profile.id) {
+      getData()
     }
   }, [profile])
 
   return (
     <Layout>
-      <HubPage me={me} list={list} page={'recent'} />
+      <HubPage me={profile} list={list} page={'recent'} />
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>

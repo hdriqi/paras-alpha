@@ -1,4 +1,4 @@
-import { ADD_BLOCK_LIST, ADD_POST_LIST, SET_PROFILE } from '../actions/me'
+import { ADD_BLOCK_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA } from '../actions/me'
 
 const initialState = {
   blockList: [
@@ -7,7 +7,8 @@ const initialState = {
   postList: [
     
   ],
-  profile: {}
+  profile: {},
+  data: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -26,6 +27,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.profile
+      }
+    case ADD_DATA:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...{
+            [action.path]: action.data
+          }
+        }
       }
     default:
       return state

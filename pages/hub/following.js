@@ -5,12 +5,14 @@ import Layout from '../../components/layout'
 
 import axios from 'axios'
 import { withRedux } from '../../lib/redux'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addData } from '../../actions/me'
 
 const HomePage = () => {
   const [me, setMe] = useState({})
   const [list, setList] = useState([])
   const profile = useSelector(state => state.me.profile)
+  const dispatch = useDispatch()
   
   useEffect(() => {
     const getData = async () => {
@@ -36,6 +38,7 @@ const HomePage = () => {
           })
         }))
         setList(following)
+        dispatch(addData('/hub/following', following))
       }
       setMe(user)
     }

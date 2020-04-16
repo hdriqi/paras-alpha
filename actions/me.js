@@ -21,3 +21,12 @@ export const setProfile = (profile) => {
     profile: profile
   }
 }
+
+export const ADD_DATA = 'ADD_DATA'
+export const addData = (path, data) => {
+  return {
+    type: ADD_DATA,
+    path: path,
+    data: data
+  }
+}
