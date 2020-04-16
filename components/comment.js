@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 // {
 //   id: '1234',
 //   block: {
@@ -28,6 +30,22 @@ const Comment = ({ comment }) => {
     )
   }
   else {
+    const splitRegex = /(@\[@.+?\]\(.+?\))/
+    const captureRegex = /@\[@(.+)?\]\(.+?\)/
+    const bodyBlocks = comment.bodyRaw.split(splitRegex)
+    const parsedBlock = bodyBlocks.map(block => {
+      const match = block.match(captureRegex)
+      if(match) {
+        return (
+          <Link href="/[username]" as={`/${match[1]}`}>
+            <a className="font-semibold text-black-1">@{ match[1] }</a>
+          </Link>
+        )
+      }
+      else {
+        return block
+      }
+    })
     return (
       <div className="flex items-center p-4">
         <div className="w-10 h-10 rounded-full overflow-hidden">
@@ -35,7 +53,7 @@ const Comment = ({ comment }) => {
         </div>
         <div className="px-4">
           <p className="font-semibold text-black-1">{ comment.user.username }</p>
-          <p className="text-black-3">{ comment.body }</p>
+          <p className="text-black-3">{ parsedBlock }</p>
         </div>
       </div>
     )

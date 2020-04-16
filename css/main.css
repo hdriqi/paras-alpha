@@ -6,8 +6,13 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  font-weight: 500;
 }
 
 button:disabled {
   @apply opacity-25;
+}
+
+textarea {
+  @apply outline-none;
 }

@@ -1,54 +1,27 @@
 import Post from "./post"
 import Comment from "./comment"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/router"
 import axios from 'axios'
-import TextareaAutosize from 'react-textarea-autosize'
+import { MentionsInput, Mention } from 'react-mentions'
+import { useSelector } from "react-redux"
 
 const PostDetail = ({ post , commentList }) => {
+  const profile = useSelector(state => state.me.profile)
   const [comment, setComment] = useState('')
   const [newCommentList, setNewCommentList] = useState([])
+  const commentRef = useRef(null)
   const router = useRouter()
 
   const _close = () => {
-    // console.log(document.referrer)
     router.back()
   }
 
-  const _getUsers = async (query) => {
-    if(query.length > 0) {
-      const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
-      console.log(response.data)
-      setCommentSuggestions(response.data)
-    }
-  }
-
-  const [onQuery, setOnQuery] = useState(false)
-  const [commentSuggestions, setCommentSuggestions] = useState([])
-
-  const _pickSuggestion = (data) => {
-    const username = data.username
-    const newComment = comment
-  }
-
-  const _textareaChange = (e) => {
-    const val = e.target.value
-    const start = e.target.selectionStart
-    const split = val.split(' ')
-    const lastWord = split[split.length - 1]
-
-    if(lastWord === '') {
-      setOnQuery(false)
-    }
-    if(lastWord[0] === '@') {
-      setOnQuery(true)
-    }
-    if(onQuery) {
-      console.log('show suggestions')
-      const query = lastWord.substr(1)
-      _getUsers(query)
-    }
-    setComment(val)
+  const _getUsers = async (query, callback) => {
+    if (!query) return
+    const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
+    const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
+    callback(list)
   }
 
   const _submitComment = async (e) => {
@@ -59,8 +32,9 @@ const PostDetail = ({ post , commentList }) => {
     await axios.post('http://localhost:3004/comments', {
       id: id,
       postId: router.query.id,
-      body: comment,
-      userId: 'wokoee9',
+      body: commentRef.current.value,
+      bodyRaw: comment,
+      userId: profile.id,
       createdAt: new Date().toISOString()
     })
 
@@ -68,17 +42,12 @@ const PostDetail = ({ post , commentList }) => {
     localComment.push({
       id: id,
       postId: router.query.id,
-      body: comment,
-      userId: 'wokoee9',
+      body: commentRef.current.value,
+      bodyRaw: comment,
+      userId: profile.id,
       createdAt: new Date().toISOString(),
-      user: {
-        "id": "wokoee9",
-        "username": "riqi",
-        "avatarUrl": "https://siasky.net/_AYHTuTAa_e3YrGWPF6vAJb-xvPElIUyKnPgXoy8hDjtHw",
-        "bio": "Humanizing blockchain"
-      }
+      user: profile
     })
-    console.log(localComment)
     setNewCommentList(localComment)
 
     setComment('')
@@ -126,25 +95,48 @@ const PostDetail = ({ post , commentList }) => {
         }
       </div>
       <div className="fixed bottom-0 left-0 right-0">
-        {
-          onQuery && (
-            <div>
-              {
-                commentSuggestions.map(suggestion => {
-                  return (
-                    <div onClick={e => _pickSuggestion(suggestion)} key={suggestion.id} className="px-4 py-1">{suggestion.username}</div>
-                  )
-                })
-              }
-            </div>
-          )
-        }
         <div className="flex items-center justify-center shadow-subtle bg-white">
-          <div className="flex-auto flex pl-4 py-2">
-            <TextareaAutosize maxRows={2} placeholder="Write comment" onChange={e => _textareaChange(e)} value={comment} className="outline-none w-full" />
+          <div className="w-full pl-4 py-2">
+            <MentionsInput className="outline-none w-full max-w-full break-all" style={{
+              maxHeight: `3rem`
+            }} 
+              style={{
+                control: {
+                  fontSize: `16px`,
+                  fontWeight: `500`
+                },
+                suggestions: {
+                  list: {
+                    backgroundColor: 'white',
+                    border: '1px solid rgba(0,0,0,0.15)',
+                    fontSize: 14,
+                  },
+              
+                  item: {
+                    padding: '.5rem',
+                    borderBottom: '1px solid rgba(0,0,0,0.15)',
+              
+                    '&focused': {
+                      backgroundColor: '#DFDFDF',
+                    },
+                  },
+                },
+              }}
+              placeholder="Write comment" 
+              onChange={e => setComment(e.target.value)} 
+              value={comment}
+              allowSuggestionsAboveCursor={true}
+              inputRef={commentRef}
+            >
+              <Mention
+                trigger="@"
+                data={_getUsers}
+                appendSpaceOnAdd={true}
+              />
+            </MentionsInput>
           </div>
           <div className="w-12">
-            <svg onClick={e => _submitComment(e)} className=" m-auto" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg onClick={e => _submitComment(e)} className="text-b m-auto" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M0 6.89285L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 0L0 6.89285ZM7.84579 10.2772L4.25371 7.58313L17.5163 3.16228L13.0954 16.4248L10.4014 12.8328L14.2347 6.44384L7.84579 10.2772Z" fill="#222222"/>
             </svg>
           </div>
