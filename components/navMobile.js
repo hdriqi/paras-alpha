@@ -6,7 +6,6 @@ import NewBlock from "./newBlock"
 import { useRouter } from "next/router"
 import Link from 'next/link'
 import { useEffect } from "react"
-import HubSearch from "./hubSearch"
 
 const NavLink = ({ name, href, as, activePage, setIsActive, children }) => {
   return (
@@ -118,7 +117,6 @@ const NavMobile = () => {
       </div>
       <NewPost /> 
       <NewBlock />
-      <HubSearch />
     </div>
   )
 }

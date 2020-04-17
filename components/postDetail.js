@@ -103,7 +103,8 @@ const PostDetail = ({ post , commentList }) => {
               style={{
                 control: {
                   fontSize: `16px`,
-                  fontWeight: `500`
+                  fontWeight: `500`,
+                  color: '#616161'
                 },
                 suggestions: {
                   list: {
