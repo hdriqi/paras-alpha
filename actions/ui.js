@@ -14,6 +14,14 @@ export const toggleNewBlock = (showNewBlock) => {
   }
 }
 
+export const TOGGLE_HUB_SEARCH = 'TOGGLE_HUB_SEARCH'
+export const toggleHubSearch = (showHubSearch) => {
+  return {
+    type: TOGGLE_HUB_SEARCH,
+    showHubSearch: showHubSearch
+  }
+}
+
 export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE'
 export const setActivePage = (activePage) => {
   return {

@@ -2,11 +2,13 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setProfile } from '../actions/me'
 
 const Profile = ({ me, user, blockList }) => {
   const [isFollowing, setIsFollowing] = useState(false)
   const router = useRouter()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if(Array.isArray(me.following) && me.following.filter(following => following.id === user.id).length > 0) {
@@ -41,6 +43,7 @@ const Profile = ({ me, user, blockList }) => {
     }
     await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
     setIsFollowing(!isFollowing)
+    dispatch(setProfile(newMe))
   }
 
   const _close = () => {

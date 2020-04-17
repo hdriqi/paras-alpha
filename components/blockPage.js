@@ -4,9 +4,12 @@ import { useRouter } from "next/router"
 
 import axios from 'axios'
 import { useState, useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { setProfile } from "../actions/me"
 
 const Block = ({ me, block, postList }) => {
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const [isFollowing, setIsFollowing] = useState(false)
 
@@ -46,7 +49,8 @@ const Block = ({ me, block, postList }) => {
       }]
     }
     await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
-    setIsFollowing(true)
+    setIsFollowing(!isFollowing)
+    dispatch(setProfile(newMe))
   }
 
   const _close = () => {

@@ -11,20 +11,8 @@ const UserPage = () => {
   const profile = useSelector(state => state.me.profile)
 
   const [user, setUser] = useState({})
-  const [me, setMe] = useState({})
   const [blockList, setBlockList] = useState([])
   const router = useRouter()
-
-  useEffect(() => {
-    const getMe = async () => {
-      const userRes = await axios.get(`http://localhost:3004/users/${profile.id}`)
-      const user = userRes.data
-      setMe(user)
-    }
-    if(profile.id) {
-      getMe()
-    }
-  }, [profile])
 
   useEffect(() => {
     const getData = async () => {
@@ -51,7 +39,7 @@ const UserPage = () => {
   return (
     <Layout>
       <div className="bg-white-1">
-        <Profile me={me} user={user} blockList={blockList} />
+        <Profile me={profile} user={user} blockList={blockList} />
       </div>
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />

@@ -9,21 +9,8 @@ import { useSelector } from 'react-redux'
 const PostDetailPage = () => {
   const router = useRouter()
   const profile = useSelector(state => state.me.profile)
-
-  const [me, setMe] = useState({})
   const [block, setBlock] = useState({})
   const [postList, setPostList] = useState([])
-
-  useEffect(() => {
-    const getMe = async () => {
-      const userRes = await axios.get(`http://localhost:3004/users/${profile.id}`)
-      const user = userRes.data
-      setMe(user)
-    }
-    if(profile.id) {
-      getMe()
-    }
-  }, [profile])
   
   useEffect(() => {
     const getData = async () => {
@@ -68,7 +55,7 @@ const PostDetailPage = () => {
 
   return (
     <Layout>
-      <BlockPage me={me} block={block} postList={postList} />
+      <BlockPage me={profile} block={block} postList={postList} />
     </Layout>
   )
 }
