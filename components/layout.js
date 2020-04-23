@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react"
 import Head from 'next/head'
 import { setProfile, addData } from "../actions/me"
 import { withRedux } from '../lib/redux'
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { toggleModalMemento, toggleModalPost } from "../actions/ui"

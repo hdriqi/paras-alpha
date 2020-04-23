@@ -12,6 +12,7 @@ const UserPage = () => {
 
   const [user, setUser] = useState({})
   const [blockList, setBlockList] = useState([])
+  const [postList, setPostList] = useState([])
   const router = useRouter()
 
   useEffect(() => {
@@ -28,8 +29,26 @@ const UserPage = () => {
         })
       }))
 
+      const respPost = await axios.get(`http://localhost:3004/posts?userId=${user.id}`)
+      const feedPost = respPost.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      const postList = await Promise.all(feedPost.map(post => {
+        return new Promise(async (resolve) => {
+          const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
+          post.user = resUser.data
+
+          if(post.blockId) {
+            const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+            if(resBlock.status === 200) {
+              post.block = resBlock.data
+            }
+          }
+          resolve(post)
+        })
+      }))
+
       setUser(user)
       setBlockList(blockList)
+      setPostList(postList)
     }
     if(router && router.query && router.query.username) {
       getData()
@@ -39,7 +58,7 @@ const UserPage = () => {
   return (
     <Layout>
       <div className="bg-white-1">
-        <Profile me={profile} user={user} blockList={blockList} />
+        <Profile me={profile} user={user} blockList={blockList} postList={postList} />
       </div>
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />

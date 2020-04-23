@@ -2,11 +2,14 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setProfile } from '../actions/me'
 
-const Profile = ({ me, user, blockList }) => {
+import Post from './post'
+
+const Profile = ({ me, user, blockList, postList }) => {
   const [isFollowing, setIsFollowing] = useState(false)
+  const [view, setView] = useState('post')
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -76,8 +79,8 @@ const Profile = ({ me, user, blockList }) => {
           </div>
         </div>
       </div>
-      <div className="px-4 py-6">
-        <div className="text-center">
+      <div className="py-6">
+        <div className="px-4 text-center">
           <img className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" src={user.avatarUrl} />
           <h4 className="mt-4 text-2xl font-bold">{user.username}</h4>
           <p className="text-black-3">{user.bio}</p>
@@ -99,58 +102,84 @@ const Profile = ({ me, user, blockList }) => {
             )
           }
         </div>
-        <div>
+        <div className="py-16">
+          <div className="flex">
+            <div className="w-1/2">
+              <button onClick={_ => setView('post')} className="w-full">Post</button>
+            </div>
+            <div className="w-1/2">
+              <button onClick={_ => setView('memento')}  className="w-full">Memento</button>
+            </div>
+          </div>
           {
-            blockList.map(block => {
-              return (
-                <div className="mt-6" key={block.id}>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-2xl font-bold">{block.name}</h4>
-                    </div>
-                    <div>
-                      <Link href="/block/[id]" as={`/block/${block.id}`}>
-                        <p className="font-semibold text-black-4 text-sm">View All</p>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="flex mt-1 -ml-2 -mr-2 justify-between">
-                    {
-                      block.postList.map(post => {
-                        return (
-                          <Link key={post.id} href="/post/[id]" as={`/post/${post.id}`}>
-                            <div className="w-1/3">
-                              <div className="w-full relative pb-full">
-                                <div className="absolute inset-0 px-1">
-                                  <div className="w-full h-full shadow-subtle bg-white overflow-hidden rounded-md">
-                                    {
-                                      post.imgList.length > 0 ? (
-                                        <img className="w-full h-full object-cover" src={post.imgList[0].url} />
-                                      ) : (
-                                        <div className="p-1">
-                                          <p className="leading-tight text-xs">{post.body}</p>
-                                        </div>
-                                      )
-                                    }
+            view === 'post' ? (
+              <div>
+                {
+                  postList && postList.map(post => {
+                    return (
+                      <div className="mt-6 shadow-subtle" key={post.id}>
+                        <Post post={post} />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            ) : (
+              <div className="px-4">
+                {
+                blockList.map(block => {
+                  return (
+                    <div className="mt-6" key={block.id}>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="text-2xl font-bold">{block.name}</h4>
+                        </div>
+                        <div>
+                          <Link href="/block/[id]" as={`/block/${block.id}`}>
+                            <p className="font-semibold text-black-4 text-sm">View All</p>
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="flex mt-1 -ml-2 -mr-2 justify-between">
+                        {
+                          block.postList.map(post => {
+                            return (
+                              <Link key={post.id} href="/post/[id]" as={`/post/${post.id}`}>
+                                <div className="w-1/3">
+                                  <div className="w-full relative pb-full">
+                                    <div className="absolute inset-0 px-1">
+                                      <div className="w-full h-full shadow-subtle bg-white overflow-hidden rounded-md">
+                                        {
+                                          post.imgList.length > 0 ? (
+                                            <img className="w-full h-full object-cover" src={post.imgList[0].url} />
+                                          ) : (
+                                            <div className="p-1">
+                                              <p className="leading-tight text-xs">{post.body}</p>
+                                            </div>
+                                          )
+                                        }
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          </Link>
-                        )
-                      })
-                    }
-                    {
-                      [...Array(Math.max(0, Math.abs(3 - block.postList.length))).keys()].map(key => {
-                        return (
-                          <div key={key} className="w-1/3 p-1 overflow-hidden"></div>
-                        )
-                      })
-                    }
-                  </div>
-                </div>
-              )
-            })
+                              </Link>
+                            )
+                          })
+                        }
+                        {
+                          [...Array(Math.max(0, Math.abs(3 - block.postList.length))).keys()].map(key => {
+                            return (
+                              <div key={key} className="w-1/3 p-1 overflow-hidden"></div>
+                            )
+                          })
+                        }
+                      </div>
+                    </div>
+                  )
+                })
+              }
+              </div>
+            )
           }
         </div>
       </div>

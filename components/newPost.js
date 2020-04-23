@@ -18,7 +18,7 @@ const NewPost = () => {
   const [chosenBlock, setChosenBlock] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(1)
 
   const _getUsers = async (query, callback) => {
     if (!query) return
@@ -45,7 +45,7 @@ const NewPost = () => {
     setChosenBlock('')
     setPostText('')
     setPostImageList([])
-    setStep(0)
+    setStep(1)
     dispatch(toggleNewPost(!showNewPost))
   }
 
@@ -85,7 +85,6 @@ const NewPost = () => {
     try {
       const response = await axios.post('http://localhost:3004/posts', {
         id: id,
-        blockId: chosenBlock,
         body: bodyRef.current.value,
         bodyRaw: postText,
         imgList: postImageList,
@@ -101,7 +100,7 @@ const NewPost = () => {
   }
 
   const _validateSubmit = () => {
-    if(chosenBlock.length > 0 && (postText.length > 0 || postImageList.length > 0)) {
+    if((postText.length > 0 || postImageList.length > 0)) {
       return true
     }
     return false
@@ -164,7 +163,7 @@ const NewPost = () => {
             <div className="fixed top-0 left-0 right-0 h-12 px-4">
               <div className="relative w-full h-full flex items-center justify-center">
                 <div className="absolute left-0">
-                <svg onClick={e => setStep(step-1)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" clipRule="evenodd" d="M9.41421 12L16.7071 19.2929L15.2929 20.7071L6.58578 12L15.2929 3.29291L16.7071 4.70712L9.41421 12Z" fill="#191F2C"/>
                 </svg>
                 </div>
