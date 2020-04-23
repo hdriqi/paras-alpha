@@ -154,21 +154,21 @@ const HubPage = ({ me, list, page }) => {
         <div className="fixed z-10 top-0 left-0 right-0 bg-white shadow-subtle px-4 py-2">
           <div className="w-full h-full relative">
             <div className="flex ">
-              <Link href="/hub/following">
-                {
-                  page === 'following' ? (
-                    <h1 className="text-3xl font-bold">Following</h1>
-                  ) : (
-                    <h1 className="text-3xl font-bold text-black-3">Following</h1>
-                  )
-                }
-              </Link>
               <Link href="/hub/recent">
                 {
                   page === 'recent' ? (
-                    <h1 className="ml-4 text-3xl font-bold">Newest</h1>
+                    <h1 className="text-3xl font-bold">Newest</h1>
                   ) : (
-                    <h1 className="ml-4 text-3xl font-bold text-black-3">Newest</h1>
+                    <h1 className="text-3xl font-bold text-black-3">Newest</h1>
+                  )
+                }
+              </Link>
+              <Link href="/hub/following">
+                {
+                  page === 'following' ? (
+                    <h1 className="ml-4 text-3xl font-bold">Following</h1>
+                  ) : (
+                    <h1 className="ml-4 text-3xl font-bold text-black-3">Following</h1>
                   )
                 }
               </Link>

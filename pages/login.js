@@ -31,7 +31,7 @@ const LoginPage = () => {
         id: id,
         username: username,
         following: [],
-        avatarUrl: '',
+        avatarUrl: 'https://siasky.net/AAC0MXtp6rYKoyOsRpcZ29zcLgmykmZDD64LR4fLkRj6_A',
         bio: '',
         createdAt: new Date().toISOString()
       })

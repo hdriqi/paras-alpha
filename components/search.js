@@ -49,9 +49,9 @@ const Search = () => {
   }
 
   return (
-    <div className="fixed bg-white inset-0 z-30">
+    <div className="fixed bg-white-1 inset-0 z-30">
       <div className="pb-16">
-        <div className="fixed top-0 left-0 right-0 h-12 px-4">
+        <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4">
           <div className="relative w-full h-full flex items-center">
             <div>
               <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +68,7 @@ const Search = () => {
         {
           userList && userList.map(user => {
             return (
-              <div key={user.id} className="flex items-center bg-white p-4 overflow-hidden">
+              <div key={user.id} className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
                 <div>
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     <img style={{
