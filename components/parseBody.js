@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const ParseBody = ({ body }) => {
+const ParseBody = ({ body = '' }) => {
   const splitRegex = /(@\[@.+?\]\(.+?\))/
   const captureRegex = /@\[@(.+)?\]\(.+?\)/
   const bodyBlocks = body.split(splitRegex)

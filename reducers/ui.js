@@ -1,9 +1,10 @@
-import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO } from '../actions/ui'
+import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP } from '../actions/ui'
 
 const initialState = {
   showNewPost: false,
   showNewBlock: false,
   showHubSearch: false,
+  showImageCrop: false,
   showModalPost: false,
   showModalPostData: {},
   showModalMemento: false,
@@ -38,6 +39,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showHubSearch: action.showHubSearch
+      }
+    case TOGGLE_IMAGE_CROP:
+      return {
+        ...state,
+        showImageCrop: action.showImageCrop
       }
     case SET_ACTIVE_PAGE:
       return {

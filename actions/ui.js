@@ -40,6 +40,14 @@ export const toggleHubSearch = (showHubSearch) => {
   }
 }
 
+export const TOGGLE_IMAGE_CROP = 'TOGGLE_IMAGE_CROP'
+export const toggleImageCrop = (showImageCrop) => {
+  return {
+    type: TOGGLE_IMAGE_CROP,
+    showImageCrop: showImageCrop
+  }
+}
+
 export const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE'
 export const setActivePage = (activePage) => {
   return {
