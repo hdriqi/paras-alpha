@@ -23,6 +23,15 @@ export const toggleModalPost = (showModalPost, showModalPostData) => {
   }
 }
 
+export const TOGGLE_MODAL_MEMENTO = 'TOGGLE_MODAL_MEMENTO'
+export const toggleModalMemento = (showModalMemento, showModalMementoData) => {
+  return {
+    type: TOGGLE_MODAL_MEMENTO,
+    showModalMemento: showModalMemento,
+    showModalMementoData: showModalMementoData
+  }
+}
+
 export const TOGGLE_HUB_SEARCH = 'TOGGLE_HUB_SEARCH'
 export const toggleHubSearch = (showHubSearch) => {
   return {

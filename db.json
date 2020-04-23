@@ -86,15 +86,6 @@
       ],
       "userId": "q2ekeme",
       "createdAt": "2020-04-16T11:43:38.549Z"
-    },
-    {
-      "id": "n55ln754h",
-      "blockId": "njjl651kq",
-      "body": "I will share my story tomorrow, stay tune!",
-      "bodyRaw": "I will share my story tomorrow, stay tune!",
-      "imgList": [],
-      "userId": "1c3dc56in",
-      "createdAt": "2020-04-20T03:00:15.895Z"
     }
   ],
   "blocks": [
@@ -125,13 +116,6 @@
       "desc": "Cook, cook, cook!",
       "userId": "q2ekeme",
       "createdAt": "2020-04-16T08:15:47.610Z"
-    },
-    {
-      "id": "njjl651kq",
-      "name": "Personal Album",
-      "desc": "My personal life",
-      "userId": "1c3dc56in",
-      "createdAt": "2020-04-20T02:57:43.685Z"
     }
   ],
   "comments": [
