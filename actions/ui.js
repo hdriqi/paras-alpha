@@ -14,6 +14,15 @@ export const toggleNewBlock = (showNewBlock) => {
   }
 }
 
+export const TOGGLE_MODAL_POST = 'TOGGLE_MODAL_POST'
+export const toggleModalPost = (showModalPost, showModalPostData) => {
+  return {
+    type: TOGGLE_MODAL_POST,
+    showModalPost: showModalPost,
+    showModalPostData: showModalPostData
+  }
+}
+
 export const TOGGLE_HUB_SEARCH = 'TOGGLE_HUB_SEARCH'
 export const toggleHubSearch = (showHubSearch) => {
   return {
