@@ -34,7 +34,7 @@ const PostDetailPage = () => {
             if(post.blockId === block.id) {
               post.block = block
             }
-            else {
+            else if(post.blockId) {
               const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
               post.block = resBlock.data
             }

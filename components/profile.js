@@ -104,11 +104,11 @@ const Profile = ({ me, user, blockList, postList }) => {
         </div>
         <div className="py-16">
           <div className="flex">
-            <div className="w-1/2">
-              <button onClick={_ => setView('post')} className="w-full">Post</button>
+            <div className={`${view !== 'post' && `opacity-25`} w-1/2  border-b border-black-1`}>
+              <button onClick={_ => setView('post')} className="w-full font-semibold p-4 focus:outline-none">Post</button>
             </div>
-            <div className="w-1/2">
-              <button onClick={_ => setView('memento')}  className="w-full">Memento</button>
+            <div className={`${view !== 'memento' && `opacity-25`} w-1/2  border-b border-black-1`}>
+              <button onClick={_ => setView('memento')} className="w-full font-semibold p-4 focus:outline-none">Memento</button>
             </div>
           </div>
           {

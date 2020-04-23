@@ -21,9 +21,12 @@ const PostDetailPage = () => {
         const post = resPost.data
 
         const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
-        const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
         post.user = resUser.data
-        post.block = resBlock.data
+        
+        if(post.blockId) {
+          const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+          post.block = resBlock.data
+        }
 
         const resCommentList = await axios.get(`http://localhost:3004/comments?postId=${id}`)
         const commentList = await Promise.all(resCommentList.data.map(comment => {
