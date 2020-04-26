@@ -5,7 +5,7 @@ import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { toggleModalMemento, toggleModalPost } from "../actions/ui"
+import { toggleModalMemento, toggleModalPost, toggleModalComment } from "../actions/ui"
 
 const ModalPost = () => {
   const router = useRouter()
@@ -17,6 +17,7 @@ const ModalPost = () => {
 
   const _closeModal = (e) => {
     if(e.target.id === 'modal-bg') {
+      setView('default')
       dispatch(toggleModalPost(false, {}))
     }
   }
@@ -62,7 +63,7 @@ const ModalPost = () => {
               <div>
                 <p className="p-4">Do you want to delete this post?</p>
                 <div className="flex justify-end">
-                  <button className="p-4 font-medium text-left" onClick={_ => _copyLink()}>Cancel</button>
+                  <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
                   <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(postData.id)}>Delete</button>
                 </div>
               </div>
@@ -93,6 +94,7 @@ const ModalMemento = () => {
 
   const _closeModal = (e) => {
     if(e.target.id === 'modal-bg') {
+      setView('default')
       dispatch(toggleModalMemento(false, {}))
     }
   }
@@ -134,7 +136,7 @@ const ModalMemento = () => {
               <div>
                 <p className="p-4">Do you want to delete this memento?</p>
                 <div className="flex justify-end">
-                  <button className="p-4 font-medium text-left" onClick={_ => _copyLink()}>Cancel</button>
+                  <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
                   <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(mementoData.id)}>Delete</button>
                 </div>
               </div>

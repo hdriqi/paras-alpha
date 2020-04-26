@@ -32,6 +32,16 @@ export const toggleModalMemento = (showModalMemento, showModalMementoData) => {
   }
 }
 
+export const TOGGLE_MODAL_COMMENT = 'TOGGLE_MODAL_COMMENT'
+export const toggleModalComment = (showModalComment, showModalCommentData, showModalCommentCb) => {
+  return {
+    type: TOGGLE_MODAL_COMMENT,
+    showModalComment: showModalComment,
+    showModalCommentData: showModalCommentData,
+    showModalCommentCb: showModalCommentCb
+  }
+}
+
 export const TOGGLE_HUB_SEARCH = 'TOGGLE_HUB_SEARCH'
 export const toggleHubSearch = (showHubSearch) => {
   return {

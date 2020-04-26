@@ -1,4 +1,4 @@
-import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP } from '../actions/ui'
+import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP, TOGGLE_MODAL_COMMENT } from '../actions/ui'
 
 const initialState = {
   showNewPost: false,
@@ -8,7 +8,10 @@ const initialState = {
   showModalPost: false,
   showModalPostData: {},
   showModalMemento: false,
-  showModalMementoData: {}
+  showModalMementoData: {},
+  showModalComment: false,
+  showModalCommentData: {},
+  showModalCommentCb: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +37,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         showModalMemento: action.showModalMemento,
         showModalMementoData: action.showModalMementoData
+      }
+    case TOGGLE_MODAL_COMMENT:
+      return {
+        ...state,
+        showModalComment: action.showModalComment,
+        showModalCommentData: action.showModalCommentData
       }
     case TOGGLE_HUB_SEARCH:
       return {
