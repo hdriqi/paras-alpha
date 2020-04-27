@@ -1,6 +1,9 @@
 import ParseBody from "./parseBody"
 import { useState } from "react"
 import axios from 'axios'
+import { useSelector } from "react-redux"
+import { withRedux } from "../lib/redux"
+import Link from 'next/link'
 
 const ModalComment = ({ close, data, cb }) => {
   const [view, setView] = useState('default')
@@ -29,8 +32,8 @@ const ModalComment = ({ close, data, cb }) => {
           {
             view === 'default' && (
               <div>
-              <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Delete</button>
-            </div>
+                <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Delete</button>
+              </div>
             )
           }
           {
@@ -54,6 +57,7 @@ const ModalComment = ({ close, data, cb }) => {
 }
 
 const Comment = ({ comment }) => {
+  const profile = useSelector(state => state.me.profile)
   const [isDeleted, setIsDeleted] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
@@ -79,10 +83,16 @@ const Comment = ({ comment }) => {
         </div>
         <div className="pl-4 w-full">
           <div className="flex w-full justify-between">
-            <p className="font-semibold text-black-1">{ comment.user.username }</p>
-            <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14ZM12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14ZM17 12C17 13.1046 17.8954 14 19 14C20.1046 14 21 13.1046 21 12C21 10.8954 20.1046 10 19 10C17.8954 10 17 10.8954 17 12Z" fill="black"/>
-            </svg>
+            <Link href="/[username]" as={`/${comment.user.username}`}>
+              <p className="font-semibold text-black-1">{ comment.user.username }</p>
+            </Link>
+            {
+              profile && profile.username === comment.user.username && (
+                <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14ZM12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14ZM17 12C17 13.1046 17.8954 14 19 14C20.1046 14 21 13.1046 21 12C21 10.8954 20.1046 10 19 10C17.8954 10 17 10.8954 17 12Z" fill="black"/>
+                </svg>
+              )
+            }
           </div>
           <p className="text-black-3"><ParseBody body={comment.bodyRaw} /></p>
         </div>
@@ -94,4 +104,4 @@ const Comment = ({ comment }) => {
   }
 }
 
-export default Comment
+export default withRedux(Comment)

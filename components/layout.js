@@ -7,7 +7,7 @@ import axios from "axios"
 import { useRouter } from "next/router"
 import { toggleModalMemento, toggleModalPost, toggleModalComment } from "../actions/ui"
 
-const ModalPost = () => {
+const ModalPost = ({ profile }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const showModalPost = useSelector(state => state.ui.showModalPost)
@@ -54,7 +54,11 @@ const ModalPost = () => {
             view === 'default' && (
               <div>
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-              <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
+              {
+                profile && profile.username == postData.user.username && (
+                  <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
+                )
+              }
             </div>
             )
           }
@@ -85,7 +89,7 @@ const ModalPost = () => {
   )
 }
 
-const ModalMemento = () => {
+const ModalMemento = ({ profile }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const showModalMemento = useSelector(state => state.ui.showModalMemento)
@@ -127,7 +131,11 @@ const ModalMemento = () => {
             view === 'default' && (
               <div>
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-              <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
+              {
+                profile && profile.username == mementoData.user.username && (
+                  <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
+                )
+              }
             </div>
             )
           }
@@ -180,8 +188,8 @@ const Layout = ({ children }) => {
         <title>Paras</title>
       </Head>
       { children }
-      <ModalPost />
-      <ModalMemento />
+      <ModalPost profile={profile} />
+      <ModalMemento profile={profile} />
     </Fragment>
   )
 }
