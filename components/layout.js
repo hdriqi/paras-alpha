@@ -24,12 +24,14 @@ const ModalPost = ({ profile }) => {
 
   const _delete = async (id) => {
     await axios.delete(`http://localhost:3004/posts/${id}`)
-    const currPostList = [...postList]
-    const nextPostList = currPostList.filter(post => post.id !== id)
-    batch(() => {
-      dispatch(addData(router.asPath, nextPostList))
-      dispatch(toggleModalPost(false, {}))
-    })
+    if(Array.isArray(postList)) {
+      const currPostList = [...postList]
+      const nextPostList = currPostList.filter(post => post.id !== id)
+      batch(() => {
+        dispatch(addData(router.asPath, nextPostList))
+        dispatch(toggleModalPost(false, {}))
+      })
+    }
   }
 
   const _copyLink = () => {

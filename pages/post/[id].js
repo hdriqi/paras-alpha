@@ -24,14 +24,14 @@ const PostDetailPage = () => {
         const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
         post.user = resUser.data
 
-        const resCollectiveList = await axios.get(`http://localhost:3004/collectives?postId=${post.id}`)
-        const collectiveList = await Promise.all(resCollectiveList.data.map(collective => {
+        const resCollectivePostList = await axios.get(`http://localhost:3004/posts?originalId=${post.originalId}`)
+        const collectiveList = await Promise.all(resCollectivePostList.data.filter(post => post.blockId).map(post => {
           return new Promise(async (resolve) => {
-            const resBlock = await axios.get(`http://localhost:3004/blocks/${collective.blockId}`)
-            const resUser = await axios.get(`http://localhost:3004/users/${resBlock.data.userId}`)
-            collective.block = resBlock.data
-            collective.block.user = resUser.data
-            resolve(collective)
+            const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+            const block = resBlock.data
+            const resUser = await axios.get(`http://localhost:3004/users/${block.userId}`)
+            block.user = resUser.data
+            resolve(block)
           })
         }))
         setCollectiveList(collectiveList)

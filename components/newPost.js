@@ -85,6 +85,8 @@ const NewPost = () => {
     try {
       const response = await axios.post('http://localhost:3004/posts', {
         id: id,
+        originalId: id,
+        status: 'published',
         body: bodyRef.current.value,
         bodyRaw: postText,
         imgList: postImageList,

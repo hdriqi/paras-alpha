@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 
 const PostDetail = ({ post , commentList, collectiveList }) => {
   const profile = useSelector(state => state.me.profile)
+  const searchMementoRef = useRef(null)
   const [comment, setComment] = useState('')
   const [inputMemento, setInputMemento] = useState('')
   const [inputMementoData, setInputMementoData] = useState({})
@@ -45,6 +46,7 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
       })
     }))
     setSearchMemento(newList)
+    searchMementoRef.current.scrollTo(0, searchMementoRef.current.scrollHeight)
   }
 
   const _selectMemento = (memento) => {
@@ -54,13 +56,26 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
   }
 
   const _transmitInputMemento = async () => {
-    const newData = {
+    // const newData = {
+    //   blockId: inputMementoData.id,
+    //   postId: post.id,
+    //   createdAt: new Date().toISOString(),
+    //   status: inputMementoData.type === 'Public' ? 'published' : 'pending'
+    // }
+    const id = Math.random().toString(36).substr(2, 9)
+
+    await axios.post('http://localhost:3004/posts', {
+      id: id,
+      originalId: post.originalId,
+      status: inputMementoData.type === 'Public' ? 'published' : 'pending',
+      body: post.body,
+      bodyRaw: post.bodyRaw,
+      imgList: post.imgList,
+      userId: profile.id,
       blockId: inputMementoData.id,
-      postId: post.id,
-      createdAt: new Date().toISOString(),
-      status: inputMementoData.type === 'Public' ? 'published' : 'pending'
-    }
-    await axios.post('http://localhost:3004/collectives', newData)
+      createdAt: new Date().toISOString()
+    })
+    // await axios.post('http://localhost:3004/collectives', newData)
     setInputMemento('')
     setInputMementoData({})
     setSearchMemento([])
@@ -127,9 +142,9 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
           <div>
             <div>
               {
-                collectiveList.map(collective => {
+                collectiveList.map(memento => {
                   return (
-                    <Link href="/block/[id]" as={`/block/${collective.block.id}`}>
+                    <Link href="/block/[id]" as={`/block/${memento.id}`}>
                       <div className="flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle">
                         <div className="w-8/12 flex items-center overflow-hidden">
                           <div>
@@ -138,12 +153,12 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
                             </div>
                           </div>
                           <div className="px-4 w-auto">
-                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ collective.block.name }</p>
-                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">by { collective.block.user.username }</p>
+                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ memento.name }</p>
+                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">by { memento.user.username }</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ collective.block.type }</p>
+                          <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ memento.type }</p>
                         </div>
                       </div>
                     </Link>
@@ -163,7 +178,9 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
               }
             </div> */}
             <div className="fixed bottom-0 left-0 right-0">
-              <div>
+              <div ref={searchMementoRef} className="shadow-subtle overflow-auto" style={{
+                maxHeight: `30.5rem`
+              }}>
                 {
                   searchMemento.map(memento => {
                     return (
