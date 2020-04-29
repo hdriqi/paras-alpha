@@ -1,6 +1,6 @@
 import NewPost from "./newPost"
 import { useDispatch, useSelector, batch } from "react-redux"
-import { toggleNewPost, setActivePage, toggleModalPost } from "../actions/ui"
+import { toggleNewPost, setActivePage, toggleModalPost, toggleNewBlock } from "../actions/ui"
 import { withRedux } from "../lib/redux"
 import NewBlock from "./newBlock"
 import { useRouter } from "next/router"
@@ -30,8 +30,29 @@ const NavMobile = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
   const activePage = useSelector(state => state.ui.activePage)
   const profile = useSelector(state => state.me.profile)
+  const [showCreateNav, setShowCreateNav] = useState(false)
   const dispatch = useDispatch()
   const router = useRouter()
+
+  const _closeCreateNavOverlay = (e) => {
+    if(e.target.id === 'create-nav-bg') {
+      setShowCreateNav(false)
+    }
+  }
+
+  const _showNewPost = () => {
+    setTimeout(() => {
+      setShowCreateNav(false)
+    }, 500)
+    dispatch(toggleNewPost(true))
+  }
+
+  const _showNewBlock = () => {
+    setTimeout(() => {
+      setShowCreateNav(false)
+    }, 500)
+    dispatch(toggleNewBlock(true))
+  }
 
   const setIsActive = (name) => {
     dispatch(setActivePage(name))
@@ -77,28 +98,24 @@ const NavMobile = () => {
           </svg>
         </NavLink>
       </div>
-      <div className="w-1/5 flex justify-center">
-        <div onClick={e => dispatch(toggleNewPost(!showNewPost))} className="relative" style={{
-          top: `-40%`
-        }}>
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g filter="url(#filter0_d)">
-            <circle cx="24" cy="24" r="20" fill="#222222"/>
-            </g>
-            <path d="M21.4718 34V26.5282H14V21.4718H21.4718V14H26.5282V21.4718H34V26.5282H26.5282V34H21.4718Z" fill="white"/>
-            <defs>
-            <filter id="filter0_d" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-            <feOffset/>
-            <feGaussianBlur stdDeviation="2"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-            </filter>
-            </defs>
-          </svg>
-        </div>
+      <div className="w-1/5 flex items-center justify-center">
+        <svg onClick={e => setShowCreateNav(true)} width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_d)">
+          <circle cx="24" cy="24" r="20" fill="#222222"/>
+          </g>
+          <path d="M21.4718 34V26.5282H14V21.4718H21.4718V14H26.5282V21.4718H34V26.5282H26.5282V34H21.4718Z" fill="white"/>
+          <defs>
+          <filter id="filter0_d" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+          <feOffset/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+          </filter>
+          </defs>
+        </svg>
       </div>
       <div className="w-1/5">
         <NavLink name="message" href="/hub/following" activePage={activePage} setIsActive={setIsActive}>
@@ -114,6 +131,53 @@ const NavMobile = () => {
             <path d="M20 19C20 22.5 16 21.5 12 21.5C8 21.5 4 22.5 4 19C4 17 7.58172 14.5 12 14.5C16.4183 14.5 20 17 20 19Z" />
           </svg>
         </NavLink>
+      </div>
+      <div id="create-nav-bg" className="fixed inset-0 z-30 px-4" onClick={e => _closeCreateNavOverlay(e)} style={{
+        backgroundColor: `rgba(0,0,0,0.5)`,
+        visibility: `${showCreateNav ? `visible` : 'hidden'}`
+      }}>
+        <div className="text-center absolute bottom-0 left-0 right-0 bg-white" style={{
+          transform: `translate3d(0,${showCreateNav ? `0%` : `100%`},0)`,
+          transition: `all .2s`
+        }}>
+          <div className="flex">
+            <div className="w-1/2">
+              <button onClick={e => _showNewBlock()} className="w-full h-12 flex items-center justify-center text-center font-semibold">
+              <svg className="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 9H9V15H15V9ZM13.5 13.5H10.5V10.5H13.5V13.5Z" fill="black"/>
+<path d="M22.5 10.5V9H19.125V4.875H15V1.5H13.5V4.875H10.5V1.5H9V4.875H4.875V9H1.5V10.5H4.875V13.5H1.5V15H4.875V19.125H9V22.5H10.5V19.125H13.5V22.5H15V19.125H19.125V15H22.5V13.5H19.125V10.5H22.5ZM17.625 17.625H6.375V6.375H17.625V17.625Z" fill="black"/>
+</svg>
+                New Memento
+              </button>
+            </div>
+            <div className="w-1/2">
+              <button onClick={e => _showNewPost()} className="w-full h-12 flex items-center justify-center text-center font-semibold">
+              <svg className="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22 20V13H20V20H4V4H11V2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20ZM19.1781 2.72342C18.7197 2.26142 18.0921 2 17.4374 2C16.7834 2 16.1564 2.26083 15.6954 2.72463L7.3265 11.0934C6.57867 11.7523 6.08844 12.7328 6.00325 13.7873L6 17.0023V18.0023H10.1346C11.2689 17.9245 12.259 17.4295 12.9575 16.6238L21.279 8.30584C21.7407 7.84416 22.0001 7.21799 22.0001 6.56508C22.0001 5.91217 21.7407 5.286 21.279 4.82432L19.1781 2.72342ZM10.064 16.0048C10.5982 15.967 11.0955 15.7184 11.4948 15.2616L17.5567 9.19972L14.8024 6.44527L8.6961 12.5496C8.29095 12.9079 8.04031 13.4092 8 13.8678V16.0029L10.064 16.0048ZM16.2169 5.03128L18.9709 7.78551L19.8648 6.89162C19.9514 6.80502 20.0001 6.68756 20.0001 6.56508C20.0001 6.4426 19.9514 6.32514 19.8648 6.23854L17.7611 4.13486C17.6755 4.04855 17.5589 4 17.4374 4C17.3158 4 17.1992 4.04855 17.1136 4.13486L16.2169 5.03128Z" fill="black"/>
+</svg>
+                New Post
+              </button>
+            </div>
+          </div>
+          <svg onClick={e => setShowCreateNav(false)} className="m-auto h-12 flex items-center" width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_d)">
+            <circle cx="24" cy="24" r="20" fill="#191F2C"/>
+            <circle cx="24" cy="24" r="19.5" stroke="black"/>
+            </g>
+            <path d="M29.2833 32.8588L24 27.5755L18.7167 32.8588L15.1412 29.2833L20.4245 24L15.1412 18.7167L18.7167 15.1412L24 20.4245L29.2833 15.1412L32.8588 18.7167L27.5755 24L32.8588 29.2833L29.2833 32.8588Z" fill="white"/>
+            <defs>
+            <filter id="filter0_d" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+            <feOffset/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+            </filter>
+            </defs>
+          </svg>
+        </div>
       </div>
       <NewPost /> 
       <NewBlock />

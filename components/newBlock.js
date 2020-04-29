@@ -64,7 +64,7 @@ const NewBlock = () => {
             </svg>
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Block</h3>
+            <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Memento</h3>
           </div>
           <div className="absolute right-0">
             <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Done</button>
@@ -74,11 +74,11 @@ const NewBlock = () => {
           <div className="mt-8">
             <div>
               <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
-              <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" placeholder="Block name" />
+              <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" placeholder="Memento name" />
             </div>
             <div className="mt-4">
               <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
-              <textarea value={desc} onChange={e => setDesc(e.target.value)} className="resize-none w-full h-40 transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" placeholder="Block description (optional)"></textarea>
+              <textarea value={desc} onChange={e => setDesc(e.target.value)} className="resize-none w-full h-40 transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" placeholder="Memento description (optional)"></textarea>
             </div>
           </div>
         </div>
