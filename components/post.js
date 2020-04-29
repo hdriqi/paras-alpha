@@ -4,6 +4,13 @@ import ParseBody from './parseBody'
 import { useDispatch } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { toggleModalPost } from '../actions/ui'
+import TimeAgo from 'javascript-time-ago'
+ 
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addLocale(en)
+
+const timeAgo = new TimeAgo('en-US')
 
 const Post = ({ post }) => {
   const dispatch = useDispatch()
@@ -27,15 +34,7 @@ const Post = ({ post }) => {
               <Link href="/[username]" as={ `/${post.user.username}` }>
                 <p className="font-semibold text-black-1">{ post.user.username }</p>
               </Link>
-              {
-                post.block && (
-                  <p>in&nbsp;
-                    <Link href="/block/[id]" as={ `/block/${post.blockId}` }>
-                      <span className="font-semibold text-black-1">{ post.block.name }</span>
-                    </Link>
-                  </p>
-                )
-              }
+              <p className="text-sm text-black-4">{ timeAgo.format(new Date(post.createdAt)) }</p>
             </div>
           </div>
           <div>

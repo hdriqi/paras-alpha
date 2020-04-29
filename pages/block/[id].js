@@ -19,9 +19,16 @@ const PostDetailPage = () => {
         const block = resBlock.data
         const resUser = await axios.get(`http://localhost:3004/users/${block.userId}`)
         block.user = resUser.data
+
+        const resCollectiveList = await axios.get(`http://localhost:3004/collectives?blockId=${block.id}&_sort=createdAt&_order=desc`)
+        const rawPostList = await Promise.all(resCollectiveList.data.map(collective => {
+          return new Promise(async (resolve) => {
+            const resPost = await axios.get(`http://localhost:3004/posts/${collective.postId}`)
+            resolve(resPost.data)
+          })
+        }))
         
-        const resPost = await axios.get(`http://localhost:3004/posts?blockId=${block.id}&_sort=createdAt&_order=desc`)
-        const postList = await Promise.all(resPost.data.map(post => {
+        const postList = await Promise.all(rawPostList.map(post => {
           return new Promise(async (resolve) => {
             if(post.userId === block.user.id) {
               post.user = block.user
