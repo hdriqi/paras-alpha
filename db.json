@@ -116,6 +116,15 @@
       "createdAt": "2020-04-29T05:23:46.028Z"
     }
   ],
+  "collectives": [
+    {
+      "blockId": "tnace1340",
+      "postId": "jgc7lane2",
+      "createdAt": "2020-04-29T06:36:16.745Z",
+      "status": "published",
+      "id": 1
+    }
+  ],
   "comments": [
     {
       "id": "o6jzqov1f",
