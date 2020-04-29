@@ -4,6 +4,7 @@ import { toggleNewBlock } from "../actions/ui"
 import { useState } from "react"
 import { addBlockList } from "../actions/me"
 import axios from 'axios'
+import ReactDropdown from "react-dropdown"
 
 const NewBlock = () => {
   const showNewBlock = useSelector(state => state.ui.showNewBlock)
@@ -12,6 +13,10 @@ const NewBlock = () => {
 
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
+  const [type, setType] = useState({
+    label: 'Public',
+    value: 'Public',
+  })
 
   const _close = () => {
     setName('')
@@ -32,21 +37,18 @@ const NewBlock = () => {
     const id = Math.random().toString(36).substr(2, 9)
 
     try {
-      await axios.post('http://localhost:3004/blocks', {
+      const newData = {
         id: id,
         name: name,
         desc: desc,
+        type: type.value,
         userId: profile.id,
         createdAt: new Date().toISOString()
-      }) 
+      }
 
-      dispatch(addBlockList([
-        {
-          id: id,
-          name: name,
-          desc: desc
-        }
-      ]))
+      await axios.post('http://localhost:3004/blocks', newData) 
+
+      dispatch(addBlockList([newData]))
 
       _close()
     } catch (err) {
@@ -75,6 +77,25 @@ const NewBlock = () => {
             <div>
               <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
               <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" placeholder="Memento name" />
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm pb-1 font-semibold text-black-2">Type</label>
+              <ReactDropdown 
+                arrowClosed={
+                  <span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M19.293 7.29291L20.7072 8.70712L12.0001 17.4142L3.29297 8.70712L4.70718 7.29291L12.0001 14.5858L19.293 7.29291Z" fill="black"/>
+                    </svg>
+                  </span>
+                }
+                onChange={opt => setType(opt)}
+                value={type}
+                className="font-normal w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md" 
+                controlClassName="p-0 border-none py-2"
+                placeholderClassName="px-2"
+                options={[{ value: 'Public', className: 'py-2' }, { value: 'Permissioned', className: 'py-2' }]} 
+                placeholder="Memento type"
+              />
             </div>
             <div className="mt-4">
               <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
