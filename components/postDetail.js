@@ -67,7 +67,7 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
     await axios.post('http://localhost:3004/posts', {
       id: id,
       originalId: post.originalId,
-      status: inputMementoData.type === 'Public' ? 'published' : 'pending',
+      status: inputMementoData.type === 'public' ? 'published' : 'pending',
       body: post.body,
       bodyRaw: post.bodyRaw,
       imgList: post.imgList,

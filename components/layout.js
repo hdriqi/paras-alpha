@@ -1,11 +1,12 @@
 import { Fragment, useEffect, useState } from "react"
 import Head from 'next/head'
-import { setProfile, addData } from "../actions/me"
+import { setProfile, addData, addBlockList } from "../actions/me"
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { toggleModalMemento, toggleModalPost, toggleModalComment } from "../actions/ui"
+import Link from "next/link"
 
 const ModalPost = ({ profile }) => {
   const router = useRouter()
@@ -27,11 +28,9 @@ const ModalPost = ({ profile }) => {
     if(Array.isArray(postList)) {
       const currPostList = [...postList]
       const nextPostList = currPostList.filter(post => post.id !== id)
-      batch(() => {
-        dispatch(addData(router.asPath, nextPostList))
-        dispatch(toggleModalPost(false, {}))
-      })
+      dispatch(addData(router.asPath, nextPostList))
     }
+    dispatch(toggleModalPost(false, {}))
   }
 
   const _copyLink = () => {
@@ -94,6 +93,7 @@ const ModalPost = ({ profile }) => {
 const ModalMemento = ({ profile }) => {
   const router = useRouter()
   const dispatch = useDispatch()
+  const myMementoList = useSelector(state => state.me.blockList)
   const showModalMemento = useSelector(state => state.ui.showModalMemento)
   const mementoData = useSelector(state => state.ui.showModalMementoData)
   const [view, setView] = useState('default')
@@ -123,6 +123,12 @@ const ModalMemento = ({ profile }) => {
     }, 1000)
   }
 
+  const _manage = () => {
+    setView('default')
+    dispatch(toggleModalMemento(false, {}))
+    router.push(`/block/[id]/manage`, `/block/${mementoData.id}/manage`)
+  }
+
   return (
     showModalMemento && (
       <div id="modal-bg" onClick={(e) => _closeModal(e)} className="fixed inset-0 w-full h-full z-40 p-8 pt-40" style={{
@@ -131,11 +137,16 @@ const ModalMemento = ({ profile }) => {
         <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
           {
             view === 'default' && (
-              <div>
+            <div>
+              {
+                myMementoList.findIndex(memento => memento.id === mementoData.id) > -1 && (
+                  <button className="w-full p-4 font-medium text-left" onClick={_ => _manage()}>Manage</button>
+                )
+              }
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
               {
                 profile && profile.username == mementoData.user.username && (
-                  <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
+                  <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Forget</button>
                 )
               }
             </div>
@@ -144,10 +155,10 @@ const ModalMemento = ({ profile }) => {
           {
             view === 'confirmDelete' && (
               <div>
-                <p className="p-4">Do you want to delete this memento?</p>
+                <p className="p-4">Are you sure you want to forget this memento?</p>
                 <div className="flex justify-end">
                   <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                  <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(mementoData.id)}>Delete</button>
+                  <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(mementoData.id)}>Forget</button>
                 </div>
               </div>
             )
@@ -176,8 +187,12 @@ const Layout = ({ children }) => {
     const getData = async () => {
       const userId = window.localStorage.getItem('meId')
       const resUser = await axios.get(`http://localhost:3004/users/${userId}`)
+      const respMementoList = await axios.get(`http://localhost:3004/blocks?userId=${userId}`)
       const me = resUser.data
-      dispatch(setProfile(me))
+      batch(() => {
+        dispatch(setProfile(me))
+        dispatch(addBlockList(respMementoList.data))
+      })
     }
     if(!profile.id) {
       getData()

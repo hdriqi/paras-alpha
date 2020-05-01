@@ -16,7 +16,6 @@ const ProfileEdit = ({ profile }) => {
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
   const [imgUrl, setImgUrl] = useState('')
-  const [currImgUrl, setCurrImgUrl] = useState('')
   const dispatch = useDispatch()
 
   useEffect(() => {

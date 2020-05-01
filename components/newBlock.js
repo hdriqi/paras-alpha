@@ -13,10 +13,7 @@ const NewBlock = () => {
 
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
-  const [type, setType] = useState({
-    label: 'Public',
-    value: 'Public',
-  })
+  const [type, setType] = useState('public')
 
   const _close = () => {
     setName('')
@@ -45,6 +42,8 @@ const NewBlock = () => {
         userId: profile.id,
         createdAt: new Date().toISOString()
       }
+
+      dispatch(addBlockList([newData]))
 
       await axios.post('http://localhost:3004/blocks', newData) 
 
@@ -90,10 +89,10 @@ const NewBlock = () => {
                 }
                 onChange={opt => setType(opt)}
                 value={type}
-                className="font-normal w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md" 
+                className="capitalize font-normal w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md" 
                 controlClassName="p-0 border-none py-2"
                 placeholderClassName="px-2"
-                options={[{ value: 'Public', className: 'py-2' }, { value: 'Permissioned', className: 'py-2' }]} 
+                options={['public', 'permissioned']} 
                 placeholder="Memento type"
               />
             </div>
