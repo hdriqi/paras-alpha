@@ -55,8 +55,8 @@ const Profile = ({ me, user, blockList, postList }) => {
   }
 
   return (
-    <div className="min-h-screen pb-32">
-      <div className="pb-16">
+    <div className="bg-white-1 min-h-screen pb-32">
+      <div className="pb-12">
         <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
@@ -73,7 +73,7 @@ const Profile = ({ me, user, blockList, postList }) => {
         </div>
       </div>
       <div>
-        <div className="py-6 px-4 text-center">
+        <div className="bg-white py-6 px-4 text-center">
           <img className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" src={user.avatarUrl} />
           <h4 className="mt-4 text-2xl font-bold">{user.username}</h4>
           <p className="mt-2 text-black-3">
@@ -109,7 +109,7 @@ const Profile = ({ me, user, blockList, postList }) => {
           }
         </div>
         <div>
-          <div className="flex">
+          <div className="bg-white flex">
             <div className={`${view !== 'post' && `opacity-25`} w-1/2  border-b border-black-1`}>
               <button onClick={_ => setView('post')} className="w-full font-semibold p-4 focus:outline-none">Post</button>
             </div>

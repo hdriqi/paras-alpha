@@ -142,9 +142,9 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
           <div>
             <div>
               {
-                collectiveList.map(memento => {
+                collectiveList.map((memento, idx) => {
                   return (
-                    <Link href="/block/[id]" as={`/block/${memento.id}`}>
+                    <Link key={idx} href="/block/[id]" as={`/block/${memento.id}`}>
                       <div className="flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle">
                         <div className="w-8/12 flex items-center overflow-hidden">
                           <div>

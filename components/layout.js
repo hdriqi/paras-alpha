@@ -189,7 +189,9 @@ const Layout = ({ children }) => {
       <Head>
         <title>Paras</title>
       </Head>
-      { children }
+      <div className="max-w-md m-auto mobile">
+        { children }
+      </div>
       <ModalPost profile={profile} />
       <ModalMemento profile={profile} />
     </Fragment>

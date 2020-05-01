@@ -17,6 +17,10 @@ textarea {
   @apply outline-none;
 }
 
+.mobile .fixed {
+  @apply max-w-md m-auto;
+}
+
 .croppie-container {
   width: 100%;
   height: 100%;

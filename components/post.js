@@ -34,7 +34,15 @@ const Post = ({ post }) => {
               <Link href="/[username]" as={ `/${post.user.username}` }>
                 <p className="font-semibold text-black-1">{ post.user.username }</p>
               </Link>
-              <p className="text-sm text-black-4">{ timeAgo.format(new Date(post.createdAt)) }</p>
+              {
+                post.blockId && (
+                  <p>in&nbsp;
+                    <Link href="/block/[id]" as={ `/block/${post.blockId}` }>
+                      <span className="font-semibold text-black-1">{ post.block.name }</span>
+                    </Link>
+                  </p> 
+                )
+              }
             </div>
           </div>
           <div>
@@ -70,12 +78,24 @@ const Post = ({ post }) => {
             }
             {
               post.bodyRaw && post.imgList.length > 0 && post.bodyRaw.length > 0 && (
-                <div className="mb-4"></div>
+                <div className="pb-4"></div>
               )
             }
-            <div className="px-4 pb-4">
+            <div className="px-4">
               <p className="text-black-3 whitespace-pre-line">
                 <ParseBody body={post.bodyRaw || ''} />
+              </p>
+            </div>
+            <div className="flex justify-between px-4 py-4">
+              <p className="text-sm font-normal text-black-4">{ timeAgo.format(new Date(post.createdAt)) }</p>
+              <p className="text-sm font-normal text-black-4">
+                {
+                   post.originalId && post.id !== post.originalId && (
+                    <Link href="/post/[id]" as={`/post/${post.originalId}`}>
+                      <a>original post</a>
+                    </Link>
+                  )
+                }
               </p>
             </div>
           </div>

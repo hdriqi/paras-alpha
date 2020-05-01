@@ -21,6 +21,11 @@ const PostDetailPage = () => {
         const resPost = await axios.get(`http://localhost:3004/posts/${id}`)
         const post = resPost.data
 
+        if(post.blockId) {
+          const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+          post.block = resBlock.data
+        }
+
         const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
         post.user = resUser.data
 
