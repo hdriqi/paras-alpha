@@ -43,8 +43,6 @@ const NewBlock = () => {
         createdAt: new Date().toISOString()
       }
 
-      dispatch(addBlockList([newData]))
-
       await axios.post('http://localhost:3004/blocks', newData) 
 
       dispatch(addBlockList([newData]))

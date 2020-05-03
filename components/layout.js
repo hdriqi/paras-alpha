@@ -12,6 +12,7 @@ const ModalPost = ({ profile }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const showModalPost = useSelector(state => state.ui.showModalPost)
+  const myMementoList = useSelector(state => state.me.blockList)
   const postData = useSelector(state => state.ui.showModalPostData)
   const postList = useSelector(state => state.me.data[router.asPath])
   const [view, setView] = useState('default')
@@ -30,7 +31,7 @@ const ModalPost = ({ profile }) => {
       const nextPostList = currPostList.filter(post => post.id !== id)
       dispatch(addData(router.asPath, nextPostList))
     }
-    dispatch(toggleModalPost(false, {}))
+    dispatch(toggleModalPost(false, {}))  
   }
 
   const _copyLink = () => {
@@ -56,7 +57,7 @@ const ModalPost = ({ profile }) => {
               <div>
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
               {
-                profile && profile.username == postData.user.username && (
+                profile && profile.username == postData.user.username || myMementoList.findIndex(memento => memento.id === postData.blockId) > -1 && (
                   <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
                 )
               }
