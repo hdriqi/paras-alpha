@@ -20,7 +20,7 @@ const PostDetailPage = () => {
         const resUser = await axios.get(`http://localhost:3004/users/${block.userId}`)
         block.user = resUser.data
 
-        const resPost = await axios.get(`http://localhost:3004/posts?blockId=${block.id}&_sort=createdAt&_order=desc`)
+        const resPost = await axios.get(`http://localhost:3004/posts?blockId=${block.id}&status=published&_sort=createdAt&_order=desc`)
         
         const postList = await Promise.all(resPost.data.map(post => {
           return new Promise(async (resolve) => {

@@ -13,7 +13,10 @@ const NewBlock = () => {
 
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
-  const [type, setType] = useState('public')
+  const [type, setType] = useState({
+    value: 'public',
+    label: 'public'
+  })
 
   const _close = () => {
     setName('')
@@ -45,7 +48,13 @@ const NewBlock = () => {
 
       await axios.post('http://localhost:3004/blocks', newData) 
 
-      dispatch(addBlockList([newData]))
+      const newLocalData = {
+        ...newData,
+        ...{
+          user: profile
+        }
+      }
+      dispatch(addBlockList([newLocalData]))
 
       _close()
     } catch (err) {
@@ -85,7 +94,9 @@ const NewBlock = () => {
                     </svg>
                   </span>
                 }
-                onChange={opt => setType(opt)}
+                onChange={opt => {
+                  setType(opt)
+                }}
                 value={type}
                 className="capitalize font-normal w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md" 
                 controlClassName="p-0 border-none py-2"

@@ -28,7 +28,7 @@ const BlockEdit = () => {
         ...curData,
         ...{
           name: name,
-          type: type,
+          type: type.value,
           desc: bodyRef.current.value,
           descRaw: desc,
           updatedAt: new Date().toISOString()
@@ -52,7 +52,10 @@ const BlockEdit = () => {
       setCurData(respBlock.data)
       setName(respBlock.data.name)
       setDesc(respBlock.data.descRaw)
-      setType(respBlock.data.type)
+      setType({
+        label: respBlock.data.type,
+        value: respBlock.data.type
+      })
     }
     if(router.query.id) {
       getData()

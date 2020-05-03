@@ -15,6 +15,7 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
   const [inputMementoData, setInputMementoData] = useState({})
   const [view, setView] = useState('memento')
   const [newCommentList, setNewCommentList] = useState([])
+  const [newMementoList, setNewMementoList] = useState([])
   const [searchMemento, setSearchMemento] = useState([])
   const commentRef = useRef(null)
   const router = useRouter()
@@ -63,8 +64,7 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
     //   status: inputMementoData.type === 'Public' ? 'published' : 'pending'
     // }
     const id = Math.random().toString(36).substr(2, 9)
-
-    await axios.post('http://localhost:3004/posts', {
+    const newData = {
       id: id,
       originalId: post.originalId,
       status: inputMementoData.type === 'public' ? 'published' : 'pending',
@@ -74,11 +74,18 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
       userId: profile.id,
       blockId: inputMementoData.id,
       createdAt: new Date().toISOString()
-    })
+    }
+
+    await axios.post('http://localhost:3004/posts', newData)
     // await axios.post('http://localhost:3004/collectives', newData)
     setInputMemento('')
     setInputMementoData({})
     setSearchMemento([])
+
+    if(newData.status === 'published') {
+      const nextMementoList = [...newMementoList].concat([inputMementoData])
+      setNewMementoList(nextMementoList)
+    }
   }
 
   const _submitComment = async (e) => {
@@ -166,17 +173,32 @@ const PostDetail = ({ post , commentList, collectiveList }) => {
                 })
               }
             </div>
-            {/* <div>
+            <div>
               {
-                newCommentList.map(newComment => {
+                newMementoList.map((memento, idx) => {
                   return (
-                    <div key={newComment.id}>
-                      <Comment comment={newComment} />
-                    </div>
+                    <Link key={idx} href="/block/[id]" as={`/block/${memento.id}`}>
+                      <div className="flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle">
+                        <div className="w-8/12 flex items-center overflow-hidden">
+                          <div>
+                            <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
+                              <div className="w-4 h-4 m-auto bg-white"></div>
+                            </div>
+                          </div>
+                          <div className="px-4 w-auto">
+                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ memento.name }</p>
+                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">by { memento.user.username }</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ memento.type }</p>
+                        </div>
+                      </div>
+                    </Link>
                   )
                 })
               }
-            </div> */}
+            </div>
             <div className="fixed bottom-0 left-0 right-0">
               <div ref={searchMementoRef} className="shadow-subtle overflow-auto" style={{
                 maxHeight: `30.5rem`

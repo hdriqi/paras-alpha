@@ -11,14 +11,20 @@ import { MentionsInput, Mention } from 'react-mentions'
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
   const blockList = useSelector(state => state.me.blockList)
+
   const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
 
   const bodyRef = useRef(null)
-  const [chosenBlock, setChosenBlock] = useState('')
+  const [chosenBlock, setChosenBlock] = useState({})
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(0)
+  const [mementoTab, setMementoTab] = useState(0)
+
+  const [inputMemento, setInputMemento] = useState('')
+  const [inputMementoData, setInputMementoData] = useState({})
+  const [searchMemento, setSearchMemento] = useState([])
 
   const _getUsers = async (query, callback) => {
     if (!query) return
@@ -26,20 +32,6 @@ const NewPost = () => {
     const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
     callback(list)
   }
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3004/blocks?userId=${profile.id}`)
-        dispatch(addBlockList(response.data))
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    if(blockList.length === 0 && profile.id) {
-      getData()
-    }
-  }, [profile])
 
   const _close = () => {
     setChosenBlock('')
@@ -69,18 +61,6 @@ const NewPost = () => {
     e.preventDefault()
 
     const id = Math.random().toString(36).substr(2, 9)
-    // const blockObj = blockList.filter(block => block.id === chosenBlock)
-
-    // dispatch(addPostList([
-    //   {
-    //     id: id,
-    //     block: blockObj[0],
-    //     body: postText,
-    //     imgList: postImageList,
-    //     userId: `wokoee9`,
-    //     createdAt: new Date().toISOString()
-    //   }
-    // ]))
 
     try {
       const response = await axios.post('http://localhost:3004/posts', {
@@ -102,10 +82,28 @@ const NewPost = () => {
   }
 
   const _validateSubmit = () => {
-    if((postText.length > 0 || postImageList.length > 0)) {
+    if((postText.length > 0 || postImageList.length > 0) && chosenBlock.id) {
       return true
     }
     return false
+  }
+
+  const _getSearchMemento = async (query) => {
+    setInputMemento(query)
+    setInputMementoData({})
+    if (!query) {
+      setSearchMemento([])
+      return
+    }
+    const response = await axios.get(`http://localhost:3004/blocks?name_like=${query}`)
+    const newList = await Promise.all(response.data.map(memento => {
+      return new Promise(async (resolve) => {
+        const resUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
+        memento.user = resUser.data
+        resolve(memento)
+      })
+    }))
+    setSearchMemento(newList)
   }
 
   return (
@@ -113,54 +111,6 @@ const NewPost = () => {
       <div className="fixed bg-white inset-0 z-30 px-4">
       {
         step === 0 && (
-          <div className="pt-12">
-            <div className="fixed top-0 left-0 right-0 h-12 px-4">
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="absolute left-0">
-                  <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 14.1214L5.56068 20.5607L3.43936 18.4394L9.8787 12.0001L3.43936 5.56071L5.56068 3.43939L12 9.87873L18.4394 3.43939L20.5607 5.56071L14.1213 12.0001L20.5607 18.4394L18.4394 20.5607L12 14.1214Z" fill="#222222"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Post</h3>
-                </div>
-                <div className="absolute right-0">
-                  <button onClick={e => setStep(step+1)} disabled={!chosenBlock}>
-                    <h4 className="text-2xl font-bold text-black-1 tracking-tighter">Next</h4>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="mt-8">
-                <div>
-                  <label className="block text-sm font-semibold text-black-2">Choose Block</label>
-                  <div>
-                    {
-                      blockList.map(block => {
-                        return (
-                          <div onClick={e => setChosenBlock(block.id)} key={block.id} 
-                            className={`mt-4 w-full transition-all duration-300 text-black-3 leading-normal border p-2 rounded-md
-                            ${chosenBlock == block.id ? `border-black-3` : `border-black-6`}`}>
-                            <p className="text-black-2 font-bold">{ block.name }</p>
-                            <p className="mt-1 truncate">{ block.desc }</p>
-                          </div>
-                        )
-                      })
-                    }
-                    <button onClick={e => dispatch(toggleNewBlock(true))} 
-                      className="mt-4 w-full border border-black-1 bg-black-1 p-2 py-4 rounded-md text-white font-semibold leading-relaxed">
-                      + Add New Block
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )
-      }
-      {
-        step === 1 && (
           <div className="pt-12 h-full">
             <div className="fixed top-0 left-0 right-0 h-12 px-4">
               <div className="relative w-full h-full flex items-center justify-center">
@@ -173,7 +123,9 @@ const NewPost = () => {
                   <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Post</h3>
                 </div>
                 <div className="absolute right-0">
-                  <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Done</button>
+                  <button onClick={e => setStep(step+1)} disabled={!(postText.length > 0 || postImageList.length > 0)}>
+                    <h4 className="text-2xl font-bold text-black-1 tracking-tighter">Next</h4>
+                  </button>
                 </div>
               </div>
             </div>
@@ -251,6 +203,103 @@ const NewPost = () => {
                           </div>
                         )
                       })
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
+      {
+        step === 1 && (
+          <div className="pt-12">
+            <div className="fixed top-0 left-0 right-0 h-12 px-4">
+              <div className="relative w-full h-full flex items-center justify-center">
+                <div className="absolute left-0">
+                  <svg onClick={e => setStep(0)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12 14.1214L5.56068 20.5607L3.43936 18.4394L9.8787 12.0001L3.43936 5.56071L5.56068 3.43939L12 9.87873L18.4394 3.43939L20.5607 5.56071L14.1213 12.0001L20.5607 18.4394L18.4394 20.5607L12 14.1214Z" fill="#222222"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Post</h3>
+                </div>
+                <div className="absolute right-0">
+                  <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Done</button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="mt-8">
+                <div>
+                  <input type="text" value={inputMemento} onChange={e => _getSearchMemento(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" placeholder="Search memento" />
+                  <div>
+                    {
+                      inputMemento.length === 0 ? (
+                        <div>
+                          {
+                          blockList.map(memento => {
+                            return (
+                              <div onClick={_ => {
+                                if(chosenBlock.id === memento.id) {
+                                  setChosenBlock({})  
+                                }
+                                else {
+                                  setChosenBlock(memento)
+                                }
+                              }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenBlock.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                                <div className="w-8/12 flex items-center overflow-hidden">
+                                  <div>
+                                    <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
+                                      <div className="w-4 h-4 m-auto bg-white"></div>
+                                    </div>
+                                  </div>
+                                  <div className="px-4 w-auto">
+                                    <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ memento.name }</p>
+                                    <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">by { memento.user.username }</p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ memento.type }</p>
+                                </div>
+                              </div>
+                            )
+                          })
+                        }
+                        </div>
+                      ) : (
+                        <div>
+                          {
+                            searchMemento.map(memento => {
+                              return (
+                                <div onClick={_ => {
+                                  if(chosenBlock.id === memento.id) {
+                                    setChosenBlock({})  
+                                  }
+                                  else {
+                                    setChosenBlock(memento)
+                                  }
+                                }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenBlock.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                                  <div className="w-8/12 flex items-center overflow-hidden">
+                                    <div>
+                                      <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
+                                        <div className="w-4 h-4 m-auto bg-white"></div>
+                                      </div>
+                                    </div>
+                                    <div className="px-4 w-auto">
+                                      <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ memento.name }</p>
+                                      <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">by { memento.user.username }</p>
+                                    </div>
+                                  </div>
+                                  <div className="text-right">
+                                  <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ memento.type }</p>
+                                  </div>
+                                </div>
+                              )
+                            })
+                          }
+                        </div>
+                      )
                     }
                   </div>
                 </div>

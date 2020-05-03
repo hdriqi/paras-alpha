@@ -57,7 +57,7 @@ const ModalPost = ({ profile }) => {
               <div>
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
               {
-                profile && profile.username == postData.user.username || myMementoList.findIndex(memento => memento.id === postData.blockId) > -1 && (
+                (profile && profile.username == postData.user.username || myMementoList.findIndex(memento => memento.id === postData.blockId) > -1) && (
                   <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
                 )
               }
@@ -189,10 +189,17 @@ const Layout = ({ children }) => {
       const userId = window.localStorage.getItem('meId')
       const resUser = await axios.get(`http://localhost:3004/users/${userId}`)
       const respMementoList = await axios.get(`http://localhost:3004/blocks?userId=${userId}`)
+      const mementoList = await Promise.all(respMementoList.data.map(memento => {
+        return new Promise(async (resolve) => {
+          const resUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
+          memento.user = resUser.data
+          resolve(memento)
+        })
+      }))
       const me = resUser.data
       batch(() => {
         dispatch(setProfile(me))
-        dispatch(addBlockList(respMementoList.data))
+        dispatch(addBlockList(mementoList))
       })
     }
     if(!profile.id) {

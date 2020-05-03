@@ -14,13 +14,14 @@ const BlockPending = () => {
 
   const _accept = async (post, idx) => {
     const newData = {
+      originalId: post.originalId,
       status: 'published',
       body: post.body,
       bodyRaw: post.bodyRaw,
       imgList: post.imgList,
       userId: post.userId,
-      createdAt: post.createdAt,
-      updatedAt: new Date().toISOString(),
+      blockId: router.query.id,
+      createdAt: new Date().toISOString()
     }
     await axios.put(`http://localhost:3004/posts/${post.id}`, newData)
     const newPostList = [...postList]
