@@ -2,13 +2,20 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setProfile } from '../actions/me'
+import { popPage } from '../actions/ui'
 
 import Post from './post'
 import ParseBody from './parseBody'
+import { withRedux } from '../lib/redux'
+import Pop from './Pop'
 
-const Profile = ({ me, user, blockList, postList }) => {
+const Profile = ({  }) => {
+  const [user, setUser] = useState({})
+  const [blockList, setBlockList] = useState([])
+  const [postList, setPostList] = useState([])
+  const me = useSelector(state => state.me.profile)
   const [isFollowing, setIsFollowing] = useState(false)
   const [view, setView] = useState('post')
   const router = useRouter()
@@ -51,8 +58,49 @@ const Profile = ({ me, user, blockList, postList }) => {
   }
 
   const _close = () => {
-    router.back()
+    // dispatch(popPage())
+    // router.back()
   }
+
+  useEffect(() => {
+    const getData = async () => {
+      const respUser = await axios.get(`http://localhost:3004/users?username=${router.query.username}`)
+      const user = respUser.data[0]
+
+      const respBlock = await axios.get(`http://localhost:3004/blocks?userId=${user.id}`)
+      const blockList = await Promise.all(respBlock.data.map(block => {
+        return new Promise(async (resolve) => {
+          const respPost = await axios.get(`http://localhost:3004/posts?blockId=${block.id}&_limit=3&_sort=createdAt&_order=desc`)
+          block.postList = respPost.data
+          resolve(block)
+        })
+      }))
+
+      const respPost = await axios.get(`http://localhost:3004/posts?userId=${user.id}`)
+      const feedPost = respPost.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      const postList = await Promise.all(feedPost.map(post => {
+        return new Promise(async (resolve) => {
+          const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
+          post.user = resUser.data
+
+          if(post.blockId) {
+            const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+            if(resBlock.status === 200) {
+              post.block = resBlock.data
+            }
+          }
+          resolve(post)
+        })
+      }))
+
+      setUser(user)
+      setBlockList(blockList)
+      setPostList(postList)
+    }
+    if(router && router.query && router.query.username) {
+      getData()
+    }
+  }, [router])
 
   return (
     <div className="bg-white-1 min-h-screen pb-32">
@@ -60,9 +108,11 @@ const Profile = ({ me, user, blockList, postList }) => {
         <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
-              <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
-              </svg>
+              <Pop>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
+                </svg>
+              </Pop>
             </div>
             <div>
               <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Profile</h3>
@@ -193,4 +243,4 @@ const Profile = ({ me, user, blockList, postList }) => {
   )
 }
 
-export default Profile
+export default withRedux(Profile)

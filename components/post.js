@@ -7,6 +7,9 @@ import { toggleModalPost } from '../actions/ui'
 import TimeAgo from 'javascript-time-ago'
  
 import en from 'javascript-time-ago/locale/en'
+import Push from './Push'
+import profile from './profile'
+import blockPage from './blockPage'
 
 TimeAgo.addLocale(en)
 
@@ -31,15 +34,22 @@ const Post = ({ post }) => {
               <img className="object-cover w-full h-full" src={post.user.avatarUrl} />
             </div>
             <div className="px-4">
-              <Link href="/[username]" as={ `/${post.user.username}` }>
+              <Push as={ `/${post.user.username}` } page={profile} query={{username: post.user.username}}>
                 <p className="font-semibold text-black-1">{ post.user.username }</p>
-              </Link>
+              </Push>
               {
                 post.blockId && (
                   <p>in&nbsp;
-                    <Link href="/block/[id]" as={ `/block/${post.blockId}` }>
+                    <Push as={ `/block/${post.blockId}`} page={blockPage} props={{
+                      block: {
+                        ...post.block,
+                        ...{
+                          user: post.user
+                        }
+                      }
+                    }} query={{id: post.blockId}}>
                       <span className="font-semibold text-black-1">{ post.block.name }</span>
-                    </Link>
+                    </Push>
                   </p> 
                 )
               }

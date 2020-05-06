@@ -4,15 +4,18 @@ import { useRouter } from "next/router"
 
 import axios from 'axios'
 import { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setProfile } from "../actions/me"
 import { toggleModalMemento } from "../actions/ui"
+import { withRedux } from "../lib/redux"
+import Pop from "./Pop"
 
-const Memento = ({ me, block, postList }) => {
+const Memento = ({ block = {}, postList = [] }) => {
   const router = useRouter()
   const dispatch = useDispatch()
 
   const [isFollowing, setIsFollowing] = useState(false)
+  const me = useSelector(state => state.me.profile)
 
   useEffect(() => {
     if(Array.isArray(me.following) && me.following.filter(following => following.id === block.id).length > 0) {
@@ -63,9 +66,11 @@ const Memento = ({ me, block, postList }) => {
       <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 ">
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="absolute left-0">
-            <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
-            </svg>
+            <Pop>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
+              </svg>
+            </Pop>
           </div>
           <div>
             <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Memento</h3>
@@ -124,4 +129,4 @@ const Memento = ({ me, block, postList }) => {
   )
 }
 
-export default Memento
+export default withRedux(Memento)

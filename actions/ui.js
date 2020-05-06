@@ -65,3 +65,18 @@ export const setActivePage = (activePage) => {
     activePage: activePage
   }
 }
+
+export const PUSH_PAGE = 'PUSH_PAGE'
+export const pushPage = (page) => {
+  return {
+    type: PUSH_PAGE,
+    page: page  
+  }
+}
+
+export const POP_PAGE = 'POP_PAGE'
+export const popPage = () => {
+  return {
+    type: POP_PAGE
+  }
+}

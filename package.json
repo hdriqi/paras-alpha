@@ -13,6 +13,7 @@
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
     "axios": "^0.19.2",
+    "body-scroll-lock": "^3.0.2",
     "croppie": "^2.6.4",
     "javascript-time-ago": "^2.0.7",
     "next": "^9.3.1",

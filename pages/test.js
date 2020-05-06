@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import NavMobile from '../components/navMobile'
 import Layout from '../components/layout'
 import Home from '../components/home'
-import PageManager from '../components/PageManager'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { addPostList, addData } from '../actions/me'
 import { withRedux } from '../lib/redux'
+import PageManager from '../components/PageManager'
+import Profile from '../components/profile'
+import { pushPage } from '../actions/ui'
 
 const HomePage = () => {
   const dispatch = useDispatch()
@@ -52,9 +54,11 @@ const HomePage = () => {
   return (
     <Layout>
       <PageManager>
-        <Home page={`feed`} postList={postList} />
-        <div className="fixed bottom-0 right-0 left-0 z-20">
-          <NavMobile />
+        <div>
+          <Home page={`feed`} postList={postList} />
+          <div className="fixed bottom-0 right-0 left-0 z-20">
+            <NavMobile />
+          </div>
         </div>
       </PageManager>
     </Layout>

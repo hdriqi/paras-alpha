@@ -1,4 +1,4 @@
-import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP, TOGGLE_MODAL_COMMENT } from '../actions/ui'
+import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP, TOGGLE_MODAL_COMMENT, PUSH_PAGE, POP_PAGE } from '../actions/ui'
 
 const initialState = {
   showNewPost: false,
@@ -11,7 +11,8 @@ const initialState = {
   showModalMementoData: {},
   showModalComment: false,
   showModalCommentData: {},
-  showModalCommentCb: null
+  showModalCommentCb: null,
+  pageList: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -58,6 +59,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activePage: action.activePage
+      }
+    case PUSH_PAGE:
+      return {
+        ...state,
+        pageList: state.pageList.concat([action.page])
+      }
+    case POP_PAGE:
+      return {
+        ...state,
+        pageList: state.pageList.slice(0, -1)
       }
     default:
       return state
