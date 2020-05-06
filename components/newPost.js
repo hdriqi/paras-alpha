@@ -7,6 +7,7 @@ import { addPostList, addBlockList } from "../actions/me"
 import axios from "axios"
 
 import { MentionsInput, Mention } from 'react-mentions'
+import { useRouter } from "next/router"
 
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
@@ -14,9 +15,11 @@ const NewPost = () => {
 
   const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const bodyRef = useRef(null)
   const [chosenBlock, setChosenBlock] = useState({})
+  const [postTextRaw, setPostTextRaw] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
   const [step, setStep] = useState(0)
@@ -37,7 +40,7 @@ const NewPost = () => {
     setChosenBlock('')
     setPostText('')
     setPostImageList([])
-    setStep(1)
+    setStep(0)
     dispatch(toggleNewPost(!showNewPost))
   }
 
@@ -63,23 +66,30 @@ const NewPost = () => {
     const id = Math.random().toString(36).substr(2, 9)
 
     try {
-      const response = await axios.post('http://localhost:3004/posts', {
+      const newData = {
         id: id,
         originalId: id,
         status: 'published',
-        body: bodyRef.current.value,
-        bodyRaw: postText,
+        body: postText,
+        bodyRaw: postTextRaw,
         imgList: postImageList,
         userId: profile.id,
+        blockId: chosenBlock.id,
         createdAt: new Date().toISOString()
-      })
-      console.log(response) 
+      }
+      await axios.post('http://localhost:3004/posts', newData)
+      router.push(`/post/[id]`, `/post/${newData.id}`)
+      _close()
     } catch (err) {
       console.log(err)
     }
-
-    _close()
   }
+
+  useEffect(() => {
+    if(bodyRef.current) {
+      setPostText(bodyRef.current.value)
+    }
+  }, [postTextRaw])
 
   const _validateSubmit = () => {
     if((postText.length > 0 || postImageList.length > 0) && chosenBlock.id) {
@@ -161,8 +171,8 @@ const NewPost = () => {
                       },
                     }}
                     placeholder="Share your ideas, thought and creativity" 
-                    onChange={e => setPostText(e.target.value)} 
-                    value={postText}
+                    onChange={e => setPostTextRaw(e.target.value)} 
+                    value={postTextRaw}
                     allowSuggestionsAboveCursor={true}
                     inputRef={bodyRef}
                   >

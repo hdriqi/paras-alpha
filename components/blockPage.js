@@ -60,7 +60,7 @@ const Memento = ({ me, block, postList }) => {
 
   return (
     <div className="py-12 bg-white-1 min-h-screen">
-      <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 shadow-subtle">
+      <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 ">
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="absolute left-0">
             <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,36 +77,36 @@ const Memento = ({ me, block, postList }) => {
           </div>
         </div>
       </div>
-      <div className="py-6">
-        <div className="text-center px-4">
+      <div className="pb-12">
+        <div className="bg-white py-6 px-4 text-center shadow-subtle">
           <h4 className="text-2xl font-bold">{block.name}</h4>
-          {
-            block.user && (
-              <p>by&nbsp;
-                <Link href="/[username]" as={ `/${block.user.username}` }>
-                  <span className="font-semibold text-black-1">{ block.user.username }</span>
-                </Link>
-              </p>
-            )
-          }
-          <p className="mt-2 text-black-3">{block.desc}</p>
-          {
-            me.id && block.user && me.id !== block.user.id && (
-              <div className="px-4 mt-4">
-                {
-                  isFollowing ? (
-                    <button onClick={e => _toggleFollow(me, block)} className="font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md" style={{
-                      minWidth: `6rem`
-                    }}>Following</button>
-                  ) : (
-                    <button onClick={e => _toggleFollow(me, block)} className="font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md" style={{
-                      minWidth: `6rem`
-                    }}>Follow</button>
-                  )
-                }
-              </div>
-            )
-          }
+            {
+              block.user && (
+                <p>by&nbsp;
+                  <Link href="/[username]" as={ `/${block.user.username}` }>
+                    <span className="font-semibold text-black-1">{ block.user.username }</span>
+                  </Link>
+                </p>
+              )
+            }
+            <p className="mt-2 text-black-3 whitespace-pre ">{block.desc}</p>
+            {
+              me.id && block.user && me.id !== block.user.id && (
+                <div className="px-4 mt-4">
+                  {
+                    isFollowing ? (
+                      <button onClick={e => _toggleFollow(me, block)} className="font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md" style={{
+                        minWidth: `6rem`
+                      }}>Following</button>
+                    ) : (
+                      <button onClick={e => _toggleFollow(me, block)} className="font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md" style={{
+                        minWidth: `6rem`
+                      }}>Follow</button>
+                    )
+                  }
+                </div>
+              )
+            }
         </div>
         <div>
           {
