@@ -60,9 +60,9 @@ const UserPage = () => {
       <div className="bg-white-1">
         <Profile me={profile} user={user} blockList={blockList} postList={postList} />
       </div>
-      <div className="fixed bottom-0 right-0 left-0 z-20">
+      {/* <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
-      </div>
+      </div> */}
     </Layout>
   )
 }
