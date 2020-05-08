@@ -55,12 +55,6 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   }
 
   const _transmitInputMemento = async () => {
-    // const newData = {
-    //   blockId: inputMementoData.id,
-    //   postId: post.id,
-    //   createdAt: new Date().toISOString(),
-    //   status: inputMementoData.type === 'Public' ? 'published' : 'pending'
-    // }
     const id = Math.random().toString(36).substr(2, 9)
     const newData = {
       id: id,

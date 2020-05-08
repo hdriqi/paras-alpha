@@ -1,4 +1,4 @@
-import { ADD_BLOCK_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA } from '../actions/me'
+import { ADD_BLOCK_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA, DELETE_POST } from '../actions/me'
 
 const initialState = {
   blockList: [
@@ -38,6 +38,17 @@ const reducer = (state = initialState, action) => {
           }
         }
       }
+    case DELETE_POST:
+      const newData = {}
+      const data = {...state.data}
+      Object.keys(data).forEach(key => {
+        newData[key] = data[key].filter(post => post.id !== action.id)
+      })
+      console.log(newData)
+      return {
+        ...state,
+        data: newData
+      }      
     default:
       return state
   }

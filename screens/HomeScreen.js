@@ -7,17 +7,17 @@ import Home from '../components/Home'
 import { addData } from '../actions/me'
 import { withRedux } from '../lib/redux'
 
-const HomeScreen = () => {
+const HomeScreen = ({  }) => {
   const dispatch = useDispatch()
-  const profile = useSelector(state => state.me.profile)
+  const me = useSelector(state => state.me.profile)
   const postList = useSelector(state => state.me.data['/'])
 
   useEffect(() => {
     const getData = async () => {
-      const resUser = await axios.get(`http://localhost:3004/users/${profile.id}`)
+      const resUser = await axios.get(`http://localhost:3004/users/${me.id}`)
       const user = resUser.data
       const userFollowing = user.following.filter(following => following.type === 'user').map(following => following.id)
-      userFollowing.push(profile.id)
+      userFollowing.push(me.id)
       const blockFollowing = user.following.filter(following => following.type === 'block').map(following => following.id)
       const resPostAll = await axios.get(`http://localhost:3004/posts?status=published&_sort=createdAt&_order=desc`)
       const feedPost = resPostAll.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter(post => userFollowing.includes(post.userId) || blockFollowing.includes(post.blockId))
@@ -34,12 +34,13 @@ const HomeScreen = () => {
           resolve(post)
         })
       }))
+
       dispatch(addData('/', data))
     }
-    if(!postList && profile.id) {
+    if(!postList && me.id) {
       getData()
     }
-  }, [profile])
+  }, [me])
   
 
   return (
