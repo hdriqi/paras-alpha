@@ -69,7 +69,7 @@ const NewPost = () => {
       const newData = {
         id: id,
         originalId: id,
-        status: 'published',
+        status: inputMementoData.type === 'public' ? 'published' : 'pending',
         body: postText,
         bodyRaw: postTextRaw,
         imgList: postImageList,
