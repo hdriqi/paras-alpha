@@ -46,7 +46,7 @@ const Post = ({ post }) => {
                           user: post.user
                         }
                       }
-                    }} query={{id: post.blockId}}>
+                    }}>
                       <span className="font-semibold text-black-1">{ post.block.name }</span>
                     </Push>
                   </p> 

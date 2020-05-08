@@ -14,6 +14,7 @@ import block_id from '../pages/block/[id].js'
 import block_edit from '../pages/block/[id]/edit'
 import HomeScreen from '../screens/HomeScreen'
 import ProfileScreen from '../screens/ProfileScreen'
+import MementoScreen from '../screens/MementoScreen'
 
 const PageManager = ({ children }) => {
   const pageList = useSelector(state => state.ui.pageList)
@@ -26,9 +27,8 @@ const PageManager = ({ children }) => {
     '/hub/following': hub_following,
     '/hub/recent': hub_recent,
     '/hub/search': hub_search,
-    '/block/[id]': block_id
+    '/block/[id]': MementoScreen
   }
-
 
   return (
     <div>

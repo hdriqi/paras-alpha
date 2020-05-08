@@ -19,7 +19,12 @@ const UserPage = () => {
   }, [router])
 
   return (
-    <ProfileScreen username={username} />
+    <div>
+      <ProfileScreen username={username} />
+      <div className="fixed bottom-0 right-0 left-0 z-20">
+        <NavMobile />
+      </div>
+    </div>
   )
 }
 

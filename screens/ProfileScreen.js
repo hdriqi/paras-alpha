@@ -15,7 +15,7 @@ const ProfileScreen = ({ username, user = {}, mementoList = [], postList = [] })
 
       setLocalUser(user)
     }
-    console.log(localUser)
+
     if(!localUser.id && username) {
       console.log('get user data')
       getData()
