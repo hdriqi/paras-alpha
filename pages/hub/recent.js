@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HubPage from '../../components/hubPage'
 import NavMobile from '../../components/navMobile'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 
 import axios from 'axios'
 import { withRedux } from '../../lib/redux'

@@ -2,28 +2,38 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { pushPage } from '../actions/ui'
+import Link from 'next/link'
 
-const Push = ({ href, as, query, page, props, children }) => {
+const Push = ({ href, as, query, props, children }) => {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const _navigate = () => {
+  const _navigate = (e) => {
     if(router.asPath === as) {
+      e.preventDefault()
       return
     }
-    dispatch(pushPage({
-      url: as,
-      component: page,
-      props: props
-    }))
-    router.push({ pathname: router.pathname, query: query }, as, {
-      shallow: true
-    })
+
+    if (!!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)) {
+      return
+    }
+    else {
+      e.preventDefault()
+
+      dispatch(pushPage({
+        href: href,
+        url: as,
+        props: props
+      }))
+      router.push({ pathname: href }, as, {
+        shallow: true
+      })
+    }
   }
 
   return (
-    <span onClick={_ => _navigate()}>
-      { children }
+    <span>
+      <a onClick={e => {_navigate(e); return false}} href={as}>{ children }</a>
     </span>
   )
 }

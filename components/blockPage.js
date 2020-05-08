@@ -1,4 +1,4 @@
-import Post from "./post"
+import Post from "./PostCard"
 import Link from 'next/link'
 import { useRouter } from "next/router"
 

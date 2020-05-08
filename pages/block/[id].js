@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 import BlockPage from '../../components/blockPage'
 import { useRouter } from 'next/router'
 import axios from 'axios'

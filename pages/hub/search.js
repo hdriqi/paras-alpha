@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 import Search from '../../components/search'
 import NavMobile from '../../components/navMobile'
 

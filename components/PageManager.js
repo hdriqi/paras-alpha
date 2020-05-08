@@ -2,12 +2,33 @@ import { withRedux } from '../lib/redux'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
+import Index from '../pages/index'
+import _username from '../pages/[username]'
+
+import PostScreen from '../screens/PostScreen'
+import me_edit from '../pages/me/edit'
+import hub_following from '../pages/hub/following'
+import hub_recent from '../pages/hub/recent'
+import hub_search from '../pages/hub/search'
+import block_id from '../pages/block/[id].js'
+import block_edit from '../pages/block/[id]/edit'
+import HomeScreen from '../screens/HomeScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+
 const PageManager = ({ children }) => {
   const pageList = useSelector(state => state.ui.pageList)
 
-  useEffect(() => {
-    console.log(pageList)
-  }, [pageList])
+  const screenList = {
+    '/': HomeScreen,
+    '/[username]': ProfileScreen,
+    '/post/[id]': PostScreen,
+    '/me/edit': me_edit,
+    '/hub/following': hub_following,
+    '/hub/recent': hub_recent,
+    '/hub/search': hub_search,
+    '/block/[id]': block_id
+  }
+
 
   return (
     <div>
@@ -16,11 +37,15 @@ const PageManager = ({ children }) => {
       </div>
       {
         pageList.map((page, idx) => {
+          const Page = screenList[page.href]
+          if(!Page) {
+            throw Error('Page not registered')
+          }
           return (
-            <div className={pageList.length === idx + 1 ? 'block' : 'hidden'} id={`page-${idx}`} style={{
+            <div key={idx} className={pageList.length === idx + 1 ? 'block' : 'hidden'} id={`page-${idx}`} style={{
               zIndex: 100 + idx
             }}>
-              <page.component {...page.props} />
+              <Page {...page.props} />
             </div>
           )
         })

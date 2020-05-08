@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 import NavMobile from '../../components/navMobile'
 import ProfileEdit from '../../components/profileEdit'
 import { useSelector } from 'react-redux'
