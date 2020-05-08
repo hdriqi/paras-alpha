@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { pushPage } from '../actions/ui'
-import Link from 'next/link'
 
 const Push = ({ href, as, query, props, children }) => {
   const router = useRouter()

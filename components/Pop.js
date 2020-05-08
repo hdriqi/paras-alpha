@@ -19,9 +19,9 @@ const Pop = ({ children }) => {
   }
 
   return (
-    <div onClick={_ => _navigate()}>
+    <span onClick={_ => _navigate()}>
       { children }
-    </div>
+    </span>
   )
 }
 

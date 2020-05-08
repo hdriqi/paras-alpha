@@ -1,19 +1,110 @@
 import PostCard from './PostCard'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, forwardRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProfile } from '../actions/me'
-import { toggleModalMemento } from '../actions/ui'
 import { withRedux } from '../lib/redux'
 import Pop from './Pop'
 import Push from './Push'
+import PopForward from './PopForward'
+import PushForward from './PushForward'
+
+const ModalMemento = ({ me, memento, meMementoList, close }) => {
+  const backBtnRef = useRef(null)
+  const pushBtnManageRef = useRef(null)
+  const [view, setView] = useState('default')
+
+  const _closeModal = (e) => {
+    if(e.target.id === 'modal-bg') {
+      setView('default')
+      close()
+    }
+  }
+
+  const _delete = async (id) => {
+    await axios.delete(`http://localhost:3004/blocks/${id}`)
+    close()
+    backBtnRef.current.click()
+  }
+
+  const _copyLink = () => {
+    var copyText = document.getElementById("urlLink")
+    copyText.select()
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy")
+    setView('confirmCopyLink')
+    setTimeout(() => {
+      setView('default')
+      close()
+    }, 1000)
+  }
+
+  const _manage = () => {
+    setView('default')
+    close()
+    pushBtnManageRef.current.click()
+  }
+
+  return (
+    <div id="modal-bg" onClick={(e) => _closeModal(e)} className="fixed inset-0 w-full h-full z-40 p-8 pt-40" style={{
+      backgroundColor: `rgba(0,0,0,0.5)`
+    }}>
+      <div className="invisible">
+        <PushForward ref={pushBtnManageRef} href="/block/[id]/manage" as={`/block/${memento.id}/manage`} props={{id: memento.id}}></PushForward>
+        <PopForward ref={backBtnRef}></PopForward>
+      </div>
+      <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
+        {
+          view === 'default' && (
+          <div>
+            {
+              meMementoList.findIndex(memento => memento.id === memento.id) > -1 && (
+                <button className="w-full p-4 font-medium text-left" onClick={_ => _manage()}>Manage</button>
+              )
+            }
+            <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
+            {
+              me && me.username == memento.user.username && (
+                <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Forget</button>
+              )
+            }
+          </div>
+          )
+        }
+        {
+          view === 'confirmDelete' && (
+            <div>
+              <p className="p-4">Are you sure you want to forget this memento?</p>
+              <div className="flex justify-end">
+                <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
+                <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(memento.id)}>Forget</button>
+              </div>
+            </div>
+          )
+        }
+        {
+          view === 'confirmCopyLink' && (
+            <div>
+              <p className="p-4">Link copied!</p>
+            </div>
+          )
+        }
+        <div className="opacity-0 absolute">
+          <input readOnly type="text" value={`http://localhost:3000/block/${memento.id}`} id="urlLink" />
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const Memento = ({ memento, postList }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
+  const meMementoList = useSelector(state => state.me.blockList)
 
   const [isFollowing, setIsFollowing] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if(Array.isArray(me.following) && me.following.filter(following => following.id === memento.id).length > 0) {
@@ -49,9 +140,14 @@ const Memento = ({ memento, postList }) => {
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }
-
+  
   return (
     <div className='py-12 bg-white-1 min-h-screen'>
+      {
+        showModal && (
+          <ModalMemento me={me} memento={memento} meMementoList={meMementoList} close={() => setShowModal(false)} />
+        )
+      }
       <div className='fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 '>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>
@@ -65,7 +161,7 @@ const Memento = ({ memento, postList }) => {
             <h3 className='text-2xl font-bold text-black-1 tracking-tighter'>Memento</h3>
           </div>
           <div className='absolute right-0'>
-            <svg onClick={_ => dispatch(toggleModalMemento(true, block))} width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <svg onClick={_ => setShowModal(true)} width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
               <path fillRule='evenodd' clipRule='evenodd' d='M5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14ZM12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14ZM17 12C17 13.1046 17.8954 14 19 14C20.1046 14 21 13.1046 21 12C21 10.8954 20.1046 10 19 10C17.8954 10 17 10.8954 17 12Z' fill='black'/>
             </svg>
           </div>

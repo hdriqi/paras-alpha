@@ -5,7 +5,7 @@ import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { toggleModalMemento, toggleModalPost, toggleModalComment } from "../actions/ui"
+import { toggleModalPost } from "../actions/ui"
 import Link from "next/link"
 
 const ModalPost = ({ profile }) => {
@@ -91,95 +91,6 @@ const ModalPost = ({ profile }) => {
   )
 }
 
-const ModalMemento = ({ profile }) => {
-  const router = useRouter()
-  const dispatch = useDispatch()
-  const myMementoList = useSelector(state => state.me.blockList)
-  const showModalMemento = useSelector(state => state.ui.showModalMemento)
-  const mementoData = useSelector(state => state.ui.showModalMementoData)
-  const [view, setView] = useState('default')
-
-  const _closeModal = (e) => {
-    if(e.target.id === 'modal-bg') {
-      setView('default')
-      dispatch(toggleModalMemento(false, {}))
-    }
-  }
-
-  const _delete = async (id) => {
-    await axios.delete(`http://localhost:3004/blocks/${id}`)
-    dispatch(toggleModalMemento(false, {}))
-    router.back()
-  }
-
-  const _copyLink = () => {
-    var copyText = document.getElementById("urlLink")
-    copyText.select()
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy")
-    setView('confirmCopyLink')
-    setTimeout(() => {
-      setView('default')
-      dispatch(toggleModalMemento(false, {}))
-    }, 1000)
-  }
-
-  const _manage = () => {
-    setView('default')
-    dispatch(toggleModalMemento(false, {}))
-    router.push(`/block/[id]/manage`, `/block/${mementoData.id}/manage`)
-  }
-
-  return (
-    showModalMemento && (
-      <div id="modal-bg" onClick={(e) => _closeModal(e)} className="fixed inset-0 w-full h-full z-40 p-8 pt-40" style={{
-        backgroundColor: `rgba(0,0,0,0.5)`
-      }}>
-        <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
-          {
-            view === 'default' && (
-            <div>
-              {
-                myMementoList.findIndex(memento => memento.id === mementoData.id) > -1 && (
-                  <button className="w-full p-4 font-medium text-left" onClick={_ => _manage()}>Manage</button>
-                )
-              }
-              <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-              {
-                profile && profile.username == mementoData.user.username && (
-                  <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Forget</button>
-                )
-              }
-            </div>
-            )
-          }
-          {
-            view === 'confirmDelete' && (
-              <div>
-                <p className="p-4">Are you sure you want to forget this memento?</p>
-                <div className="flex justify-end">
-                  <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                  <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(mementoData.id)}>Forget</button>
-                </div>
-              </div>
-            )
-          }
-          {
-            view === 'confirmCopyLink' && (
-              <div>
-                <p className="p-4">Link copied!</p>
-              </div>
-            )
-          }
-          <div className="opacity-0 absolute">
-            <input readOnly type="text" value={`http://localhost:3000/block/${mementoData.id}`} id="urlLink" />
-          </div>
-        </div>
-      </div>
-    )
-  )
-}
-
 const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const profile = useSelector(state => state.me.profile)
@@ -216,7 +127,6 @@ const Layout = ({ children }) => {
         { children }
       </div>
       <ModalPost profile={profile} />
-      <ModalMemento profile={profile} />
     </Fragment>
   )
 }
