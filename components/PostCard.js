@@ -103,8 +103,6 @@ const Post = ({ post }) => {
   const pageList = useSelector(state => state.ui.pageList)
   const deletedPostList = useSelector(state => state.me.deletedPostList)
 
-  console.log(deletedPostList)
-
   const [showModal, setShowModal] = useState(false)
   
   const _isDeleted = () => {
