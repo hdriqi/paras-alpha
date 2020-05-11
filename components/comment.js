@@ -77,8 +77,8 @@ const Comment = ({ comment }) => {
   }
   else {
     return (
-      <div className="flex items-center p-4">
-        <div className="w-10 h-10 rounded-full overflow-hidden">
+      <div className="flex items-center px-4 py-2 mt-4 bg-white shadow-subtle">
+        <div className="w-10 rounded-full overflow-hidden">
           <img className="object-cover w-full h-full" src={comment.user.avatarUrl} />
         </div>
         <div className="pl-4 w-full">
@@ -94,7 +94,7 @@ const Comment = ({ comment }) => {
               )
             }
           </div>
-          <p className="text-black-3"><ParseBody body={comment.bodyRaw} /></p>
+          <p className="text-black-3 text-sm"><ParseBody body={comment.bodyRaw} /></p>
         </div>
         {
           showModal && <ModalComment close={_ => setShowModal(false)} data={comment} cb={cb} />

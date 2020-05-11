@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
 import axios from 'axios'
 import { useDispatch } from 'react-redux'

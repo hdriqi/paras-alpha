@@ -23,7 +23,6 @@ const NewPost = () => {
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
   const [step, setStep] = useState(0)
-  const [mementoTab, setMementoTab] = useState(0)
 
   const [inputMemento, setInputMemento] = useState('')
   const [inputMementoData, setInputMementoData] = useState({})
@@ -39,6 +38,7 @@ const NewPost = () => {
   const _close = () => {
     setChosenBlock('')
     setPostText('')
+    setPostTextRaw('')
     setPostImageList([])
     setStep(0)
     dispatch(toggleNewPost(!showNewPost))
@@ -130,7 +130,7 @@ const NewPost = () => {
                 </svg>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Post</h3>
+                  <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Create</h3>
                 </div>
                 <div className="absolute right-0">
                   <button onClick={e => setStep(step+1)} disabled={!(postText.length > 0 || postImageList.length > 0)}>
@@ -228,11 +228,11 @@ const NewPost = () => {
               <div className="relative w-full h-full flex items-center justify-center">
                 <div className="absolute left-0">
                   <svg onClick={e => setStep(0)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 14.1214L5.56068 20.5607L3.43936 18.4394L9.8787 12.0001L3.43936 5.56071L5.56068 3.43939L12 9.87873L18.4394 3.43939L20.5607 5.56071L14.1213 12.0001L20.5607 18.4394L18.4394 20.5607L12 14.1214Z" fill="#222222"/>
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black-1 tracking-tighter">New Post</h3>
+                  <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Distribute</h3>
                 </div>
                 <div className="absolute right-0">
                   <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Done</button>
@@ -250,7 +250,7 @@ const NewPost = () => {
                           {
                           blockList.map(memento => {
                             return (
-                              <div onClick={_ => {
+                              <div key={memento.id} onClick={_ => {
                                 if(chosenBlock.id === memento.id) {
                                   setChosenBlock({})  
                                 }
