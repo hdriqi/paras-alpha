@@ -22,7 +22,7 @@ const MementoManage = ({ id, pendingPostCount }) => {
       </div>
       <div className="py-6">
         <div className="bg-white border-t border-black-6">
-          <Push href="/block/[id]/edit" as={`/block/${id}/edit`} props={{
+          <Push href="/m/[id]/edit" as={`/m/${id}/edit`} props={{
             id: id
           }}>
             <div className="px-4 py-2 flex justify-between border-b border-black-6">
@@ -36,7 +36,7 @@ const MementoManage = ({ id, pendingPostCount }) => {
               </div>
             </div>
           </Push>
-          <Push href="/block/[id]/pending" as={`/block/${id}/pending`} props={{
+          <Push href="/m/[id]/pending" as={`/m/${id}/pending`} props={{
             id: id
           }}>
             <div className="px-4 py-2 flex justify-between border-b border-black-6">

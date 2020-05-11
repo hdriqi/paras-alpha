@@ -82,7 +82,7 @@ const HubBlock = ({ me, block, toggleFollow }) => {
           </div>
         </div>
         <div className="px-4 w-auto">
-          <Link href="/block/[id]" as={ `/block/${block.id}` }>
+          <Link href="/m/[id]" as={ `/m/${block.id}` }>
             <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ block.name }</p>
           </Link>
           <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ block.desc }</p>

@@ -134,7 +134,7 @@ const Post = ({ post }) => {
               {
                 post.blockId && (
                   <p>in&nbsp;
-                    <Push href="/block/[id]" as={ `/block/${post.blockId}`} props={{
+                    <Push href="/m/[id]" as={ `/m/${post.blockId}`} props={{
                       memento: {
                         ...post.block,
                         ...{

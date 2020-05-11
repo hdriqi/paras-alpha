@@ -50,7 +50,7 @@ const ModalMemento = ({ me, memento, meMementoList, close }) => {
       backgroundColor: `rgba(0,0,0,0.5)`
     }}>
       <div className="invisible">
-        <PushForward ref={pushBtnManageRef} href="/block/[id]/manage" as={`/block/${memento.id}/manage`} props={{id: memento.id}}></PushForward>
+        <PushForward ref={pushBtnManageRef} href="/m/[id]/manage" as={`/m/${memento.id}/manage`} props={{id: memento.id}}></PushForward>
         <PopForward ref={backBtnRef}></PopForward>
       </div>
       <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
@@ -90,7 +90,7 @@ const ModalMemento = ({ me, memento, meMementoList, close }) => {
           )
         }
         <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`http://localhost:3000/block/${memento.id}`} id="urlLink" />
+          <input readOnly type="text" value={`http://localhost:3000/m/${memento.id}`} id="urlLink" />
         </div>
       </div>
     </div>

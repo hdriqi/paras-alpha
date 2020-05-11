@@ -141,7 +141,7 @@ const Profile = ({ user, mementoList, postList }) => {
                           <h4 className="text-2xl font-bold">{block.name}</h4>
                         </div>
                         <div>
-                          <Push href="/block/[id]" as={`/block/${block.id}`} props={{
+                          <Push href="/m/[id]" as={`/m/${block.id}`} props={{
                             memento: block
                           }}>
                             <p className="font-semibold text-black-4 text-sm">View All</p>

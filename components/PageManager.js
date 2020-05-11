@@ -29,10 +29,10 @@ const PageManager = ({ children }) => {
     '/hub/following': hub_following,
     '/hub/recent': hub_recent,
     '/hub/search': hub_search,
-    '/block/[id]': MementoScreen,
-    '/block/[id]/manage': MementoManageScreen,
-    '/block/[id]/edit': MementoEditScreen,
-    '/block/[id]/pending': MementoPendingScreen,
+    '/m/[id]': MementoScreen,
+    '/m/[id]/manage': MementoManageScreen,
+    '/m/[id]/edit': MementoEditScreen,
+    '/m/[id]/pending': MementoPendingScreen,
     '/hub/search': Search
   }
 

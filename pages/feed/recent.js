@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import NavMobile from '../../components/navMobile'
+import NavMobile from '../../components/NavMobile'
 import Layout from '../../components/Layout'
 import Home from '../../components/Home'
 import axios from 'axios'

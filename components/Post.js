@@ -153,7 +153,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
               {
                 mementoList.map((memento, idx) => {
                   return (
-                    <Push key={memento.id} href='/block/[id]' as={ `/block/${memento.id}`} props={{
+                    <Push key={memento.id} href='/m/[id]' as={ `/m/${memento.id}`} props={{
                       memento: memento
                     }} query={{id: post.blockId}}>
                       <div className='flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle'>
@@ -181,7 +181,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
               {
                 newMementoList.map((memento, idx) => {
                   return (
-                    <Push key={idx} href='/block/[id]' as={`/block/${memento.id}`} props={{
+                    <Push key={idx} href='/m/[id]' as={`/m/${memento.id}`} props={{
                       memento: memento
                     }}>
                       <div className='flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle'>
