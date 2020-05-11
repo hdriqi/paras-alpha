@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useImperativeHandle } from "react"
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { addData } from "../actions/me"
 import Push from "./Push"
+import Pop from "./Pop"
 
 const Search = () => {
-  const router = useRouter()
-  const dispatch = useDispatch()
-
-  const userList = useSelector(state => state.me.data[`${router.asPath}_userList`])
-  const cacheSearchText = useSelector(state => state.me.data[`${router.asPath}_searchText`])
+  const [userList, setUserList] = useState([])
 
   const [searchText, setSearchText] = useState('')
   const [beginSearch, setBeginSearch] = useState(null)
@@ -19,18 +16,9 @@ const Search = () => {
   const _getUsers = async (query) => {
     if(query.length > 0) {
       const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
-      batch(() => {
-        dispatch(addData(`${router.asPath}_userList`, response.data))
-        dispatch(addData(`${router.asPath}_searchText`, query))
-      })
+      setUserList(response.data)
     }
   }
-
-  useEffect(() => {
-    if(cacheSearchText) {
-      setSearchText(cacheSearchText)
-    }
-  }, [])
 
   const _search = (val) => {
     clearTimeout(beginSearch)
@@ -40,23 +28,17 @@ const Search = () => {
     }, 500))
   }
 
-  const _close = () => {
-    batch(() => {
-      dispatch(addData(`${router.asPath}_userList`, null))
-      dispatch(addData(`${router.asPath}_searchText`, null))
-    })
-    router.back()
-  }
-
   return (
     <div className="fixed bg-white-1 inset-0 z-30">
       <div className="pb-16">
         <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4">
           <div className="relative w-full h-full flex items-center">
             <div>
-              <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
-              </svg>
+              <Pop>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
+                </svg>
+              </Pop>
             </div>
             <div className="pl-4 w-full">
               <input autoFocus value={searchText} onChange={e => _search(e.target.value)} className="outline-none font-medium w-full" placeholder="Search" />

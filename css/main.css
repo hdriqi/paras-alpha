@@ -22,7 +22,7 @@ textarea {
 }
 
 .mobile .fixed {
-  @apply max-w-md m-auto;
+  @apply max-w-sm m-auto;
 }
 
 .croppie-container {

@@ -7,10 +7,10 @@ import Layout from '../components/Layout'
 
 export default function MyApp({ Component, pageProps }) {
   return <ScrollPositionProvider>
-    <PageManager>
-      <Layout>
+    <Layout>
+      <PageManager>
         <Component {...pageProps} />
-      </Layout>
-    </PageManager>
+      </PageManager>
+    </Layout>
   </ScrollPositionProvider>
 }

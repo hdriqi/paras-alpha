@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../../components/Layout'
-import NavMobile from '../../components/navMobile'
+import NavMobile from '../../components/NavMobile'
 import ProfileEdit from '../../components/profileEdit'
 import { useSelector } from 'react-redux'
 import { withRedux } from '../../lib/redux'

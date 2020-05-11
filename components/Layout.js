@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
       <Head>
         <title>Paras</title>
       </Head>
-      <div className="max-w-md m-auto mobile">
+      <div className="max-w-sm m-auto mobile">
         { children }
       </div>
     </Fragment>

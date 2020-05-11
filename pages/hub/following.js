@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import HubPage from '../../components/hubPage'
-import NavMobile from '../../components/navMobile'
+import HubPage from '../../components/Hub'
+import NavMobile from '../../components/NavMobile'
 import Layout from '../../components/Layout'
 
 import axios from 'axios'

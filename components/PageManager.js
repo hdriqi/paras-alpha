@@ -16,6 +16,7 @@ import MementoScreen from '../screens/MementoScreen'
 import MementoManageScreen from '../screens/MementoManageScreen'
 import MementoEditScreen from '../screens/MementoEditScreen'
 import MementoPendingScreen from '../screens/MementoPendingScreen'
+import Search from './Search'
 
 const PageManager = ({ children }) => {
   const pageList = useSelector(state => state.ui.pageList)
@@ -31,7 +32,8 @@ const PageManager = ({ children }) => {
     '/block/[id]': MementoScreen,
     '/block/[id]/manage': MementoManageScreen,
     '/block/[id]/edit': MementoEditScreen,
-    '/block/[id]/pending': MementoPendingScreen
+    '/block/[id]/pending': MementoPendingScreen,
+    '/hub/search': Search
   }
 
   return (

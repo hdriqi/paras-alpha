@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
-import NavMobile from '../components/navMobile'
+import NavMobile from '../components/NavMobile'
 import Profile from '../components/Profile'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
@@ -22,6 +22,8 @@ const UserPage = () => {
     <div>
       <ProfileScreen username={username} />
       <div className="fixed bottom-0 right-0 left-0 z-20">
+
+
         <NavMobile />
       </div>
     </div>

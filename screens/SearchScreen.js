@@ -1,11 +1,11 @@
 import React from 'react'
+import Search from '../components/Search'
 import NavMobile from '../components/NavMobile'
-import HomeScreen from '../screens/HomeScreen'
 
-const HomePage = () => {
+const HubSearch = () => {
   return (
     <div>
-      <HomeScreen />
+      <Search />
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>
@@ -13,4 +13,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default HubSearch
