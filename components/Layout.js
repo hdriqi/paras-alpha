@@ -8,12 +8,23 @@ import axios from "axios"
 const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const profile = useSelector(state => state.me.profile)
+  const mementoList = useSelector(state => state.me.blockList)
 
   useEffect(() => {
     const getData = async () => {
       const userId = window.localStorage.getItem('meId')
       const resUser = await axios.get(`http://localhost:3004/users/${userId}`)
-      const respMementoList = await axios.get(`http://localhost:3004/blocks?userId=${userId}`)
+      const me = resUser.data
+      dispatch(setProfile(me))
+    }
+    if(!profile.id) {
+      getData()
+    }
+  }, [])
+
+  useEffect(() => {
+    const getData = async () => {
+      const respMementoList = await axios.get(`http://localhost:3004/blocks?userId=${profile.id}`)
       const mementoList = await Promise.all(respMementoList.data.map(memento => {
         return new Promise(async (resolve) => {
           const resUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
@@ -21,16 +32,13 @@ const Layout = ({ children }) => {
           resolve(memento)
         })
       }))
-      const me = resUser.data
-      batch(() => {
-        dispatch(setProfile(me))
-        dispatch(addBlockList(mementoList))
-      })
+
+      dispatch(addBlockList(mementoList))
     }
-    if(!profile.id) {
+    if(profile.id && mementoList.length === 0) {
       getData()
     }
-  }, [])
+  }, [profile])
   
   return (
     <Fragment>

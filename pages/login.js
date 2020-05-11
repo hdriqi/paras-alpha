@@ -22,25 +22,27 @@ const LoginPage = () => {
       const me = userRes.data[0]
       window.localStorage.setItem('meId', me.id)
       window.localStorage.setItem('meUsername', me.username)
+      dispatch(setProfile(me))
     }
     else {
       // create new
       const id = Math.random().toString(36).substr(2, 9)
 
-      await axios.post(`http://localhost:3004/users`, {
+      const newData = {
         id: id,
         username: username,
         following: [],
         avatarUrl: 'https://siasky.net/AAC0MXtp6rYKoyOsRpcZ29zcLgmykmZDD64LR4fLkRj6_A',
         bio: '',
         createdAt: new Date().toISOString()
-      })
+      }
+
+      await axios.post(`http://localhost:3004/users`, newData)
 
       window.localStorage.setItem('meId', id)
       window.localStorage.setItem('meUsername', username)
+      dispatch(setProfile(newData))
     }
-
-    dispatch(setProfile({}))
     
     router.replace('/')
   }
