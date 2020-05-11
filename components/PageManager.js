@@ -1,5 +1,5 @@
 import { withRedux } from '../lib/redux'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, cloneElement, useState } from 'react'
 
 import PostScreen from '../screens/PostScreen'
@@ -15,12 +15,15 @@ import MementoEditScreen from '../screens/MementoEditScreen'
 import MementoPendingScreen from '../screens/MementoPendingScreen'
 import Search from './Search'
 import { useRouter } from 'next/router'
+import { popPage } from '../actions/ui'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const pageList = useSelector(state => state.ui.pageList)
   const me = useSelector(state => state.me.profile)
   const [rootEl, setRootEl] = useState(null)
+  const [prevPageLen, setPrevPageLen] = useState(null)
 
   const screenList = {
     '/': HomeScreen,
@@ -40,6 +43,14 @@ const PageManager = ({ children }) => {
   useEffect(() => {
     if(router.asPath === '/' || router.asPath === `/${me.username}` || pageList.length === 0) {
       setRootEl(cloneElement(children))
+    }
+    // if back, then pop page
+    if(pageList.length === prevPageLen) {
+      setPrevPageLen(pageList.length - 1)
+      dispatch(popPage())
+    }
+    else {
+      setPrevPageLen(pageList.length)
     }
   }, [router])
 

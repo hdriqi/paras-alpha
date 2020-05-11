@@ -65,18 +65,21 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respPendingPostList = await axios.get(`http://localhost:3004/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
+      const respPendingPostList = await axios.get(`http://localhost:3004/posts?blockId=${localMemento.id}&status=pending&_sort=createdAt&_order=desc`)
       if(respPendingPostList.data.length > 0) {
-        if(respPendingPostList.data.length > 99) {
-          setLocalPendingPostCount('99+')
+        if(respPendingPostList.data.length > 9) {
+          setLocalPendingPostCount('9+')
         }
         else {
           setLocalPendingPostCount(respPendingPostList.data.length)
         }
       }
     }
-    getData()
-  }, [])
+    if(localMemento.id) {
+      console.log('get memento pending post list')
+      getData()
+    }
+  }, [localMemento])
 
   return (
     <Memento memento={localMemento} postList={localPostList} pendingPostCount={localPendingPostCount} />

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useReducer } from "react"
 import { Mention, MentionsInput } from "react-mentions"
 import axios from 'axios'
 import { useDispatch } from "react-redux"
@@ -8,10 +8,11 @@ import { setProfile } from "../actions/me"
 import ImageCrop from "./imageCrop"
 import { toggleImageCrop } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
+import PopForward from "./PopForward"
 
 const ProfileEdit = ({ profile }) => {
-  const router = useRouter()
   const bodyRef = useRef(null)
+  const backRef = useRef(null)
 
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
@@ -53,11 +54,7 @@ const ProfileEdit = ({ profile }) => {
       console.log(err)
     }
 
-    _close()
-  }
-
-  const _close = () => {
-    router.back()
+    backRef.current.click()
   }
 
   const _getUsers = async (query, callback) => {
@@ -73,9 +70,11 @@ const ProfileEdit = ({ profile }) => {
         <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
-              <svg onClick={e => _close()} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
-              </svg>
+              <PopForward ref={backRef}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
+                </svg>
+              </PopForward>
             </div>
             <div>
               <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Edit Profile</h3>

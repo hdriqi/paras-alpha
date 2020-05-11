@@ -191,9 +191,21 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
               {
                 memento.user && me.id == memento.user.id ? (
                   <Push href="/m/[id]/manage" as={`/m/${memento.id}/manage`} props={{id: memento.id}}>
-                    <button className='font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md' style={{
+                    <button className='outline-none focus:outline-none relative font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
                       minWidth: `6rem`
-                    }}>Manage {pendingPostCount}</button>
+                    }}>
+                      Manage
+                      {
+                        pendingPostCount && (
+                          <div className="text-xs absolute flex items-center justify-center w-6 h-6 rounded-full overflow-hidden bg-black-1 text-white" style={{
+                            bottom: `50%`,
+                            right: `-.75rem`
+                          }}>
+                            {pendingPostCount}
+                          </div>
+                        )
+                      }
+                    </button>
                   </Push>
                 ) : (
                   isFollowing ? (

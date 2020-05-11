@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import NavMobile from '../../components/NavMobile'
-import ProfileEdit from '../../components/profileEdit'
+import ProfileEdit from '../../components/ProfileEdit'
 import { useSelector } from 'react-redux'
 import { withRedux } from '../../lib/redux'
 

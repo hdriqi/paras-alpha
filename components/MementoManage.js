@@ -44,10 +44,7 @@ const MementoManage = ({ id, pendingPostCount }) => {
                 <p className="text-xl tracking-tight">Pending post</p>
                 {
                   pendingPostCount && (
-                    <div className="ml-2 text-sm text-center bg-black text-white rounded-full px-2" style={{
-                      minWidth: `1rem`,
-                      minHeight: `1rem`
-                    }}>{pendingPostCount}</div>
+                    <div className="ml-2 text-sm text-center bg-black text-white rounded-full w-6 h-6 flex items-center justify-center">{pendingPostCount}</div>
                   )
                 }
               </div>

@@ -33,6 +33,7 @@ const ProfileScreen = ({ username, user = {}, mementoList = [], postList = [] })
       const mementoList = await Promise.all(respMementoList.data.map(block => {
         return new Promise(async (resolve) => {
           const respPost = await axios.get(`http://localhost:3004/posts?blockId=${block.id}&status=published&_limit=3&_sort=createdAt&_order=desc`)
+          block.user = localUser
           block.postList = respPost.data
           resolve(block)
         })

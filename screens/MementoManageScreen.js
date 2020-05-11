@@ -9,8 +9,8 @@ const MementoManageScreen = ({ id }) => {
     const getData = async () => {
       const respPostList = await axios.get(`http://localhost:3004/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
       if(respPostList.data.length > 0) {
-        if(respPostList.data.length > 99) {
-          setPendingPostCount('99+')
+        if(respPostList.data.length > 9) {
+          setPendingPostCount('9+')
         }
         else {
           setPendingPostCount(respPostList.data.length)
