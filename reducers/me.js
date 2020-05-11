@@ -8,7 +8,8 @@ const initialState = {
     
   ],
   profile: {},
-  data: {}
+  data: {},
+  deletedPostList: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -39,15 +40,9 @@ const reducer = (state = initialState, action) => {
         }
       }
     case DELETE_POST:
-      const newData = {}
-      const data = {...state.data}
-      Object.keys(data).forEach(key => {
-        newData[key] = data[key].filter(post => post.id !== action.id)
-      })
-      console.log(newData)
       return {
         ...state,
-        data: newData
+        deletedPostList: state.deletedPostList.concat(action.id)
       }      
     default:
       return state
