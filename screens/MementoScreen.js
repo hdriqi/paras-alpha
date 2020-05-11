@@ -32,7 +32,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
         
         const postList = await Promise.all(respPostList.data.map(post => {
           return new Promise(async (resolve) => {
-            if(post.userId === localMemento.user.id) {
+            if(localMemento.user && post.userId === localMemento.user.id) {
               post.user = localMemento.user
             }
             else {

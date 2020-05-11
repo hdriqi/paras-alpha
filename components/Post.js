@@ -182,7 +182,9 @@ const PostDetail = ({ post , commentList, mementoList }) => {
               {
                 newMementoList.map((memento, idx) => {
                   return (
-                    <Link key={idx} href="/block/[id]" as={`/block/${memento.id}`}>
+                    <Push key={idx} href="/block/[id]" as={`/block/${memento.id}`} props={{
+                      memento: memento
+                    }}>
                       <div className="flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle">
                         <div className="w-8/12 flex items-center overflow-hidden">
                           <div>
@@ -199,7 +201,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                           <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ memento.type }</p>
                         </div>
                       </div>
-                    </Link>
+                    </Push>
                   )
                 })
               }

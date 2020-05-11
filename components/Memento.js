@@ -187,11 +187,11 @@ const Memento = ({ memento, postList }) => {
                 <div className='px-4 mt-4'>
                   {
                     isFollowing ? (
-                      <button onClick={e => _toggleFollow(me, block)} className='font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
+                      <button onClick={e => _toggleFollow(me, memento)} className='font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
                         minWidth: `6rem`
                       }}>Following</button>
                     ) : (
-                      <button onClick={e => _toggleFollow(me, block)} className='font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md' style={{
+                      <button onClick={e => _toggleFollow(me, memento)} className='font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md' style={{
                         minWidth: `6rem`
                       }}>Follow</button>
                     )

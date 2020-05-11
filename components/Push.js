@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { pushPage } from '../actions/ui'
+import { Fragment, cloneElement } from 'react'
 
 const Push = ({ href, as, query, props, children }) => {
   const router = useRouter()
@@ -31,9 +32,9 @@ const Push = ({ href, as, query, props, children }) => {
   }
 
   return (
-    <span>
-      <a onClick={e => {_navigate(e); return false}} href={as}>{ children }</a>
-    </span>
+    <Fragment>
+      { cloneElement(children, { onClick: e => {_navigate(e)}, href: as }) }
+    </Fragment>
   )
 }
 

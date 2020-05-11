@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { popPage } from '../actions/ui'
+import { Fragment, cloneElement } from 'react'
 
 const Pop = ({ children }) => {
   const pageList = useSelector(state => state.ui.pageList)
@@ -19,9 +20,9 @@ const Pop = ({ children }) => {
   }
 
   return (
-    <span onClick={_ => _navigate()}>
-      { children }
-    </span>
+    <Fragment>
+      { cloneElement(children, { onClick: e => {_navigate(e)} }) }
+    </Fragment>
   )
 }
 

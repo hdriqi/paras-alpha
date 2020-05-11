@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch, batch } from "react-redux"
-import Link from 'next/link'
 import axios from "axios"
 import { useRouter } from "next/router"
 import { addData } from "../actions/me"
+import Push from "./Push"
 
 const Search = () => {
   const router = useRouter()
@@ -77,9 +77,11 @@ const Search = () => {
                   </div>
                 </div>
                 <div className="px-4 w-auto">
-                  <Link href="/[username]" as={ `/${user.username}` }>
+                  <Push href="/[username]" as={ `/${user.username}` } props={{
+                    user: user
+                  }}>
                     <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ user.username }</p>
-                  </Link>
+                  </Push>
                   <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ user.bio }</p>
                 </div>
               </div>

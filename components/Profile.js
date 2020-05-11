@@ -8,6 +8,7 @@ import PostCard from './PostCard'
 import ParseBody from './parseBody'
 import { withRedux } from '../lib/redux'
 import Pop from './Pop'
+import Push from './Push'
 
 const Profile = ({ user, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
@@ -98,11 +99,11 @@ const Profile = ({ user, mementoList, postList }) => {
           {
             me.username === user.username && (
               <div className="px-4 mt-4">
-                <Link href="/me/edit">
+                <Push href="/me/edit" as={`/me/edit`}>
                   <button className="font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md" style={{
                     minWidth: `6rem`
                   }}>Edit Profile</button>
-                </Link>
+                </Push>
               </div>
             )
           }
@@ -140,16 +141,26 @@ const Profile = ({ user, mementoList, postList }) => {
                           <h4 className="text-2xl font-bold">{block.name}</h4>
                         </div>
                         <div>
-                          <Link href="/block/[id]" as={`/block/${block.id}`}>
+                          <Push href="/block/[id]" as={`/block/${block.id}`} props={{
+                            memento: block
+                          }}>
                             <p className="font-semibold text-black-4 text-sm">View All</p>
-                          </Link>
+                          </Push>
                         </div>
                       </div>
                       <div className="flex mt-1 -ml-2 -mr-2 justify-between">
                         {
                           block.postList.map(post => {
                             return (
-                              <Link key={post.id} href="/post/[id]" as={`/post/${post.id}`}>
+                              <Push key={post.id} href="/post/[id]" as={`/post/${post.id}`} props={{
+                                post: {
+                                  ...post,
+                                  ...{
+                                    user: user,
+                                    block: block
+                                  }
+                                }
+                              }}>
                                 <div className="w-1/3">
                                   <div className="w-full relative pb-full">
                                     <div className="absolute inset-0 px-1">
@@ -167,7 +178,7 @@ const Profile = ({ user, mementoList, postList }) => {
                                     </div>
                                   </div>
                                 </div>
-                              </Link>
+                              </Push>
                             )
                           })
                         }

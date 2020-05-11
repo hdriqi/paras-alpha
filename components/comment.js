@@ -3,7 +3,7 @@ import { useState } from "react"
 import axios from 'axios'
 import { useSelector } from "react-redux"
 import { withRedux } from "../lib/redux"
-import Link from 'next/link'
+import Push from "./Push"
 
 const ModalComment = ({ close, data, cb }) => {
   const [view, setView] = useState('default')
@@ -83,9 +83,11 @@ const Comment = ({ comment }) => {
         </div>
         <div className="pl-4 w-full">
           <div className="flex w-full justify-between">
-            <Link href="/[username]" as={`/${comment.user.username}`}>
+            <Push href="/[username]" as={`/${comment.user.username}`} props={{
+              user: comment.user
+            }}>
               <p className="font-semibold text-black-1">{ comment.user.username }</p>
-            </Link>
+            </Push>
             {
               profile && profile.username === comment.user.username && (
                 <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
