@@ -60,6 +60,7 @@ const Search = () => {
                 </div>
                 <div className="px-4 w-auto">
                   <Push href="/[username]" as={ `/${user.username}` } props={{
+                    username: user.username,
                     user: user
                   }}>
                     <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ user.username }</p>

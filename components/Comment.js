@@ -84,6 +84,7 @@ const Comment = ({ comment }) => {
         <div className="pl-4 w-full">
           <div className="flex w-full justify-between">
             <Push href="/[username]" as={`/${comment.user.username}`} props={{
+              username: comment.user.username,
               user: comment.user
             }}>
               <p className="font-semibold text-black-1">{ comment.user.username }</p>

@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Profile from '../components/Profile'
 import axios from 'axios'
 import { withRedux } from '../lib/redux'
+import { useDispatch } from 'react-redux'
+import { addData } from '../actions/me'
 
 const ProfileScreen = ({ username, user = {}, mementoList = [], postList = [] }) => {
+  const dispatch = useDispatch()
+
   const [localUser, setLocalUser] = useState(user)
   const [localMementoList, setLocalMementoList] = useState(mementoList)
   const [localPostList, setLocalPostList] = useState(postList)
@@ -14,6 +18,7 @@ const ProfileScreen = ({ username, user = {}, mementoList = [], postList = [] })
       const user = respUser.data[0]
 
       setLocalUser(user)
+      dispatch(addData(`/${username}_user`, user))
     }
 
     if(!localUser.id && username) {
@@ -34,6 +39,7 @@ const ProfileScreen = ({ username, user = {}, mementoList = [], postList = [] })
       }))
 
       setLocalMementoList(mementoList)
+      dispatch(addData(`/${username}_mementoList`, mementoList))
     }
     if(localUser.id && mementoList.length === 0) {
       console.log('get user memento list')
@@ -65,6 +71,7 @@ const ProfileScreen = ({ username, user = {}, mementoList = [], postList = [] })
       }))
 
       setLocalPostList(postList)
+      dispatch(addData(`/${username}_postList`, postList))
     }
     if(localUser.id && postList.length === 0) {
       console.log('get user post list')

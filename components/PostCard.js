@@ -127,6 +127,7 @@ const Post = ({ post }) => {
             </div>
             <div className="px-4">
               <Push href="/[username]" as={ `/${post.user.username}` } query={{username: post.user.username}} props={{
+                username: post.user.username,
                 user: post.user
               }}>
                 <p className="font-semibold text-black-1">{ post.user.username }</p>

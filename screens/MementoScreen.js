@@ -5,6 +5,7 @@ import axios from 'axios'
 const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   const [localMemento, setLocalMemento] = useState(memento)
   const [localPostList, setLocalPostList] = useState(postList)
+  const [localPendingPostCount, setLocalPendingPostCount] = useState(null)
   
   useEffect(() => {
     const getData = async () => {
@@ -62,8 +63,23 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
     }
   }, [localMemento])
 
+  useEffect(() => {
+    const getData = async () => {
+      const respPendingPostList = await axios.get(`http://localhost:3004/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
+      if(respPendingPostList.data.length > 0) {
+        if(respPendingPostList.data.length > 99) {
+          setLocalPendingPostCount('99+')
+        }
+        else {
+          setLocalPendingPostCount(respPendingPostList.data.length)
+        }
+      }
+    }
+    getData()
+  }, [])
+
   return (
-    <Memento memento={localMemento} postList={localPostList} />
+    <Memento memento={localMemento} postList={localPostList} pendingPostCount={localPendingPostCount} />
   )
 }
 

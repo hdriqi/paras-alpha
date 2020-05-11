@@ -1,9 +1,6 @@
 import { withRedux } from '../lib/redux'
 import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
-
-import Index from '../pages/index'
-import _username from '../pages/[username]'
+import { useEffect, cloneElement, useState } from 'react'
 
 import PostScreen from '../screens/PostScreen'
 import me_edit from '../pages/me/edit'
@@ -17,9 +14,13 @@ import MementoManageScreen from '../screens/MementoManageScreen'
 import MementoEditScreen from '../screens/MementoEditScreen'
 import MementoPendingScreen from '../screens/MementoPendingScreen'
 import Search from './Search'
+import { useRouter } from 'next/router'
 
 const PageManager = ({ children }) => {
+  const router = useRouter()
   const pageList = useSelector(state => state.ui.pageList)
+  const me = useSelector(state => state.me.profile)
+  const [rootEl, setRootEl] = useState(null)
 
   const screenList = {
     '/': HomeScreen,
@@ -36,10 +37,16 @@ const PageManager = ({ children }) => {
     '/hub/search': Search
   }
 
+  useEffect(() => {
+    if(router.asPath === '/' || router.asPath === `/${me.username}` || pageList.length === 0) {
+      setRootEl(cloneElement(children))
+    }
+  }, [router])
+
   return (
     <div>
       <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
-        { children }
+        { rootEl }
       </div>
       {
         pageList.map((page, idx) => {
