@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
   const profile = useSelector(state => state.me.profile)
   const mementoList = useSelector(state => state.me.blockList)
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     ipfs.init()

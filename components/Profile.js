@@ -172,7 +172,7 @@ const Profile = ({ user, mementoList, postList }) => {
                                             <div className="w-full h-full shadow-subtle bg-white overflow-hidden rounded-md">
                                               {
                                                 post.imgList.length > 0 ? (
-                                                  <img className="w-full h-full object-cover" src={post.imgList[0].url} />
+                                                  <img className="w-full h-full object-cover" src={post.imgList[0].type === 'ipfs' ? `https://ipfs-gateway.paras.id/ipfs/${post.imgList[0].url}` : post.imgList[0].url} />
                                                 ) : (
                                                   <div className="p-1">
                                                     <p className="leading-tight text-xs">{post.body}</p>

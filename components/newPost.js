@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from "react"
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch } from "react-redux"
-import { toggleNewPost, toggleNewBlock } from "../actions/ui"
-import { readFileAsUrl } from "../lib/utils"
+import { toggleNewPost } from "../actions/ui"
+import { readFileAsUrl, dataURItoBlob, compressImg } from "../lib/utils"
 import { addPostList, addBlockList } from "../actions/me"
 import axios from "axios"
 
 import { MentionsInput, Mention } from 'react-mentions'
 import { useRouter } from "next/router"
+import ipfs from "../lib/ipfs"
 
 const NewPost = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
@@ -22,6 +23,7 @@ const NewPost = () => {
   const [postTextRaw, setPostTextRaw] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
+  const [postImageFileList, setPostImageFileList] = useState([])
   const [step, setStep] = useState(0)
 
   const [inputMemento, setInputMemento] = useState('')
@@ -39,24 +41,33 @@ const NewPost = () => {
     setChosenBlock('')
     setPostText('')
     setPostTextRaw('')
+    setPostImageFileList([])
     setPostImageList([])
     setStep(0)
     dispatch(toggleNewPost(!showNewPost))
   }
 
   const _removeImg = async (idx) => {
-    const newImgList = [...postImageList]
-    newImgList.splice(idx, 1)
-    setPostImageList(newImgList)
+    const newImageFileList = [...postImageFileList]
+    const newImageList = [...postImageFileList]
+    newImageFileList.splice(idx, 1)
+    newImageList.splice(idx, 1)
+    setPostImageFileList(newImageFileList)
+    setPostImageList(newImageList)
   }
 
   const _addImg = async (e) => {
     if(e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0]
+      
+      const newImageFileList = [...postImageFileList]
+      newImageFileList.unshift(file)
+      setPostImageFileList(newImageFileList)
+
+      const newImageList = [...postImageList]
       const url = await readFileAsUrl(file)
-      const newImgList = [...postImageList]
-      newImgList.unshift({url: url})
-      setPostImageList(newImgList)
+      newImageList.unshift({ url: url })
+      setPostImageList(newImageList)
     }
   }
 
@@ -65,14 +76,41 @@ const NewPost = () => {
 
     const id = Math.random().toString(36).substr(2, 9)
 
+    let imgList = []
+    let uploadedImgFileList = [...postImageFileList]
+    
+    if(uploadedImgFileList.length > 0) {
+      const compressImgList = uploadedImgFileList.map(file => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const content = await compressImg(file) 
+            resolve({
+              content: content
+            })
+          } catch (err) {
+            console.log(err)
+          }
+        })
+      })
+
+      const compressedImgList = await Promise.all(compressImgList)
+
+      for await (const file of ipfs.client.add(compressedImgList)) {
+        imgList.push({
+          url: file.path,
+          type: 'ipfs'
+        })
+      }
+    }
+
     try {
       const newData = {
         id: id,
         originalId: id,
-        status: inputMementoData.type === 'public' ? 'published' : 'pending',
+        status: chosenBlock.type === 'public' ? 'published' : 'pending',
         body: postText,
         bodyRaw: postTextRaw,
-        imgList: postImageList,
+        imgList: imgList,
         userId: profile.id,
         blockId: chosenBlock.id,
         createdAt: new Date().toISOString()

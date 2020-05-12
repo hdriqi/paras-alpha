@@ -34,8 +34,8 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
 
   const _delete = async (id) => {
     await axios.delete(`https://internal-db.dev.paras.id/posts/${id}`)
-    backBtnRef.current.click()
 
+    backBtnRef.current.click()
     dispatch(deletePost(id))
 
     _close()
@@ -181,17 +181,18 @@ const Post = ({ post }) => {
                   <div className="w-full relative pb-3/4 bg-white">
                     <img className="absolute m-auto w-full h-full object-contain" style={{
                       display: 'block'
-                    }} src={post.imgList[0].url} />
+                    }} src={post.imgList[0].type === 'ipfs' ? `https://ipfs-gateway.paras.id/ipfs/${post.imgList[0].url}` : post.imgList[0].url} />
                   </div>
                 ) : (
                   <Carousel showArrows={false} showThumbs={false} showStatus={false} emulateTouch={true}>
                   {
                     post.imgList.map((img, idx) => {
+                      const url = img.type === 'ipfs' ? `https://ipfs-gateway.paras.id/ipfs/${img.url}` : img.url
                       return (
                         <div className="w-full relative pb-3/4 bg-white" key={idx}>
                           <img className="absolute m-auto w-full h-full object-contain" style={{
                             display: 'block'
-                          }} src={img.url} />
+                          }} src={url} />
                         </div>
                       )
                     })
