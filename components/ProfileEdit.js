@@ -9,6 +9,8 @@ import ImageCrop from "./imageCrop"
 import { toggleImageCrop } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
 import PopForward from "./PopForward"
+import ipfs from "../lib/ipfs"
+import ipfsClient from 'ipfs-http-client'
 
 const ProfileEdit = ({ me }) => {
   const bodyRef = useRef(null)
@@ -38,12 +40,21 @@ const ProfileEdit = ({ me }) => {
   const _submit = async (e) => {
     e.preventDefault()
 
+    let avatarUrl = imgUrl
+    if(avatarUrl !== me.avatarUrl) {
+      const imgBuf = Buffer.from(avatarUrl.split(',')[1], 'base64')
+
+      for await (const file of ipfs.client.add(imgBuf)) {
+        avatarUrl = `https://ipfs-gateway.paras.id/ipfs/${file.path}`
+      }
+    }
+
     try {
       const newProfile = {
         ...me,
         ...{
           username: username,
-          avatarUrl: imgUrl,
+          avatarUrl: avatarUrl,
           bio: bodyRef.current.value || '',
           bioRaw: bio || ''
         }

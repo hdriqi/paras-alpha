@@ -16,6 +16,7 @@
     "body-scroll-lock": "^3.0.2",
     "croppie": "^2.6.4",
     "fuse.js": "^5.2.3",
+    "ipfs-http-client": "^44.0.3",
     "javascript-time-ago": "^2.0.7",
     "next": "^9.3.1",
     "postcss-import": "^12.0.1",

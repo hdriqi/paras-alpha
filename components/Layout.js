@@ -5,6 +5,7 @@ import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
+import ipfs from "../lib/ipfs"
 
 const SplashScreen = () => {
   return (
@@ -23,6 +24,10 @@ const Layout = ({ children }) => {
   const mementoList = useSelector(state => state.me.blockList)
 
   const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    ipfs.init()
+  })
 
   useEffect(() => {
     const getData = async () => {
