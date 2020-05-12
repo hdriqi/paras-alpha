@@ -9,7 +9,9 @@ import Push from './Push'
 import PopForward from './PopForward'
 import PushForward from './PushForward'
 
-const ModalMemento = ({ me, memento, meMementoList, close }) => {
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+
+const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
   const pushBtnManageRef = useRef(null)
   const [view, setView] = useState('default')
@@ -112,6 +114,15 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
     }
   }, [me, memento])
 
+  useEffect(() => {
+    if(showModal) {
+      disableBodyScroll(document.querySelector('#modal-bg'))
+    }
+    else {
+      enableBodyScroll(document.querySelector('#modal-bg'))
+    }
+  }, [showModal])
+
   const _toggleFollow = async (me, memento) => {
     const newMe = {...me}
     if(Array.isArray(me.following)) {
@@ -140,18 +151,12 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }
-  
-  // if(memento.user) {
-  //   console.log(me.id === memento.user.id)
-  // }
 
   return (
     <div className='py-12 bg-white-1 min-h-screen'>
-      {
-        showModal && (
-          <ModalMemento me={me} memento={memento} meMementoList={meMementoList} close={() => setShowModal(false)} />
-        )
-      }
+      <div className={`${showModal ? 'visible' : 'invisible'}`}>
+        <ModalMemento me={me} memento={memento} meMementoList={meMementoList} close={() => setShowModal(false)} />
+      </div>
       <div className='fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 '>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>

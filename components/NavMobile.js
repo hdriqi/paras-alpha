@@ -6,6 +6,7 @@ import NewBlock from "./newBlock"
 import { useRouter } from "next/router"
 import Link from 'next/link'
 import { useEffect, useState } from "react"
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
 const NavLink = ({ name, href, as, activePage, setIsActive, children }) => {
   return (
@@ -28,6 +29,7 @@ const NavLink = ({ name, href, as, activePage, setIsActive, children }) => {
 
 const NavMobile = () => {
   const showNewPost = useSelector(state => state.ui.showNewPost)
+  const showNewBlock = useSelector(state => state.ui.showNewBlock)
   const activePage = useSelector(state => state.ui.activePage)
   const profile = useSelector(state => state.me.profile)
   const [showCreateNav, setShowCreateNav] = useState(false)
@@ -39,6 +41,24 @@ const NavMobile = () => {
       setShowCreateNav(false)
     }
   }
+
+  useEffect(() => {
+    if(showNewPost) {
+      disableBodyScroll(document.querySelector('#new-post'))
+    }
+    else {
+      enableBodyScroll(document.querySelector('#new-post'))
+    }
+  }, [showNewPost])
+
+  useEffect(() => {
+    if(showNewBlock) {
+      disableBodyScroll(document.querySelector('#new-memento'))
+    }
+    else {
+      enableBodyScroll(document.querySelector('#new-memento'))
+    }
+  }, [showNewBlock])
 
   const _showNewPost = () => {
     setTimeout(() => {
@@ -177,8 +197,12 @@ const NavMobile = () => {
           </svg>
         </div>
       </div>
-      <NewPost /> 
-      <NewBlock />
+      <div id="new-post">
+        <NewPost />
+      </div>
+      <div id="new-memento">
+        <NewBlock />
+      </div>
     </div>
   )
 }

@@ -3,10 +3,11 @@ import ParseBody from './parseBody'
 import { useSelector, useDispatch } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import TimeAgo from 'javascript-time-ago'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
  
 import en from 'javascript-time-ago/locale/en'
 import Push from './Push'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import PopForward from './PopForward'
 import axios from 'axios'
 import { deletePost } from '../actions/me'
@@ -15,7 +16,7 @@ TimeAgo.addLocale(en)
 
 const timeAgo = new TimeAgo('en-US')
 
-const ModalPost = ({ me, meMementoList, pageList, post, close }) => {
+const ModalPost = ({ me, meMementoList, post, close }) => {
   const dispatch = useDispatch()
   const [view, setView] = useState('default')
   const backBtnRef = useRef()
@@ -104,6 +105,15 @@ const Post = ({ post }) => {
   const deletedPostList = useSelector(state => state.me.deletedPostList)
 
   const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    if(showModal) {
+      disableBodyScroll(document.querySelector('#modal-bg'))
+    }
+    else {
+      enableBodyScroll(document.querySelector('#modal-bg'))
+    }
+  }, [showModal])
   
   const _isDeleted = () => {
     if(deletedPostList.findIndex(id => id === post.id) > -1) {
@@ -123,11 +133,9 @@ const Post = ({ post }) => {
     return (
       !_isDeleted() && (
         <div className="bg-white">
-          {
-            showModal && (
-              <ModalPost me={me} meMementoList={meMementoList} post={post} pageList={pageList} close={() => setShowModal(false)} />
-            )
-          }
+          <div className={`${showModal ? 'visible' : 'invisible'}`}>
+            <ModalPost me={me} meMementoList={meMementoList} post={post} pageList={pageList} close={() => setShowModal(false)} />
+          </div>
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full overflow-hidden">
