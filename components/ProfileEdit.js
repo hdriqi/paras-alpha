@@ -10,7 +10,7 @@ import { toggleImageCrop } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
 import PopForward from "./PopForward"
 
-const ProfileEdit = ({ profile }) => {
+const ProfileEdit = ({ me }) => {
   const bodyRef = useRef(null)
   const backRef = useRef(null)
 
@@ -20,12 +20,12 @@ const ProfileEdit = ({ profile }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if(profile.id) {
-      setUsername(profile.username)
-      setBio(profile.bioRaw)
-      setImgUrl(profile.avatarUrl)
+    if(me.id) {
+      setUsername(me.username)
+      setBio(me.bioRaw)
+      setImgUrl(me.avatarUrl)
     }
-  }, [profile])
+  }, [me])
 
   const _changeImg = async (files) => {
     if(files.length > 0) {
@@ -40,7 +40,7 @@ const ProfileEdit = ({ profile }) => {
 
     try {
       const newProfile = {
-        ...profile,
+        ...me,
         ...{
           username: username,
           avatarUrl: imgUrl,
@@ -48,7 +48,7 @@ const ProfileEdit = ({ profile }) => {
           bioRaw: bio || ''
         }
       }
-      const response = await axios.put(`http://localhost:3004/users/${profile.id}`, newProfile)
+      const response = await axios.put(`http://localhost:3004/users/${me.id}`, newProfile)
       dispatch(setProfile(response.data))
     } catch (err) {
       console.log(err)
@@ -67,7 +67,7 @@ const ProfileEdit = ({ profile }) => {
   return (
     <div className="min-h-screen">
       <div className="pb-16">
-        <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4 z-20">
+        <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <PopForward ref={backRef}>
@@ -98,11 +98,11 @@ const ProfileEdit = ({ profile }) => {
           </div>
           <div className="mt-4">
             <label>Username</label>
-            <input className="mt-2 bg-gray-200 w-full p-2 rounded-md" type="text" value={username} onChange={e => setUsername(e.target.value)} />
+            <input className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={username} onChange={e => setUsername(e.target.value)} />
           </div>
           <div className="mt-4">
             <label>Bio</label>
-            <MentionsInput className="outline-none break-words bg-gray-200 w-full rounded-md" style={{
+            <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" style={{
               }} 
                 style={{
                   control: {

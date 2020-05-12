@@ -2,7 +2,7 @@ import React from 'react'
 import Search from '../components/Search'
 import NavMobile from '../components/NavMobile'
 
-const HubSearch = () => {
+const SearchScreen = () => {
   return (
     <div>
       <Search />
@@ -13,4 +13,4 @@ const HubSearch = () => {
   )
 }
 
-export default HubSearch
+export default SearchScreen

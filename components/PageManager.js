@@ -3,19 +3,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, cloneElement, useState } from 'react'
 
 import PostScreen from '../screens/PostScreen'
-import me_edit from '../pages/me/edit'
-import hub_following from '../pages/hub/following'
-import hub_recent from '../pages/hub/recent'
-import hub_search from '../pages/hub/search'
 import HomeScreen from '../screens/HomeScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import MementoScreen from '../screens/MementoScreen'
 import MementoManageScreen from '../screens/MementoManageScreen'
 import MementoEditScreen from '../screens/MementoEditScreen'
 import MementoPendingScreen from '../screens/MementoPendingScreen'
-import Search from './Search'
 import { useRouter } from 'next/router'
 import { popPage } from '../actions/ui'
+import ProfileEditScreen from '../screens/ProfileEditScreen'
+import SearchScreen from '../screens/SearchScreen'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
@@ -29,15 +26,12 @@ const PageManager = ({ children }) => {
     '/': HomeScreen,
     '/[username]': ProfileScreen,
     '/post/[id]': PostScreen,
-    '/me/edit': me_edit,
-    '/hub/following': hub_following,
-    '/hub/recent': hub_recent,
-    '/hub/search': hub_search,
+    '/me/edit': ProfileEditScreen,
     '/m/[id]': MementoScreen,
     '/m/[id]/manage': MementoManageScreen,
     '/m/[id]/edit': MementoEditScreen,
     '/m/[id]/pending': MementoPendingScreen,
-    '/hub/search': Search
+    '/hub/search': SearchScreen
   }
 
   useEffect(() => {
