@@ -40,7 +40,7 @@ const PageManager = ({ children }) => {
     }
     // if back, then pop page
     if(pageList.length === prevPageLen) {
-      setPrevPageLen(pageList.length - 1)
+      setPrevPageLen(Math.max(0, pageList.length - 1))
       dispatch(popPage())
     }
     else {
