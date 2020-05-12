@@ -42,7 +42,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
   }
 
   const _copyLink = (e) => {
-    var copyText = document.getElementById("urlLink")
+    var copyText = document.getElementById(`urlLink_${post.id}`)
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy")
@@ -91,7 +91,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
           )
         }
         <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`http://localhost:3000/post/${post.id}`} id="urlLink" />
+          <input readOnly type="text" value={`http://localhost:3000/post/${post.id}`} id={`urlLink_${post.id}`} />
         </div>
       </div>
     </div>

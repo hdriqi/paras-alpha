@@ -30,7 +30,7 @@ const ModalMemento = ({ me, memento, close }) => {
   }
 
   const _copyLink = () => {
-    var copyText = document.getElementById("urlLink")
+    var copyText = document.getElementById(`urlLink_${memento.id}`)
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy")
@@ -66,7 +66,7 @@ const ModalMemento = ({ me, memento, close }) => {
             } */}
             <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
             {
-              me && me.username == memento.user.username && (
+              me && memento.user && me.username == memento.user.username && (
                 <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Forget</button>
               )
             }
@@ -92,7 +92,7 @@ const ModalMemento = ({ me, memento, close }) => {
           )
         }
         <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`http://localhost:3000/m/${memento.id}`} id="urlLink" />
+          <input readOnly type="text" value={`http://localhost:3000/m/${memento.id}`} id={`urlLink_${memento.id}`} />
         </div>
       </div>
     </div>
