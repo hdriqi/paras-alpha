@@ -13,7 +13,7 @@ const MementoEdit = ({ memento = {} }) => {
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
+    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
     const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
     callback(list)
   }
@@ -33,7 +33,7 @@ const MementoEdit = ({ memento = {} }) => {
         }
       }
 
-      await axios.put(`http://localhost:3004/blocks/${memento.id}`, newData)
+      await axios.put(`https://internal-db.dev.paras.id/blocks/${memento.id}`, newData)
     } catch (err) {
       console.log(err)
     }

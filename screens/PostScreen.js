@@ -10,15 +10,15 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const resPost = await axios.get(`http://localhost:3004/posts/${id}`)
+        const resPost = await axios.get(`https://internal-db.dev.paras.id/posts/${id}`)
         const post = resPost.data
 
         if(post.blockId) {
-          const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+          const resBlock = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
           post.block = resBlock.data
         }
 
-        const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
+        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${post.userId}`)
         post.user = resUser.data
 
         setLocalPost(post)
@@ -34,12 +34,12 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const resPostMementoList = await axios.get(`http://localhost:3004/posts?originalId=${localPost.originalId}`)
+      const resPostMementoList = await axios.get(`https://internal-db.dev.paras.id/posts?originalId=${localPost.originalId}`)
       const mementoList = await Promise.all(resPostMementoList.data.filter(post => post.blockId).map(post => {
         return new Promise(async (resolve) => {
-          const resBlock = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+          const resBlock = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
           const block = resBlock.data
-          const resUser = await axios.get(`http://localhost:3004/users/${block.userId}`)
+          const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${block.userId}`)
           block.user = resUser.data
           resolve(block)
         })
@@ -55,10 +55,10 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const resCommentList = await axios.get(`http://localhost:3004/comments?postId=${localPost.id}`)
+        const resCommentList = await axios.get(`https://internal-db.dev.paras.id/comments?postId=${localPost.id}`)
         const commentList = await Promise.all(resCommentList.data.map(comment => {
           return new Promise(async (resolve) => {
-            const resUser = await axios.get(`http://localhost:3004/users/${comment.userId}`)
+            const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${comment.userId}`)
             comment.user = resUser.data
             resolve(comment)
           })

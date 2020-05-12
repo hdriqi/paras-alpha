@@ -46,7 +46,7 @@ const NewBlock = () => {
         createdAt: new Date().toISOString()
       }
 
-      await axios.post('http://localhost:3004/blocks', newData) 
+      await axios.post('https://internal-db.dev.paras.id/blocks', newData) 
 
       const newLocalData = {
         ...newData,

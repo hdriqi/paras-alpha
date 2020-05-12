@@ -7,7 +7,7 @@ const MementoEditScreen = ({ id, memento = {} }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respMemento = await axios.get(`http://localhost:3004/blocks/${id}`)
+      const respMemento = await axios.get(`https://internal-db.dev.paras.id/blocks/${id}`)
       setLocalMemento(respMemento.data)
     }
     if(!memento.id && id) {

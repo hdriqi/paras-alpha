@@ -7,7 +7,7 @@ const MementoManageScreen = ({ id }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respPostList = await axios.get(`http://localhost:3004/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
+      const respPostList = await axios.get(`https://internal-db.dev.paras.id/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
       if(respPostList.data.length > 0) {
         if(respPostList.data.length > 9) {
           setPendingPostCount('9+')

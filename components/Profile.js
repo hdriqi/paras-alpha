@@ -49,7 +49,7 @@ const Profile = ({ user, mementoList, postList }) => {
     else {
       newMe.following = [user.id]
     }
-    await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
+    await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newMe)
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }

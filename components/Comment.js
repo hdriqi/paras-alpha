@@ -16,7 +16,7 @@ const ModalComment = ({ close, data, cb }) => {
   }
 
   const _delete = async (id) => {
-    await axios.delete(`http://localhost:3004/comments/${id}`)
+    await axios.delete(`https://internal-db.dev.paras.id/comments/${id}`)
     if(cb) {
       cb()
     }

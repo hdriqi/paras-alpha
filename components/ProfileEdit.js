@@ -48,7 +48,7 @@ const ProfileEdit = ({ me }) => {
           bioRaw: bio || ''
         }
       }
-      const response = await axios.put(`http://localhost:3004/users/${me.id}`, newProfile)
+      const response = await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newProfile)
       dispatch(setProfile(response.data))
     } catch (err) {
       console.log(err)
@@ -59,7 +59,7 @@ const ProfileEdit = ({ me }) => {
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
+    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
     const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
     callback(list)
   }

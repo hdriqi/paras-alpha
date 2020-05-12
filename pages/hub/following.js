@@ -20,14 +20,14 @@ const HomePage = () => {
         const following = await Promise.all(user.following.map(following => {
           return new Promise(async (resolve) => {
             if(following.type === 'user') {
-              const resUser = await axios.get(`http://localhost:3004/users/${following.id}`)
+              const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${following.id}`)
               return resolve({
                 ...resUser.data,
                 ...{ type: 'user' }
               })
             }
             else {
-              const resUser = await axios.get(`http://localhost:3004/blocks/${following.id}`)
+              const resUser = await axios.get(`https://internal-db.dev.paras.id/blocks/${following.id}`)
               return resolve({
                 ...resUser.data,
                 ...{ type: 'block' }

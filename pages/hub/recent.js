@@ -15,10 +15,10 @@ const HomePage = () => {
   
   useEffect(() => {
     const getData = async () => {
-      // const meRes = await axios.get(`http://localhost:3004/users/${profile.id}`)
+      // const meRes = await axios.get(`https://internal-db.dev.paras.id/users/${profile.id}`)
       
-      const userListRes = await axios.get(`http://localhost:3004/users`)
-      const blockListRes = await axios.get(`http://localhost:3004/blocks`)
+      const userListRes = await axios.get(`https://internal-db.dev.paras.id/users`)
+      const blockListRes = await axios.get(`https://internal-db.dev.paras.id/blocks`)
 
       const userList = userListRes.data.filter(user => user.id !== profile.id).map(user => {
         user.type = 'user'

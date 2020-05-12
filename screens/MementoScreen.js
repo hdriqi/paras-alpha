@@ -10,9 +10,9 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const respMemento = await axios.get(`http://localhost:3004/blocks/${id}`)
+        const respMemento = await axios.get(`https://internal-db.dev.paras.id/blocks/${id}`)
         const memento = respMemento.data
-        const respUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
+        const respUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
         memento.user = respUser.data
 
         setLocalMemento(memento)
@@ -29,7 +29,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const respPostList = await axios.get(`http://localhost:3004/posts?blockId=${localMemento.id}&status=published&_sort=createdAt&_order=desc`)
+        const respPostList = await axios.get(`https://internal-db.dev.paras.id/posts?blockId=${localMemento.id}&status=published&_sort=createdAt&_order=desc`)
         
         const postList = await Promise.all(respPostList.data.map(post => {
           return new Promise(async (resolve) => {
@@ -37,7 +37,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
               post.user = localMemento.user
             }
             else {
-              const respUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
+              const respUser = await axios.get(`https://internal-db.dev.paras.id/users/${post.userId}`)
               post.user = respUser.data
             }
 
@@ -45,7 +45,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
               post.block = localMemento
             }
             else if(post.blockId) {
-              const respMemento = await axios.get(`http://localhost:3004/blocks/${post.blockId}`)
+              const respMemento = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
               post.block = respMemento.data
             }
             resolve(post)
@@ -65,7 +65,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respPendingPostList = await axios.get(`http://localhost:3004/posts?blockId=${localMemento.id}&status=pending&_sort=createdAt&_order=desc`)
+      const respPendingPostList = await axios.get(`https://internal-db.dev.paras.id/posts?blockId=${localMemento.id}&status=pending&_sort=createdAt&_order=desc`)
       if(respPendingPostList.data.length > 0) {
         if(respPendingPostList.data.length > 9) {
           setLocalPendingPostCount('9+')

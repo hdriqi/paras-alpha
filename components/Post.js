@@ -23,7 +23,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
+    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
     const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
     callback(list)
   }
@@ -35,10 +35,10 @@ const PostDetail = ({ post , commentList, mementoList }) => {
       setSearchMemento([])
       return
     }
-    const response = await axios.get(`http://localhost:3004/blocks?name_like=${query}`)
+    const response = await axios.get(`https://internal-db.dev.paras.id/blocks?name_like=${query}`)
     const newList = await Promise.all(response.data.map(memento => {
       return new Promise(async (resolve) => {
-        const resUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
+        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
         memento.user = resUser.data
         resolve(memento)
       })
@@ -67,7 +67,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
       createdAt: new Date().toISOString()
     }
 
-    await axios.post('http://localhost:3004/posts', newData)
+    await axios.post('https://internal-db.dev.paras.id/posts', newData)
     setInputMemento('')
     setInputMementoData({})
     setSearchMemento([])
@@ -83,7 +83,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
 
     const id = Math.random().toString(36).substr(2, 9)
 
-    await axios.post('http://localhost:3004/comments', {
+    await axios.post('https://internal-db.dev.paras.id/comments', {
       id: id,
       postId: router.query.id,
       body: commentRef.current.value,

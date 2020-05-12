@@ -33,7 +33,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
   }
 
   const _delete = async (id) => {
-    await axios.delete(`http://localhost:3004/posts/${id}`)
+    await axios.delete(`https://internal-db.dev.paras.id/posts/${id}`)
     backBtnRef.current.click()
 
     dispatch(deletePost(id))

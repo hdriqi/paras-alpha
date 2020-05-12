@@ -144,7 +144,7 @@ const HubPage = ({ me, list, page }) => {
         }
       ]
     }
-    await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
+    await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newMe)
     dispatch(setProfile(newMe))
   }
 

@@ -13,8 +13,8 @@ const Search = () => {
 
   const _getUsers = async (query) => {
     if(query.length > 0) {
-      const userList = await axios.get(`http://localhost:3004/users?username_like=${query}`)
-      const mementoList = await axios.get(`http://localhost:3004/blocks?name_like=${query}`)
+      const userList = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
+      const mementoList = await axios.get(`https://internal-db.dev.paras.id/blocks?name_like=${query}`)
       const combinedList = userList.data.concat(mementoList.data)
       const fuse = new Fuse(combinedList, {
         includeScore: true,

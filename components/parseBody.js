@@ -9,7 +9,9 @@ const ParseBody = ({ body = '' }) => {
     const match = block.match(captureRegex)
     if(match) {
       return (
-        <Push key={idx} href="/[username]" as={`/${match[1]}`}>
+        <Push key={idx} href="/[username]" as={`/${match[1]}`} props={{
+          username: match[1]
+        }}>
           <a className="font-semibold text-black-1">@{ match[1] }</a>
         </Push>
       )

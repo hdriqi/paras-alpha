@@ -7,11 +7,11 @@ const MementoPendingScreen = ({ id }) => {
   
   useEffect(() => {
     const getData = async () => {
-      const respBlock = await axios.get(`http://localhost:3004/blocks/${id}`)
-      const respPostList = await axios.get(`http://localhost:3004/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
+      const respBlock = await axios.get(`https://internal-db.dev.paras.id/blocks/${id}`)
+      const respPostList = await axios.get(`https://internal-db.dev.paras.id/posts?blockId=${id}&status=pending&_sort=createdAt&_order=desc`)
       const postList = await Promise.all(respPostList.data.map(post => {
         return new Promise(async (resolve) => {
-          const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
+          const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${post.userId}`)
           post.user = resUser.data
           post.block = respBlock.data
 

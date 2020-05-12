@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
     const getData = async () => {
       const userId = window.localStorage.getItem('meId')
       if(userId) {
-        const resUser = await axios.get(`http://localhost:3004/users/${userId}`)
+        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${userId}`)
         const me = resUser.data
         dispatch(setProfile(me))
       }
@@ -46,10 +46,10 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respMementoList = await axios.get(`http://localhost:3004/blocks?userId=${profile.id}`)
+      const respMementoList = await axios.get(`https://internal-db.dev.paras.id/blocks?userId=${profile.id}`)
       const mementoList = await Promise.all(respMementoList.data.map(memento => {
         return new Promise(async (resolve) => {
-          const resUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
+          const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
           memento.user = resUser.data
           resolve(memento)
         })

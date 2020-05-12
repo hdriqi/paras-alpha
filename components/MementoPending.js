@@ -15,14 +15,14 @@ const MementoPending = ({ mementoId, postList, setPostList }) => {
       blockId: mementoId,
       createdAt: new Date().toISOString()
     }
-    await axios.put(`http://localhost:3004/posts/${post.id}`, newData)
+    await axios.put(`https://internal-db.dev.paras.id/posts/${post.id}`, newData)
     const newPostList = [...postList]
     newPostList.splice(idx, 1)
     setPostList(newPostList)
   }
 
   const _decline = async (post, idx) => {
-    await axios.delete(`http://localhost:3004/posts/${post.id}`)
+    await axios.delete(`https://internal-db.dev.paras.id/posts/${post.id}`)
     const newPostList = [...postList]
     newPostList.splice(idx, 1)
     setPostList(newPostList)

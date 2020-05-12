@@ -16,7 +16,7 @@ const LoginPage = () => {
   const _login = async (e) => {
     e.preventDefault()
 
-    const userRes = await axios.get(`http://localhost:3004/users?username=${username}`)
+    const userRes = await axios.get(`https://internal-db.dev.paras.id/users?username=${username}`)
     if(userRes.data.length > 0) {
       // set local storage
       const me = userRes.data[0]
@@ -37,7 +37,7 @@ const LoginPage = () => {
         createdAt: new Date().toISOString()
       }
 
-      await axios.post(`http://localhost:3004/users`, newData)
+      await axios.post(`https://internal-db.dev.paras.id/users`, newData)
 
       window.localStorage.setItem('meId', id)
       window.localStorage.setItem('meUsername', username)

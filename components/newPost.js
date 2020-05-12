@@ -30,7 +30,7 @@ const NewPost = () => {
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`http://localhost:3004/users?username_like=${query}`)
+    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
     const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
     callback(list)
   }
@@ -77,7 +77,7 @@ const NewPost = () => {
         blockId: chosenBlock.id,
         createdAt: new Date().toISOString()
       }
-      await axios.post('http://localhost:3004/posts', newData)
+      await axios.post('https://internal-db.dev.paras.id/posts', newData)
       router.push(`/post/[id]`, `/post/${newData.id}`)
       _close()
     } catch (err) {
@@ -105,10 +105,10 @@ const NewPost = () => {
       setSearchMemento([])
       return
     }
-    const response = await axios.get(`http://localhost:3004/blocks?name_like=${query}`)
+    const response = await axios.get(`https://internal-db.dev.paras.id/blocks?name_like=${query}`)
     const newList = await Promise.all(response.data.map(memento => {
       return new Promise(async (resolve) => {
-        const resUser = await axios.get(`http://localhost:3004/users/${memento.userId}`)
+        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
         memento.user = resUser.data
         resolve(memento)
       })
@@ -188,7 +188,7 @@ const NewPost = () => {
                   <div className="flex flex-nowrap overflow-x-auto">
                     <div className="w-1/3 min-w-third -ml-2 relative rounded-md h-24 p-2">
                       <div className="absolute inset-0 opacity-0">
-                        <input type="file" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
+                        <input type="file" accept="image/*" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
                       </div>
                       <div className="flex items-center h-full bg-black-1">
                         <div className="m-auto">

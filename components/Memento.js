@@ -24,7 +24,7 @@ const ModalMemento = ({ me, memento, close }) => {
   }
 
   const _delete = async (id) => {
-    await axios.delete(`http://localhost:3004/blocks/${id}`)
+    await axios.delete(`https://internal-db.dev.paras.id/blocks/${id}`)
     close()
     backBtnRef.current.click()
   }
@@ -147,7 +147,7 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
         id: memento.id
       }]
     }
-    await axios.put(`http://localhost:3004/users/${me.id}`, newMe)
+    await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newMe)
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }
