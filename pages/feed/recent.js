@@ -13,9 +13,8 @@ const FeedRecentPage = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const resPostAll = await axios.get(`http://localhost:3004/posts?_sort=createdAt&_order=desc`)
-      const feedPost = resPostAll.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      const data = await Promise.all(feedPost.map(post => {
+      const resPostAll = await axios.get(`http://localhost:3004/posts?_sort=createdAt&_order=desc&status=published`)
+      const data = await Promise.all(resPostAll.data.map(post => {
         return new Promise(async (resolve) => {
           const resUser = await axios.get(`http://localhost:3004/users/${post.userId}`)
           if(post.blockId) {
