@@ -5,7 +5,7 @@ const MementoManage = ({ id, pendingPostCount }) => {
   return (
     <div className="bg-white-1 min-h-screen">
       <div className="pb-12">
-        <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4 z-20">
+        <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <Pop>

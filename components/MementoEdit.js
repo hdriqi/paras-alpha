@@ -55,7 +55,7 @@ const MementoEdit = ({ memento = {} }) => {
   return (
     <div className="bg-white-1 min-h-screen">
       <div className="pb-12">
-        <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4 z-20">
+        <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <PopForward ref={backBtnRef}>
@@ -73,11 +73,11 @@ const MementoEdit = ({ memento = {} }) => {
           </div>
         </div>
       </div>
-      <div className="py-6">
+      <div className="py-6 px-4">
         <div className="bg-white">
           <div className="mt-4">
             <label>Name</label>
-            <input className="mt-2 bg-gray-200 w-full p-2 rounded-md" type="text" value={name} onChange={e => setName(e.target.value)} />
+            <input className="mt-2 w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div className="mt-4">
             <label className="block text-sm pb-1 font-semibold text-black-2">Type</label>
@@ -100,7 +100,7 @@ const MementoEdit = ({ memento = {} }) => {
           </div>
           <div className="mt-4">
             <label>Description</label>
-            <MentionsInput className="outline-none break-words bg-gray-200 w-full rounded-md" style={{
+            <MentionsInput className="resize-none w-full h-40 transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" style={{
               }} 
                 style={{
                   control: {
@@ -129,7 +129,7 @@ const MementoEdit = ({ memento = {} }) => {
                     },
                   },
                 }}
-                placeholder="Tell us about yourself" 
+                placeholder="Memento description (optional)" 
                 onChange={e => setDesc(e.target.value)} 
                 value={desc}
                 allowSuggestionsAboveCursor={true}
