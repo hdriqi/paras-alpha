@@ -11,6 +11,7 @@ import { useState, useRef, useEffect } from 'react'
 import PopForward from './PopForward'
 import axios from 'axios'
 import { deletePost } from '../actions/me'
+import PostCardLoader from './PostCardLoader'
 
 TimeAgo.addLocale(en)
 
@@ -124,8 +125,8 @@ const Post = ({ post }) => {
 
   if(!post.id) {
     return (
-      <div>
-        Loading
+      <div className="bg-white p-4">
+        <PostCardLoader />
       </div>
     )
   }

@@ -136,25 +136,17 @@ const PostDetail = ({ post , commentList, mementoList }) => {
       </div>
       <div className={`${post.status === 'pending' && 'opacity-25'}`}>
         <div>
-          {
-            post.id ? (
-              <div>
-                <PostCard post={post} />
-                <div className='flex bg-white'>
-                  <div className={`${view !== 'memento' && `opacity-25`} w-1/2  border-b border-black-1`}>
-                    <button onClick={_ => setView('memento')} className='w-full font-semibold p-4 focus:outline-none'>Memento</button>
-                  </div>
-                  <div className={`${view !== 'comment' && `opacity-25`} w-1/2  border-b border-black-1`}>
-                    <button onClick={_ => setView('comment')} className='w-full font-semibold p-4 focus:outline-none'>Comment</button>
-                  </div>
-                </div>
+          <div>
+            <PostCard post={post} />
+            <div className='flex bg-white'>
+              <div className={`${view !== 'memento' && `opacity-25`} w-1/2  border-b border-black-1`}>
+                <button onClick={_ => setView('memento')} className='w-full font-semibold p-4 focus:outline-none'>Memento</button>
               </div>
-            ) : (
-              <div>
-                Loading
-              </div>    
-            )
-          }
+              <div className={`${view !== 'comment' && `opacity-25`} w-1/2  border-b border-black-1`}>
+                <button onClick={_ => setView('comment')} className='w-full font-semibold p-4 focus:outline-none'>Comment</button>
+              </div>
+            </div>
+          </div>
         </div>
         {
           view === 'memento' && (

@@ -8,6 +8,7 @@ import ParseBody from './parseBody'
 import { withRedux } from '../lib/redux'
 import Pop from './Pop'
 import Push from './Push'
+import PostCardLoader from './PostCardLoader'
 
 const Profile = ({ user, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
@@ -125,13 +126,17 @@ const Profile = ({ user, mementoList, postList }) => {
                   view === 'post' ? (
                     <div>
                       {
-                        postList && postList.map(post => {
+                        postList ? postList.map(post => {
                           return (
                             <div className="mt-6 shadow-subtle" key={post.id}>
                               <PostCard post={post} />
                             </div>
                           )
-                        })
+                        }) : (
+                          <div className="p-4">
+                            <PostCardLoader />
+                          </div>
+                        )
                       }
                     </div>
                   ) : (

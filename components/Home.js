@@ -2,6 +2,7 @@ import { withRedux } from "../lib/redux"
 import PostCard from './PostCard'
 import Link from 'next/link'
 import Push from "./Push"
+import PostCardLoader from "./PostCardLoader"
 
 const Home = ({ postList, page }) => {
   return (
@@ -40,13 +41,24 @@ const Home = ({ postList, page }) => {
         </div>
       </div>
       {
-        postList && postList.map(post => {
-          return (
-            <div className="mt-6 shadow-subtle" key={post.id}>
-              <PostCard post={post} />
-            </div>
-          )
-        })
+        postList ? (
+          <div>
+            {
+            postList.map(post => {
+              return (
+                <div className="mt-6 shadow-subtle" key={post.id}>
+                  <PostCard post={post} />
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="p-4">
+            <PostCardLoader />
+            <PostCardLoader />
+            <PostCardLoader />
+          </div>
+        )
       }
     </div>
   )
