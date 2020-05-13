@@ -1,14 +1,12 @@
-import NewPost from "./newPost"
-import { useDispatch, useSelector, batch } from "react-redux"
-import { toggleNewPost, setActivePage, toggleModalPost, toggleNewBlock } from "../actions/ui"
+import { useDispatch, useSelector } from "react-redux"
+import { setActivePage, toggleNewBlock } from "../actions/ui"
 import { withRedux } from "../lib/redux"
-import NewBlock from "./newBlock"
 import { useRouter } from "next/router"
 import Link from 'next/link'
 import { useEffect, useState } from "react"
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import Push from "./Push"
 
-const NavLink = ({ name, href, as, activePage, setIsActive, children }) => {
+const NavLink = ({ name, href, as, activePage, children }) => {
   return (
     <Link href={href} as={as}>
       <div className={`flex h-full items-center justify-center relative ${activePage === name ? `text-black-1` : `text-black-3`}`}>
@@ -43,29 +41,8 @@ const NavMobile = () => {
   }
 
   useEffect(() => {
-    if(showNewPost) {
-      disableBodyScroll(document.querySelector('#new-post'))
-    }
-    else {
-      enableBodyScroll(document.querySelector('#new-post'))
-    }
-  }, [showNewPost])
-
-  useEffect(() => {
-    if(showNewBlock) {
-      disableBodyScroll(document.querySelector('#new-memento'))
-    }
-    else {
-      enableBodyScroll(document.querySelector('#new-memento'))
-    }
-  }, [showNewBlock])
-
-  const _showNewPost = () => {
-    setTimeout(() => {
-      setShowCreateNav(false)
-    }, 500)
-    dispatch(toggleNewPost(true))
-  }
+    setShowCreateNav(false)
+  }, [router])
 
   const _showNewBlock = () => {
     setTimeout(() => {
@@ -157,21 +134,29 @@ const NavMobile = () => {
         }}>
           <div className="flex">
             <div className="w-1/2">
-              <button onClick={e => _showNewBlock()} className="w-full h-12 flex items-center justify-center text-center font-semibold text-black-1">
-              <svg className="mr-2 fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 9H9V15H15V9ZM13.5 13.5H10.5V10.5H13.5V13.5Z" />
-<path d="M22.5 10.5V9H19.125V4.875H15V1.5H13.5V4.875H10.5V1.5H9V4.875H4.875V9H1.5V10.5H4.875V13.5H1.5V15H4.875V19.125H9V22.5H10.5V19.125H13.5V22.5H15V19.125H19.125V15H22.5V13.5H19.125V10.5H22.5ZM17.625 17.625H6.375V6.375H17.625V17.625Z" />
-</svg>
-                New Memento
-              </button>
+            <Push href="/new/memento" as={`/new/memento`}>
+              <div>
+                <button className="w-full h-12 flex items-center justify-center text-center font-semibold text-black-1">
+                <svg className="mr-2 fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 9H9V15H15V9ZM13.5 13.5H10.5V10.5H13.5V13.5Z" />
+  <path d="M22.5 10.5V9H19.125V4.875H15V1.5H13.5V4.875H10.5V1.5H9V4.875H4.875V9H1.5V10.5H4.875V13.5H1.5V15H4.875V19.125H9V22.5H10.5V19.125H13.5V22.5H15V19.125H19.125V15H22.5V13.5H19.125V10.5H22.5ZM17.625 17.625H6.375V6.375H17.625V17.625Z" />
+  </svg>
+                  New Memento
+                </button>
+              </div>
+            </Push>
             </div>
             <div className="w-1/2">
-              <button onClick={e => _showNewPost()} className="w-full h-12 flex items-center justify-center text-center font-semibold text-black-1">
-              <svg className="mr-2 fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fillRule="evenodd" clipRule="evenodd" d="M22 20V13H20V20H4V4H11V2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20ZM19.1781 2.72342C18.7197 2.26142 18.0921 2 17.4374 2C16.7834 2 16.1564 2.26083 15.6954 2.72463L7.3265 11.0934C6.57867 11.7523 6.08844 12.7328 6.00325 13.7873L6 17.0023V18.0023H10.1346C11.2689 17.9245 12.259 17.4295 12.9575 16.6238L21.279 8.30584C21.7407 7.84416 22.0001 7.21799 22.0001 6.56508C22.0001 5.91217 21.7407 5.286 21.279 4.82432L19.1781 2.72342ZM10.064 16.0048C10.5982 15.967 11.0955 15.7184 11.4948 15.2616L17.5567 9.19972L14.8024 6.44527L8.6961 12.5496C8.29095 12.9079 8.04031 13.4092 8 13.8678V16.0029L10.064 16.0048ZM16.2169 5.03128L18.9709 7.78551L19.8648 6.89162C19.9514 6.80502 20.0001 6.68756 20.0001 6.56508C20.0001 6.4426 19.9514 6.32514 19.8648 6.23854L17.7611 4.13486C17.6755 4.04855 17.5589 4 17.4374 4C17.3158 4 17.1992 4.04855 17.1136 4.13486L16.2169 5.03128Z"/>
-</svg>
-                New Post
-              </button>
+              <Push href="/new/post" as={`/new/post`}>
+                <div>
+                  <button className="w-full h-12 flex items-center justify-center text-center font-semibold text-black-1">
+                  <svg className="mr-2 fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M22 20V13H20V20H4V4H11V2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20ZM19.1781 2.72342C18.7197 2.26142 18.0921 2 17.4374 2C16.7834 2 16.1564 2.26083 15.6954 2.72463L7.3265 11.0934C6.57867 11.7523 6.08844 12.7328 6.00325 13.7873L6 17.0023V18.0023H10.1346C11.2689 17.9245 12.259 17.4295 12.9575 16.6238L21.279 8.30584C21.7407 7.84416 22.0001 7.21799 22.0001 6.56508C22.0001 5.91217 21.7407 5.286 21.279 4.82432L19.1781 2.72342ZM10.064 16.0048C10.5982 15.967 11.0955 15.7184 11.4948 15.2616L17.5567 9.19972L14.8024 6.44527L8.6961 12.5496C8.29095 12.9079 8.04031 13.4092 8 13.8678V16.0029L10.064 16.0048ZM16.2169 5.03128L18.9709 7.78551L19.8648 6.89162C19.9514 6.80502 20.0001 6.68756 20.0001 6.56508C20.0001 6.4426 19.9514 6.32514 19.8648 6.23854L17.7611 4.13486C17.6755 4.04855 17.5589 4 17.4374 4C17.3158 4 17.1992 4.04855 17.1136 4.13486L16.2169 5.03128Z"/>
+    </svg>
+                    New Post
+                  </button>
+                </div>
+              </Push>
             </div>
           </div>
           <svg onClick={e => setShowCreateNav(false)} className="m-auto h-12 flex items-center" width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -193,12 +178,6 @@ const NavMobile = () => {
             </defs>
           </svg>
         </div>
-      </div>
-      <div id="new-post">
-        <NewPost />
-      </div>
-      <div id="new-memento">
-        <NewBlock />
       </div>
     </div>
   )

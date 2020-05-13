@@ -13,6 +13,8 @@ import { useRouter } from 'next/router'
 import { popPage } from '../actions/ui'
 import ProfileEditScreen from '../screens/ProfileEditScreen'
 import SearchScreen from '../screens/SearchScreen'
+import NewPostScreen from '../screens/NewPostScreen'
+import NewMementoScreen from '../screens/NewMementoScreen'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
@@ -31,7 +33,9 @@ const PageManager = ({ children }) => {
     '/m/[id]/manage': MementoManageScreen,
     '/m/[id]/edit': MementoEditScreen,
     '/m/[id]/pending': MementoPendingScreen,
-    '/hub/search': SearchScreen
+    '/hub/search': SearchScreen,
+    '/new/post': NewPostScreen,
+    '/new/memento': NewMementoScreen
   }
 
   useEffect(() => {
