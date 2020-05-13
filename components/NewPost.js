@@ -5,7 +5,6 @@ import { readFileAsUrl, compressImg } from "../lib/utils"
 import axios from "axios"
 
 import { MentionsInput, Mention } from 'react-mentions'
-import { useRouter } from "next/router"
 import ipfs from "../lib/ipfs"
 import PopForward from "./PopForward"
 
@@ -24,7 +23,6 @@ const NewPost = () => {
   const [step, setStep] = useState(0)
 
   const [inputMemento, setInputMemento] = useState('')
-  const [inputMementoData, setInputMementoData] = useState({})
   const [searchMemento, setSearchMemento] = useState([])
 
   const _getUsers = async (query, callback) => {
@@ -44,12 +42,6 @@ const NewPost = () => {
   }
 
   const _close = () => {
-    setChosenBlock('')
-    setPostText('')
-    setPostTextRaw('')
-    setPostImageFileList([])
-    setPostImageList([])
-    setStep(0)
     backRef.current.click()
   }
 
@@ -147,7 +139,6 @@ const NewPost = () => {
 
   const _getSearchMemento = async (query) => {
     setInputMemento(query)
-    setInputMementoData({})
     if (!query) {
       setSearchMemento([])
       return

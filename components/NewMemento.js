@@ -33,8 +33,6 @@ const NewBlock = () => {
   }
 
   const _close = () => {
-    setName('')
-    setDesc('')
     backRef.current.click()
   }
 
