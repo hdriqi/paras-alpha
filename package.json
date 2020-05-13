@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "build:contract": "node asconfig.js",
+    "dev:deploy:contract": "near dev-deploy",
+    "deploy:contract": "near deploy",
+    "dev": "nodemon --watch assembly -e ts --exec \"npm run build:contract && npm run dev:deploy:contract && env-cmd -f ./neardev/dev-account.env next dev\"",
     "build": "next build",
     "start": "next start"
   },
@@ -20,6 +23,7 @@
     "ipfs-http-client": "^44.0.3",
     "javascript-time-ago": "^2.0.7",
     "mime-to-extensions": "^1.0.2",
+    "near-api-js": "^0.24.0",
     "next": "^9.3.1",
     "postcss-import": "^12.0.1",
     "react": "^16.13.0",
@@ -34,7 +38,11 @@
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2",
+    "assemblyscript": "^0.9.4",
+    "env-cmd": "^10.1.0",
+    "near-sdk-as": "^0.3.2",
+    "near-shell": "^0.23.1",
+    "nodemon": "^2.0.3",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6"
   }

@@ -4,12 +4,14 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import ui from './reducers/ui'
 import me from './reducers/me'
+import near from './reducers/near'
 
 const initialState = {}
 
 const reducer = combineReducers({
   ui,
-  me
+  me,
+  near
 })
 
 export const initializeStore = (preloadedState = initialState) => {

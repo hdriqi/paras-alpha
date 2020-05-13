@@ -9,6 +9,7 @@ import PopForward from "./PopForward"
 
 const NewBlock = () => {
   const profile = useSelector(state => state.me.profile)
+  const contract = useSelector(state => state.near.contract)
   const dispatch = useDispatch()
   const bodyRef = useRef()
   const backRef = useRef()
@@ -49,25 +50,30 @@ const NewBlock = () => {
     const id = Math.random().toString(36).substr(2, 9)
 
     try {
-      const newData = {
-        id: id,
-        name: name,
-        desc: bodyRef.current.value,
-        descRaw: desc,
-        type: type.value,
-        userId: profile.id,
-        createdAt: new Date().toISOString()
-      }
+      const x = await contract.addMessage({
+        text: name
+      })
+      console.log(x)
+      // const newData = {
+      //   id: id,
+      //   name: name,
+      //   desc: bodyRef.current.value,
+      //   descRaw: desc,
+      //   type: type.value,
+      //   userId: profile.id,
+      //   createdAt: new Date().toISOString()
+      // }
 
-      await axios.post('https://internal-db.dev.paras.id/blocks', newData) 
+      // await axios.post('https://internal-db.dev.paras.id/blocks', newData) 
+      
 
-      const newLocalData = {
-        ...newData,
-        ...{
-          user: profile
-        }
-      }
-      dispatch(addBlockList([newLocalData]))
+      // const newLocalData = {
+      //   ...newData,
+      //   ...{
+      //     user: profile
+      //   }
+      // }
+      // dispatch(addBlockList([newLocalData]))
 
       _close()
     } catch (err) {

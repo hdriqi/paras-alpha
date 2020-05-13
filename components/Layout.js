@@ -6,6 +6,8 @@ import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
 import { useRouter } from "next/router"
 import ipfs from "../lib/ipfs"
+import { initNear } from "../actions/near"
+const { initContract } = require('../lib/near')
 
 const SplashScreen = () => {
   return (
@@ -22,12 +24,23 @@ const Layout = ({ children }) => {
   const router = useRouter()
   const profile = useSelector(state => state.me.profile)
   const mementoList = useSelector(state => state.me.blockList)
+  const currentUser = useSelector(state => state.near.currentUser)
 
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    ipfs.init()
-  })
+    const init = async () => {
+      ipfs.init()
+      if(typeof window !== 'undefined') {
+        const {contract, currentUser, nearConfig, wallet} = await initContract()
+        dispatch(initNear(contract, currentUser, nearConfig, wallet))
+        const x = await contract.getMessages()
+        console.log(x)
+      }
+    }
+
+    init()
+  }, [])
 
   useEffect(() => {
     const getData = async () => {
