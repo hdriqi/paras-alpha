@@ -33,8 +33,17 @@ const NewPost = () => {
   const _getUsers = async (query, callback) => {
     if (!query) return
     const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
+    const list = response.data.map(user => ({ 
+      display: `@${user.username}`, 
+      id: user.id,
+      avatarUrl: user.avatarUrl,
+      username: user.username
+    }))
     callback(list)
+    const suggestionsEl = document.querySelector('.outline-none__suggestions')
+    if(suggestionsEl) {
+      suggestionsEl.scrollTo(0, suggestionsEl.scrollHeight)
+    }
   }
 
   const _close = () => {
@@ -160,7 +169,7 @@ const NewPost = () => {
 
   return (
     showNewPost && (
-      <div className="fixed bg-white inset-0 z-30 px-4">
+      <div className="fixed bg-white inset-0 z-30">
       {
         step === 0 && (
           <div className="pt-12 h-full">
@@ -184,32 +193,24 @@ const NewPost = () => {
             <div className="mt-8">
               <div className="">
                 <div className="pb-4">
-                  <MentionsInput className="outline-none break-words" style={{
-                  }} 
+                  <MentionsInput className='outline-none w-full max-w-full break-all' 
                     style={{
                       control: {
                         fontSize: `16px`,
-                        fontWeight: `500`
+                        fontWeight: `500`,
+                        color: '#616161'
                       },
                       input: {
                         margin: 0,
+                        padding: `0 1rem`,
                         overflow: `auto`,
                         height: `20rem`,
                       },
                       suggestions: {
-                        list: {
-                          backgroundColor: 'white',
-                          border: '1px solid rgba(0,0,0,0.15)',
-                          fontSize: 14,
-                        },
-                        item: {
-                          padding: '.5rem',
-                          borderBottom: '1px solid rgba(0,0,0,0.15)',
-                    
-                          '&focused': {
-                            backgroundColor: '#DFDFDF',
-                          },
-                        },
+                        marginTop: `20px`,
+                        maxHeight: `32rem`,
+                        overflow: 'scroll',
+                        width: `100vw`
                       },
                     }}
                     placeholder="Share your ideas, thought and creativity" 
@@ -219,13 +220,31 @@ const NewPost = () => {
                     inputRef={bodyRef}
                   >
                     <Mention
-                      trigger="@"
+                      trigger='@'
                       data={_getUsers}
                       appendSpaceOnAdd={true}
+                      renderSuggestion={(entry) => {
+                        return (
+                          <div className="flex items-center justify-between px-4 py-2 bg-white border-t h-16">
+                            <div className="w-8/12 flex items-center overflow-hidden">
+                              <div>
+                                <div className="w-8 h-8 rounded-full overflow-hidden">
+                                  <img style={{
+                                    boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
+                                  }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                                </div>
+                              </div>
+                              <div className="px-4 w-auto">
+                                <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      }}
                     />
                   </MentionsInput>
                 </div>
-                <div className="h-40">
+                <div className="h-40 px-4">
                   <label className="block text-sm font-semibold text-black-2">Image</label>
                   <div className="flex flex-nowrap overflow-x-auto">
                     <div className="w-1/3 min-w-third -ml-2 relative rounded-md h-24 p-2">

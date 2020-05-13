@@ -285,8 +285,8 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                 }
               </div>
               <div className='fixed bottom-0 left-0 right-0'>
-                <div className='flex items-center justify-center shadow-subtle bg-white'>
-                  <div className='w-full pl-4 py-2'>
+                <div className="flex items-center justify-center shadow-subtle bg-white relative">
+                  <div className='w-full'>
                     <MentionsInput className='outline-none w-full max-w-full break-all' 
                       style={{
                         control: {
@@ -294,24 +294,18 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                           fontWeight: `500`,
                           color: '#616161'
                         },
+                        input: {
+                          margin: 0,
+                          padding: `.5rem`,
+                          paddingLeft: `1rem`,
+                          paddingRight: `3rem`,
+                          overflow: `auto`,
+                        },
                         suggestions: {
-                          // top: 'auto',
-                          left: `-1rem`,
-                          // bottom: `2.1rem`,
+                          marginBottom: `20px`,
                           maxHeight: `32rem`,
                           overflow: 'scroll',
-                          width: `100vw`,
-
-                          // list: {
-                          //   position: `relative`,
-                          //   left: `6rem`
-                          // },
-
-                          item: {
-                            '&focused': {
-                              backgroundColor: '#DFDFDF',
-                            },
-                          },
+                          width: `100vw`
                         },
                       }}
                       placeholder='Write comment' 
@@ -324,7 +318,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                         trigger='@'
                         data={_getUsers}
                         appendSpaceOnAdd={true}
-                        renderSuggestion={(entry, search) => {
+                        renderSuggestion={(entry) => {
                           return (
                             <div className='flex items-center justify-between px-4 py-2 bg-white border-t h-16'>
                               <div className="w-8/12 flex items-center overflow-hidden">
@@ -337,7 +331,6 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                                 </div>
                                 <div className="px-4 w-auto">
                                   <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
-                                  {/* <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ user.bio }</p> */}
                                 </div>
                               </div>
                             </div>
@@ -346,7 +339,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                       />
                     </MentionsInput>
                   </div>
-                  <div className='w-12'>
+                  <div className="w-12 absolute right-0">
                     <svg onClick={e => _submitComment(e)} className='text-b m-auto' width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path fillRule='evenodd' clipRule='evenodd' d='M0 6.89285L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 0L0 6.89285ZM7.84579 10.2772L4.25371 7.58313L17.5163 3.16228L13.0954 16.4248L10.4014 12.8328L14.2347 6.44384L7.84579 10.2772Z' fill='#222222'/>
                     </svg>
