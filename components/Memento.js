@@ -10,6 +10,7 @@ import PopForward from './PopForward'
 import PushForward from './PushForward'
 
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import ParseBody from './parseBody'
 
 const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
@@ -191,7 +192,7 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
                 </p>
               )
             }
-            <p className='mt-2 text-black-3 whitespace-pre '>{memento.desc}</p>
+            <p className='mt-2 text-black-3 whitespace-pre-line '><ParseBody body={memento.descRaw}/></p>
             <div className='px-4 mt-4'>
               {
                 memento.user && me.id == memento.user.id ? (

@@ -71,7 +71,12 @@ const ProfileEdit = ({ me }) => {
   const _getUsers = async (query, callback) => {
     if (!query) return
     const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
+    const list = response.data.map(user => ({ 
+      display: `@${user.username}`, 
+      id: user.id,
+      avatarUrl: user.avatarUrl,
+      username: user.username
+    }))
     callback(list)
   }
 
@@ -113,47 +118,61 @@ const ProfileEdit = ({ me }) => {
           </div>
           <div className="mt-4">
             <label>Bio</label>
-            <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" style={{
-              }} 
+            <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
+              style={{
+                control: {
+                  fontSize: `16px`,
+                  fontWeight: `500`,
+                  color: '#616161'
+                },
+                input: {
+                  margin: 0,
+                  padding: `.5rem`,
+                  overflow: `auto`,
+                  height: `5.5rem`,
+                },
+                suggestions: {
+                  marginTop: `32px`,
+                  maxHeight: `32rem`,
+                  overflowY: 'auto',
+                  width: `100vw`,
+                  maxWidth: `100%`,
+                  boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`
+                },
+              }}
+              placeholder="Tell us about yourself" 
+              onChange={e => setBio(e.target.value)} 
+              value={bio}
+              allowSuggestionsAboveCursor={true}
+              inputRef={bodyRef}
+            >
+              <Mention
+                trigger='@'
+                data={_getUsers}
+                appendSpaceOnAdd={true}
                 style={{
-                  control: {
-                    fontSize: `16px`,
-                    fontWeight: `500`,
-                  },
-                  input: {
-                    margin: 0,
-                    padding: `.5rem`,
-                    overflow: `auto`,
-                    height: `5.5rem`,
-                  },
-                  suggestions: {
-                    list: {
-                      backgroundColor: 'white',
-                      border: '1px solid rgba(0,0,0,0.15)',
-                      fontSize: 14,
-                    },
-                    item: {
-                      padding: '.5rem',
-                      borderBottom: '1px solid rgba(0,0,0,0.15)',
-                
-                      '&focused': {
-                        backgroundColor: '#DFDFDF',
-                      },
-                    },
-                  },
+                  color: '#1B1B1B'
                 }}
-                placeholder="Tell us about yourself" 
-                onChange={e => setBio(e.target.value)} 
-                value={bio}
-                allowSuggestionsAboveCursor={true}
-                inputRef={bodyRef}
-              >
-                <Mention
-                  trigger="@"
-                  data={_getUsers}
-                  appendSpaceOnAdd={true}
-                />
-              </MentionsInput>
+                renderSuggestion={(entry) => {
+                  return (
+                    <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
+                      <div className="w-8/12 flex items-center overflow-hidden">
+                        <div>
+                          <div className="w-8 h-8 rounded-full overflow-hidden">
+                            <img style={{
+                              boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
+                            }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                          </div>
+                        </div>
+                        <div className="px-4 w-auto">
+                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }}
+              />
+            </MentionsInput>
           </div>
         </div>
       </div>

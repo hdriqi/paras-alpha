@@ -1,15 +1,17 @@
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch } from "react-redux"
 import { toggleNewBlock } from "../actions/ui"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { addBlockList } from "../actions/me"
 import axios from 'axios'
 import ReactDropdown from "react-dropdown"
+import { Mention, MentionsInput } from "react-mentions"
 
 const NewBlock = () => {
   const showNewBlock = useSelector(state => state.ui.showNewBlock)
   const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
+  const bodyRef = useRef()
 
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
@@ -17,6 +19,18 @@ const NewBlock = () => {
     value: 'public',
     label: 'public'
   })
+
+  const _getUsers = async (query, callback) => {
+    if (!query) return
+    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
+    const list = response.data.map(user => ({ 
+      display: `@${user.username}`, 
+      id: user.id,
+      avatarUrl: user.avatarUrl,
+      username: user.username
+    }))
+    callback(list)
+  }
 
   const _close = () => {
     setName('')
@@ -40,7 +54,8 @@ const NewBlock = () => {
       const newData = {
         id: id,
         name: name,
-        desc: desc,
+        desc: bodyRef.current.value,
+        descRaw: desc,
         type: type.value,
         userId: profile.id,
         createdAt: new Date().toISOString()
@@ -107,7 +122,61 @@ const NewBlock = () => {
             </div>
             <div className="mt-4">
               <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
-              <textarea value={desc} onChange={e => setDesc(e.target.value)} className="resize-none w-full h-40 transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" placeholder="Memento description (optional)"></textarea>
+              <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
+                style={{
+                  control: {
+                    fontSize: `16px`,
+                    fontWeight: `500`,
+                    color: '#616161'
+                  },
+                  input: {
+                    margin: 0,
+                    padding: `.5rem`,
+                    overflow: `auto`,
+                    height: `5.5rem`,
+                  },
+                  suggestions: {
+                    marginTop: `2rem`,
+                    maxHeight: `32rem`,
+                    overflowY: 'auto',
+                    width: `100vw`,
+                    maxWidth: `100%`,
+                    boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`
+                  },
+                }}
+                placeholder="Memento description (optional)" 
+                onChange={e => setDesc(e.target.value)} 
+                value={desc}
+                allowSuggestionsAboveCursor={true}
+                inputRef={bodyRef}
+              >
+                <Mention
+                  trigger='@'
+                  data={_getUsers}
+                  appendSpaceOnAdd={true}
+                  style={{
+                    color: '#1B1B1B'
+                  }}
+                  renderSuggestion={(entry) => {
+                    return (
+                      <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
+                        <div className="w-8/12 flex items-center overflow-hidden">
+                          <div>
+                            <div className="w-8 h-8 rounded-full overflow-hidden">
+                              <img style={{
+                                boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
+                              }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                            </div>
+                          </div>
+                          <div className="px-4 w-auto">
+                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }}
+                />
+              </MentionsInput>
             </div>
           </div>
         </div>

@@ -287,7 +287,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
               <div className='fixed bottom-0 left-0 right-0'>
                 <div className="flex items-center justify-center shadow-subtle bg-white relative">
                   <div className='w-full'>
-                    <MentionsInput className='outline-none w-full max-w-full break-all' 
+                    <MentionsInput className='outline-none w-full max-w-full' 
                       style={{
                         control: {
                           fontSize: `16px`,
@@ -302,10 +302,11 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                           overflow: `auto`,
                         },
                         suggestions: {
-                          marginBottom: `20px`,
                           maxHeight: `32rem`,
-                          overflow: 'scroll',
-                          width: `100vw`
+                          overflowY: 'auto',
+                          width: `100vw`,
+                          maxWidth: `100%`,
+                          boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`
                         },
                       }}
                       placeholder='Write comment' 
@@ -318,9 +319,12 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                         trigger='@'
                         data={_getUsers}
                         appendSpaceOnAdd={true}
+                        style={{
+                          color: '#1B1B1B'
+                        }}
                         renderSuggestion={(entry) => {
                           return (
-                            <div className='flex items-center justify-between px-4 py-2 bg-white border-t h-16'>
+                            <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
                               <div className="w-8/12 flex items-center overflow-hidden">
                                 <div>
                                   <div className="w-8 h-8 rounded-full overflow-hidden">

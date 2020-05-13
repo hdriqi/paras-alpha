@@ -129,8 +129,8 @@ const NewPost = () => {
         createdAt: new Date().toISOString()
       }
       await axios.post('https://internal-db.dev.paras.id/posts', newData)
-      router.push(`/post/[id]`, `/post/${newData.id}`)
       _close()
+      router.push(`/post/[id]`, `/post/${newData.id}`)
     } catch (err) {
       console.log(err)
     }
@@ -193,7 +193,7 @@ const NewPost = () => {
             <div className="mt-8">
               <div className="">
                 <div className="pb-4">
-                  <MentionsInput className='outline-none w-full max-w-full break-all' 
+                  <MentionsInput className='outline-none w-full max-w-full' 
                     style={{
                       control: {
                         fontSize: `16px`,
@@ -209,8 +209,10 @@ const NewPost = () => {
                       suggestions: {
                         marginTop: `20px`,
                         maxHeight: `32rem`,
-                        overflow: 'scroll',
-                        width: `100vw`
+                        overflowY: 'auto',
+                        width: `100vw`,
+                        maxWidth: `100%`,
+                        boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`
                       },
                     }}
                     placeholder="Share your ideas, thought and creativity" 
@@ -223,9 +225,12 @@ const NewPost = () => {
                       trigger='@'
                       data={_getUsers}
                       appendSpaceOnAdd={true}
+                      style={{
+                        color: '#1B1B1B'
+                      }}
                       renderSuggestion={(entry) => {
                         return (
-                          <div className="flex items-center justify-between px-4 py-2 bg-white border-t h-16">
+                          <div className="flex items-center justify-between px-4 py-2 bg-white h-16">
                             <div className="w-8/12 flex items-center overflow-hidden">
                               <div>
                                 <div className="w-8 h-8 rounded-full overflow-hidden">
@@ -284,7 +289,7 @@ const NewPost = () => {
       }
       {
         step === 1 && (
-          <div className="pt-12">
+          <div className="pt-12 px-4">
             <div className="fixed top-0 left-0 right-0 h-12 px-4">
               <div className="relative w-full h-full flex items-center justify-center">
                 <div className="absolute left-0">

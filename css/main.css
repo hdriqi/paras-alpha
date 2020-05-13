@@ -17,6 +17,11 @@ button:disabled {
   @apply opacity-25;
 }
 
+input, textarea {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
 textarea {
   @apply outline-none;
 }
