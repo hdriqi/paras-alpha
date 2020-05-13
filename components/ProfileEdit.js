@@ -60,7 +60,8 @@ const ProfileEdit = ({ me }) => {
         }
       }
       const response = await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newProfile)
-      dispatch(setProfile(response.data))
+      console.log(response)
+      dispatch(setProfile(newProfile))
     } catch (err) {
       console.log(err)
     }
@@ -82,7 +83,7 @@ const ProfileEdit = ({ me }) => {
 
   return (
     <div className="min-h-screen">
-      <div className="pb-16">
+      <div className="pb-12">
         <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">

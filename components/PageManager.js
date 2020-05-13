@@ -43,7 +43,7 @@ const PageManager = ({ children }) => {
       setRootEl(cloneElement(children))
     }
     // if back, then pop page
-    if(pageList.length === prevPageLen) {
+    if(pageList.length > 0 && pageList.length === prevPageLen) {
       setPrevPageLen(Math.max(0, pageList.length - 1))
       dispatch(popPage())
     }
