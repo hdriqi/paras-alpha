@@ -14,7 +14,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   const [comment, setComment] = useState('')
   const [inputMemento, setInputMemento] = useState('')
   const [inputMementoData, setInputMementoData] = useState({})
-  const [view, setView] = useState('memento')
+  const [view, setView] = useState('comment')
   const [newCommentList, setNewCommentList] = useState([])
   const [newMementoList, setNewMementoList] = useState([])
   const [searchMemento, setSearchMemento] = useState([])
@@ -24,8 +24,17 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   const _getUsers = async (query, callback) => {
     if (!query) return
     const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ display: `@${user.username}`, id: user.id }))
+    const list = response.data.map(user => ({ 
+      display: `@${user.username}`, 
+      id: user.id,
+      avatarUrl: user.avatarUrl,
+      username: user.username
+    }))
     callback(list)
+    const suggestionsEl = document.querySelector('.outline-none__suggestions')
+    if(suggestionsEl) {
+      suggestionsEl.scrollTo(0, suggestionsEl.scrollHeight)
+    }
   }
 
   const _getSearchMemento = async (query) => {
@@ -208,12 +217,12 @@ const PostDetail = ({ post , commentList, mementoList }) => {
               </div>
               <div className='fixed bottom-0 left-0 right-0'>
                 <div ref={searchMementoRef} className='shadow-subtle overflow-auto' style={{
-                  maxHeight: `30.5rem`
+                  maxHeight: `32rem`
                 }}>
                   {
                     searchMemento.map(memento => {
                       return (
-                        <div key={memento.id} onClick={_ => _selectMemento(memento)} className='flex items-center justify-between px-4 py-2 bg-white border-t'>
+                        <div key={memento.id} onClick={_ => _selectMemento(memento)} className='flex items-center justify-between px-4 py-2 bg-white border-t h-16'>
                           <div className='w-8/12 flex items-center overflow-hidden'>
                             <div>
                               <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
@@ -278,9 +287,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
               <div className='fixed bottom-0 left-0 right-0'>
                 <div className='flex items-center justify-center shadow-subtle bg-white'>
                   <div className='w-full pl-4 py-2'>
-                    <MentionsInput className='outline-none w-full max-w-full break-all' style={{
-                      maxHeight: `3rem`
-                    }} 
+                    <MentionsInput className='outline-none w-full max-w-full break-all' 
                       style={{
                         control: {
                           fontSize: `16px`,
@@ -288,16 +295,19 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                           color: '#616161'
                         },
                         suggestions: {
-                          list: {
-                            backgroundColor: 'white',
-                            border: '1px solid rgba(0,0,0,0.15)',
-                            fontSize: 14,
-                          },
-                      
+                          // top: 'auto',
+                          left: `-1rem`,
+                          // bottom: `2.1rem`,
+                          maxHeight: `32rem`,
+                          overflow: 'scroll',
+                          width: `100vw`,
+
+                          // list: {
+                          //   position: `relative`,
+                          //   left: `6rem`
+                          // },
+
                           item: {
-                            padding: '.5rem',
-                            borderBottom: '1px solid rgba(0,0,0,0.15)',
-                      
                             '&focused': {
                               backgroundColor: '#DFDFDF',
                             },
@@ -314,6 +324,25 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                         trigger='@'
                         data={_getUsers}
                         appendSpaceOnAdd={true}
+                        renderSuggestion={(entry, search) => {
+                          return (
+                            <div className='flex items-center justify-between px-4 py-2 bg-white border-t h-16'>
+                              <div className="w-8/12 flex items-center overflow-hidden">
+                                <div>
+                                  <div className="w-8 h-8 rounded-full overflow-hidden">
+                                    <img style={{
+                                      boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
+                                    }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                                  </div>
+                                </div>
+                                <div className="px-4 w-auto">
+                                  <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
+                                  {/* <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ user.bio }</p> */}
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }}
                       />
                     </MentionsInput>
                   </div>

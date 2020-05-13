@@ -49,7 +49,7 @@ const NewPost = () => {
 
   const _removeImg = async (idx) => {
     const newImageFileList = [...postImageFileList]
-    const newImageList = [...postImageFileList]
+    const newImageList = [...postImageList]
     newImageFileList.splice(idx, 1)
     newImageList.splice(idx, 1)
     setPostImageFileList(newImageFileList)
@@ -58,16 +58,20 @@ const NewPost = () => {
 
   const _addImg = async (e) => {
     if(e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0]
-      
-      const newImageFileList = [...postImageFileList]
-      newImageFileList.unshift(file)
-      setPostImageFileList(newImageFileList)
+      const imgFile = []
+      const imgUrl = []
 
-      const newImageList = [...postImageList]
-      const url = await readFileAsUrl(file)
-      newImageList.unshift({ url: url })
-      setPostImageList(newImageList)
+      for await (const file of e.target.files) {
+        const url = await readFileAsUrl(file)
+        imgFile.unshift(file)
+        imgUrl.unshift({url: url})
+      }
+
+      const imgFileList = imgFile.concat(postImageFileList)
+      setPostImageFileList(imgFileList)
+
+      const imgUrlList = imgUrl.concat(postImageList)
+      setPostImageList(imgUrlList)
     }
   }
 
@@ -226,7 +230,7 @@ const NewPost = () => {
                   <div className="flex flex-nowrap overflow-x-auto">
                     <div className="w-1/3 min-w-third -ml-2 relative rounded-md h-24 p-2">
                       <div className="absolute inset-0 opacity-0">
-                        <input type="file" accept="image/*" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
+                        <input type="file" multiple accept="image/*" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
                       </div>
                       <div className="flex items-center h-full bg-black-1">
                         <div className="m-auto">
