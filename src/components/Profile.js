@@ -10,6 +10,7 @@ import Pop from './Pop'
 import Push from './Push'
 import PostCardLoader from './PostCardLoader'
 import Image from './Image'
+import near from '../lib/near'
 
 const Profile = ({ user, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
@@ -30,27 +31,14 @@ const Profile = ({ user, mementoList, postList }) => {
     if(me.id === user.id) {
       return
     }
-    const newMe = {...me}
-    if(Array.isArray(me.following)) {
-      const followingIdx = me.following.findIndex(following => following.id === user.id)
-      if(followingIdx > -1) {
-        const newFollowing = [...me.following]
-        newFollowing.splice(followingIdx, 1)
-        newMe.following = newFollowing
-      }
-      else {
-        const newFollowing = [...me.following]
-        newFollowing.push({
-          type: 'user',
-          id: user.id
-        })
-        newMe.following = newFollowing
-      }
-    }
-    else {
-      newMe.following = [user.id]
-    }
-    await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newMe)
+
+    const newMe = await near.contract.toggleUserFollow({
+      id: me.id,
+      targetId: user.id, 
+      targetType: 'user'
+    })
+
+    console.log(newMe)
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }

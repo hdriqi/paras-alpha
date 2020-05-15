@@ -36,10 +36,21 @@ export class Post {
 }
 
 @nearBindgen
+export class Following {
+  id: string
+  type: string
+
+  constructor(id: string, type: string) {
+    this.id = id
+    this.type = type
+  }
+}
+
+@nearBindgen
 export class User {
   id: string
   username: string
-  following: string[]
+  following: Following[]
   imgAvatar: Img
   bio: string
   bioRaw: string

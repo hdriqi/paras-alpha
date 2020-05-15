@@ -54,7 +54,8 @@ class Near {
         'createPost', 
         'deletePostById',
         'createUser',
-        'updateUserById'
+        'updateUserById',
+        'toggleUserFollow'
       ],
       // Sender is the account ID to initialize transactions.
       // getAccountId() will return empty string if user is still unauthorized

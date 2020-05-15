@@ -1,5 +1,5 @@
 import { context, math, base58 } from 'near-sdk-as'
-import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList } from './model'
+import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList, Following } from './model'
 
 const LIMIT = 10
 
@@ -510,6 +510,55 @@ export function updateUserById(id: string, imgAvatar: Img, bio: string, bioRaw: 
       newUser.imgAvatar = imgAvatar
       newUser.bio = bio
       newUser.bioRaw = bioRaw
+
+      userList.data[idx] = newUser
+      userCollection.set('list', userList)
+      return newUser
+    }
+  }
+
+  return null
+}
+
+export function toggleUserFollow(id: string, targetId: string, targetType: string): User | null {
+  let newUser: User | null = null
+  let idx = -1
+  const userList = userCollection.get('list')
+  if(userList) {
+    for (let i = 0; i < userList.data.length; i++) {
+      const user = userList.data[i]
+      if(user.id == id) {
+        newUser = user
+        idx = i
+        break
+      }
+    }
+    assert(
+      !!newUser,
+      'User not found'
+    )
+  
+    if(newUser) {
+      assert(
+        newUser.username == context.sender,
+        'Unable to update other user'
+      )
+      
+      let followingIdx = -1
+      for (let i = 0; i < newUser.following.length; i++) {
+        const following = newUser.following[i]
+        if(following.id == targetId && following.type == targetType) {
+          followingIdx = i
+          break
+        }
+      }
+      if(followingIdx > -1) {
+        newUser.following.splice(followingIdx, 1)
+      }
+      else {
+        const newFollowing = new Following(targetId, targetType)
+        newUser.following.push(newFollowing)
+      }
 
       userList.data[idx] = newUser
       userCollection.set('list', userList)
