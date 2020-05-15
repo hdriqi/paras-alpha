@@ -484,7 +484,7 @@ export function getUserByUsername(username: string): User | null {
  * @param bioRaw 
  */
 export function updateUserById(id: string, imgAvatar: Img, bio: string, bioRaw: string): User | null {
-  let newUser: User = <User>{}
+  let newUser: User | null = null
   let idx = -1
   const userList = userCollection.get('list')
   if(userList) {
@@ -502,6 +502,11 @@ export function updateUserById(id: string, imgAvatar: Img, bio: string, bioRaw: 
     )
   
     if(newUser) {
+      assert(
+        newUser.username == context.sender,
+        'Unable to update other user'
+      )
+
       newUser.imgAvatar = imgAvatar
       newUser.bio = bio
       newUser.bioRaw = bioRaw

@@ -6,9 +6,8 @@ import { readFileAsUrl } from "../lib/utils"
 
 let cropper = null
 
-const ImageCrop = ({ imgUrl, setImgUrl }) => {
+const ImageCrop = ({ imgUrl, cb }) => {
   const showImageCrop = useSelector(state => state.ui.showImageCrop)
-  const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
   
   const _submit = async (e) => {
@@ -24,13 +23,12 @@ const ImageCrop = ({ imgUrl, setImgUrl }) => {
 		result.lastModifiedDate = new Date()
 		result.name = `${Math.random().toString(36).substr(2, 9)}.png`
     const newImg = await readFileAsUrl(result)
-    setImgUrl(newImg)
+    cb(newImg)
 
     dispatch(toggleImageCrop(false))
   }
 
   const _cancel = () => {
-    setImgUrl(profile.avatarUrl)
     dispatch(toggleImageCrop(false))
   }
 

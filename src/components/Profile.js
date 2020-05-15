@@ -9,6 +9,7 @@ import { withRedux } from '../lib/redux'
 import Pop from './Pop'
 import Push from './Push'
 import PostCardLoader from './PostCardLoader'
+import Image from './Image'
 
 const Profile = ({ user, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
@@ -79,7 +80,7 @@ const Profile = ({ user, mementoList, postList }) => {
           user ? (
             <div>
               <div className="bg-white py-6 px-4 text-center">
-                <img className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" src={user.avatarUrl} />
+                <Image className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" data={user.imgAvatar} />
                 <h4 className="mt-4 text-2xl font-bold">{user.username}</h4>
                 <p className="mt-2 text-black-3">
                   <ParseBody body={user.bioRaw || user.bio} />

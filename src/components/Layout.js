@@ -43,43 +43,40 @@ const Layout = ({ children }) => {
         // console.log(x)
         //
 
-        dispatch(setUser(near.currentUser))
+        if(near.wallet.isSignedIn()) {
+          let profile = await near.contract.getUserByUsername({
+            username: near.currentUser.accountId
+          })
+          if(!profile) {
+            try {
+              profile = await near.contract.createUser({
+                imgAvatar: DEFAULT_AVATAR, 
+                bio: '', 
+                bioRaw: ''
+              }) 
+            } catch (err) {
+              const msg = err.toString()
+              if(msg.indexOf('User already exist')) {
+                console.log('User already exist')
+              }
+              else {
+                console.log(err)
+              }
+            }
+          }
+          batch(() => {
+            dispatch(setUser(near.currentUser))
+            dispatch(setProfile(profile))
+          })
+        }
+
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 250)
       }
     }
     init()
   }, [])
-
-  useEffect(() => {
-    const getData = async () => {
-      let profile = await near.contract.getUserByUsername({
-        username: near.currentUser.accountId
-      })
-      if(!profile) {
-        try {
-          profile = await near.contract.createUser({
-            imgAvatar: DEFAULT_AVATAR, 
-            bio: '', 
-            bioRaw: ''
-          }) 
-        } catch (err) {
-          const msg = err.toString()
-          if(msg.indexOf('User already exist')) {
-            console.log('User already exist')
-          }
-          else {
-            console.log(err)
-          }
-        }
-      }
-      dispatch(setProfile(profile))
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 250)
-    }
-    if(!profile.id && user) {
-      getData()
-    }
-  }, [user])
 
   useEffect(() => {
     const getUserMementoData = async () => {

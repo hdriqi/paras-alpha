@@ -4,6 +4,7 @@ import axios from 'axios'
 import { withRedux } from '../lib/redux'
 import { useDispatch } from 'react-redux'
 import { addData } from '../actions/me'
+import near from '../lib/near'
 
 const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
   const dispatch = useDispatch()
@@ -14,9 +15,9 @@ const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respUser = await axios.get(`https://internal-db.dev.paras.id/users?username=${username}`)
-      const user = respUser.data[0]
-
+      const user = await near.contract.getUserByUsername({
+        username: username
+      })
       setLocalUser(user)
       dispatch(addData(`/${username}_user`, user))
     }
