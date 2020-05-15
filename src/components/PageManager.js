@@ -20,6 +20,7 @@ const PageManager = ({ children }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const pageList = useSelector(state => state.ui.pageList)
+  const currentUser = useSelector(state => state.near.currentUser)
   const me = useSelector(state => state.me.profile)
   const [rootEl, setRootEl] = useState(null)
   const [prevPageLen, setPrevPageLen] = useState(null)
@@ -37,6 +38,12 @@ const PageManager = ({ children }) => {
     '/new/post': NewPostScreen,
     '/new/memento': NewMementoScreen
   }
+
+  // useEffect(() => {
+  //   if(router.asPath !== '/login' && !currentUser) {
+  //     router.push('/login', '/login')
+  //   }
+  // }, [currentUser])
 
   useEffect(() => {
     if(router.asPath === '/' || router.asPath === `/${me.username}` || pageList.length === 0) {

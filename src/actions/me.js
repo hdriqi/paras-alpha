@@ -22,6 +22,14 @@ export const setProfile = (profile) => {
   }
 }
 
+export const SET_USER = 'SET_USER'
+export const setUser = (user) => {
+  return {
+    type: SET_USER,
+    user: user
+  }
+}
+
 export const ADD_DATA = 'ADD_DATA'
 export const addData = (path, data) => {
   return {

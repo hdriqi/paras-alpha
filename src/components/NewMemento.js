@@ -50,14 +50,15 @@ const NewBlock = () => {
     const id = Math.random().toString(36).substr(2, 9)
 
     try {
-      console.log(near.contract)
-      // const x = await near.contract.createMemento({
-      //   name: name,
-      //   desc: bodyRef.current.value,
-      //   descRaw: desc,
-      //   type: type.value,
-      // })
-      // console.log(x)
+      const newData = {
+        name: name,
+        desc: bodyRef.current.value,
+        descRaw: desc,
+        type: type.value,
+      }
+      console.log(newData)
+      const x = await near.contract.createMemento(newData)
+      console.log(x)
       // const newData = {
       //   id: id,
       //   name: name,

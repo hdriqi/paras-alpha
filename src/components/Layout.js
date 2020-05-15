@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import Head from 'next/head'
-import { setProfile, addBlockList } from "../actions/me"
+import { setProfile, addBlockList, setUser } from "../actions/me"
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import axios from "axios"
@@ -31,6 +31,7 @@ const Layout = ({ children }) => {
       ipfs.init()
       if(typeof window !== 'undefined') {
         await near.init()
+        dispatch(setUser(near.currentUser))
       }
     }
 

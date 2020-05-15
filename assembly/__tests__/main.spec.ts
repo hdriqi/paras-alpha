@@ -1,167 +1,127 @@
-// import { createMemento, getMementoList, getMementoById } from '../main'
-// import { context } from 'near-sdk-as'
-// import { Memento, store } from '../model'
+import { Memento, Img, Post, postCollection, mementoCollection } from '../model'
+import { createPost, getPostList, getPostById, deletePostById, createMemento } from '../main'
 
-// describe('Memento ', () => {
-//   afterEach( () => {
-//     while (store.mementoList.length > 0) {
-//       store.mementoList.pop()
-//     }
-//   })
+var mPublic: Memento = <Memento>{}
+var mPermissioned: Memento = <Memento>{}
 
-//   it('should create memento', () => {
-//     const name = 'Hello World'
-//     const desc = 'Memento test'
-//     const descRaw = 'Memento test raw'
-//     const type = 'public'
-//     const m = createMemento(name, desc, descRaw, type)
-//     expect<string>(m.name).toBe(name)
-//     expect(m instanceof Memento).toBeTruthy()
-//     expect(store.mementoList.length).toBe(1)
-//   })
+describe('Memento ', () => {
+  beforeEach(() => {
+    const name = 'Hello World'
+    const desc = 'Memento test'
+    const descRaw = 'Memento test raw'
+    mPublic = createMemento(name, desc, descRaw, 'public')
+    mPermissioned = createMemento(name, desc, descRaw, 'permissioned')
 
-//   itThrows('should throw error Memento type', () => {
-//     const name = 'Hello World'
-//     const desc = 'Memento test'
-//     const descRaw = 'Memento test raw'
-//     const type = 'random'
-//     createMemento(name, desc, descRaw, type)
-//   })
+    for (let i = 0; i < 5; i++) {
+      const body = 'Hello World'
+      const bodyRaw = 'Hello World'
+      const imgList: Img[] = []
+      const mementoId = mPublic.id
+      createPost(body, bodyRaw, imgList, mementoId)
+    }
 
-//   it('should get all memento list', () => {
-//     const len = 10
-//     for (let i = 0; i < len; i++) {
-//       const name = 'Hello World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     const result = getMementoList()
-//     expect(result.length).toBe(len)
-//   })
+    for (let i = 0; i < 5; i++) {
+      const body = 'Hello World'
+      const bodyRaw = 'Hello World'
+      const imgList: Img[] = []
+      const mementoId = mPermissioned.id
+      createPost(body, bodyRaw, imgList, mementoId)
+    }
+  })
+  afterEach(() => {
+    postCollection.delete('list')
+    mementoCollection.delete('list')
+  })
 
-//   it('should get memento list by name', () => {
-//     for (let i = 0; i < 3; i++) {
-//       const name = 'Hello World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     for (let i = 0; i < 5; i++) {
-//       const name = 'Another World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     const result = getMementoList({
-//       name: 'Hello World',
-//       nameLike: null,
-//       owner: null,
-//       _sort: null,
-//       _order: null,
-//       _limit: 10
-//     })
-//     expect(result.length).toBe(3)
-//   })
+  it('should create published post', () => {
+    const body = 'Hello World'
+    const bodyRaw = 'Hello World'
+    const imgList: Img[] = []
+    const mementoId = mPublic.id
+    const p = createPost(body, bodyRaw, imgList, mementoId)
+    expect(p instanceof Post).toBeTruthy()
+    expect(p.status).toBe('published')
+  })
 
-//   it('should get memento list by name like', () => {
-//     for (let i = 0; i < 3; i++) {
-//       const name = 'Hello World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     for (let i = 0; i < 3; i++) {
-//       const name = 'Another World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     const result = getMementoList({
-//       name: null,
-//       nameLike: 'world',
-//       owner: null,
-//       _sort: null,
-//       _order: null,
-//       _limit: 10
-//     })
-//     expect(result.length).toBe(6)
-//   })
+  it('should create pending post', () => {
+    const body = 'Hello World'
+    const bodyRaw = 'Hello World'
+    const imgList: Img[] = []
+    const mementoId = mPermissioned.id
+    const p = createPost(body, bodyRaw, imgList, mementoId)
+    expect(p instanceof Post).toBeTruthy()
+    expect(p.status).toBe('pending')
+  })
 
-//   it('should get memento list by owner', () => {
-//     for (let i = 0; i < 3; i++) {
-//       const name = 'Hello World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     const result = getMementoList({
-//       name: null,
-//       nameLike: null,
-//       owner: context.sender,
-//       _sort: null,
-//       _order: null,
-//       _limit: 10
-//     })
-//     expect(result.length).toBe(3)
-//   })
+  it('should get one post by id', () => {
+    const list = postCollection.get('list')
+    if(list) {
+      const p = list.data[0]
+      const result = getPostById(p.id)
+      if(result) {
+        expect(result.id).toBe(p.id)
+      }
+      else {
+        expect(result).toBe(null)
+      }
+    }
+  })
 
-//   it('should get memento list with sort by desc', () => {
-//     for (let i = 0; i < 3; i++) {
-//       const name = 'Hello World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     const result = getMementoList({
-//       name: null,
-//       nameLike: null,
-//       owner: null,
-//       _sort: 'createdAt',
-//       _order: 'desc',
-//       _limit: 10
-//     })
-//     expect(result[0].createdAt).toBeGreaterThanOrEqual(result[1].createdAt)
-//   })
+  it('should get all post', () => {
+    const result = getPostList()
+    expect(result.length).toBe(10)
+  })
 
-//   it('should get memento list with limit', () => {
-//     for (let i = 0; i < 10; i++) {
-//       const name = 'Hello World'
-//       const desc = 'Memento test'
-//       const descRaw = 'Memento test raw'
-//       const type = 'public'
-//       createMemento(name, desc, descRaw, type)
-//     }
-//     const result = getMementoList({
-//       name: null,
-//       nameLike: null,
-//       owner: null,
-//       _sort: null,
-//       _order: null,
-//       _limit: 3
-//     })
-//     expect(result.length).toBe(3)
-//   })
+  it('should get all published post', () => {
+    const q = ['status:=published']
+    const result = getPostList(q)
+    expect(result.length).toBe(5)
+  })
 
-//   it('should get memento by id', () => {
-//     const name = 'Hello World'
-//     const desc = 'Memento test'
-//     const descRaw = 'Memento test raw'
-//     const type = 'public'
-//     const m = createMemento(name, desc, descRaw, type)
-//     const result = getMementoById(m.id)
-//     if(result) {
-//       expect(result.name).toBe(m.name)
-//     }
-//     else {
-//       expect(result).toBe(null)
-//     }
-//   })
-// })
+  it('should get all pending post', () => {
+    const q = ['status:=pending']
+    const result = getPostList(q)
+    expect(result.length).toBe(5)
+  })
+
+  it('should get all post from mementoId', () => {
+    const qMementoId = 'mementoId:='.concat(mPublic.id).concat(',').concat(mPermissioned.id)
+    const q = [qMementoId]
+    const result = getPostList(q)
+    expect(result.length).toBe(10)
+  })
+
+  it('should get all post from originalId', () => {
+    const list = postCollection.get('list')
+    if(list) {
+      const qOriginalId = 'originalId:='.concat(list.data[0].id)
+      const q = [qOriginalId]
+      const result = getPostList(q)
+      expect(result.length).toBe(1)
+    }
+  })
+
+  it('should get all post sort by createdAt order by desc limit by 5', () => {
+    const list = postCollection.get('list')
+    if(list) {
+      const result = getPostList(null, {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 5
+      })
+      expect(result.length).toBe(5)
+      expect(result[0].createdAt).toBeGreaterThanOrEqual(result[1].createdAt)
+    }
+  })
+
+  it('should delete post by id', () => {
+    const list = postCollection.get('list')
+    if(list) {
+      const id = list.data[0].id
+    deletePostById(id)
+    const postList = getPostList()
+    expect(postList.length).toBe(9)
+    }
+  })
+})

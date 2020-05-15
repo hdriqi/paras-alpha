@@ -34,14 +34,39 @@ export class Post {
 }
 
 @nearBindgen
-export class Store {
-  mementoList: Memento[]
-  postList: Post[]
-
-  constructor() {
-    this.mementoList = []
-    this.postList = []
-  }
+export class User {
+  id: string
+  username: string
+  following: string[]
+  imgAvatar: Img
+  bio: string
+  bioRaw: string
+  createdAt: u64
 }
 
-export const store = new Store()
+@nearBindgen
+export class QueryOpts {
+  _embed: bool
+	_sort: string | null
+	_order: string | null
+	_limit: i8
+}
+
+@nearBindgen
+export class PostList {
+  data: Post[]
+}
+
+@nearBindgen
+export class MementoList {
+  data: Memento[]
+}
+
+@nearBindgen
+export class UserList {
+  data: User[]
+}
+
+export const postCollection = new PersistentMap<string, PostList>("p")
+export const mementoCollection = new PersistentMap<string, MementoList>("m")
+export const userCollection = new PersistentMap<string, UserList>("u")

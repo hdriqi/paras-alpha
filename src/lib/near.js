@@ -4,8 +4,8 @@ import * as nearAPI from 'near-api-js';
 class Near {
   constructor() {
     this.contract = {}
-    this.currentUser = {}
-    this.nearConfig = {}
+    this.currentUser = null
+    this.config = {}
     this.wallet = {}
   }
 
@@ -52,10 +52,8 @@ class Near {
   
     this.contract = contract
     this.currentUser = currentUser
-    this.nearConfig = nearConfig
+    this.config = nearConfig
     this.wallet = wallet
-
-    window.contract = contract
   }
 }
 

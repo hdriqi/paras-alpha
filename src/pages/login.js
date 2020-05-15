@@ -6,11 +6,11 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { setProfile } from '../actions/me'
+import near from '../lib/near'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('')
-  const near = useSelector(state => state.near)
-  const currentUser = useSelector(state => state.near.currentUser)
+  const currentUser = useSelector(state => state.me.user)
   const router = useRouter()
 
   const dispatch = useDispatch()
@@ -58,7 +58,7 @@ const LoginPage = () => {
   const _signIn = async () => {
     const appTitle = 'Paras Internal'
     await near.wallet.requestSignIn(
-      near.nearConfig.contractName,
+      near.config.contractName,
       appTitle
     )
   }
