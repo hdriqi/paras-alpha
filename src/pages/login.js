@@ -8,6 +8,11 @@ import { withRedux } from '../lib/redux'
 import { setProfile } from '../actions/me'
 import near from '../lib/near'
 
+const DEFAULT_AVATAR = {
+  url: 'QmbyiNskTRPLHyVGUVoRrxrStevj4RA7Umn1tyH5wywoLA',
+  type: 'ipfs'
+}
+
 const LoginPage = () => {
   const [username, setUsername] = useState('')
   const currentUser = useSelector(state => state.me.user)
@@ -17,62 +22,25 @@ const LoginPage = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const profile = await near.contract.getUserByUsername({
+      let profile = await near.contract.getUserByUsername({
         username: near.currentUser.accountId
       })
-      console.log(profile)
-      if(profile) {
-        dispatch(setProfile(profile))
+      if(!profile) {
+        profile = await near.contract.createUser({
+          imgAvatar: DEFAULT_AVATAR, 
+          bio: '', 
+          bioRaw: ''
+        })
+        
       }
-      else {
-        // await near.contract.createUser({
-        //   imgAvatar: {
-        //     url: 
-        //   }, 
-        //   bio: string, bioRaw: string
-        // })
-      }
-      // router.push('/', '/')
+      dispatch(setProfile(profile))
+      router.push('/', '/')
     }
     if(currentUser) {
       checkUser()
     }
   }, [currentUser])
-
-  const _login = async (e) => {
-    e.preventDefault()
-
-    const userRes = await axios.get(`https://internal-db.dev.paras.id/users?username=${username}`)
-    if(userRes.data.length > 0) {
-      // set local storage
-      const me = userRes.data[0]
-      window.localStorage.setItem('meId', me.id)
-      window.localStorage.setItem('meUsername', me.username)
-      dispatch(setProfile(me))
-    }
-    else {
-      // create new
-      const id = Math.random().toString(36).substr(2, 9)
-
-      const newData = {
-        id: id,
-        username: username,
-        following: [],
-        avatarUrl: 'https://siasky.net/AAC0MXtp6rYKoyOsRpcZ29zcLgmykmZDD64LR4fLkRj6_A',
-        bio: '',
-        createdAt: new Date().toISOString()
-      }
-
-      await axios.post(`https://internal-db.dev.paras.id/users`, newData)
-
-      window.localStorage.setItem('meId', id)
-      window.localStorage.setItem('meUsername', username)
-      dispatch(setProfile(newData))
-    }
-    
-    router.replace('/')
-  }
-
+  
   const _signIn = async () => {
     const appTitle = 'Paras Internal'
     await near.wallet.requestSignIn(

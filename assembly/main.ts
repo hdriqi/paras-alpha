@@ -319,6 +319,12 @@ export function deletePostById(id: string): Post | null {
 }
 
 export function createUser(imgAvatar: Img, bio: string, bioRaw: string): User {
+  const existUser = getUserByUsername(context.sender)
+  assert(
+    !existUser,
+    'User already exist'
+  )
+
   const newUser = new User()
   newUser.id = _genId()
   newUser.username = context.sender

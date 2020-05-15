@@ -5,15 +5,13 @@ let newUser: User = <User>{}
 
 describe('User ', () => {
   beforeEach(() => {
-    for (let i = 0; i < 5; i++) {
-      const imgAvatar = new Img()
-      imgAvatar.url = 'asdf'
-      imgAvatar.type = 'ipfs'
-      const bio = 'test'
-      const bioRaw = 'test'
+    const imgAvatar = new Img()
+    imgAvatar.url = 'asdf'
+    imgAvatar.type = 'ipfs'
+    const bio = 'test'
+    const bioRaw = 'test'
 
-      newUser = createUser(imgAvatar, bio, bioRaw)
-    }
+    newUser = createUser(imgAvatar, bio, bioRaw)
   })
   afterEach(() => {
     userCollection.delete('list')
@@ -30,7 +28,7 @@ describe('User ', () => {
     expect(newUser instanceof User).toBeTruthy()
     const userList = userCollection.get('list')
     if(userList) {
-      expect(userList.data.length).toBe(6)
+      expect(userList.data.length).toBe(2)
     }
   })
 
@@ -51,7 +49,7 @@ describe('User ', () => {
 
   it('should get users by username_like', () => {
     const userList = getUserList(['username_like:=bo'])
-    expect(userList.length).toBe(5)
+    expect(userList.length).toBe(1)
   })
 
   it('should get user by id', () => {
