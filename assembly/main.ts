@@ -45,10 +45,10 @@ export function createMemento(
 }
 
 function _addToMementoList(memento: Memento, embed: bool, result: Memento[]): void {
-  // if(embed) {
-    // const user = getMementoById(post.mementoId)
-    // if(!!memento) post.memento = memento
-  // }
+  if(embed) {
+    const user = getUserByUsername(memento.owner)
+    if(!!memento) memento.user = user
+  }
   result.push(memento)
 }
 
@@ -208,6 +208,9 @@ export function createPost(
 
 function _addToPostList(post: Post, embed: bool, result: Post[]): void {
   if(embed) {
+    const user = getUserByUsername(post.owner)
+    if(!!user) post.user = user
+
     const memento = getMementoById(post.mementoId)
     if(!!memento) post.memento = memento
   }

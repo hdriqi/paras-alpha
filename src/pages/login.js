@@ -16,8 +16,26 @@ const LoginPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    const checkUser = async () => {
+      const profile = await near.contract.getUserByUsername({
+        username: near.currentUser.accountId
+      })
+      console.log(profile)
+      if(profile) {
+        dispatch(setProfile(profile))
+      }
+      else {
+        // await near.contract.createUser({
+        //   imgAvatar: {
+        //     url: 
+        //   }, 
+        //   bio: string, bioRaw: string
+        // })
+      }
+      // router.push('/', '/')
+    }
     if(currentUser) {
-      router.push('/', '/')
+      checkUser()
     }
   }, [currentUser])
 

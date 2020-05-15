@@ -11,6 +11,7 @@ export class Memento {
   type: string
   owner: string
   createdAt: u64
+  user: User | null
 }
 
 @nearBindgen
@@ -30,6 +31,7 @@ export class Post {
   owner: string
   mementoId: string
   createdAt: u64
+  user: User | null
   memento: Memento | null
 }
 
