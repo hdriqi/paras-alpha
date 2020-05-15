@@ -4,6 +4,8 @@ import axios from "axios"
 import Push from "./Push"
 import Pop from "./Pop"
 import Fuse from 'fuse.js'
+import near from "../lib/near"
+import Image from "./Image"
 
 const Search = () => {
   const [userList, setUserList] = useState([])
@@ -13,12 +15,12 @@ const Search = () => {
 
   const _getUsers = async (query) => {
     if(query.length > 0) {
-      const userList = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-      const mementoList = await axios.get(`https://internal-db.dev.paras.id/blocks?name_like=${query}`)
-      const combinedList = userList.data.concat(mementoList.data)
-      const fuse = new Fuse(combinedList, {
+      const searchList = await near.contract.searchPostAndMemento({
+        query: query
+      })
+      const fuse = new Fuse(searchList, {
         includeScore: true,
-        keys: ['username', 'name']
+        keys: ['title']
       })
       const result = fuse.search(query).map(res => res.item)
       setUserList(result)
@@ -57,40 +59,43 @@ const Search = () => {
             return (
               <div key={data.id}>
                 {
-                  data.username ? (
-                    <Push href="/[username]" as={ `/${data.username}` } props={{
-                      username: data.username,
-                      user: data
+                  data.type === 'user' ? (
+                    <Push href="/[username]" as={ `/${data.id}` } props={{
+                      username: data.id
                     }}>
-                      <div className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
-                        <div>
-                          <div className="w-10 h-10 rounded-full overflow-hidden">
-                            <img style={{
-                              boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                            }} className="object-cover w-full h-full" src={data.avatarUrl} />
+                      <a>
+                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
+                          <div>
+                            <div className="w-10 h-10 rounded-full overflow-hidden">
+                              <Image style={{
+                                boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
+                              }} className="object-cover w-full h-full" data={data.img} />
+                            </div>
+                          </div>
+                          <div className="px-4 w-auto">
+                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.title }</p>
+                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.subtitle }</p>
                           </div>
                         </div>
-                        <div className="px-4 w-auto">
-                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.username }</p>
-                          <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.bio }</p>
-                        </div>
-                      </div>
+                      </a>
                     </Push>
                   ) : (
                     <Push href="/m/[id]" as={ `/m/${data.id}` } props={{
                       id: data.id
                     }}>
-                      <div className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
-                        <div>
-                          <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
-                            <div className='w-4 h-4 m-auto bg-white'></div>
+                      <a>
+                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
+                          <div>
+                            <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
+                              <div className='w-4 h-4 m-auto bg-white'></div>
+                            </div>
+                          </div>
+                          <div className='px-4 w-auto'>
+                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.title }</p>
+                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.subtitle }</p>
                           </div>
                         </div>
-                        <div className='px-4 w-auto'>
-                          <p className='font-semibold text-black-1 truncate whitespace-no-wrap min-w-0'>{ data.name }</p>
-                          <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>{ data.desc }</p>
-                        </div>
-                      </div>
+                      </a>
                     </Push>
                   )
                 }

@@ -1,5 +1,5 @@
 import { context, math, base58 } from 'near-sdk-as'
-import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList, Following } from './model'
+import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList, Following, SearchResult } from './model'
 
 const LIMIT = 10
 
@@ -678,4 +678,23 @@ export function toggleUserFollow(id: string, targetId: string, targetType: strin
   }
 
   return null
+}
+
+export function searchPostAndMemento(query: string): SearchResult[] {
+  const result: SearchResult[] = []
+  const mementoList = getMementoList(['name_like:='.concat(query)])
+  // transform memento to search result
+  for (let i = 0; i < mementoList.length; i++) {
+    const memento = mementoList[i]
+    const newSearchResult = new SearchResult(memento.id, null, memento.name, memento.desc, 'memento')
+    result.push(newSearchResult)
+  }
+  const userList = getUserList(['username_like:='.concat(query)])
+  // transform memento to search result
+  for (let i = 0; i < userList.length; i++) {
+    const user = userList[i]
+    const newSearchResult = new SearchResult(user.username, user.imgAvatar, user.username, user.bio, 'user')
+    result.push(newSearchResult)
+  }
+  return result
 }

@@ -80,6 +80,23 @@ export class UserList {
   data: User[]
 }
 
+@nearBindgen
+export class SearchResult {
+  id: string
+  img: Img | null
+  title: string
+  subtitle: string
+  type: string
+
+  constructor(id: string, img: Img | null, title: string, subtitle: string, type: string) {
+    this.id = id
+    this.img = img
+    this.title = title
+    this.subtitle = subtitle
+    this.type = type
+  }
+}
+
 export const postCollection = new PersistentMap<string, PostList>("p")
 export const mementoCollection = new PersistentMap<string, MementoList>("m")
 export const userCollection = new PersistentMap<string, UserList>("u")
