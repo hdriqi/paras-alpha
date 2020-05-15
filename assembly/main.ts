@@ -7,7 +7,7 @@ function _genId(): string {
 	const buff = math.randomBuffer(8)
 	
 	var randomId = base58.encode(buff)
-	return randomId.toLowerCase()
+	return randomId.replaceAll('/', '').toLowerCase()
 }
 
 export function devDeleteAllMemento(): bool {
