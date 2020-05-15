@@ -1,7 +1,5 @@
-import { useRouter } from "next/router"
-import { useState, useRef, useEffect, useReducer } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Mention, MentionsInput } from "react-mentions"
-import axios from 'axios'
 import { useDispatch } from "react-redux"
 import { withRedux } from "../lib/redux"
 import { setProfile } from "../actions/me"
@@ -10,7 +8,6 @@ import { toggleImageCrop } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
 import PopForward from "./PopForward"
 import ipfs from "../lib/ipfs"
-import ipfsClient from 'ipfs-http-client'
 import near from "../lib/near"
 import Image from "./Image"
 
@@ -65,20 +62,28 @@ const ProfileEdit = ({ me }) => {
       }
       const newProfile = await near.contract.updateUserById(newData)
       dispatch(setProfile(newProfile))
+      backRef.current.click()
     } catch (err) {
       console.log(err)
     }
-
-    backRef.current.click()
   }
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ 
+    const q = [`username_like:=${query}`]
+    const userList = await near.contract.getUserList({
+      query: q,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 10
+      }
+    })
+    const list = userList.map(user => ({ 
       display: `@${user.username}`, 
       id: user.id,
-      avatarUrl: user.avatarUrl,
+      imgAvatar: user.imgAvatar,
       username: user.username
     }))
     callback(list)
@@ -163,13 +168,13 @@ const ProfileEdit = ({ me }) => {
                       <div className="w-8/12 flex items-center overflow-hidden">
                         <div>
                           <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <img style={{
+                            <Image style={{
                               boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                            }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                            }} className="object-cover w-full h-full" data={entry.imgAvatar} />
                           </div>
                         </div>
                         <div className="px-4 w-auto">
-                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
+                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap">{ entry.username }</p>
                         </div>
                       </div>
                     </div>

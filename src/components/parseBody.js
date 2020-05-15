@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Push from './Push'
 
 const ParseBody = ({ body = '' }) => {
@@ -18,7 +17,7 @@ const ParseBody = ({ body = '' }) => {
     }
     else {
       return (
-        <span key={idx}>{block}</span>
+        <span className="whitespace-pre-line" key={idx}>{block}</span>
       )
     }
   })
