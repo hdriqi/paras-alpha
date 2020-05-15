@@ -8,11 +8,6 @@ import { withRedux } from '../lib/redux'
 import { setProfile } from '../actions/me'
 import near from '../lib/near'
 
-const DEFAULT_AVATAR = {
-  url: 'QmbyiNskTRPLHyVGUVoRrxrStevj4RA7Umn1tyH5wywoLA',
-  type: 'ipfs'
-}
-
 const LoginPage = () => {
   const [username, setUsername] = useState('')
   const currentUser = useSelector(state => state.me.user)
@@ -22,25 +17,13 @@ const LoginPage = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      let profile = await near.contract.getUserByUsername({
-        username: near.currentUser.accountId
-      })
-      if(!profile) {
-        profile = await near.contract.createUser({
-          imgAvatar: DEFAULT_AVATAR, 
-          bio: '', 
-          bioRaw: ''
-        })
-        
-      }
-      dispatch(setProfile(profile))
       router.push('/', '/')
     }
     if(currentUser) {
       checkUser()
     }
   }, [currentUser])
-  
+
   const _signIn = async () => {
     const appTitle = 'Paras Internal'
     await near.wallet.requestSignIn(

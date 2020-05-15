@@ -10,6 +10,22 @@ function _genId(): string {
 	return randomId.toLowerCase()
 }
 
+export function devDeleteAllMemento(): bool {
+  mementoCollection.delete('list')
+  return true
+}
+
+export function devDeleteAllPost(): bool {
+  postCollection.delete('list')
+  return true
+}
+
+export function devDeleteAllUser(): User[] {
+  userCollection.delete('list')
+  const userList = getUserList()
+  return userList
+}
+
 export function createMemento(
 	name: string, 
 	desc: string, 
@@ -419,7 +435,7 @@ export function getUserList(
 }
 
 export function getUserById(id: string): User | null {
-  let result: User = <User>{}
+  let result: User | null = null
   const userList = userCollection.get('list')
   if(!userList) {
     return null
@@ -440,7 +456,7 @@ export function getUserById(id: string): User | null {
 }
 
 export function getUserByUsername(username: string): User | null {
-  let result: User = <User>{}
+  let result: User | null = null
   const userList = userCollection.get('list')
   if(!userList) {
     return null

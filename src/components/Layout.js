@@ -8,6 +8,11 @@ import { useRouter } from "next/router"
 import ipfs from "../lib/ipfs"
 import near from "../lib/near"
 
+const DEFAULT_AVATAR = {
+  url: 'QmbyiNskTRPLHyVGUVoRrxrStevj4RA7Umn1tyH5wywoLA',
+  type: 'ipfs'
+}
+
 const SplashScreen = () => {
   return (
     <div className="fixed inset-0 bg-black-1 flex items-center justify-center">
@@ -21,60 +26,80 @@ const SplashScreen = () => {
 const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const user = useSelector(state => state.me.user)
   const profile = useSelector(state => state.me.profile)
   const mementoList = useSelector(state => state.me.blockList)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const init = async () => {
       ipfs.init()
       if(typeof window !== 'undefined') {
         await near.init()
+
+        //
+        // const x = await near.contract.devDeleteAllUser()
+        // console.log(x)
+        //
+
         dispatch(setUser(near.currentUser))
       }
     }
-
     init()
   }, [])
 
   useEffect(() => {
     const getData = async () => {
-      const userId = window.localStorage.getItem('meId')
-      if(userId) {
-        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${userId}`)
-        const me = resUser.data
-        dispatch(setProfile(me))
+      let profile = await near.contract.getUserByUsername({
+        username: near.currentUser.accountId
+      })
+      if(!profile) {
+        try {
+          profile = await near.contract.createUser({
+            imgAvatar: DEFAULT_AVATAR, 
+            bio: '', 
+            bioRaw: ''
+          }) 
+        } catch (err) {
+          const msg = err.toString()
+          if(msg.indexOf('User already exist')) {
+            console.log('User already exist')
+          }
+          else {
+            console.log(err)
+          }
+        }
       }
-      else {
-        router.push('/login', '/login')
-      }
+      dispatch(setProfile(profile))
       setTimeout(() => {
         setIsLoading(false)
       }, 250)
     }
-    if(!profile.id) {
+    if(!profile.id && user) {
       getData()
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
-    const getData = async () => {
-      const respMementoList = await axios.get(`https://internal-db.dev.paras.id/blocks?userId=${profile.id}`)
-      const mementoList = await Promise.all(respMementoList.data.map(memento => {
-        return new Promise(async (resolve) => {
-          const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
-          memento.user = resUser.data
-          resolve(memento)
-        })
-      }))
+    const getUserMementoData = async () => {
+      const query = [`owner:=${profile.username}`]
+      const mementoList = await near.contract.getMementoList({
+        query: query,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _limit: 10
+        }
+      })
 
       dispatch(addBlockList(mementoList))
     }
-    if(profile.id && mementoList.length === 0) {
-      getData()
+    if(!isLoading && profile.id && mementoList.length === 0) {
+      getUserMementoData()
     }
-  }, [profile])
+  }, [isLoading, profile])
   
   return (
     <Fragment>

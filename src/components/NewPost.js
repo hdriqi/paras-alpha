@@ -7,16 +7,16 @@ import axios from "axios"
 import { MentionsInput, Mention } from 'react-mentions'
 import ipfs from "../lib/ipfs"
 import PopForward from "./PopForward"
+import near from "../lib/near"
 
 const NewPost = () => {
   const blockList = useSelector(state => state.me.blockList)
-  const contract = useSelector(state => state.me.near.contract)
 
   const profile = useSelector(state => state.me.profile)
   const backRef = useRef()
 
   const bodyRef = useRef(null)
-  const [chosenBlock, setChosenBlock] = useState({})
+  const [chosenMemento, setChosenMemento] = useState({})
   const [postTextRaw, setPostTextRaw] = useState('')
   const [postText, setPostText] = useState('')
   const [postImageList, setPostImageList] = useState([])
@@ -25,7 +25,7 @@ const NewPost = () => {
 
   const [inputMemento, setInputMemento] = useState('')
   const [searchMemento, setSearchMemento] = useState([])
-
+  
   const _getUsers = async (query, callback) => {
     if (!query) return
     const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
@@ -77,8 +77,6 @@ const NewPost = () => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    const id = Math.random().toString(36).substr(2, 9)
-
     let imgList = []
     let uploadedImgFileList = [...postImageFileList]
     
@@ -107,21 +105,18 @@ const NewPost = () => {
     }
 
     try {
-      
-      // const newData = {
-      //   id: id,
-      //   originalId: id,
-      //   status: chosenBlock.type === 'public' ? 'published' : 'pending',
-      //   body: postText,
-      //   bodyRaw: postTextRaw,
-      //   imgList: imgList,
-      //   userId: profile.id,
-      //   blockId: chosenBlock.id,
-      //   createdAt: new Date().toISOString()
-      // }
-      // await axios.post('https://internal-db.dev.paras.id/posts', newData)
-      // await contract.create
-      _close()
+      try {
+        const newPost = await near.contract.createPost({
+          body: postText,
+          bodyRaw: postTextRaw,
+          imgList: imgList,
+          mementoId: chosenMemento.id
+        })
+        console.log(newPost)
+        _close()
+      } catch (err) {
+        console.log(err)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -134,7 +129,7 @@ const NewPost = () => {
   }, [postTextRaw])
 
   const _validateSubmit = () => {
-    if((postText.length > 0 || postImageList.length > 0) && chosenBlock.id) {
+    if((postText.length > 0 || postImageList.length > 0) && chosenMemento.id) {
       return true
     }
     return false
@@ -305,13 +300,13 @@ const NewPost = () => {
                         blockList.map(memento => {
                           return (
                             <div key={memento.id} onClick={_ => {
-                              if(chosenBlock.id === memento.id) {
-                                setChosenBlock({})  
+                              if(chosenMemento.id === memento.id) {
+                                setChosenMemento({})  
                               }
                               else {
-                                setChosenBlock(memento)
+                                setChosenMemento(memento)
                               }
-                            }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenBlock.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                            }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
                               <div className="w-8/12 flex items-center overflow-hidden">
                                 <div>
                                   <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
@@ -337,13 +332,13 @@ const NewPost = () => {
                           searchMemento.map(memento => {
                             return (
                               <div onClick={_ => {
-                                if(chosenBlock.id === memento.id) {
-                                  setChosenBlock({})  
+                                if(chosenMemento.id === memento.id) {
+                                  setChosenMemento({})  
                                 }
                                 else {
-                                  setChosenBlock(memento)
+                                  setChosenMemento(memento)
                                 }
-                              }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenBlock.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                              }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
                                 <div className="w-8/12 flex items-center overflow-hidden">
                                   <div>
                                     <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">

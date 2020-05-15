@@ -47,8 +47,6 @@ const NewBlock = () => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    const id = Math.random().toString(36).substr(2, 9)
-
     try {
       const newData = {
         name: name,
@@ -56,29 +54,15 @@ const NewBlock = () => {
         descRaw: desc,
         type: type.value,
       }
-      console.log(newData)
-      const x = await near.contract.createMemento(newData)
-      console.log(x)
-      // const newData = {
-      //   id: id,
-      //   name: name,
-      //   desc: bodyRef.current.value,
-      //   descRaw: desc,
-      //   type: type.value,
-      //   userId: profile.id,
-      //   createdAt: new Date().toISOString()
-      // }
+      const m = await near.contract.createMemento(newData)
 
-      // await axios.post('https://internal-db.dev.paras.id/blocks', newData) 
-      
-
-      // const newLocalData = {
-      //   ...newData,
-      //   ...{
-      //     user: profile
-      //   }
-      // }
-      // dispatch(addBlockList([newLocalData]))
+      const newLocalData = {
+        ...m,
+        ...{
+          user: profile
+        }
+      }
+      dispatch(addBlockList([newLocalData]))
 
       _close()
     } catch (err) {
