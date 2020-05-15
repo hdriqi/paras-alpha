@@ -1,7 +1,7 @@
 import Push from "./Push"
 import Pop from "./Pop"
 
-const MementoManage = ({ id, pendingPostCount }) => {
+const MementoManage = ({ id, memento, pendingPostCount }) => {
   return (
     <div className="bg-white-1 min-h-screen">
       <div className="pb-12">
@@ -23,7 +23,8 @@ const MementoManage = ({ id, pendingPostCount }) => {
       <div className="py-6">
         <div className="bg-white border-t border-black-6">
           <Push href="/m/[id]/edit" as={`/m/${id}/edit`} props={{
-            id: id
+            id: id,
+            memento: memento
           }}>
             <div className="px-4 py-2 flex justify-between border-b border-black-6">
               <div>
@@ -37,7 +38,8 @@ const MementoManage = ({ id, pendingPostCount }) => {
             </div>
           </Push>
           <Push href="/m/[id]/pending" as={`/m/${id}/pending`} props={{
-            id: id
+            id: id,
+            memento: memento
           }}>
             <div className="px-4 py-2 flex justify-between border-b border-black-6">
               <div className="flex items-center">

@@ -195,12 +195,15 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
             <p className='mt-2 text-black-3 whitespace-pre-line '><ParseBody body={memento.descRaw}/></p>
             <div className='px-4 mt-4'>
               {
-                memento.user && me.id == memento.user.id ? (
-                  <Push href="/m/[id]/manage" as={`/m/${memento.id}/manage`} props={{id: memento.id}}>
+                memento.user && me.username == memento.owner ? (
+                  <Push href="/m/[id]/edit" as={`/m/${memento.id}/edit`} props={{
+                    id: memento.id,
+                    memento: memento
+                  }}>
                     <button className='outline-none focus:outline-none relative font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
                       minWidth: `6rem`
                     }}>
-                      Manage
+                      Edit Memento
                       {
                         pendingPostCount && (
                           <div className="text-xs absolute flex items-center justify-center w-6 h-6 rounded-full overflow-hidden bg-black-1 text-white" style={{

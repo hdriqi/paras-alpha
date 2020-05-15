@@ -41,7 +41,7 @@ const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
       })
       const MementoWithPostList = await Promise.all(mementoList.map(memento => {
         return new Promise(async (resolve) => {
-          const query = [`mementoId:=${memento.id}`]
+          const query = [`mementoId:=${memento.id}`, 'status:=published']
           const postList = await near.contract.getPostList({
             query: query,
             opts: {
@@ -67,7 +67,7 @@ const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const query = [`owner:=${username}`]
+      const query = [`owner:=${username}`, 'status:=published']
       const postList = await near.contract.getPostList({
         query: query,
         opts: {

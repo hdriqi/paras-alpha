@@ -144,7 +144,7 @@ export function getMementoById(id: string): Memento | null {
 	for (let idx = 0; idx < mementoList.data.length; idx++) {
 		const memento = mementoList.data[idx]
 		if(memento.id == id) {
-			result.push(memento)
+      _addToMementoList(memento, true, result)
 			break
 		}
 	}
@@ -154,6 +154,50 @@ export function getMementoById(id: string): Memento | null {
 	else {
 		return null
 	}
+}
+
+export function updateMementoById(
+  id: string, 
+  name: string, 
+  type: string, 
+  desc: string, 
+  descRaw: string
+): Memento | null {
+  let newMemento: Memento | null = null
+  let idx = -1
+  const mementoList = mementoCollection.get('list')
+  if(mementoList) {
+    for (let i = 0; i < mementoList.data.length; i++) {
+      const user = mementoList.data[i]
+      if(user.id == id) {
+        newMemento = user
+        idx = i
+        break
+      }
+    }
+    assert(
+      !!newMemento,
+      'Memento not found'
+    )
+  
+    if(newMemento) {
+      assert(
+        newMemento.owner == context.sender,
+        'Unable to update other user'
+      )
+
+      newMemento.name = name
+      newMemento.type = type
+      newMemento.desc = desc
+      newMemento.descRaw = descRaw
+
+      mementoList.data[idx] = newMemento
+      mementoCollection.set('list', mementoList)
+      return newMemento
+    }
+  }
+
+  return null
 }
 
 export function deleteMementoById(id: string): Memento | null {

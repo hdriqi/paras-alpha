@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from "react"
-import axios from 'axios'
+import { useEffect, useState, useRef } from 'react'
 import ReactDropdown from 'react-dropdown'
-import { Mention, MentionsInput } from "react-mentions"
-import PopForward from "./PopForward"
+import { Mention, MentionsInput } from 'react-mentions'
+import PopForward from './PopForward'
+import near from '../lib/near'
 
 const MementoEdit = ({ memento = {} }) => {
   const [name, setName] = useState('')
@@ -13,11 +13,20 @@ const MementoEdit = ({ memento = {} }) => {
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ 
+    const q = [`username_like:=${query}`]
+    const userList = await near.contract.getUserList({
+      query: q,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 10
+      }
+    })
+    const list = userList.map(user => ({ 
       display: `@${user.username}`, 
       id: user.id,
-      avatarUrl: user.avatarUrl,
+      imgAvatar: user.imgAvatar,
       username: user.username
     }))
     callback(list)
@@ -28,22 +37,18 @@ const MementoEdit = ({ memento = {} }) => {
 
     try {
       const newData = {
-        ...memento,
-        ...{
-          name: name,
-          type: type.value,
-          desc: bodyRef.current.value,
-          descRaw: desc,
-          updatedAt: new Date().toISOString()
-        }
+        id: memento.id, 
+        name: name, 
+        type: type.value, 
+        desc: bodyRef.current.value, 
+        descRaw: desc
       }
+      await near.contract.updateMementoById(newData)
 
-      await axios.put(`https://internal-db.dev.paras.id/blocks/${memento.id}`, newData)
+      backBtnRef.current.click() 
     } catch (err) {
       console.log(err)
     }
-
-    backBtnRef.current.click()
   }
 
   useEffect(() => {

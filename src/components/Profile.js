@@ -130,7 +130,7 @@ const Profile = ({ user, mementoList, postList }) => {
                   ) : (
                     <div className="px-4">
                       {
-                      mementoList.map(memento => {
+                      mementoList && mementoList.map(memento => {
                         return (
                           <div className="mt-6" key={memento.id}>
                             <div className="flex items-center justify-between">

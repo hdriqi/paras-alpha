@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import MementoEdit from '../components/MementoEdit'
+import near from '../lib/near'
 
 const MementoEditScreen = ({ id, memento = {} }) => {
   const [localMemento, setLocalMemento] = useState(memento)
 
   useEffect(() => {
     const getData = async () => {
-      const respMemento = await axios.get(`https://internal-db.dev.paras.id/blocks/${id}`)
-      setLocalMemento(respMemento.data)
+      const memento = await near.contract.getMementoById({
+        id: id
+      })
+
+      setLocalMemento(memento)
     }
-    if(!memento.id && id) {
+    if(!localMemento.id && id) {
       console.log('get memento data')
       getData()
     }

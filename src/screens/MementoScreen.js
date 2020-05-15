@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Memento from '../components/Memento'
 import axios from 'axios'
+import near from '../lib/near'
+import { useSelector } from 'react-redux'
 
 const MementoScreen = ({ id, memento = {}, postList = [] }) => {
+  const me = useSelector(state => state.me.profile)
   const [localMemento, setLocalMemento] = useState(memento)
   const [localPostList, setLocalPostList] = useState(postList)
   const [localPendingPostCount, setLocalPendingPostCount] = useState(null)
@@ -10,54 +13,41 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const respMemento = await axios.get(`https://internal-db.dev.paras.id/blocks/${id}`)
-        const memento = respMemento.data
-        const respUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
-        memento.user = respUser.data
-
+        const memento = await near.contract.getMementoById({
+          id: id
+        })
+        
         setLocalMemento(memento)
       } catch (err) {
         console.log(err)
       }
     }
-    if(!localMemento.id && id) {
+    if(id && !memento.id) {
       console.log('get memento data')
       getData()
     }
-  }, [id, localMemento])
+  }, [id])
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const respPostList = await axios.get(`https://internal-db.dev.paras.id/posts?blockId=${localMemento.id}&status=published&_sort=createdAt&_order=desc`)
-        
-        const postList = await Promise.all(respPostList.data.map(post => {
-          return new Promise(async (resolve) => {
-            if(localMemento.user && post.userId === localMemento.user.id) {
-              post.user = localMemento.user
-            }
-            else {
-              const respUser = await axios.get(`https://internal-db.dev.paras.id/users/${post.userId}`)
-              post.user = respUser.data
-            }
-
-            if(post.blockId === localMemento.id) {
-              post.block = localMemento
-            }
-            else if(post.blockId) {
-              const respMemento = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
-              post.block = respMemento.data
-            }
-            resolve(post)
-          })
-        }))      
+        const query = [`mementoId:=${localMemento.id}`, `status:=published`]
+        const postList = await near.contract.getPostList({
+          query: query,
+          opts: {
+            _embed: true,
+            _sort: 'createdAt',
+            _order: 'desc',
+            _limit: 10
+          }
+        })
 
         setLocalPostList(postList)
       } catch (err) {
         console.log(err)
       }
     }
-    if(localMemento.id && localPostList.length === 0) {
+    if(localMemento.id) {
       console.log('get memento post list')
       getData()
     }
@@ -65,21 +55,30 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const respPendingPostList = await axios.get(`https://internal-db.dev.paras.id/posts?blockId=${localMemento.id}&status=pending&_sort=createdAt&_order=desc`)
-      if(respPendingPostList.data.length > 0) {
-        if(respPendingPostList.data.length > 9) {
+      const query = [`mementoId:=${localMemento.id}`, `status:=pending`]
+      const postList = await near.contract.getPostList({
+        query: query,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _limit: 10
+        }
+      })
+      if(postList.length > 0) {
+        if(postList.length > 9) {
           setLocalPendingPostCount('9+')
         }
         else {
-          setLocalPendingPostCount(respPendingPostList.data.length)
+          setLocalPendingPostCount(postList.length)
         }
       }
     }
-    if(localMemento.id) {
+    if(localMemento.id && me.username === localMemento.owner) {
       console.log('get memento pending post list')
       getData()
     }
-  }, [localMemento])
+  }, [localMemento, me])
 
   return (
     <Memento memento={localMemento} postList={localPostList} pendingPostCount={localPendingPostCount} />

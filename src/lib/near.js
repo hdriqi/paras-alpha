@@ -50,6 +50,7 @@ class Near {
         'devDeleteAllPost',
         'devDeleteAllUser',
         'createMemento',
+        'updateMementoById',
         'deleteMementoById',
         'createPost', 
         'deletePostById',

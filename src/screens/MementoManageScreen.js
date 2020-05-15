@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import MementoManage from '../components/MementoManage'
 
-const MementoManageScreen = ({ id }) => {
+const MementoManageScreen = ({ id, memento = {} }) => {
   const [pendingPostCount, setPendingPostCount] = useState(null)
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const MementoManageScreen = ({ id }) => {
   }, [id])
 
   return (
-    <MementoManage id={id} pendingPostCount={pendingPostCount} />
+    <MementoManage id={id} memento={memento} pendingPostCount={pendingPostCount} />
   )
 }
 
