@@ -12,6 +12,7 @@ import PopForward from './PopForward'
 import axios from 'axios'
 import { deletePost } from '../actions/me'
 import PostCardLoader from './PostCardLoader'
+import Image from './Image'
 
 TimeAgo.addLocale(en)
 
@@ -140,7 +141,7 @@ const Post = ({ post }) => {
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full overflow-hidden">
-                <img className="object-cover w-full h-full" src={post.user.avatarUrl} />
+                <Image className="object-cover w-full h-full" data={post.user.imgAvatar} />
               </div>
               <div className="px-4">
                 <Push href="/[username]" as={ `/${post.user.username}` } query={{username: post.user.username}} props={{
@@ -180,20 +181,20 @@ const Post = ({ post }) => {
               {
                 post.imgList.length > 0 && post.imgList.length === 1 ? (
                   <div className="w-full relative pb-3/4 bg-white">
-                    <img className="absolute m-auto w-full h-full object-contain" style={{
+                    <Image className="absolute m-auto w-full h-full object-contain" style={{
                       display: 'block'
-                    }} src={post.imgList[0].type === 'ipfs' ? `https://ipfs-gateway.paras.id/ipfs/${post.imgList[0].url}` : post.imgList[0].url} />
+                    }} data={post.imgList[0]} />
                   </div>
                 ) : (
                   <Carousel showArrows={false} showThumbs={false} showStatus={false} emulateTouch={true}>
                   {
                     post.imgList.map((img, idx) => {
-                      const url = img.type === 'ipfs' ? `https://ipfs-gateway.paras.id/ipfs/${img.url}` : img.url
+                      console.log(img)
                       return (
                         <div className="w-full relative pb-3/4 bg-white" key={idx}>
-                          <img className="absolute m-auto w-full h-full object-contain" style={{
+                          <Image className="absolute m-auto w-full h-full object-contain" style={{
                             display: 'block'
-                          }} src={url} />
+                          }} data={img} />
                         </div>
                       )
                     })
