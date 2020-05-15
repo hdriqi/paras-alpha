@@ -1,21 +1,47 @@
-import { context, u128, PersistentVector } from "near-sdk-as";
-
+import { context, math, u128, PersistentVector, PersistentMap } from 'near-sdk-as'
 /** 
  * Exporting a new class PostedMessage so it can be used outside of this file.
  */
 @nearBindgen
-export class PostedMessage {
-  premium: boolean;
-  sender: string;
-  constructor(public text: string) {
-    this.premium = context.attachedDeposit >= u128.from('10000000000000000000000');
-    this.sender = context.sender;
+export class Memento {
+  id: string
+  name: string
+  desc: string
+  descRaw: string
+  type: string
+  owner: string
+  createdAt: u64
+}
+
+@nearBindgen
+export class Img {
+  url: string
+  type: string
+}
+
+@nearBindgen
+export class Post {
+  id: string
+  originalId: string
+  status: string
+  body: string
+  bodyRaw: string
+  imgList: Img[]
+  owner: string
+  mementoId: string
+  createdAt: u64
+  memento: Memento | null
+}
+
+@nearBindgen
+export class Store {
+  mementoList: Memento[]
+  postList: Post[]
+
+  constructor() {
+    this.mementoList = []
+    this.postList = []
   }
 }
-/** 
- * collections.vector is a persistent collection. Any changes to it will
- * be automatically saved in the storage.
- * The parameter to the constructor needs to be unique across a single contract.
- * It will be used as a prefix to all keys required to store data in the storage.
- */
-export const messages = new PersistentVector<PostedMessage>("m");
+
+export const store = new Store()

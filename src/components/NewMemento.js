@@ -6,10 +6,10 @@ import axios from 'axios'
 import ReactDropdown from "react-dropdown"
 import { Mention, MentionsInput } from "react-mentions"
 import PopForward from "./PopForward"
+import near from "../lib/near"
 
 const NewBlock = () => {
   const profile = useSelector(state => state.me.profile)
-  const contract = useSelector(state => state.near.contract)
   const dispatch = useDispatch()
   const bodyRef = useRef()
   const backRef = useRef()
@@ -50,10 +50,14 @@ const NewBlock = () => {
     const id = Math.random().toString(36).substr(2, 9)
 
     try {
-      const x = await contract.addMessage({
-        text: name
-      })
-      console.log(x)
+      console.log(near.contract)
+      // const x = await near.contract.createMemento({
+      //   name: name,
+      //   desc: bodyRef.current.value,
+      //   descRaw: desc,
+      //   type: type.value,
+      // })
+      // console.log(x)
       // const newData = {
       //   id: id,
       //   name: name,

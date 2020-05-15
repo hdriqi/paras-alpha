@@ -10,6 +10,7 @@ import PopForward from "./PopForward"
 
 const NewPost = () => {
   const blockList = useSelector(state => state.me.blockList)
+  const contract = useSelector(state => state.me.near.contract)
 
   const profile = useSelector(state => state.me.profile)
   const backRef = useRef()
@@ -106,18 +107,20 @@ const NewPost = () => {
     }
 
     try {
-      const newData = {
-        id: id,
-        originalId: id,
-        status: chosenBlock.type === 'public' ? 'published' : 'pending',
-        body: postText,
-        bodyRaw: postTextRaw,
-        imgList: imgList,
-        userId: profile.id,
-        blockId: chosenBlock.id,
-        createdAt: new Date().toISOString()
-      }
-      await axios.post('https://internal-db.dev.paras.id/posts', newData)
+      
+      // const newData = {
+      //   id: id,
+      //   originalId: id,
+      //   status: chosenBlock.type === 'public' ? 'published' : 'pending',
+      //   body: postText,
+      //   bodyRaw: postTextRaw,
+      //   imgList: imgList,
+      //   userId: profile.id,
+      //   blockId: chosenBlock.id,
+      //   createdAt: new Date().toISOString()
+      // }
+      // await axios.post('https://internal-db.dev.paras.id/posts', newData)
+      // await contract.create
       _close()
     } catch (err) {
       console.log(err)
