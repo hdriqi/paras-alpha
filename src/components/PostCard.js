@@ -67,7 +67,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
             <div>
             <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
             {
-              (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.blockId) > -1) && (
+              (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
                 <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
               )
             }
@@ -148,20 +148,20 @@ const Post = ({ post }) => {
                   username: post.user.username,
                   user: post.user
                 }}>
-                  <p className="font-semibold text-black-1">{ post.user.username }</p>
+                  <a className="font-semibold text-black-1">{ post.user.username }</a>
                 </Push>
                 {
-                  post.blockId && (
+                  post.mementoId && (
                     <p>in&nbsp;
-                      <Push href="/m/[id]" as={ `/m/${post.blockId}`} props={{
+                      <Push href="/m/[id]" as={ `/m/${post.mementoId}`} props={{
                         memento: {
-                          ...post.block,
+                          ...post.memento,
                           ...{
                             user: post.user
                           }
                         }
                       }}>
-                        <span className="font-semibold text-black-1">{ post.block.name }</span>
+                        <a className="font-semibold text-black-1">{ post.memento.name }</a>
                       </Push>
                     </p> 
                   )
