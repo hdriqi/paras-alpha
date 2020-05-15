@@ -40,6 +40,7 @@ class Near {
         'getMementoById',
         'getPostList', 
         'getPostById',
+        'getPostListByUserFollowing',
         'getUserList',
         'getUserById',
         'getUserByUsername',

@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { addData } from '../../actions/me'
 import { withRedux } from '../../lib/redux'
+import near from '../../lib/near'
 
 const FeedRecentPage = () => {
   const dispatch = useDispatch()
@@ -13,19 +14,17 @@ const FeedRecentPage = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const resPostAll = await axios.get(`https://internal-db.dev.paras.id/posts?_sort=createdAt&_order=desc&status=published`)
-      const data = await Promise.all(resPostAll.data.map(post => {
-        return new Promise(async (resolve) => {
-          const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${post.userId}`)
-          if(post.blockId) {
-            const resBlock = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
-            post.block = resBlock.data
-          }
-          post.user = resUser.data
-          resolve(post)
-        })
-      }))
-      dispatch(addData('/feed/recent', data))
+      const query = [`status:=published`]
+      const postList = await near.contract.getPostList({
+        query: query,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _limit: 10
+        }
+      })
+      dispatch(addData('/feed/recent', postList))
     }
     if(!postList) {
       getData()

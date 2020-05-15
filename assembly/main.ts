@@ -329,6 +329,73 @@ export function getPostList(
 	return result.slice(0, LIMIT)
 }
 
+export function getPostListByUserFollowing(
+  username: string,
+  query: string[] | null = null,
+  opts: QueryOpts = {
+    _embed: true,
+    _sort: null,
+    _order: null,
+    _limit: 10
+  }
+): Post[] {
+  const user = getUserByUsername(username)
+  if(!user) {
+    return []
+  }
+  const meFollowing = new Following(user.username, 'user')
+  user.following.push(meFollowing)
+  
+  const result: Post[] = []
+  const postList = postCollection.get('list')
+  if(!postList) {
+    return []
+  }
+	for (let idx = 0; idx < postList.data.length; idx++) {
+    const post = postList.data[idx]
+		if(query) {
+      // add +1 to match the user following id
+      const len = query.length + 1
+      const matches: bool[] = new Array<bool>(len)
+      for (let i = 0; i < user.following.length; i++) {
+        if(
+          (post.owner.indexOf(user.following[i].id) > -1) ||
+          (post.mementoId.indexOf(user.following[i].id) > -1)
+        ) {
+          matches[i] = true
+        }
+      }
+      for (let i = 0; i < query.length; i++) {
+        const splitted = query[i].split(':=')
+        const key = splitted[0]
+        const val = splitted[1]
+        if(
+          (key == 'status' && val.split(',').includes(post.status))
+        ) {
+          matches[i] = true
+        }
+      }
+      if(matches.every(match => match == true)) {
+        _addToPostList(post, opts._embed, result)
+      }
+		}
+		else {
+      _addToPostList(post, opts._embed, result)
+		}
+	}
+	if(!!opts && !!opts._sort) {
+		if(opts._sort == 'createdAt') {
+			if(!!opts._order && opts._order == 'desc') {
+				result.sort((a, b) => (b.createdAt - a.createdAt) as i32)
+			}
+		}
+  }
+	if(!!opts && opts._limit > 0) {
+		return result.slice(0, min(LIMIT, opts._limit) as i32)
+	}
+	return result.slice(0, LIMIT)
+}
+
 export function getPostById(id: string): Post | null {
   const result: Post[] = []
   const postList = postCollection.get('list')

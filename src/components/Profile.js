@@ -32,12 +32,13 @@ const Profile = ({ user, mementoList, postList }) => {
       return
     }
 
-    const newMe = await near.contract.toggleUserFollow({
+    const newData = {
       id: me.id,
-      targetId: user.id, 
+      targetId: user.username, 
       targetType: 'user'
-    })
-
+    }
+    const newMe = await near.contract.toggleUserFollow(newData)
+    
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }
