@@ -38,7 +38,6 @@ const Profile = ({ user, mementoList, postList }) => {
       targetType: 'user'
     })
 
-    console.log(newMe)
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }
