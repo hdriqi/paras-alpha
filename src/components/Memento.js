@@ -1,6 +1,5 @@
 import PostCard from './PostCard'
-import axios from 'axios'
-import { useState, useEffect, useRef, forwardRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProfile } from '../actions/me'
 import { withRedux } from '../lib/redux'
@@ -11,6 +10,7 @@ import PushForward from './PushForward'
 
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import ParseBody from './parseBody'
+import near from '../lib/near'
 
 const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
@@ -25,7 +25,9 @@ const ModalMemento = ({ me, memento, close }) => {
   }
 
   const _delete = async (id) => {
-    await axios.delete(`https://internal-db.dev.paras.id/blocks/${id}`)
+    await near.contract.deleteMementoById({
+      id: id
+    })
     close()
     backBtnRef.current.click()
   }
@@ -125,30 +127,12 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
   }, [showModal])
 
   const _toggleFollow = async (me, memento) => {
-    const newMe = {...me}
-    if(Array.isArray(me.following)) {
-      const followingIdx = me.following.findIndex(following => following.id === memento.id)
-      if(followingIdx > -1) {
-        const newFollowing = [...me.following]
-        newFollowing.splice(followingIdx, 1)
-        newMe.following = newFollowing
-      }
-      else {
-        const newFollowing = [...me.following]
-        newFollowing.push({
-          type: 'block',
-          id: memento.id
-        })
-        newMe.following = newFollowing
-      }
-    }
-    else {
-      newMe.following = [{
-        type: 'block',
-        id: memento.id
-      }]
-    }
-    await axios.put(`https://internal-db.dev.paras.id/users/${me.id}`, newMe)
+    const newMe = await near.contract.toggleUserFollow({
+      id: me.id,
+      targetId: memento.id, 
+      targetType: 'memento'
+    })
+
     setIsFollowing(!isFollowing)
     dispatch(setProfile(newMe))
   }
