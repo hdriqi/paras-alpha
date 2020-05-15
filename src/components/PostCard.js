@@ -189,7 +189,6 @@ const Post = ({ post }) => {
                   <Carousel showArrows={false} showThumbs={false} showStatus={false} emulateTouch={true}>
                   {
                     post.imgList.map((img, idx) => {
-                      console.log(img)
                       return (
                         <div className="w-full relative pb-3/4 bg-white" key={idx}>
                           <Image className="absolute m-auto w-full h-full object-contain" style={{
