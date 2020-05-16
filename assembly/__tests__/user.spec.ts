@@ -1,4 +1,4 @@
-import { createUser, getUserList, getUserById, getUserByUsername, updateUserById } from '../main'
+import { createUser, getUserList, getUserById, getUserByUsername, updateUserById, getPostListByUserFollowing } from '../main'
 import { Img, User, userCollection } from '../model'
 
 let newUser: User = <User>{}
@@ -18,6 +18,8 @@ describe('User ', () => {
   })
 
   it('should create new user', () => {
+    userCollection.delete('list')
+    
     const imgAvatar = new Img()
     imgAvatar.url = 'asdf'
     imgAvatar.type = 'ipfs'
@@ -28,13 +30,13 @@ describe('User ', () => {
     expect(newUser instanceof User).toBeTruthy()
     const userList = userCollection.get('list')
     if(userList) {
-      expect(userList.data.length).toBe(2)
+      expect(userList.data.length).toBe(1)
     }
   })
 
   it('should get all users', () => {
     const userList = getUserList()
-    expect(userList.length).toBe(5)
+    expect(userList.length).toBe(1)
   })
 
   it('should get users by id', () => {
@@ -74,5 +76,10 @@ describe('User ', () => {
       expect(nUser.bio).toBe(newBio)
       expect(nUser.bioRaw).toBe(newBioRaw)
     }
+  })
+
+  it('should get postlist by user following', () => {
+    const postList = getPostListByUserFollowing('bob')
+    expect(postList.length).toBe(0)
   })
 })

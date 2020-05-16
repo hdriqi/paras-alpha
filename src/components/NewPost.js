@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react"
 import { withRedux } from "../lib/redux"
 import { useSelector } from "react-redux"
 import { readFileAsUrl, compressImg } from "../lib/utils"
-import axios from "axios"
 
 import { MentionsInput, Mention } from 'react-mentions'
 import ipfs from "../lib/ipfs"
@@ -11,8 +10,6 @@ import near from "../lib/near"
 
 const NewPost = () => {
   const blockList = useSelector(state => state.me.blockList)
-
-  const profile = useSelector(state => state.me.profile)
   const backRef = useRef()
 
   const bodyRef = useRef(null)
@@ -28,11 +25,20 @@ const NewPost = () => {
   
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ 
+    const q = [`username_like:=${query}`]
+    const userList = await near.contract.getUserList({
+      query: q,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 10
+      }
+    })
+    const list = userList.map(user => ({ 
       display: `@${user.username}`, 
       id: user.id,
-      avatarUrl: user.avatarUrl,
+      imgAvatar: user.imgAvatar,
       username: user.username
     }))
     callback(list)
@@ -112,7 +118,6 @@ const NewPost = () => {
           imgList: imgList,
           mementoId: chosenMemento.id
         })
-        console.log(newPost)
         _close()
       } catch (err) {
         console.log(err)
@@ -141,15 +146,18 @@ const NewPost = () => {
       setSearchMemento([])
       return
     }
-    const response = await axios.get(`https://internal-db.dev.paras.id/blocks?name_like=${query}`)
-    const newList = await Promise.all(response.data.map(memento => {
-      return new Promise(async (resolve) => {
-        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
-        memento.user = resUser.data
-        resolve(memento)
-      })
-    }))
-    setSearchMemento(newList)
+    if (!query) return
+    const q = [`name_like:=${query}`]
+    const mementoList = await near.contract.getMementoList({
+      query: q,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 10
+      }
+    })
+    setSearchMemento(mementoList)
   }
 
   return (
@@ -253,7 +261,7 @@ const NewPost = () => {
                   {
                     postImageList.map((img, idx) => {
                       return (
-                        <div key={img.url} className="w-1/3 h-24 min-w-third relative p-2">
+                        <div key={idx} className="w-1/3 h-24 min-w-third relative p-2">
                           <div onClick={e => _removeImg(idx)} className="absolute top-0 right-0 mr-3 mt-3 z-10" >
                           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <rect x="0.400024" y="0.400146" width="16.2" height="16.2" rx="8.1" fill="#222222"/>
@@ -331,7 +339,7 @@ const NewPost = () => {
                         {
                           searchMemento.map(memento => {
                             return (
-                              <div onClick={_ => {
+                              <div key={memento.id} onClick={_ => {
                                 if(chosenMemento.id === memento.id) {
                                   setChosenMemento({})  
                                 }

@@ -17,12 +17,13 @@
  (type $i32_i32_i64_=>_none (func (param i32 i32 i64)))
  (type $i32_i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32 i32) (result i32)))
  (type $i32_i64_=>_i32 (func (param i32 i64) (result i32)))
+ (type $none_=>_i64 (func (result i64)))
  (type $i64_i64_i64_=>_i64 (func (param i64 i64 i64) (result i64)))
  (type $i32_i64_i32_=>_none (func (param i32 i64 i32)))
  (type $i64_i64_i64_=>_none (func (param i64 i64 i64)))
  (type $i32_i32_i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32 i32 i32) (result i32)))
  (type $i64_i32_i32_=>_i32 (func (param i64 i32 i32) (result i32)))
- (type $none_=>_i64 (func (result i64)))
+ (type $i32_=>_i64 (func (param i32) (result i64)))
  (type $i64_i64_=>_i64 (func (param i64 i64) (result i64)))
  (type $i64_i64_i64_i64_i64_=>_i64 (func (param i64 i64 i64 i64 i64) (result i64)))
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
@@ -41,6 +42,7 @@
  (import "env" "random_seed" (func $~lib/near-sdk-as/runtime/env/imports/env.random_seed (param i64)))
  (import "env" "sha256" (func $~lib/near-sdk-as/runtime/env/imports/env.sha256 (param i64 i64 i64)))
  (import "env" "signer_account_id" (func $~lib/near-sdk-as/runtime/env/imports/env.signer_account_id (param i64)))
+ (import "env" "block_timestamp" (func $~lib/near-sdk-as/runtime/env/imports/env.block_timestamp (result i64)))
  (memory $0 1)
  (data (i32.const 16) "\08\00\00\00\01\00\00\00\01\00\00\00\08\00\00\00:\00l\00e\00n\00")
  (data (i32.const 48) "\0c\00\00\00\01\00\00\00\01\00\00\00\0c\00\00\00:\00f\00r\00o\00n\00t\00")
@@ -312,7 +314,7 @@
  (export "toggleUserFollow" (func $assembly/main/__wrapper_toggleUserFollow))
  (export "searchPostAndMemento" (func $assembly/main/__wrapper_searchPostAndMemento))
  (start $~start)
- (func $~lib/rt/stub/maybeGrowMemory (; 16 ;) (param $0 i32)
+ (func $~lib/rt/stub/maybeGrowMemory (; 17 ;) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -366,7 +368,7 @@
   local.get $0
   global.set $~lib/rt/stub/offset
  )
- (func $~lib/rt/stub/__alloc (; 17 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/stub/__alloc (; 18 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -419,10 +421,10 @@
   i32.store offset=12
   local.get $2
  )
- (func $~lib/rt/stub/__retain (; 18 ;) (param $0 i32) (result i32)
+ (func $~lib/rt/stub/__retain (; 19 ;) (param $0 i32) (result i32)
   local.get $0
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#constructor (; 19 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#constructor (; 20 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -434,7 +436,7 @@
   end
   local.get $0
  )
- (func $start:~lib/near-sdk-as/runtime/storage (; 20 ;)
+ (func $start:~lib/near-sdk-as/runtime/storage (; 21 ;)
   global.get $~lib/heap/__heap_base
   i32.const 15
   i32.add
@@ -449,7 +451,7 @@
   call $~lib/near-sdk-as/runtime/storage/Storage#constructor
   global.set $~lib/near-sdk-as/runtime/storage/storage
  )
- (func $~lib/near-sdk-as/runtime/contract/Context#constructor (; 21 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/contract/Context#constructor (; 22 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -461,16 +463,16 @@
   end
   local.get $0
  )
- (func $start:~lib/near-sdk-as/runtime/contract (; 22 ;)
+ (func $start:~lib/near-sdk-as/runtime/contract (; 23 ;)
   i32.const 0
   call $~lib/near-sdk-as/runtime/contract/Context#constructor
   global.set $~lib/near-sdk-as/runtime/contract/context
  )
- (func $start:~lib/near-sdk-as/runtime/index (; 23 ;)
+ (func $start:~lib/near-sdk-as/runtime/index (; 24 ;)
   call $start:~lib/near-sdk-as/runtime/storage
   call $start:~lib/near-sdk-as/runtime/contract
  )
- (func $~lib/near-sdk-as/vm/outcome/ReturnData#constructor (; 24 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/vm/outcome/ReturnData#constructor (; 25 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -482,7 +484,7 @@
   end
   local.get $0
  )
- (func $~lib/near-sdk-as/vm/outcome/None#constructor (; 25 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/vm/outcome/None#constructor (; 26 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -497,25 +499,25 @@
   local.set $0
   local.get $0
  )
- (func $start:~lib/near-sdk-as/vm/outcome (; 26 ;)
+ (func $start:~lib/near-sdk-as/vm/outcome (; 27 ;)
   i32.const 0
   call $~lib/near-sdk-as/vm/outcome/None#constructor
   global.set $~lib/near-sdk-as/vm/outcome/NONE
  )
- (func $start:~lib/near-sdk-as/vm/vm (; 27 ;)
+ (func $start:~lib/near-sdk-as/vm/vm (; 28 ;)
   call $start:~lib/near-sdk-as/vm/outcome
  )
- (func $start:~lib/near-sdk-as/vm/index (; 28 ;)
+ (func $start:~lib/near-sdk-as/vm/index (; 29 ;)
   call $start:~lib/near-sdk-as/vm/vm
  )
- (func $start:~lib/near-sdk-as/index (; 29 ;)
+ (func $start:~lib/near-sdk-as/index (; 30 ;)
   call $start:~lib/near-sdk-as/runtime/index
   call $start:~lib/near-sdk-as/vm/index
  )
- (func $~lib/rt/stub/__release (; 30 ;) (param $0 i32)
+ (func $~lib/rt/stub/__release (; 31 ;) (param $0 i32)
   nop
  )
- (func $~lib/string/String#get:length (; 31 ;) (param $0 i32) (result i32)
+ (func $~lib/string/String#get:length (; 32 ;) (param $0 i32) (result i32)
   local.get $0
   i32.const 16
   i32.sub
@@ -523,7 +525,7 @@
   i32.const 1
   i32.shr_u
  )
- (func $~lib/util/memory/memcpy (; 32 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/memory/memcpy (; 33 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1547,7 +1549,7 @@
    i32.store8
   end
  )
- (func $~lib/memory/memory.copy (; 33 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.copy (; 34 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1767,7 +1769,7 @@
    end
   end
  )
- (func $~lib/string/String#concat (; 34 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#concat (; 35 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1843,7 +1845,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/string/String.__concat (; 35 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__concat (; 36 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -1866,7 +1868,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#constructor (; 36 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#constructor (; 37 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1912,7 +1914,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#constructor (; 37 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#constructor (; 38 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1958,7 +1960,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#constructor (; 38 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#constructor (; 39 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2004,7 +2006,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $start:assembly/model (; 39 ;)
+ (func $start:assembly/model (; 40 ;)
   i32.const 0
   i32.const 624
   call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#constructor
@@ -2018,15 +2020,15 @@
   call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#constructor
   global.set $assembly/model/userCollection
  )
- (func $start:assembly/main (; 40 ;)
+ (func $start:assembly/main (; 41 ;)
   call $start:~lib/near-sdk-as/index
   call $start:assembly/model
  )
- (func $~lib/string/String#toString (; 41 ;) (param $0 i32) (result i32)
+ (func $~lib/string/String#toString (; 42 ;) (param $0 i32) (result i32)
   local.get $0
   call $~lib/rt/stub/__retain
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#_key (; 42 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#_key (; 43 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2047,7 +2049,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/string/String.UTF8.byteLength (; 43 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.UTF8.byteLength (; 44 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2158,7 +2160,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $~lib/memory/memory.fill (; 44 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/memory/memory.fill (; 45 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2422,7 +2424,7 @@
    end
   end
  )
- (func $~lib/arraybuffer/ArrayBufferView#constructor (; 45 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBufferView#constructor (; 46 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -2494,7 +2496,7 @@
   i32.store offset=8
   local.get $0
  )
- (func $~lib/typedarray/Uint8Array#constructor (; 46 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#constructor (; 47 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -2510,7 +2512,7 @@
   local.set $0
   local.get $0
  )
- (func $~lib/string/String.UTF8.encode (; 47 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.UTF8.encode (; 48 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2762,7 +2764,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/near-sdk-as/runtime/util/util.toUTF8 (; 48 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.toUTF8 (; 49 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -2779,7 +2781,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-sdk-as/runtime/util/util.stringToBytes (; 49 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.stringToBytes (; 50 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -2809,7 +2811,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#delete (; 50 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#delete (; 51 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -2831,7 +2833,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#delete (; 51 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#delete (; 52 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -2847,13 +2849,13 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/devDeleteAllMemento (; 52 ;) (result i32)
+ (func $assembly/main/devDeleteAllMemento (; 53 ;) (result i32)
   global.get $assembly/model/mementoCollection
   i32.const 720
   call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#delete
   i32.const 1
  )
- (func $node_modules/near-sdk-as/assembly/runtime/storage/Storage#constructor (; 53 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/runtime/storage/Storage#constructor (; 54 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -2865,12 +2867,12 @@
   end
   local.get $0
  )
- (func $start:node_modules/near-sdk-as/assembly/runtime/storage (; 54 ;)
+ (func $start:node_modules/near-sdk-as/assembly/runtime/storage (; 55 ;)
   i32.const 0
   call $node_modules/near-sdk-as/assembly/runtime/storage/Storage#constructor
   global.set $node_modules/near-sdk-as/assembly/runtime/storage/storage
  )
- (func $node_modules/near-sdk-as/assembly/runtime/contract/Context#constructor (; 55 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/runtime/contract/Context#constructor (; 56 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -2882,16 +2884,16 @@
   end
   local.get $0
  )
- (func $start:node_modules/near-sdk-as/assembly/runtime/contract (; 56 ;)
+ (func $start:node_modules/near-sdk-as/assembly/runtime/contract (; 57 ;)
   i32.const 0
   call $node_modules/near-sdk-as/assembly/runtime/contract/Context#constructor
   global.set $node_modules/near-sdk-as/assembly/runtime/contract/context
  )
- (func $start:node_modules/near-sdk-as/assembly/runtime/index (; 57 ;)
+ (func $start:node_modules/near-sdk-as/assembly/runtime/index (; 58 ;)
   call $start:node_modules/near-sdk-as/assembly/runtime/storage
   call $start:node_modules/near-sdk-as/assembly/runtime/contract
  )
- (func $~lib/string/String#charCodeAt (; 58 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charCodeAt (; 59 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   call $~lib/string/String#get:length
@@ -2907,7 +2909,7 @@
   i32.add
   i32.load16_u
  )
- (func $start:~lib/assemblyscript-json/decoder (; 59 ;)
+ (func $start:~lib/assemblyscript-json/decoder (; 60 ;)
   i32.const 976
   i32.const 0
   call $~lib/string/String#charCodeAt
@@ -2925,7 +2927,7 @@
   call $~lib/string/String#charCodeAt
   global.set $~lib/assemblyscript-json/decoder/CHAR_A_LOWER
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 60 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 61 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -2947,7 +2949,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/Handler#constructor (; 61 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#constructor (; 62 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -2964,7 +2966,7 @@
   i32.store
   local.get $0
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#constructor (; 62 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#constructor (; 63 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3007,7 +3009,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $start:~lib/assemblyscript-json/JSON (; 63 ;)
+ (func $start:~lib/assemblyscript-json/JSON (; 64 ;)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/Handler#constructor
   global.set $~lib/assemblyscript-json/JSON/_JSON.handler
@@ -3016,19 +3018,19 @@
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#constructor
   global.set $~lib/assemblyscript-json/JSON/_JSON.decoder
  )
- (func $start:~lib/assemblyscript-json/index (; 64 ;)
+ (func $start:~lib/assemblyscript-json/index (; 65 ;)
   call $start:~lib/assemblyscript-json/decoder
   call $start:~lib/assemblyscript-json/JSON
  )
- (func $start:node_modules/near-sdk-as/assembly/bindgen (; 65 ;)
+ (func $start:node_modules/near-sdk-as/assembly/bindgen (; 66 ;)
   call $start:node_modules/near-sdk-as/assembly/runtime/index
   call $start:~lib/assemblyscript-json/index
  )
- (func $~lib/array/Array<i32>#get:length (; 66 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<i32>#get:length (; 67 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<i32>#__unchecked_get (; 67 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#__unchecked_get (; 68 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -3037,7 +3039,7 @@
   i32.add
   i32.load
  )
- (func $~lib/array/Array<i32>#__get (; 68 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#__get (; 69 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -3057,7 +3059,7 @@
   local.set $2
   local.get $2
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#get:isFirstKey (; 69 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#get:isFirstKey (; 70 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load
   local.get $0
@@ -3067,7 +3069,7 @@
   i32.sub
   call $~lib/array/Array<i32>#__get
  )
- (func $~lib/rt/stub/__realloc (; 70 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/stub/__realloc (; 71 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3190,7 +3192,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/array/ensureSize (; 71 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/ensureSize (; 72 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -3252,7 +3254,7 @@
    i32.store offset=8
   end
  )
- (func $~lib/array/Array<~lib/string/String>#push (; 72 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#push (; 73 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -3288,7 +3290,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#write (; 73 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#write (; 74 ;) (param $0 i32) (param $1 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -3300,7 +3302,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<i32>#__unchecked_set (; 74 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<i32>#__unchecked_set (; 75 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -3310,7 +3312,7 @@
   local.get $2
   i32.store
  )
- (func $~lib/array/Array<i32>#__set (; 75 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<i32>#__set (; 76 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=12
@@ -3344,7 +3346,7 @@
   local.get $2
   call $~lib/array/Array<i32>#__unchecked_set
  )
- (func $~lib/util/string/compareImpl (; 76 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $~lib/util/string/compareImpl (; 77 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -3466,7 +3468,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $~lib/string/String.__eq (; 77 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__eq (; 78 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -3539,7 +3541,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/string/String.__ne (; 78 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.__ne (; 79 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -3558,7 +3560,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/string/String#substring (; 79 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String#substring (; 80 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -3665,7 +3667,7 @@
   local.get $11
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/decimalCount32 (; 80 ;) (param $0 i32) (result i32)
+ (func $~lib/util/number/decimalCount32 (; 81 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 100000
@@ -3731,7 +3733,7 @@
   end
   unreachable
  )
- (func $~lib/util/number/utoa32_lut (; 81 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/number/utoa32_lut (; 82 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -3871,7 +3873,7 @@
    i32.store16
   end
  )
- (func $~lib/util/number/itoa32 (; 82 ;) (param $0 i32) (result i32)
+ (func $~lib/util/number/itoa32 (; 83 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -3925,16 +3927,16 @@
   local.get $3
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/itoa<i32> (; 83 ;) (param $0 i32) (result i32)
+ (func $~lib/util/number/itoa<i32> (; 84 ;) (param $0 i32) (result i32)
   local.get $0
   call $~lib/util/number/itoa32
   return
  )
- (func $~lib/number/I32#toString (; 84 ;) (param $0 i32) (result i32)
+ (func $~lib/number/I32#toString (; 85 ;) (param $0 i32) (result i32)
   local.get $0
   call $~lib/util/number/itoa<i32>
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeString (; 85 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeString (; 86 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4113,7 +4115,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeKey (; 86 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeKey (; 87 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -4169,7 +4171,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeBoolean (; 87 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#writeBoolean (; 88 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -4189,7 +4191,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setBoolean (; 88 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setBoolean (; 89 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -4202,7 +4204,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/util/string/joinStringArray (; 89 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/util/string/joinStringArray (; 90 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4431,7 +4433,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/array/Array<~lib/string/String>#join (; 90 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#join (; 91 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4454,19 +4456,19 @@
   local.get $4
   return
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#toString (; 91 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#toString (; 92 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   i32.const 608
   call $~lib/array/Array<~lib/string/String>#join
  )
- (func $~lib/arraybuffer/ArrayBuffer#get:byteLength (; 92 ;) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#get:byteLength (; 93 ;) (param $0 i32) (result i32)
   local.get $0
   i32.const 16
   i32.sub
   i32.load offset=12
  )
- (func $~lib/typedarray/Uint8Array.wrap (; 93 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array.wrap (; 94 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -4587,7 +4589,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $~lib/typedarray/Uint8Array.wrap|trampoline (; 94 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array.wrap|trampoline (; 95 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -4610,11 +4612,11 @@
   local.get $2
   call $~lib/typedarray/Uint8Array.wrap
  )
- (func $~setArgumentsLength (; 95 ;) (param $0 i32)
+ (func $~setArgumentsLength (; 96 ;) (param $0 i32)
   local.get $0
   global.set $~argumentsLength
  )
- (func $~lib/assemblyscript-json/util/index/Buffer.fromString (; 96 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/util/index/Buffer.fromString (; 97 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -4653,7 +4655,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#serialize (; 97 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#serialize (; 98 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -4665,7 +4667,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<bool,~lib/typedarray/Uint8Array> (; 98 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<bool,~lib/typedarray/Uint8Array> (; 99 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -4692,7 +4694,7 @@
   local.get $4
   return
  )
- (func $~lib/array/Array<i32>#constructor (; 99 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#constructor (; 100 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -4714,7 +4716,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/array/Array<~lib/string/String>#constructor (; 100 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#constructor (; 101 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -4736,7 +4738,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/array/Array<i32>#push (; 101 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<i32>#push (; 102 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -4763,7 +4765,7 @@
   i32.store offset=12
   local.get $3
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#constructor (; 102 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#constructor (; 103 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -4810,7 +4812,7 @@
   drop
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/JSONEncoder#constructor (; 103 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/JSONEncoder#constructor (; 104 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -4825,7 +4827,7 @@
   local.set $0
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<bool,~lib/typedarray/Uint8Array>|trampoline (; 104 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<bool,~lib/typedarray/Uint8Array>|trampoline (; 105 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -4856,12 +4858,12 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/value_return (; 105 ;) (param $0 i64) (param $1 i64)
+ (func $node_modules/near-sdk-as/assembly/bindgen/value_return (; 106 ;) (param $0 i64) (param $1 i64)
   local.get $0
   local.get $1
   call $node_modules/near-sdk-as/assembly/runtime/env/imports/env.value_return
  )
- (func $assembly/main/__wrapper_devDeleteAllMemento (; 106 ;)
+ (func $assembly/main/__wrapper_devDeleteAllMemento (; 107 ;)
   (local $0 i32)
   (local $1 i32)
   call $assembly/main/devDeleteAllMemento
@@ -4883,7 +4885,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#_key (; 107 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#_key (; 108 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4904,7 +4906,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#delete (; 108 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#delete (; 109 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -4920,13 +4922,13 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/devDeleteAllPost (; 109 ;) (result i32)
+ (func $assembly/main/devDeleteAllPost (; 110 ;) (result i32)
   global.get $assembly/model/postCollection
   i32.const 720
   call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#delete
   i32.const 1
  )
- (func $assembly/main/__wrapper_devDeleteAllPost (; 110 ;)
+ (func $assembly/main/__wrapper_devDeleteAllPost (; 111 ;)
   (local $0 i32)
   (local $1 i32)
   call $assembly/main/devDeleteAllPost
@@ -4948,7 +4950,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#_key (; 111 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#_key (; 112 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4969,7 +4971,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#delete (; 112 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#delete (; 113 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -4985,7 +4987,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/rt/__allocBuffer (; 113 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/rt/__allocBuffer (; 114 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $0
   local.get $1
@@ -5000,7 +5002,7 @@
   end
   local.get $3
  )
- (func $~lib/rt/__allocArray (; 114 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $~lib/rt/__allocArray (; 115 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -5032,7 +5034,7 @@
   i32.store offset=12
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/util/util.read_register (; 115 ;) (param $0 i64) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.read_register (; 116 ;) (param $0 i64) (result i32)
   (local $1 i64)
   (local $2 i32)
   local.get $0
@@ -5050,7 +5052,7 @@
   call $~lib/near-sdk-as/runtime/env/imports/env.read_register
   local.get $2
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#_internalReadBytes (; 116 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#_internalReadBytes (; 117 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -5095,7 +5097,7 @@
   end
   unreachable
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#getBytes (; 117 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#getBytes (; 118 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -5108,7 +5110,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/decoder/DecoderState#constructor (; 118 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/DecoderState#constructor (; 119 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -5135,11 +5137,11 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/typedarray/Uint8Array#get:length (; 119 ;) (param $0 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#get:length (; 120 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=8
  )
- (func $~lib/typedarray/Uint8Array#__get (; 120 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/typedarray/Uint8Array#__get (; 121 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -5158,7 +5160,7 @@
   i32.add
   i32.load8_u
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar (; 121 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar (; 122 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   i32.load offset=4
@@ -5179,7 +5181,7 @@
   i32.load offset=4
   call $~lib/typedarray/Uint8Array#__get
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#isWhitespace (; 122 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#isWhitespace (; 123 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   i32.const 9
   i32.eq
@@ -5205,7 +5207,7 @@
    i32.eq
   end
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readChar (; 123 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readChar (; 124 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.load offset=4
@@ -5239,7 +5241,7 @@
   local.get $1
   call $~lib/typedarray/Uint8Array#__get
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace (; 124 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace (; 125 ;) (param $0 i32)
   (local $1 i32)
   loop $while-continue|0
    local.get $0
@@ -5256,7 +5258,7 @@
    end
   end
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value#constructor (; 125 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value#constructor (; 126 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -5268,7 +5270,7 @@
   end
   local.get $0
  )
- (func $~lib/arraybuffer/ArrayBuffer#constructor (; 126 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#constructor (; 127 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   i32.const 1073741808
@@ -5292,7 +5294,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#clear (; 127 ;) (param $0 i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#clear (; 128 ;) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -5332,7 +5334,7 @@
   i32.const 0
   i32.store offset=20
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 128 ;) (param $0 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#constructor (; 129 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -5364,7 +5366,7 @@
   call $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#clear
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#constructor (; 129 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#constructor (; 130 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -5407,15 +5409,15 @@
   i32.store offset=4
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Object (; 130 ;) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Object (; 131 ;) (result i32)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/JSON.Obj#constructor
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length (; 131 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length (; 132 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#push (; 132 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#push (; 133 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5451,7 +5453,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__unchecked_get (; 133 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__unchecked_get (; 134 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -5461,7 +5463,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__get (; 134 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__get (; 135 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -5493,7 +5495,7 @@
   end
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/Handler#get:peek (; 135 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#get:peek (; 136 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load
   local.get $0
@@ -5503,7 +5505,7 @@
   i32.sub
   call $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#__get
  )
- (func $~lib/rt/__instanceof (; 136 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/rt/__instanceof (; 137 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5543,7 +5545,7 @@
   end
   i32.const 0
  )
- (func $~lib/util/hash/hashStr (; 137 ;) (param $0 i32) (result i32)
+ (func $~lib/util/hash/hashStr (; 138 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -5594,7 +5596,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#find (; 138 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#find (; 139 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5654,7 +5656,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#has (; 139 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#has (; 140 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -5682,7 +5684,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#rehash (; 140 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#rehash (; 141 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -5844,7 +5846,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#set (; 141 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#set (; 142 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -5979,7 +5981,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#_set (; 142 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#_set (; 143 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -6009,7 +6011,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#set<~lib/assemblyscript-json/JSON/JSON.Value> (; 143 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#set<~lib/assemblyscript-json/JSON/JSON.Value> (; 144 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -6026,7 +6028,7 @@
   call $~lib/rt/stub/__release
   return
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Arr#push (; 144 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Arr#push (; 145 ;) (param $0 i32) (param $1 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -6038,7 +6040,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/Handler#addValue (; 145 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#addValue (; 146 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6153,7 +6155,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/Handler#pushObject (; 146 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#pushObject (; 147 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -6178,14 +6180,14 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/arraybuffer/ArrayBufferView#get:byteOffset (; 147 ;) (param $0 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBufferView#get:byteOffset (; 148 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $0
   i32.load
   i32.sub
  )
- (func $~lib/assemblyscript-json/util/index/Buffer.getDataPtr (; 148 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/util/index/Buffer.getDataPtr (; 149 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -6200,7 +6202,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/string/String.UTF8.decodeUnsafe (; 149 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String.UTF8.decodeUnsafe (; 150 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -6416,7 +6418,7 @@
   call $~lib/rt/stub/__realloc
   call $~lib/rt/stub/__retain
  )
- (func $~lib/assemblyscript-json/util/index/Buffer.readString (; 150 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/assemblyscript-json/util/index/Buffer.readString (; 151 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -6435,7 +6437,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/decoder/DecoderState#readString (; 151 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/DecoderState#readString (; 152 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $0
   i32.load offset=8
   local.get $1
@@ -6444,7 +6446,7 @@
   i32.sub
   call $~lib/assemblyscript-json/util/index/Buffer.readString
  )
- (func $~lib/assemblyscript-json/decoder/DecoderState#readString|trampoline (; 152 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/DecoderState#readString|trampoline (; 153 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -6464,11 +6466,11 @@
   local.get $2
   call $~lib/assemblyscript-json/decoder/DecoderState#readString
  )
- (func $~lib/array/Array<~lib/string/String>#get:length (; 153 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#get:length (; 154 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readHexDigit (; 154 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readHexDigit (; 155 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6552,7 +6554,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/string/String.fromCodePoint (; 155 ;) (param $0 i32) (result i32)
+ (func $~lib/string/String.fromCodePoint (; 156 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6613,7 +6615,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/string/String.fromCharCode (; 156 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.fromCharCode (; 157 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -6638,7 +6640,7 @@
   local.get $3
   call $~lib/rt/stub/__retain
  )
- (func $~lib/string/String.fromCharCode|trampoline (; 157 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.fromCharCode|trampoline (; 158 ;) (param $0 i32) (param $1 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -6656,7 +6658,7 @@
   local.get $1
   call $~lib/string/String.fromCharCode
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readEscapedChar (; 158 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readEscapedChar (; 159 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6791,7 +6793,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readString (; 159 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readString (; 160 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -6933,7 +6935,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseKey (; 160 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseKey (; 161 ;) (param $0 i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -6967,7 +6969,7 @@
    unreachable
   end
  )
- (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#pop (; 161 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#pop (; 162 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -7001,7 +7003,7 @@
   i32.store offset=12
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/Handler#popObject (; 162 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#popObject (; 163 ;) (param $0 i32)
   local.get $0
   i32.load
   call $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length
@@ -7014,7 +7016,7 @@
    call $~lib/rt/stub/__release
   end
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseObject (; 163 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseObject (; 164 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -7120,7 +7122,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Arr#constructor (; 164 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Arr#constructor (; 165 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -7150,11 +7152,11 @@
   i32.store
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Array (; 165 ;) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Array (; 166 ;) (result i32)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/JSON.Arr#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#pushArray (; 166 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#pushArray (; 167 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -7192,7 +7194,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/assemblyscript-json/JSON/Handler#popArray (; 167 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#popArray (; 168 ;) (param $0 i32)
   local.get $0
   i32.load
   call $~lib/array/Array<~lib/assemblyscript-json/JSON/JSON.Value>#get:length
@@ -7205,7 +7207,7 @@
    call $~lib/rt/stub/__release
   end
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseArray (; 168 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseArray (; 169 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -7309,7 +7311,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Str#constructor (; 169 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Str#constructor (; 170 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -7332,7 +7334,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.String (; 170 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.String (; 171 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -7345,7 +7347,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setString (; 171 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#setString (; 172 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -7367,7 +7369,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseString (; 172 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseString (; 173 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -7395,7 +7397,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readAndAssert (; 173 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#readAndAssert (; 174 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -7448,7 +7450,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Bool#constructor (; 174 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Bool#constructor (; 175 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -7465,12 +7467,12 @@
   i32.store8
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Bool (; 175 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Bool (; 176 ;) (param $0 i32) (result i32)
   i32.const 0
   local.get $0
   call $~lib/assemblyscript-json/JSON/JSON.Bool#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setBoolean (; 176 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#setBoolean (; 177 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -7487,7 +7489,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseBoolean (; 177 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseBoolean (; 178 ;) (param $0 i32) (result i32)
   local.get $0
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar
   i32.const 944
@@ -7530,7 +7532,7 @@
   end
   i32.const 0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Num#constructor (; 178 ;) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Num#constructor (; 179 ;) (param $0 i32) (param $1 i64) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -7547,12 +7549,12 @@
   i64.store
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Number (; 179 ;) (param $0 i64) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Number (; 180 ;) (param $0 i64) (result i32)
   i32.const 0
   local.get $0
   call $~lib/assemblyscript-json/JSON/JSON.Num#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setInteger (; 180 ;) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $~lib/assemblyscript-json/JSON/Handler#setInteger (; 181 ;) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -7569,7 +7571,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNumber (; 181 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNumber (; 182 ;) (param $0 i32) (result i32)
   (local $1 i64)
   (local $2 i64)
   (local $3 i32)
@@ -7649,7 +7651,7 @@
   end
   i32.const 0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Null#constructor (; 182 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Null#constructor (; 183 ;) (param $0 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -7663,11 +7665,11 @@
   local.set $0
   local.get $0
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Value.Null (; 183 ;) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Value.Null (; 184 ;) (result i32)
   i32.const 0
   call $~lib/assemblyscript-json/JSON/JSON.Null#constructor
  )
- (func $~lib/assemblyscript-json/JSON/Handler#setNull (; 184 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#setNull (; 185 ;) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -7683,7 +7685,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNull (; 185 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseNull (; 186 ;) (param $0 i32) (result i32)
   local.get $0
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#peekChar
   i32.const 576
@@ -7705,7 +7707,7 @@
   end
   i32.const 0
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseValue (; 186 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#parseValue (; 187 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace
@@ -7751,7 +7753,7 @@
   call $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#skipWhitespace
   local.get $1
  )
- (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#deserialize (; 187 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/decoder/JSONDecoder<~lib/assemblyscript-json/JSON/Handler>#deserialize (; 188 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -7813,7 +7815,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/JSON/Handler#reset (; 188 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/JSON/Handler#reset (; 189 ;) (param $0 i32)
   (local $1 i32)
   loop $while-continue|0
    local.get $0
@@ -7832,7 +7834,7 @@
    end
   end
  )
- (func $~lib/assemblyscript-json/JSON/_JSON.parse<~lib/typedarray/Uint8Array> (; 189 ;) (param $0 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/_JSON.parse<~lib/typedarray/Uint8Array> (; 190 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -7879,7 +7881,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#get (; 190 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/map/Map<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value>#get (; 191 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -7922,7 +7924,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#get (; 191 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#get (; 192 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -7950,7 +7952,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/UserList> (; 192 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/UserList> (; 193 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -7968,7 +7970,7 @@
    i32.const 0
   end
  )
- (func $~lib/assemblyscript-json/JSON/JSON.Obj#has (; 193 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/JSON/JSON.Obj#has (; 194 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -7982,7 +7984,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/User>> (; 194 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/User>> (; 195 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -8000,7 +8002,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/User>#constructor (; 195 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#constructor (; 196 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -8022,7 +8024,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/User> (; 196 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/User> (; 197 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -8040,7 +8042,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/string/String> (; 197 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/string/String> (; 198 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -8058,7 +8060,7 @@
    i32.const 1
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj> (; 198 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj> (; 199 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8347,7 +8349,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Following>> (; 199 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Following>> (; 200 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -8365,7 +8367,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/Following>#constructor (; 200 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#constructor (; 201 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -8387,7 +8389,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Following> (; 201 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Following> (; 202 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -8405,7 +8407,7 @@
    i32.const 0
   end
  )
- (func $assembly/model/Following#_decode (; 202 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Following#_decode (; 203 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -8458,7 +8460,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/Following#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 203 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Following#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 204 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8491,7 +8493,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Following,~lib/assemblyscript-json/JSON/JSON.Value> (; 204 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Following,~lib/assemblyscript-json/JSON/JSON.Value> (; 205 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8794,7 +8796,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/array/Array<assembly/model/Following>#push (; 205 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#push (; 206 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8830,7 +8832,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Following> (; 206 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Following> (; 207 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -8937,7 +8939,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Following>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 207 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Following>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 208 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -9172,7 +9174,7 @@
   local.get $6
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Img> (; 208 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Img> (; 209 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -9190,7 +9192,7 @@
    i32.const 0
   end
  )
- (func $assembly/model/Img#_decode (; 209 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Img#_decode (; 210 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -9243,7 +9245,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/Img#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 210 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Img#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 211 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -9276,7 +9278,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Img,~lib/assemblyscript-json/JSON/JSON.Obj> (; 211 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Img,~lib/assemblyscript-json/JSON/JSON.Obj> (; 212 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -9579,7 +9581,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<u64> (; 212 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<u64> (; 213 ;) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -9597,7 +9599,7 @@
    i32.const 0
   end
  )
- (func $~lib/util/string/isSpace (; 213 ;) (param $0 i32) (result i32)
+ (func $~lib/util/string/isSpace (; 214 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   i32.const 5760
@@ -9678,7 +9680,7 @@
   end
   i32.const 0
  )
- (func $~lib/util/string/strtol<i64> (; 214 ;) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/util/string/strtol<i64> (; 215 ;) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
@@ -9969,7 +9971,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/number/U64.parseInt (; 215 ;) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/number/U64.parseInt (; 216 ;) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i64)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -9982,7 +9984,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<u64,~lib/assemblyscript-json/JSON/JSON.Obj> (; 216 ;) (param $0 i32) (param $1 i32) (result i64)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<u64,~lib/assemblyscript-json/JSON/JSON.Obj> (; 217 ;) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10211,7 +10213,7 @@
   local.get $10
   return
  )
- (func $assembly/model/User#_decode (; 217 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/User#_decode (; 218 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -10357,7 +10359,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/User#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 218 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/User#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 219 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10390,7 +10392,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/User,~lib/assemblyscript-json/JSON/JSON.Value> (; 219 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/User,~lib/assemblyscript-json/JSON/JSON.Value> (; 220 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10693,7 +10695,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/array/Array<assembly/model/User>#push (; 220 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#push (; 221 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10729,7 +10731,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/User> (; 221 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/User> (; 222 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -10836,7 +10838,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/User>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 222 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/User>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 223 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -11071,7 +11073,7 @@
   local.get $6
   return
  )
- (func $assembly/model/UserList#_decode (; 223 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/UserList#_decode (; 224 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -11104,7 +11106,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/UserList#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 224 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/UserList#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 225 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -11137,7 +11139,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/UserList,~lib/typedarray/Uint8Array> (; 225 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/UserList,~lib/typedarray/Uint8Array> (; 226 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -11458,7 +11460,7 @@
   call $~lib/rt/stub/__release
   local.get $10
  )
- (func $~lib/near-sdk-as/runtime/util/util.parseFromBytes<assembly/model/UserList> (; 226 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.parseFromBytes<assembly/model/UserList> (; 227 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -11471,7 +11473,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#get<assembly/model/UserList> (; 227 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#get<assembly/model/UserList> (; 228 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -11504,7 +11506,7 @@
   local.get $4
   return
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#get (; 228 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#get (; 229 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -11529,11 +11531,11 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/array/Array<assembly/model/User>#get:length (; 229 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#get:length (; 230 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/User>#__unchecked_get (; 230 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#__unchecked_get (; 231 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -11543,7 +11545,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/User>#__get (; 231 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#__get (; 232 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -11575,7 +11577,7 @@
   end
   local.get $2
  )
- (func $~lib/array/Array<bool>#constructor (; 232 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<bool>#constructor (; 233 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -11597,7 +11599,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $~lib/array/Array<~lib/string/String>#__unchecked_get (; 233 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#__unchecked_get (; 234 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -11607,7 +11609,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<~lib/string/String>#__get (; 234 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#__get (; 235 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -11639,7 +11641,7 @@
   end
   local.get $2
  )
- (func $~lib/string/String#indexOf (; 235 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String#indexOf (; 236 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -11729,7 +11731,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/string/String#split (; 236 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String#split (; 237 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -12035,7 +12037,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/util/string/stagedBinaryLookup (; 237 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/util/string/stagedBinaryLookup (; 238 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   local.get $0
   local.get $1
@@ -12060,7 +12062,7 @@
   i32.const 1
   i32.and
  )
- (func $~lib/util/casemap/casemap (; 238 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/util/casemap/casemap (; 239 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -12250,7 +12252,7 @@
   end
   local.get $2
  )
- (func $~lib/string/String#toLowerCase (; 239 ;) (param $0 i32) (result i32)
+ (func $~lib/string/String#toLowerCase (; 240 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -12798,7 +12800,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<bool>#__unchecked_set (; 240 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<bool>#__unchecked_set (; 241 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -12808,7 +12810,7 @@
   local.get $2
   i32.store8
  )
- (func $~lib/array/Array<bool>#__set (; 241 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<bool>#__set (; 242 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=12
@@ -12842,7 +12844,7 @@
   local.get $2
   call $~lib/array/Array<bool>#__unchecked_set
  )
- (func $~lib/array/Array<~lib/string/String>#indexOf (; 242 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#indexOf (; 243 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -12926,7 +12928,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/array/Array<~lib/string/String>#includes (; 243 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<~lib/string/String>#includes (; 244 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -12943,7 +12945,7 @@
   local.get $3
   return
  )
- (func $assembly/main/getUserList~anonymous|0 (; 244 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getUserList~anonymous|0 (; 245 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $2
   call $~lib/rt/stub/__retain
@@ -12958,7 +12960,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/array/Array<bool>#every (; 245 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<bool>#every (; 246 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13010,7 +13012,7 @@
   end
   i32.const 1
  )
- (func $assembly/main/_addToUserList (; 246 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $assembly/main/_addToUserList (; 247 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
   local.set $0
@@ -13030,7 +13032,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/string/String.__not (; 247 ;) (param $0 i32) (result i32)
+ (func $~lib/string/String.__not (; 248 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13050,7 +13052,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $assembly/main/getUserList~anonymous|1 (; 248 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getUserList~anonymous|1 (; 249 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13071,7 +13073,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/util/sort/insertionSort<assembly/model/User> (; 249 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/sort/insertionSort<assembly/model/User> (; 250 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -13169,7 +13171,7 @@
    end
   end
  )
- (func $~lib/array/Array<assembly/model/User>#sort (; 250 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#sort (; 251 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13240,7 +13242,7 @@
   local.get $0
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/User>#slice (; 251 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/User>#slice (; 252 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -13363,7 +13365,7 @@
   end
   local.get $6
  )
- (func $assembly/main/getUserList (; 252 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getUserList (; 253 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -13706,7 +13708,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $assembly/main/getUserList|trampoline (; 253 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getUserList|trampoline (; 254 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   block $2of2
@@ -13749,7 +13751,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/devDeleteAllUser (; 254 ;) (result i32)
+ (func $assembly/main/devDeleteAllUser (; 255 ;) (result i32)
   (local $0 i32)
   global.get $assembly/model/userCollection
   i32.const 720
@@ -13762,7 +13764,7 @@
   local.set $0
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/User>> (; 255 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/User>> (; 256 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13776,7 +13778,7 @@
   local.get $1
   return
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setNull (; 256 ;) (param $0 i32) (param $1 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setNull (; 257 ;) (param $0 i32) (param $1 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -13789,7 +13791,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushArray (; 257 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushArray (; 258 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -13811,7 +13813,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/User> (; 258 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/User> (; 259 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13825,7 +13827,7 @@
   local.get $1
   return
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushObject (; 259 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#pushObject (; 260 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -13847,7 +13849,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/string/String> (; 260 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/string/String> (; 261 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13861,7 +13863,7 @@
   local.get $1
   return
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#setString (; 261 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#setString (; 262 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
@@ -13879,7 +13881,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/string/String,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 262 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/string/String,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 263 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -13915,7 +13917,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Following>> (; 263 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Following>> (; 264 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13929,11 +13931,11 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<assembly/model/Following>#get:length (; 264 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#get:length (; 265 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/Following>#__unchecked_get (; 265 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#__unchecked_get (; 266 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -13943,7 +13945,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/Following>#__get (; 266 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#__get (; 267 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -13975,7 +13977,7 @@
   end
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Following> (; 267 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Following> (; 268 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -13989,7 +13991,7 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<i32>#pop (; 268 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<i32>#pop (; 269 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -14022,7 +14024,7 @@
   i32.store offset=12
   local.get $2
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#popObject (; 269 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#popObject (; 270 ;) (param $0 i32)
   local.get $0
   i32.const 2784
   call $~lib/assemblyscript-json/encoder/JSONEncoder#write
@@ -14031,7 +14033,7 @@
   call $~lib/array/Array<i32>#pop
   drop
  )
- (func $assembly/model/Following#_encode (; 270 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Following#_encode (; 271 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -14077,7 +14079,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Following,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 271 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Following,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 272 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -14114,7 +14116,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/assemblyscript-json/encoder/JSONEncoder#popArray (; 272 ;) (param $0 i32)
+ (func $~lib/assemblyscript-json/encoder/JSONEncoder#popArray (; 273 ;) (param $0 i32)
   local.get $0
   i32.const 3520
   call $~lib/assemblyscript-json/encoder/JSONEncoder#write
@@ -14123,7 +14125,7 @@
   call $~lib/array/Array<i32>#pop
   drop
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Following>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 273 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Following>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 274 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -14190,7 +14192,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Img> (; 274 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Img> (; 275 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -14204,7 +14206,7 @@
   local.get $1
   return
  )
- (func $assembly/model/Img#_encode (; 275 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Img#_encode (; 276 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -14250,7 +14252,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 276 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 277 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -14287,7 +14289,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/util/number/decimalCount64 (; 277 ;) (param $0 i64) (result i32)
+ (func $~lib/util/number/decimalCount64 (; 278 ;) (param $0 i64) (result i32)
   (local $1 i32)
   local.get $0
   i64.const 1000000000000000
@@ -14360,7 +14362,7 @@
   end
   unreachable
  )
- (func $~lib/util/number/utoa64_lut (; 278 ;) (param $0 i32) (param $1 i64) (param $2 i32)
+ (func $~lib/util/number/utoa64_lut (; 279 ;) (param $0 i32) (param $1 i64) (param $2 i32)
   (local $3 i32)
   (local $4 i64)
   (local $5 i32)
@@ -14483,7 +14485,7 @@
   local.get $2
   call $~lib/util/number/utoa32_lut
  )
- (func $~lib/util/number/utoa64 (; 279 ;) (param $0 i64) (result i32)
+ (func $~lib/util/number/utoa64 (; 280 ;) (param $0 i64) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -14549,16 +14551,16 @@
   local.get $1
   call $~lib/rt/stub/__retain
  )
- (func $~lib/util/number/itoa<u64> (; 280 ;) (param $0 i64) (result i32)
+ (func $~lib/util/number/itoa<u64> (; 281 ;) (param $0 i64) (result i32)
   local.get $0
   call $~lib/util/number/utoa64
   return
  )
- (func $~lib/number/U64#toString (; 281 ;) (param $0 i64) (result i32)
+ (func $~lib/number/U64#toString (; 282 ;) (param $0 i64) (result i32)
   local.get $0
   call $~lib/util/number/itoa<u64>
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<u64,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 282 ;) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<u64,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 283 ;) (param $0 i64) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -14585,7 +14587,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/User#_encode (; 283 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/User#_encode (; 284 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -14661,7 +14663,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 284 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 285 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -14698,7 +14700,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,~lib/typedarray/Uint8Array> (; 285 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,~lib/typedarray/Uint8Array> (; 286 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -14769,7 +14771,7 @@
   local.get $3
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,~lib/typedarray/Uint8Array>|trampoline (; 286 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,~lib/typedarray/Uint8Array>|trampoline (; 287 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -14800,7 +14802,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_devDeleteAllUser (; 287 ;)
+ (func $assembly/main/__wrapper_devDeleteAllUser (; 288 ;)
   (local $0 i32)
   (local $1 i32)
   call $assembly/main/devDeleteAllUser
@@ -14824,23 +14826,23 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/input (; 288 ;) (param $0 i64)
+ (func $node_modules/near-sdk-as/assembly/bindgen/input (; 289 ;) (param $0 i64)
   local.get $0
   call $node_modules/near-sdk-as/assembly/runtime/env/imports/env.input
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/register_len (; 289 ;) (param $0 i64) (result i64)
+ (func $node_modules/near-sdk-as/assembly/bindgen/register_len (; 290 ;) (param $0 i64) (result i64)
   local.get $0
   call $node_modules/near-sdk-as/assembly/runtime/env/imports/env.register_len
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/panic (; 290 ;)
+ (func $node_modules/near-sdk-as/assembly/bindgen/panic (; 291 ;)
   call $node_modules/near-sdk-as/assembly/runtime/env/imports/env.panic
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/read_register (; 291 ;) (param $0 i64) (param $1 i64)
+ (func $node_modules/near-sdk-as/assembly/bindgen/read_register (; 292 ;) (param $0 i64) (param $1 i64)
   local.get $0
   local.get $1
   call $node_modules/near-sdk-as/assembly/runtime/env/imports/env.read_register
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/getInput (; 292 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/getInput (; 293 ;) (result i32)
   (local $0 i64)
   (local $1 i32)
   (local $2 i32)
@@ -14894,7 +14896,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#contains (; 293 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#contains (; 294 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -14919,7 +14921,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/arraybuffer/ArrayBuffer#slice (; 294 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/arraybuffer/ArrayBuffer#slice (; 295 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -15002,7 +15004,7 @@
   local.get $7
   call $~lib/rt/stub/__retain
  )
- (func $~lib/near-sdk-as/runtime/util/util.uint8ArrayToBuffer (; 295 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.uint8ArrayToBuffer (; 296 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -15022,7 +15024,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/string/String.UTF8.decode (; 296 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String.UTF8.decode (; 297 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -15037,7 +15039,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-sdk-as/runtime/util/util.bytesToString (; 297 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.bytesToString (; 298 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -15067,7 +15069,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#getString (; 298 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#getString (; 299 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -15085,7 +15087,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $~lib/number/I64.parseInt (; 299 ;) (param $0 i32) (param $1 i32) (result i64)
+ (func $~lib/number/I64.parseInt (; 300 ;) (param $0 i32) (param $1 i32) (result i64)
   (local $2 i64)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -15098,7 +15100,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/near-sdk-as/runtime/util/util.parseFromString<i32> (; 300 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.parseFromString<i32> (; 301 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -15113,7 +15115,7 @@
   local.get $1
   return
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#getSome<i32> (; 301 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#getSome<i32> (; 302 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -15179,7 +15181,7 @@
   local.get $3
   return
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#setString (; 302 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#setString (; 303 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -15219,7 +15221,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#set<u64> (; 303 ;) (param $0 i32) (param $1 i32) (param $2 i64)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#set<u64> (; 304 ;) (param $0 i32) (param $1 i32) (param $2 i64)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -15235,14 +15237,14 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/math/math.randomSeed (; 304 ;) (result i32)
+ (func $~lib/near-sdk-as/runtime/math/math.randomSeed (; 305 ;) (result i32)
   i64.const 0
   call $~lib/near-sdk-as/runtime/env/imports/env.random_seed
   i64.const 0
   call $~lib/near-sdk-as/runtime/util/util.read_register
   return
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#setBytes (; 305 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#setBytes (; 306 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i64)
   local.get $1
@@ -15276,7 +15278,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#set<i32> (; 306 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#set<i32> (; 307 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -15292,7 +15294,7 @@
   local.get $1
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#getPrimitive<i32> (; 307 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#getPrimitive<i32> (; 308 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -15330,7 +15332,7 @@
   local.get $4
   return
  )
- (func $~lib/typedarray/Uint8Array#__set (; 308 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/typedarray/Uint8Array#__set (; 309 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $1
   local.get $0
   i32.load offset=8
@@ -15350,7 +15352,7 @@
   local.get $2
   i32.store8
  )
- (func $~lib/near-sdk-as/runtime/math/math.sha256 (; 309 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/math/math.sha256 (; 310 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -15371,7 +15373,7 @@
   local.get $1
   return
  )
- (func $~lib/near-sdk-as/runtime/math/math.randomBuffer (; 310 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/math/math.randomBuffer (; 311 ;) (param $0 i32) (result i32)
   (local $1 i64)
   (local $2 i32)
   (local $3 i32)
@@ -15523,7 +15525,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $~lib/string/String#charAt (; 311 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#charAt (; 312 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -15549,7 +15551,7 @@
   local.get $2
   call $~lib/rt/stub/__retain
  )
- (func $~lib/memory/memory.repeat (; 312 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
+ (func $~lib/memory/memory.repeat (; 313 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -15580,7 +15582,7 @@
    end
   end
  )
- (func $~lib/string/String#repeat (; 313 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/string/String#repeat (; 314 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $0
@@ -15648,7 +15650,7 @@
   local.get $3
   call $~lib/rt/stub/__retain
  )
- (func $~lib/near-sdk-as/runtime/base58/base58.encode (; 314 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/base58/base58.encode (; 315 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -15901,7 +15903,7 @@
   call $~lib/rt/stub/__release
   local.get $13
  )
- (func $~lib/string/String#replaceAll (; 315 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/string/String#replaceAll (; 316 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -16269,7 +16271,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $assembly/main/_genId (; 316 ;) (result i32)
+ (func $assembly/main/_genId (; 317 ;) (result i32)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -16295,7 +16297,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/Memento#constructor (; 317 ;) (param $0 i32) (result i32)
+ (func $assembly/model/Memento#constructor (; 318 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -16331,7 +16333,7 @@
   i32.store offset=32
   local.get $0
  )
- (func $~lib/near-sdk-as/runtime/contract/Context#_readRegisterContentsAsString (; 318 ;) (param $0 i32) (param $1 i64) (result i32)
+ (func $~lib/near-sdk-as/runtime/contract/Context#_readRegisterContentsAsString (; 319 ;) (param $0 i32) (param $1 i64) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16367,14 +16369,17 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/contract/Context#get:sender (; 319 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/contract/Context#get:sender (; 320 ;) (param $0 i32) (result i32)
   i64.const 0
   call $~lib/near-sdk-as/runtime/env/imports/env.signer_account_id
   local.get $0
   i64.const 0
   call $~lib/near-sdk-as/runtime/contract/Context#_readRegisterContentsAsString
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/MementoList> (; 320 ;) (result i32)
+ (func $~lib/near-sdk-as/runtime/contract/Context#get:blockTimestamp (; 321 ;) (param $0 i32) (result i64)
+  call $~lib/near-sdk-as/runtime/env/imports/env.block_timestamp
+ )
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/MementoList> (; 322 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -16392,7 +16397,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Memento>> (; 321 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Memento>> (; 323 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -16410,7 +16415,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/Memento>#constructor (; 322 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#constructor (; 324 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -16432,7 +16437,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Memento> (; 323 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Memento> (; 325 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -16450,7 +16455,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/User | null> (; 324 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/User | null> (; 326 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -16468,7 +16473,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/User | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 325 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/User | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 327 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16760,7 +16765,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/Memento#_decode (; 326 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Memento#_decode (; 328 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -16926,7 +16931,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/Memento#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 327 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Memento#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 329 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -16959,7 +16964,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Memento,~lib/assemblyscript-json/JSON/JSON.Value> (; 328 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Memento,~lib/assemblyscript-json/JSON/JSON.Value> (; 330 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17262,7 +17267,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/array/Array<assembly/model/Memento>#push (; 329 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#push (; 331 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17298,7 +17303,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Memento> (; 330 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Memento> (; 332 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17405,7 +17410,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Memento>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 331 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Memento>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 333 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17640,7 +17645,7 @@
   local.get $6
   return
  )
- (func $assembly/model/MementoList#_decode (; 332 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/MementoList#_decode (; 334 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -17673,7 +17678,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/MementoList#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 333 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/MementoList#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 335 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -17706,7 +17711,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/MementoList,~lib/typedarray/Uint8Array> (; 334 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/MementoList,~lib/typedarray/Uint8Array> (; 336 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -18027,7 +18032,7 @@
   call $~lib/rt/stub/__release
   local.get $10
  )
- (func $~lib/near-sdk-as/runtime/util/util.parseFromBytes<assembly/model/MementoList> (; 335 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.parseFromBytes<assembly/model/MementoList> (; 337 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -18040,7 +18045,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#get<assembly/model/MementoList> (; 336 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#get<assembly/model/MementoList> (; 338 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -18073,7 +18078,7 @@
   local.get $4
   return
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#get (; 337 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#get (; 339 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -18098,7 +18103,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/MementoList> (; 338 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/MementoList> (; 340 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -18112,7 +18117,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Memento>> (; 339 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Memento>> (; 341 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -18126,11 +18131,11 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<assembly/model/Memento>#get:length (; 340 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#get:length (; 342 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/Memento>#__unchecked_get (; 341 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#__unchecked_get (; 343 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -18140,7 +18145,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/Memento>#__get (; 342 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#__get (; 344 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -18172,7 +18177,7 @@
   end
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Memento> (; 343 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Memento> (; 345 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -18186,7 +18191,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/User | null> (; 344 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/User | null> (; 346 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -18200,7 +18205,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 345 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 347 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -18237,7 +18242,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/Memento#_encode (; 346 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Memento#_encode (; 348 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -18319,7 +18324,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 347 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 349 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -18356,7 +18361,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Memento>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 348 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Memento>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 350 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -18423,7 +18428,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/MementoList#_encode (; 349 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/MementoList#_encode (; 351 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -18463,7 +18468,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/MementoList,~lib/typedarray/Uint8Array> (; 350 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/MementoList,~lib/typedarray/Uint8Array> (; 352 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -18504,7 +18509,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/MementoList,~lib/typedarray/Uint8Array>|trampoline (; 351 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/MementoList,~lib/typedarray/Uint8Array>|trampoline (; 353 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -18535,7 +18540,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/MementoList> (; 352 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/MementoList> (; 354 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -18560,7 +18565,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#set (; 353 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/MementoList>#set (; 355 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -18582,7 +18587,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/MementoList#constructor (; 354 ;) (param $0 i32) (result i32)
+ (func $assembly/model/MementoList#constructor (; 356 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -18597,7 +18602,7 @@
   i32.store
   local.get $0
  )
- (func $assembly/main/createMemento (; 355 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $assembly/main/createMemento (; 357 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -18747,7 +18752,8 @@
   local.get $7
   i32.store offset=20
   local.get $5
-  i64.const 123123123
+  global.get $~lib/near-sdk-as/runtime/contract/context
+  call $~lib/near-sdk-as/runtime/contract/Context#get:blockTimestamp
   i64.store offset=24
   global.get $assembly/model/mementoCollection
   i32.const 720
@@ -18817,7 +18823,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento,~lib/typedarray/Uint8Array> (; 356 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento,~lib/typedarray/Uint8Array> (; 358 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -18858,7 +18864,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento,~lib/typedarray/Uint8Array>|trampoline (; 357 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento,~lib/typedarray/Uint8Array>|trampoline (; 359 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -18889,7 +18895,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_createMemento (; 358 ;)
+ (func $assembly/main/__wrapper_createMemento (; 360 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -18946,7 +18952,7 @@
   local.get $6
   call $~lib/rt/stub/__release
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<~lib/string/String> | null> (; 359 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<~lib/string/String> | null> (; 361 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -18964,7 +18970,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value> (; 360 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Value> (; 362 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19253,7 +19259,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<~lib/string/String> (; 361 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<~lib/string/String> (; 363 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19360,7 +19366,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<~lib/string/String> | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 362 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<~lib/string/String> | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 364 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19584,7 +19590,7 @@
   local.get $6
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/QueryOpts> (; 363 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/QueryOpts> (; 365 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -19602,7 +19608,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<bool> (; 364 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<bool> (; 366 ;) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -19620,7 +19626,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<bool,~lib/assemblyscript-json/JSON/JSON.Obj> (; 365 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<bool,~lib/assemblyscript-json/JSON/JSON.Obj> (; 367 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -19840,7 +19846,7 @@
   local.get $8
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/string/String | null> (; 366 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/string/String | null> (; 368 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -19858,7 +19864,7 @@
    i32.const 1
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 367 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 369 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -20136,7 +20142,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<i8> (; 368 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<i8> (; 370 ;) (result i32)
   i32.const 0
   if (result i32)
    i32.const 1
@@ -20154,7 +20160,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<i8,~lib/assemblyscript-json/JSON/JSON.Obj> (; 369 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<i8,~lib/assemblyscript-json/JSON/JSON.Obj> (; 371 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -20376,7 +20382,7 @@
   local.get $9
   return
  )
- (func $assembly/model/QueryOpts#_decode (; 370 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/QueryOpts#_decode (; 372 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -20455,7 +20461,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/QueryOpts#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 371 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/QueryOpts#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 373 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -20488,7 +20494,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/QueryOpts,~lib/assemblyscript-json/JSON/JSON.Obj> (; 372 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/QueryOpts,~lib/assemblyscript-json/JSON/JSON.Obj> (; 374 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -20791,7 +20797,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/main/getMementoList~anonymous|0 (; 373 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getMementoList~anonymous|0 (; 375 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $2
   call $~lib/rt/stub/__retain
@@ -20806,7 +20812,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/getUserByUsername (; 374 ;) (param $0 i32) (result i32)
+ (func $assembly/main/getUserByUsername (; 376 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -20915,7 +20921,7 @@
   end
   unreachable
  )
- (func $assembly/main/_addToMementoList (; 375 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $assembly/main/_addToMementoList (; 377 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -20966,7 +20972,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getMementoList~anonymous|1 (; 376 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getMementoList~anonymous|1 (; 378 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -20987,7 +20993,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/util/sort/insertionSort<assembly/model/Memento> (; 377 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/sort/insertionSort<assembly/model/Memento> (; 379 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -21085,7 +21091,7 @@
    end
   end
  )
- (func $~lib/array/Array<assembly/model/Memento>#sort (; 378 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#sort (; 380 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21156,7 +21162,7 @@
   local.get $0
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/Memento>#slice (; 379 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#slice (; 381 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -21279,7 +21285,7 @@
   end
   local.get $6
  )
- (func $assembly/main/getMementoList (; 380 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getMementoList (; 382 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -21670,7 +21676,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Memento>,~lib/typedarray/Uint8Array> (; 381 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Memento>,~lib/typedarray/Uint8Array> (; 383 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -21741,7 +21747,7 @@
   local.get $3
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Memento>,~lib/typedarray/Uint8Array>|trampoline (; 382 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Memento>,~lib/typedarray/Uint8Array>|trampoline (; 384 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -21772,7 +21778,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_getMementoList (; 383 ;)
+ (func $assembly/main/__wrapper_getMementoList (; 385 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -21815,7 +21821,7 @@
   local.get $4
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getMementoById (; 384 ;) (param $0 i32) (result i32)
+ (func $assembly/main/getMementoById (; 386 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -21923,7 +21929,7 @@
   end
   unreachable
  )
- (func $assembly/main/__wrapper_getMementoById (; 385 ;)
+ (func $assembly/main/__wrapper_getMementoById (; 387 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -21959,7 +21965,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Memento>#__unchecked_set (; 386 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<assembly/model/Memento>#__unchecked_set (; 388 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   local.get $2
@@ -21989,7 +21995,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Memento>#__set (; 387 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<assembly/model/Memento>#__set (; 389 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $2
   call $~lib/rt/stub/__retain
   local.set $2
@@ -22030,7 +22036,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/updateMementoById (; 388 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
+ (func $assembly/main/updateMementoById (; 390 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
@@ -22263,7 +22269,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/main/__wrapper_updateMementoById (; 389 ;)
+ (func $assembly/main/__wrapper_updateMementoById (; 391 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -22327,7 +22333,7 @@
   local.get $7
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Memento>#splice (; 390 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Memento>#splice (; 392 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -22435,7 +22441,7 @@
   i32.store offset=12
   local.get $6
  )
- (func $assembly/main/deleteMementoById (; 391 ;) (param $0 i32) (result i32)
+ (func $assembly/main/deleteMementoById (; 393 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -22557,7 +22563,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/__wrapper_deleteMementoById (; 392 ;)
+ (func $assembly/main/__wrapper_deleteMementoById (; 394 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -22593,7 +22599,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Img>> (; 393 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Img>> (; 395 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -22611,7 +22617,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/Img>#constructor (; 394 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Img>#constructor (; 396 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -22633,7 +22639,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Img,~lib/assemblyscript-json/JSON/JSON.Value> (; 395 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Img,~lib/assemblyscript-json/JSON/JSON.Value> (; 397 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -22936,7 +22942,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/array/Array<assembly/model/Img>#push (; 396 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Img>#push (; 398 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -22972,7 +22978,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Img> (; 397 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Img> (; 399 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23079,7 +23085,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Img>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 398 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Img>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 400 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23314,7 +23320,7 @@
   local.get $6
   return
  )
- (func $assembly/model/Post#constructor (; 399 ;) (param $0 i32) (result i32)
+ (func $assembly/model/Post#constructor (; 401 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -23359,7 +23365,7 @@
   i32.store offset=44
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/PostList> (; 400 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/PostList> (; 402 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -23377,7 +23383,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Post>> (; 401 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<~lib/array/Array<assembly/model/Post>> (; 403 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -23395,7 +23401,7 @@
    i32.const 0
   end
  )
- (func $~lib/array/Array<assembly/model/Post>#constructor (; 402 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#constructor (; 404 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   if (result i32)
    local.get $0
@@ -23417,7 +23423,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Post> (; 403 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Post> (; 405 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -23435,7 +23441,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Memento | null> (; 404 ;) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isReallyNullable<assembly/model/Memento | null> (; 406 ;) (result i32)
   i32.const 1
   if (result i32)
    i32.const 1
@@ -23453,7 +23459,7 @@
    i32.const 0
   end
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Memento | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 405 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Memento | null,~lib/assemblyscript-json/JSON/JSON.Obj> (; 407 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -23745,7 +23751,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $assembly/model/Post#_decode (; 406 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Post#_decode (; 408 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -23971,7 +23977,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/Post#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 407 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/Post#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 409 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24004,7 +24010,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Post,~lib/assemblyscript-json/JSON/JSON.Value> (; 408 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/Post,~lib/assemblyscript-json/JSON/JSON.Value> (; 410 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24307,7 +24313,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $~lib/array/Array<assembly/model/Post>#push (; 409 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#push (; 411 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24343,7 +24349,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Post> (; 410 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decodeArray<assembly/model/Post> (; 412 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24450,7 +24456,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Post>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 411 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/array/Array<assembly/model/Post>,~lib/assemblyscript-json/JSON/JSON.Obj> (; 413 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24685,7 +24691,7 @@
   local.get $6
   return
  )
- (func $assembly/model/PostList#_decode (; 412 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/PostList#_decode (; 414 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   local.get $1
@@ -24718,7 +24724,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/model/PostList#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 413 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/model/PostList#decode<~lib/assemblyscript-json/JSON/JSON.Obj> (; 415 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -24751,7 +24757,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/PostList,~lib/typedarray/Uint8Array> (; 414 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/decode<assembly/model/PostList,~lib/typedarray/Uint8Array> (; 416 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -25072,7 +25078,7 @@
   call $~lib/rt/stub/__release
   local.get $10
  )
- (func $~lib/near-sdk-as/runtime/util/util.parseFromBytes<assembly/model/PostList> (; 415 ;) (param $0 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/util/util.parseFromBytes<assembly/model/PostList> (; 417 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25085,7 +25091,7 @@
   call $~lib/rt/stub/__release
   local.get $1
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#get<assembly/model/PostList> (; 416 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#get<assembly/model/PostList> (; 418 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -25118,7 +25124,7 @@
   local.get $4
   return
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#get (; 417 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#get (; 419 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -25143,7 +25149,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/PostList> (; 418 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/PostList> (; 420 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25157,7 +25163,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Post>> (; 419 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Post>> (; 421 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25171,11 +25177,11 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<assembly/model/Post>#get:length (; 420 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#get:length (; 422 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/Post>#__unchecked_get (; 421 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#__unchecked_get (; 423 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -25185,7 +25191,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/Post>#__get (; 422 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#__get (; 424 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -25217,7 +25223,7 @@
   end
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Post> (; 423 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Post> (; 425 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25231,7 +25237,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Img>> (; 424 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/Img>> (; 426 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25245,11 +25251,11 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<assembly/model/Img>#get:length (; 425 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Img>#get:length (; 427 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/Img>#__unchecked_get (; 426 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Img>#__unchecked_get (; 428 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -25259,7 +25265,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/Img>#__get (; 427 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Img>#__get (; 429 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -25291,7 +25297,7 @@
   end
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Img>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 428 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Img>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 430 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -25358,7 +25364,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Memento | null> (; 429 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Memento | null> (; 431 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -25372,7 +25378,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 430 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Memento | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 432 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -25409,7 +25415,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/Post#_encode (; 431 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Post#_encode (; 433 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -25509,7 +25515,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 432 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 434 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -25546,7 +25552,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 433 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 435 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -25613,7 +25619,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/PostList#_encode (; 434 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/PostList#_encode (; 436 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -25653,7 +25659,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/PostList,~lib/typedarray/Uint8Array> (; 435 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/PostList,~lib/typedarray/Uint8Array> (; 437 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -25694,7 +25700,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/PostList,~lib/typedarray/Uint8Array>|trampoline (; 436 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/PostList,~lib/typedarray/Uint8Array>|trampoline (; 438 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -25725,7 +25731,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/PostList> (; 437 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/PostList> (; 439 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -25750,7 +25756,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#set (; 438 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#set (; 440 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -25772,7 +25778,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/PostList#constructor (; 439 ;) (param $0 i32) (result i32)
+ (func $assembly/model/PostList#constructor (; 441 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -25787,7 +25793,7 @@
   i32.store
   local.get $0
  )
- (func $assembly/main/createPost (; 440 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $assembly/main/createPost (; 442 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -25986,7 +25992,8 @@
   local.get $9
   i32.store offset=28
   local.get $7
-  i64.const 123123123
+  global.get $~lib/near-sdk-as/runtime/contract/context
+  call $~lib/near-sdk-as/runtime/contract/Context#get:blockTimestamp
   i64.store offset=32
   global.get $assembly/model/postCollection
   i32.const 720
@@ -26060,7 +26067,7 @@
   call $~lib/rt/stub/__release
   local.get $9
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,~lib/typedarray/Uint8Array> (; 441 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,~lib/typedarray/Uint8Array> (; 443 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -26101,7 +26108,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,~lib/typedarray/Uint8Array>|trampoline (; 442 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,~lib/typedarray/Uint8Array>|trampoline (; 444 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -26132,7 +26139,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_createPost (; 443 ;)
+ (func $assembly/main/__wrapper_createPost (; 445 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -26189,7 +26196,7 @@
   local.get $6
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getPostList~anonymous|0 (; 444 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getPostList~anonymous|0 (; 446 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $2
   call $~lib/rt/stub/__retain
@@ -26204,7 +26211,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/_addToPostList (; 445 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $assembly/main/_addToPostList (; 447 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -26284,7 +26291,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getPostList~anonymous|1 (; 446 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getPostList~anonymous|1 (; 448 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -26305,7 +26312,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $~lib/util/sort/insertionSort<assembly/model/Post> (; 447 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/util/sort/insertionSort<assembly/model/Post> (; 449 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -26403,7 +26410,7 @@
    end
   end
  )
- (func $~lib/array/Array<assembly/model/Post>#sort (; 448 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#sort (; 450 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26474,7 +26481,7 @@
   local.get $0
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/Post>#slice (; 449 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#slice (; 451 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -26597,7 +26604,7 @@
   end
   local.get $6
  )
- (func $assembly/main/getPostList (; 450 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getPostList (; 452 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26929,7 +26936,7 @@
   call $~lib/rt/stub/__release
   local.get $5
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array> (; 451 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array> (; 453 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27000,7 +27007,7 @@
   local.get $3
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array>|trampoline (; 452 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array>|trampoline (; 454 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -27031,7 +27038,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_getPostList (; 453 ;)
+ (func $assembly/main/__wrapper_getPostList (; 455 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27074,7 +27081,7 @@
   local.get $4
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/Following#constructor (; 454 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Following#constructor (; 456 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27139,7 +27146,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $assembly/main/getPostListByUserFollowing~anonymous|0 (; 455 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getPostListByUserFollowing~anonymous|0 (; 457 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $2
   call $~lib/rt/stub/__retain
@@ -27154,7 +27161,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/getPostListByUserFollowing~anonymous|1 (; 456 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getPostListByUserFollowing~anonymous|1 (; 458 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -27175,7 +27182,7 @@
   call $~lib/rt/stub/__release
   local.get $2
  )
- (func $assembly/main/getPostListByUserFollowing (; 457 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getPostListByUserFollowing (; 459 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27556,7 +27563,7 @@
   call $~lib/rt/stub/__release
   local.get $8
  )
- (func $assembly/main/__wrapper_getPostListByUserFollowing (; 458 ;)
+ (func $assembly/main/__wrapper_getPostListByUserFollowing (; 460 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27606,7 +27613,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getPostById (; 459 ;) (param $0 i32) (result i32)
+ (func $assembly/main/getPostById (; 461 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -27714,7 +27721,7 @@
   end
   unreachable
  )
- (func $assembly/main/__wrapper_getPostById (; 460 ;)
+ (func $assembly/main/__wrapper_getPostById (; 462 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27750,7 +27757,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Post>#splice (; 461 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#splice (; 463 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27858,7 +27865,7 @@
   i32.store offset=12
   local.get $6
  )
- (func $assembly/main/deletePostById (; 462 ;) (param $0 i32) (result i32)
+ (func $assembly/main/deletePostById (; 464 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -28012,7 +28019,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/__wrapper_deletePostById (; 463 ;)
+ (func $assembly/main/__wrapper_deletePostById (; 465 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28048,7 +28055,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/User#constructor (; 464 ;) (param $0 i32) (result i32)
+ (func $assembly/model/User#constructor (; 466 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -28081,7 +28088,7 @@
   i64.store offset=24
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/UserList> (; 465 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/UserList> (; 467 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -28095,7 +28102,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 466 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 468 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -28162,7 +28169,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/UserList#_encode (; 467 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/UserList#_encode (; 469 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -28202,7 +28209,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array> (; 468 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array> (; 470 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -28243,7 +28250,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array>|trampoline (; 469 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array>|trampoline (; 471 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -28274,7 +28281,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/UserList> (; 470 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/UserList> (; 472 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -28299,7 +28306,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#set (; 471 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#set (; 473 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -28321,7 +28328,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/UserList#constructor (; 472 ;) (param $0 i32) (result i32)
+ (func $assembly/model/UserList#constructor (; 474 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -28336,7 +28343,7 @@
   i32.store
   local.get $0
  )
- (func $assembly/main/createUser (; 473 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/createUser (; 475 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -28468,7 +28475,8 @@
   local.get $7
   i32.store offset=20
   local.get $5
-  i64.const 123123123
+  global.get $~lib/near-sdk-as/runtime/contract/context
+  call $~lib/near-sdk-as/runtime/contract/Context#get:blockTimestamp
   i64.store offset=24
   global.get $assembly/model/userCollection
   i32.const 720
@@ -28538,7 +28546,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array> (; 474 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array> (; 476 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -28579,7 +28587,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array>|trampoline (; 475 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array>|trampoline (; 477 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -28610,7 +28618,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_createUser (; 476 ;)
+ (func $assembly/main/__wrapper_createUser (; 478 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28660,7 +28668,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/__wrapper_getUserList (; 477 ;)
+ (func $assembly/main/__wrapper_getUserList (; 479 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28703,7 +28711,7 @@
   local.get $4
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getUserById (; 478 ;) (param $0 i32) (result i32)
+ (func $assembly/main/getUserById (; 480 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -28812,7 +28820,7 @@
   end
   unreachable
  )
- (func $assembly/main/__wrapper_getUserById (; 479 ;)
+ (func $assembly/main/__wrapper_getUserById (; 481 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28848,7 +28856,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/__wrapper_getUserByUsername (; 480 ;)
+ (func $assembly/main/__wrapper_getUserByUsername (; 482 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28884,7 +28892,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/User>#__unchecked_set (; 481 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<assembly/model/User>#__unchecked_set (; 483 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   local.get $2
@@ -28914,7 +28922,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/User>#__set (; 482 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<assembly/model/User>#__set (; 484 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $2
   call $~lib/rt/stub/__retain
   local.set $2
@@ -28955,7 +28963,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/updateUserById (; 483 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $assembly/main/updateUserById (; 485 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -29164,7 +29172,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $assembly/main/__wrapper_updateUserById (; 484 ;)
+ (func $assembly/main/__wrapper_updateUserById (; 486 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -29221,7 +29229,7 @@
   local.get $6
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Following>#splice (; 485 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#splice (; 487 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -29329,7 +29337,7 @@
   i32.store offset=12
   local.get $6
  )
- (func $assembly/main/toggleUserFollow (; 486 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/toggleUserFollow (; 488 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -29552,7 +29560,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $assembly/main/__wrapper_toggleUserFollow (; 487 ;)
+ (func $assembly/main/__wrapper_toggleUserFollow (; 489 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -29602,7 +29610,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getMementoList|trampoline (; 488 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getMementoList|trampoline (; 490 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   block $2of2
@@ -29645,7 +29653,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/SearchResult#constructor (; 489 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
+ (func $assembly/model/SearchResult#constructor (; 491 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -29785,7 +29793,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#push (; 490 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#push (; 492 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -29821,7 +29829,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/searchPostAndMemento (; 491 ;) (param $0 i32) (result i32)
+ (func $assembly/main/searchPostAndMemento (; 493 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -29980,7 +29988,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/SearchResult>> (; 492 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/SearchResult>> (; 494 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -29994,11 +30002,11 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#get:length (; 493 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#get:length (; 495 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#__unchecked_get (; 494 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#__unchecked_get (; 496 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -30008,7 +30016,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#__get (; 495 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#__get (; 497 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -30040,7 +30048,7 @@
   end
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/SearchResult> (; 496 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/SearchResult> (; 498 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -30054,7 +30062,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Img | null> (; 497 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Img | null> (; 499 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -30068,7 +30076,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 498 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 500 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -30105,7 +30113,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/SearchResult#_encode (; 499 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/SearchResult#_encode (; 501 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -30169,7 +30177,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/SearchResult,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 500 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/SearchResult,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 502 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -30206,7 +30214,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array> (; 501 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array> (; 503 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -30277,7 +30285,7 @@
   local.get $3
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array>|trampoline (; 502 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array>|trampoline (; 504 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -30308,7 +30316,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_searchPostAndMemento (; 503 ;)
+ (func $assembly/main/__wrapper_searchPostAndMemento (; 505 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -30344,7 +30352,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~start (; 504 ;)
+ (func $~start (; 506 ;)
   call $start:assembly/main
   call $start:node_modules/near-sdk-as/assembly/bindgen
  )

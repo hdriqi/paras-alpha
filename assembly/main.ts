@@ -32,7 +32,7 @@ export function createMemento(
 	descRaw: string, 
 	type: string
 ): Memento {
-	const id = _genId()
+  const id = _genId()
 
 	assert(
 		type == 'public' || type == 'permissioned', 
@@ -45,7 +45,7 @@ export function createMemento(
 	m.descRaw = descRaw
 	m.type = type
 	m.owner = context.sender
-	m.createdAt = 123123123
+	m.createdAt = context.blockTimestamp
 
 	const list = mementoCollection.get('list')
   if(list) {
@@ -251,7 +251,7 @@ export function createPost(
   p.imgList = imgList
   p.owner = context.sender
   p.mementoId = mementoId
-  p.createdAt = 123123123
+  p.createdAt = context.blockTimestamp
 
   const list = postCollection.get('list')
   if(list) {
@@ -459,7 +459,7 @@ export function createUser(imgAvatar: Img, bio: string, bioRaw: string): User {
   newUser.imgAvatar = imgAvatar
   newUser.bio = bio
   newUser.bioRaw = bioRaw
-  newUser.createdAt = 123123123
+  newUser.createdAt = context.blockTimestamp
 
   const list = userCollection.get('list')
   if(list) {

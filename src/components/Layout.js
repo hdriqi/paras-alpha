@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { setProfile, addBlockList, setUser } from "../actions/me"
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
-import axios from "axios"
 import { useRouter } from "next/router"
 import ipfs from "../lib/ipfs"
 import near from "../lib/near"

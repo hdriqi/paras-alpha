@@ -212,7 +212,7 @@ const Post = ({ post }) => {
                 </p>
               </div>
               <div className="flex justify-between px-4 py-4">
-                <p className="text-sm font-normal text-black-4">{ timeAgo.format(new Date(post.createdAt)) }</p>
+                <p className="text-sm font-normal text-black-4">{ timeAgo.format(new Date(post.createdAt/(10**6))) }</p>
                 <p className="text-sm font-normal text-black-4">
                   {
                     post.originalId && post.id !== post.originalId && (

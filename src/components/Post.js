@@ -23,11 +23,20 @@ const PostDetail = ({ post , commentList, mementoList }) => {
 
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`https://internal-db.dev.paras.id/users?username_like=${query}`)
-    const list = response.data.map(user => ({ 
+    const q = [`username_like:=${query}`]
+    const userList = await near.contract.getUserList({
+      query: q,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 10
+      }
+    })
+    const list = userList.map(user => ({ 
       display: `@${user.username}`, 
       id: user.id,
-      avatarUrl: user.avatarUrl,
+      imgAvatar: user.imgAvatar,
       username: user.username
     }))
     callback(list)
