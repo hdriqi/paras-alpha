@@ -277,6 +277,40 @@ function _addToPostList(post: Post, embed: bool, result: Post[]): void {
   result.push(post)
 }
 
+function quickSort(arr: Post[], left: i32, right: i32): Post[]{
+  let pivot = 0
+  let partitionIndex = 0
+
+
+ if(left < right){
+   pivot = right;
+   partitionIndex = partition(arr, pivot, left, right);
+   
+  //sort left and right
+  quickSort(arr, left, partitionIndex - 1);
+  quickSort(arr, partitionIndex + 1, right);
+ }
+ return arr;
+}
+function partition(arr: Post[], pivot: i32, left: i32 , right: i32) : i32 {
+  var pivotValue = arr[pivot],
+      partitionIndex = left;
+
+  for(var i = left; i < right; i++){
+   if(arr[i].createdAt > pivotValue.createdAt){
+     swap(arr, i, partitionIndex);
+     partitionIndex++;
+   }
+  }
+  swap(arr, right, partitionIndex);
+  return partitionIndex;
+}        
+function swap(arr: Post[], i: i32, j: i32): void{
+  var temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+
 export function getPostList(
   query: string[] | null = null,
   opts: QueryOpts = {
@@ -286,7 +320,7 @@ export function getPostList(
     _limit: 10
   }
 ): Post[] {
-  const result: Post[] = []
+  let result: Post[] = []
   const postList = postCollection.get('list')
   if(!postList) {
     return []
@@ -319,7 +353,9 @@ export function getPostList(
 	if(!!opts && !!opts._sort) {
 		if(opts._sort == 'createdAt') {
 			if(!!opts._order && opts._order == 'desc') {
-        result.sort((a, b) => (b.createdAt - a.createdAt) as i32)
+        result = quickSort(result,0,result.length - 1)
+        // log(x)
+        // result.sort((a, b) => (b.createdAt - a.createdAt) as i32)
 			}
 		}
   }  

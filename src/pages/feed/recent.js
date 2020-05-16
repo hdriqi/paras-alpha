@@ -22,7 +22,6 @@ const FeedRecentPage = () => {
           _limit: 10
         }
       })
-      console.log(postList)
       dispatch(addData('/feed/recent', postList))
     }
     if(!postList) {

@@ -38,7 +38,9 @@ const Layout = ({ children }) => {
         await near.init()
 
         //
-        // const x = await near.contract.devDeleteAllUser()
+        // await near.contract.devDeleteAllUser()
+        // await near.contract.devDeleteAllPost()
+        // await near.contract.devDeleteAllMemento()
         // console.log(x)
         //
 
