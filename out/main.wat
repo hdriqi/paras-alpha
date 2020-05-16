@@ -26299,9 +26299,9 @@
   local.get $1
   call $~lib/rt/stub/__retain
   local.set $1
-  local.get $1
-  i64.load offset=32
   local.get $0
+  i64.load offset=32
+  local.get $1
   i64.load offset=32
   i64.sub
   i32.wrap_i64
@@ -27355,7 +27355,7 @@
        end
        if
         local.get $11
-        local.get $12
+        i32.const 0
         i32.const 1
         call $~lib/array/Array<bool>#__set
        end
@@ -27417,6 +27417,8 @@
        if
         local.get $11
         local.get $12
+        i32.const 1
+        i32.add
         i32.const 1
         call $~lib/array/Array<bool>#__set
        end

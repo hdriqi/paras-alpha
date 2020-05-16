@@ -72,6 +72,16 @@ describe('Memento ', () => {
     expect(result.length).toBe(10)
   })
 
+  it('should get all post sorted by createdAt & desc', () => {
+    const result = getPostList([], {
+      _embed: true,
+      _sort: 'createdAt',
+      _order: 'desc',
+      _limit: 10
+    })
+    expect(result[0].createdAt).toBeGreaterThanOrEqual(result[result.length - 1].createdAt)
+  })
+
   it('should get all published post', () => {
     const q = ['status:=published']
     const result = getPostList(q)
@@ -119,9 +129,9 @@ describe('Memento ', () => {
     const list = postCollection.get('list')
     if(list) {
       const id = list.data[0].id
-    deletePostById(id)
-    const postList = getPostList()
-    expect(postList.length).toBe(9)
+      deletePostById(id)
+      const postList = getPostList()
+      expect(postList.length).toBe(9)
     }
   })
 })

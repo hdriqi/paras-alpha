@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Memento from '../components/Memento'
-import axios from 'axios'
 import near from '../lib/near'
 import { useSelector } from 'react-redux'
 

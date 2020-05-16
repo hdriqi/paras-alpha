@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import { setProfile } from '../actions/me'

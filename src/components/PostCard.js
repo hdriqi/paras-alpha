@@ -9,10 +9,10 @@ import en from 'javascript-time-ago/locale/en'
 import Push from './Push'
 import { useState, useRef, useEffect } from 'react'
 import PopForward from './PopForward'
-import axios from 'axios'
 import { deletePost } from '../actions/me'
 import PostCardLoader from './PostCardLoader'
 import Image from './Image'
+import near from '../lib/near'
 
 TimeAgo.addLocale(en)
 
@@ -20,6 +20,7 @@ const timeAgo = new TimeAgo('en-US')
 
 const ModalPost = ({ me, meMementoList, post, close }) => {
   const dispatch = useDispatch()
+  const pageList = useSelector(state => state.ui.pageList)
   const [view, setView] = useState('default')
   const backBtnRef = useRef()
 
@@ -35,9 +36,13 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
   }
 
   const _delete = async (id) => {
-    await axios.delete(`https://internal-db.dev.paras.id/posts/${id}`)
+    await near.contract.deletePostById({
+      id: id
+    })
 
-    backBtnRef.current.click()
+    if(pageList.length > 0) {
+      backBtnRef.current.click()
+    }
     dispatch(deletePost(id))
 
     _close()
@@ -109,6 +114,7 @@ const Post = ({ post }) => {
   const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
+    console.log(showModal)
     if(showModal) {
       disableBodyScroll(document.querySelector('#modal-bg'))
     }
@@ -151,7 +157,7 @@ const Post = ({ post }) => {
                   <a className="font-semibold text-black-1">{ post.user.username }</a>
                 </Push>
                 {
-                  post.mementoId && (
+                  post.memento && (
                     <p>in&nbsp;
                       <Push href="/m/[id]" as={ `/m/${post.mementoId}`} props={{
                         memento: {

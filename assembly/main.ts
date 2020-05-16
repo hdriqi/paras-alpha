@@ -319,10 +319,10 @@ export function getPostList(
 	if(!!opts && !!opts._sort) {
 		if(opts._sort == 'createdAt') {
 			if(!!opts._order && opts._order == 'desc') {
-				result.sort((a, b) => (b.createdAt - a.createdAt) as i32)
+        result.sort((a, b) => (b.createdAt - a.createdAt) as i32)
 			}
 		}
-  }
+  }  
 	if(!!opts && opts._limit > 0) {
 		return result.slice(0, min(LIMIT, opts._limit) as i32)
 	}
@@ -362,7 +362,7 @@ export function getPostListByUserFollowing(
           (post.owner.indexOf(user.following[i].id) > -1) ||
           (post.mementoId.indexOf(user.following[i].id) > -1)
         ) {
-          matches[i] = true
+          matches[0] = true
         }
       }
       for (let i = 0; i < query.length; i++) {
@@ -372,7 +372,7 @@ export function getPostListByUserFollowing(
         if(
           (key == 'status' && val.split(',').includes(post.status))
         ) {
-          matches[i] = true
+          matches[i + 1] = true
         }
       }
       if(matches.every(match => match == true)) {

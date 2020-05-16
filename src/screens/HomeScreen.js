@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 
 import Home from '../components/Home'
 
@@ -26,6 +25,7 @@ const HomeScreen = ({  }) => {
           _limit: 10
         }
       })
+      console.log(postList)
 
       dispatch(addData('/', postList))
     }

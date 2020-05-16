@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProfile } from '../actions/me'
@@ -20,7 +19,7 @@ const Profile = ({ user, mementoList, postList }) => {
 
   useEffect(() => {
     if(me && user) {
-      if(Array.isArray(me.following) && me.following.filter(following => following.id === user.id).length > 0) {
+      if(Array.isArray(me.following) && me.following.filter(following => following.id === user.username).length > 0) {
         setIsFollowing(true)
       }
     }

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import NavMobile from '../../components/NavMobile'
-import Layout from '../../components/Layout'
 import Home from '../../components/Home'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { addData } from '../../actions/me'
 import { withRedux } from '../../lib/redux'
@@ -24,6 +22,7 @@ const FeedRecentPage = () => {
           _limit: 10
         }
       })
+      console.log(postList)
       dispatch(addData('/feed/recent', postList))
     }
     if(!postList) {

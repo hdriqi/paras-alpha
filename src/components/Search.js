@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { withRedux } from "../lib/redux"
-import axios from "axios"
 import Push from "./Push"
 import Pop from "./Pop"
 import Fuse from 'fuse.js'
