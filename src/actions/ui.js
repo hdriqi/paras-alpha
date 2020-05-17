@@ -80,3 +80,12 @@ export const popPage = () => {
     type: POP_PAGE
   }
 }
+
+export const SET_LOADING = 'SET_LOADING'
+export const setLoading = (val, message) => {
+  return {
+    type: SET_LOADING,
+    val: val,
+    message: message
+  }
+}

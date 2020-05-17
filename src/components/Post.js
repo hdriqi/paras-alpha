@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import Pop from './Pop'
 import Push from './Push'
 import near from '../lib/near'
+import Image from './Image'
 
 const PostDetail = ({ post , commentList, mementoList }) => {
   const profile = useSelector(state => state.me.profile)
@@ -323,9 +324,9 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                               <div className="w-8/12 flex items-center overflow-hidden">
                                 <div>
                                   <div className="w-8 h-8 rounded-full overflow-hidden">
-                                    <img style={{
+                                    <Image style={{
                                       boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                                    }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                                    }} className="object-cover w-full h-full" data={entry.imgAvatar} />
                                   </div>
                                 </div>
                                 <div className="px-4 w-auto">

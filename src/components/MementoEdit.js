@@ -3,6 +3,8 @@ import ReactDropdown from 'react-dropdown'
 import { Mention, MentionsInput } from 'react-mentions'
 import PopForward from './PopForward'
 import near from '../lib/near'
+import Image from './Image'
+import { useDispatch } from 'react-redux'
 
 const MementoEdit = ({ memento = {} }) => {
   const [name, setName] = useState('')
@@ -10,6 +12,7 @@ const MementoEdit = ({ memento = {} }) => {
   const [type, setType] = useState('')
   const bodyRef = useRef()
   const backBtnRef = useRef()
+  const dispatch = useDispatch()
 
   const _getUsers = async (query, callback) => {
     if (!query) return
@@ -36,6 +39,7 @@ const MementoEdit = ({ memento = {} }) => {
     e.preventDefault()
 
     try {
+      dispatch(setLoading(true, 'Updating memento...'))
       const newData = {
         id: memento.id, 
         name: name, 
@@ -45,6 +49,7 @@ const MementoEdit = ({ memento = {} }) => {
       }
       await near.contract.updateMementoById(newData)
 
+      dispatch(setLoading(false))
       backBtnRef.current.click() 
     } catch (err) {
       console.log(err)
@@ -151,9 +156,9 @@ const MementoEdit = ({ memento = {} }) => {
                       <div className="w-8/12 flex items-center overflow-hidden">
                         <div>
                           <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <img style={{
+                            <Image style={{
                               boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                            }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                            }} className="object-cover w-full h-full" data={entry.imgAvatar} />
                           </div>
                         </div>
                         <div className="px-4 w-auto">

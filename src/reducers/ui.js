@@ -1,4 +1,6 @@
-import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP, TOGGLE_MODAL_COMMENT, PUSH_PAGE, POP_PAGE } from '../actions/ui'
+import { TOGGLE_NEW_POST, TOGGLE_NEW_BLOCK, SET_ACTIVE_PAGE, TOGGLE_HUB_SEARCH, TOGGLE_MODAL_POST, TOGGLE_MODAL_MEMENTO, TOGGLE_IMAGE_CROP, TOGGLE_MODAL_COMMENT, PUSH_PAGE, POP_PAGE, SET_LOADING } from '../actions/ui'
+
+const DEFAULT_LOADING_MESSAGE = 'Loading...'
 
 const initialState = {
   showNewPost: false,
@@ -12,7 +14,9 @@ const initialState = {
   showModalComment: false,
   showModalCommentData: {},
   showModalCommentCb: null,
-  pageList: []
+  pageList: [],
+  isLoading: false,
+  loadingMessage: 'Loading...'
 }
 
 const reducer = (state = initialState, action) => {
@@ -69,6 +73,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         pageList: state.pageList.slice(0, -1)
+      }
+    case SET_LOADING:
+      return {
+        ...state,
+        isLoading: action.val,
+        loadingMessage: action.message && action.message.length > 0 ? action.message : DEFAULT_LOADING_MESSAGE
       }
     default:
       return state

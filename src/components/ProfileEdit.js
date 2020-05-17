@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react"
 import { Mention, MentionsInput } from "react-mentions"
-import { useDispatch } from "react-redux"
+import { useDispatch, batch } from "react-redux"
 import { withRedux } from "../lib/redux"
 import { setProfile } from "../actions/me"
 import ImageCrop from "./imageCrop"
-import { toggleImageCrop } from "../actions/ui"
+import { toggleImageCrop, setLoading } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
 import PopForward from "./PopForward"
 import ipfs from "../lib/ipfs"
@@ -40,20 +40,20 @@ const ProfileEdit = ({ me }) => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    let newImgAvatar = me.imgAvatar
+    try {
+      dispatch(setLoading(true, 'Updating user profile...'))
+      let newImgAvatar = me.imgAvatar
 
-    if(me.imgAvatar.url !== imgAvatar.url) {
-      const imgBuf = Buffer.from(imgAvatar.url.split(',')[1], 'base64')
+      if(me.imgAvatar.url !== imgAvatar.url) {
+        const imgBuf = Buffer.from(imgAvatar.url.split(',')[1], 'base64')
 
-      for await (const file of ipfs.client.add(imgBuf)) {
-        newImgAvatar = {
-          url: file.path,
-          type: 'ipfs'
+        for await (const file of ipfs.client.add(imgBuf)) {
+          newImgAvatar = {
+            url: file.path,
+            type: 'ipfs'
+          }
         }
       }
-    }
-
-    try {
       const newData = {
         id: me.id,
         imgAvatar: newImgAvatar,
@@ -61,7 +61,10 @@ const ProfileEdit = ({ me }) => {
         bioRaw: bio
       }
       const newProfile = await near.contract.updateUserById(newData)
-      dispatch(setProfile(newProfile))
+      batch(() => {
+        dispatch(setProfile(newProfile))
+        dispatch(setLoading(false))
+      })
       backRef.current.click()
     } catch (err) {
       console.log(err)

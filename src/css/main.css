@@ -30,6 +30,34 @@ textarea {
   @apply max-w-sm m-auto;
 }
 
+/* loading animation */
+
+.rotate-z {
+  -webkit-animation: rotate-z 2s infinite ease-in-out; /* Safari 4+ */
+  -moz-animation:    rotate-z 2s infinite ease-in-out; /* Fx 5+ */
+  -o-animation:      rotate-z 2s infinite ease-in-out; /* Opera 12+ */
+  animation:         rotate-z 2s infinite ease-in-out; /* IE 10+, Fx 29+ */
+}
+
+@-webkit-keyframes rotate-z {
+  0%   { transform: rotate3d(0,1,0,0deg); }
+  100% { transform: rotate3d(0,1,0,360deg); }
+}
+@-moz-keyframes rotate-z {
+  0%   { transform: rotate3d(0,1,0,0deg); }
+  100% { transform: rotate3d(0,1,0,360deg); }
+}
+@-o-keyframes rotate-z {
+  0%   { transform: rotate3d(0,1,0,0deg); }
+  100% { transform: rotate3d(0,1,0,360deg); }
+}
+@keyframes rotate-z {
+  0%   { transform: rotate3d(0,1,0,0deg); }
+  100% { transform: rotate3d(0,1,0,360deg); }
+}
+
+/* croppie */
+
 .croppie-container {
   width: 100%;
   height: 100%;

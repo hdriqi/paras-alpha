@@ -12,11 +12,15 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import ParseBody from './parseBody'
 import near from '../lib/near'
 import InfiniteScroll from 'react-infinite-scroller'
+import { setLoading } from '../actions/ui'
 
 const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
   const pushBtnManageRef = useRef(null)
   const [view, setView] = useState('default')
+  const dispatch = useDispatch()
+
+  console.log(me.username, memento.owner)
 
   const _closeModal = (e) => {
     if(e.target.id === 'modal-bg') {
@@ -26,9 +30,11 @@ const ModalMemento = ({ me, memento, close }) => {
   }
 
   const _delete = async (id) => {
+    dispatch(setLoading(true, 'Forgetting memento...'))
     await near.contract.deleteMementoById({
       id: id
     })
+    dispatch(setLoading(false))
     close()
     backBtnRef.current.click()
   }
@@ -70,7 +76,7 @@ const ModalMemento = ({ me, memento, close }) => {
             } */}
             <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
             {
-              me && memento.user && me.username == memento.user.username && (
+              me && me.username == memento.owner && (
                 <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Forget</button>
               )
             }

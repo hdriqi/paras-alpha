@@ -1,11 +1,13 @@
 import { withRedux } from "../lib/redux"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch, batch } from "react-redux"
 import { useState, useRef } from "react"
 import { addBlockList } from "../actions/me"
 import ReactDropdown from "react-dropdown"
 import { Mention, MentionsInput } from "react-mentions"
 import PopForward from "./PopForward"
 import near from "../lib/near"
+import { setLoading } from "../actions/ui"
+import Image from "./Image"
 
 const NewBlock = () => {
   const profile = useSelector(state => state.me.profile)
@@ -62,6 +64,7 @@ const NewBlock = () => {
         descRaw: desc,
         type: type.value,
       }
+      dispatch(setLoading(true, 'Creating memento...'))
       const m = await near.contract.createMemento(newData)
 
       const newLocalData = {
@@ -70,7 +73,10 @@ const NewBlock = () => {
           user: profile
         }
       }
-      dispatch(addBlockList([newLocalData]))
+      batch(() => {
+        dispatch(setLoading(false))
+        dispatch(addBlockList([newLocalData]))
+      })
 
       _close()
     } catch (err) {
@@ -165,9 +171,9 @@ const NewBlock = () => {
                       <div className="w-8/12 flex items-center overflow-hidden">
                         <div>
                           <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <img style={{
+                            <Image style={{
                               boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                            }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                            }} className="object-cover w-full h-full" data={entry.imgAvatar} />
                           </div>
                         </div>
                         <div className="px-4 w-auto">

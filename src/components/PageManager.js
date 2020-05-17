@@ -15,12 +15,12 @@ import ProfileEditScreen from '../screens/ProfileEditScreen'
 import SearchScreen from '../screens/SearchScreen'
 import NewPostScreen from '../screens/NewPostScreen'
 import NewMementoScreen from '../screens/NewMementoScreen'
+import Loading from './Loading'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const pageList = useSelector(state => state.ui.pageList)
-  const currentUser = useSelector(state => state.near.currentUser)
   const me = useSelector(state => state.me.profile)
   const [rootEl, setRootEl] = useState(null)
   const [prevPageLen, setPrevPageLen] = useState(null)
@@ -39,12 +39,6 @@ const PageManager = ({ children }) => {
     '/new/memento': NewMementoScreen
   }
 
-  // useEffect(() => {
-  //   if(router.asPath !== '/login' && !currentUser) {
-  //     router.push('/login', '/login')
-  //   }
-  // }, [currentUser])
-
   useEffect(() => {
     if(router.asPath === '/' || router.asPath === `/${me.username}` || pageList.length === 0) {
       setRootEl(cloneElement(children))
@@ -61,6 +55,7 @@ const PageManager = ({ children }) => {
 
   return (
     <div>
+      <Loading />
       <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
         { rootEl }
       </div>

@@ -1,6 +1,6 @@
 import { Carousel } from 'react-responsive-carousel'
 import ParseBody from './parseBody'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, batch } from 'react-redux'
 import { withRedux } from '../lib/redux'
 import TimeAgo from 'javascript-time-ago'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -13,6 +13,7 @@ import { deletePost } from '../actions/me'
 import PostCardLoader from './PostCardLoader'
 import Image from './Image'
 import near from '../lib/near'
+import { setLoading } from '../actions/ui'
 
 TimeAgo.addLocale(en)
 
@@ -36,6 +37,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
   }
 
   const _delete = async (id) => {
+    dispatch(setLoading(true, 'Forgetting memory...'))
     await near.contract.deletePostById({
       id: id
     })
@@ -43,8 +45,11 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
     if(pageList.length > 0) {
       backBtnRef.current.click()
     }
-    dispatch(deletePost(id))
 
+    batch(() => {
+      dispatch(deletePost(id))
+      dispatch(setLoading(false))
+    })
     _close()
   }
 
@@ -73,7 +78,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
             <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
             {
               (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
-                <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Delete</button>
+                <button className="w-full p-4  font-medium text-left"  onClick={_ => setView('confirmDelete')}>Forget</button>
               )
             }
           </div>
@@ -82,10 +87,10 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
         {
           view === 'confirmDelete' && (
             <div>
-              <p className="p-4">Do you want to delete this post?</p>
+              <p className="p-4">Do you want to forget this memory?</p>
               <div className="flex justify-end">
                 <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(post.id)}>Delete</button>
+                <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(post.id)}>Forget</button>
               </div>
             </div>
           )
@@ -159,12 +164,7 @@ const Post = ({ post }) => {
                   post.memento && (
                     <p>in&nbsp;
                       <Push href="/m/[id]" as={ `/m/${post.mementoId}`} props={{
-                        memento: {
-                          ...post.memento,
-                          ...{
-                            user: post.user
-                          }
-                        }
+                        id: post.mementoId
                       }}>
                         <a className="font-semibold text-black-1">{ post.memento.name }</a>
                       </Push>

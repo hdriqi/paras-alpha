@@ -1,16 +1,19 @@
 import { useState, useEffect, useRef } from "react"
 import { withRedux } from "../lib/redux"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { readFileAsUrl, compressImg } from "../lib/utils"
 
 import { MentionsInput, Mention } from 'react-mentions'
 import ipfs from "../lib/ipfs"
 import PopForward from "./PopForward"
 import near from "../lib/near"
+import Image from "./Image"
+import { setLoading } from "../actions/ui"
 
 const NewPost = () => {
   const blockList = useSelector(state => state.me.blockList)
   const backRef = useRef()
+  const dispatch = useDispatch()
 
   const bodyRef = useRef(null)
   const [chosenMemento, setChosenMemento] = useState({})
@@ -83,45 +86,44 @@ const NewPost = () => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    let imgList = []
-    let uploadedImgFileList = [...postImageFileList]
-    
-    if(uploadedImgFileList.length > 0) {
-      const compressImgList = uploadedImgFileList.map(file => {
-        return new Promise(async (resolve, reject) => {
-          try {
-            const content = await compressImg(file) 
-            resolve({
-              content: content
-            })
-          } catch (err) {
-            console.log(err)
-          }
-        })
-      })
-
-      const compressedImgList = await Promise.all(compressImgList)
-
-      for await (const file of ipfs.client.add(compressedImgList)) {
-        imgList.push({
-          url: file.path,
-          type: 'ipfs'
-        })
-      }
-    }
-
     try {
-      try {
-        const newPost = await near.contract.createPost({
-          body: postText,
-          bodyRaw: postTextRaw,
-          imgList: imgList,
-          mementoId: chosenMemento.id
+      dispatch(setLoading(true, 'Creating post...'))
+      let imgList = []
+      let uploadedImgFileList = [...postImageFileList]
+      
+      if(uploadedImgFileList.length > 0) {
+        const compressImgList = uploadedImgFileList.map(file => {
+          return new Promise(async (resolve, reject) => {
+            try {
+              const content = await compressImg(file) 
+              resolve({
+                content: content
+              })
+            } catch (err) {
+              console.log(err)
+            }
+          })
         })
-        _close()
-      } catch (err) {
-        console.log(err)
+
+        const compressedImgList = await Promise.all(compressImgList)
+
+        for await (const file of ipfs.client.add(compressedImgList)) {
+          imgList.push({
+            url: file.path,
+            type: 'ipfs'
+          })
+        }
       }
+      
+      await near.contract.createPost({
+        body: postText,
+        bodyRaw: postTextRaw,
+        imgList: imgList,
+        mementoId: chosenMemento.id
+      })
+      
+      dispatch(setLoading(false))
+      _close()
     } catch (err) {
       console.log(err)
     }
@@ -227,9 +229,9 @@ const NewPost = () => {
                           <div className="w-8/12 flex items-center overflow-hidden">
                             <div>
                               <div className="w-8 h-8 rounded-full overflow-hidden">
-                                <img style={{
+                                <Image style={{
                                   boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                                }} className="object-cover w-full h-full" src={entry.avatarUrl} />
+                                }} className="object-cover w-full h-full" data={entry.imgAvatar} />
                               </div>
                             </div>
                             <div className="px-4 w-auto">
