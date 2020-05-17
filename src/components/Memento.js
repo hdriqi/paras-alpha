@@ -20,8 +20,6 @@ const ModalMemento = ({ me, memento, close }) => {
   const [view, setView] = useState('default')
   const dispatch = useDispatch()
 
-  console.log(me.username, memento.owner)
-
   const _closeModal = (e) => {
     if(e.target.id === 'modal-bg') {
       setView('default')

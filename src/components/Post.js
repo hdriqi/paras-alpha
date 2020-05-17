@@ -4,11 +4,12 @@ import { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { MentionsInput, Mention } from 'react-mentions'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Pop from './Pop'
 import Push from './Push'
 import near from '../lib/near'
 import Image from './Image'
+import { setLoading } from '../actions/ui'
 
 const PostDetail = ({ post , commentList, mementoList }) => {
   const profile = useSelector(state => state.me.profile)
@@ -22,6 +23,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   const [searchMemento, setSearchMemento] = useState([])
   const commentRef = useRef(null)
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const _getUsers = async (query, callback) => {
     if (!query) return
@@ -76,6 +78,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   }
 
   const _transmitInputMemento = async () => {
+    dispatch(setLoading(true, 'Transmitting memory...'))
     const newData = await near.contract.transmitPost({
       originalId: post.originalId,
       mementoId: inputMementoData.id
@@ -85,6 +88,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
     setInputMementoData({})
     setSearchMemento([])
 
+    dispatch(setLoading(false))
     if(newData.status === 'published') {
       const nextMementoList = [...newMementoList].concat([inputMementoData])
       setNewMementoList(nextMementoList)
