@@ -80,6 +80,7 @@ export function getMementoList(
 		_embed: true,
 		_sort: null,
 		_order: null,
+		_skip: 0,
 		_limit: 10
 }): Memento[] {
 	var result: Memento[] = []
@@ -130,10 +131,13 @@ export function getMementoList(
 			}
 		}
 	}
-	if(!!opts && opts._limit > 0) {
-		return result.slice(0, min(LIMIT, opts._limit) as i32)
+	if(!!opts && opts._skip > 0) {
+		result = result.slice(opts._skip)
 	}
-	return result.slice(0, LIMIT)
+	if(!!opts && opts._limit > 0) {
+		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+	}
+	return result
 }
 
 export function getMementoById(id: string): Memento | null {
@@ -330,6 +334,7 @@ export function getPostList(
 		_embed: true,
 		_sort: null,
 		_order: null,
+		_skip: 0,
 		_limit: 10
 	}
 ): Post[] {
@@ -369,11 +374,14 @@ export function getPostList(
 				result = mergeSortPostList(result)
 			}
 		}
-	}  
-	if(!!opts && opts._limit > 0) {
-		return result.slice(0, min(LIMIT, opts._limit) as i32)
 	}
-	return result.slice(0, LIMIT)
+	if(!!opts && opts._skip > 0) {
+		result = result.slice(opts._skip)
+	}
+	if(!!opts && opts._limit > 0) {
+		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+	}
+	return result
 }
 
 export function getPostListByUserFollowing(
@@ -383,6 +391,7 @@ export function getPostListByUserFollowing(
 		_embed: true,
 		_sort: null,
 		_order: null,
+		_skip: 0,
 		_limit: 10
 	}
 ): Post[] {
@@ -437,10 +446,13 @@ export function getPostListByUserFollowing(
 			}
 		}
 	}
-	if(!!opts && opts._limit > 0) {
-		return result.slice(0, min(LIMIT, opts._limit) as i32)
+	if(!!opts && opts._skip > 0) {
+		result = result.slice(opts._skip)
 	}
-	return result.slice(0, LIMIT)
+	if(!!opts && opts._limit > 0) {
+		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+	}
+	return result
 }
 
 export function getPostById(id: string): Post | null {
@@ -538,6 +550,7 @@ export function getUserList(
 		_embed: true,
 		_sort: null,
 		_order: null,
+		_skip: 0,
 		_limit: 10
 }): User[] {
 	var result: User[] = []
@@ -586,10 +599,13 @@ export function getUserList(
 			}
 		}
 	}
-	if(!!opts && opts._limit > 0) {
-		return result.slice(0, min(LIMIT, opts._limit) as i32)
+	if(!!opts && opts._skip > 0) {
+		result = result.slice(opts._skip)
 	}
-	return result.slice(0, LIMIT)
+	if(!!opts && opts._limit > 0) {
+		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+	}
+	return result
 }
 
 export function getUserById(id: string): User | null {

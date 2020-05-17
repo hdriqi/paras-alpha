@@ -61,8 +61,9 @@ export class User {
 export class QueryOpts {
   _embed: bool
 	_sort: string | null
-	_order: string | null
-	_limit: i8
+  _order: string | null
+  _skip: u32
+	_limit: u32
 }
 
 @nearBindgen
