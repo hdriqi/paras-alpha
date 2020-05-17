@@ -11,6 +11,7 @@ import PushForward from './PushForward'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import ParseBody from './parseBody'
 import near from '../lib/near'
+import InfiniteScroll from 'react-infinite-scroller'
 
 const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
@@ -102,7 +103,7 @@ const ModalMemento = ({ me, memento, close }) => {
   )
 }
 
-const Memento = ({ memento, postList, pendingPostCount }) => {
+const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCount }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -215,15 +216,23 @@ const Memento = ({ memento, postList, pendingPostCount }) => {
             </div>
         </div>
         <div>
-          {
-            postList.map(post => {
-              return (
-                <div className='mt-6 shadow-subtle' key={post.id}>
-                  <PostCard post={post} />
-                </div>
-              )
-            })
-          }
+          <InfiniteScroll
+            pageStart={pageCount}
+            loadMore={getPost}
+            hasMore={hasMore} 
+            initialLoad={false}
+            loader={<div className="loader" key={0}>Loading ...</div>}
+          >
+            {
+              postList.map(post => {
+                return (
+                  <div className='mt-6 shadow-subtle' key={post.id}>
+                    <PostCard post={post} />
+                  </div>
+                )
+              })
+            }
+          </InfiniteScroll>
         </div>
       </div>
     </div>

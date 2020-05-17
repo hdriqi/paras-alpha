@@ -8,6 +8,34 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   const [localMemento, setLocalMemento] = useState(memento)
   const [localPostList, setLocalPostList] = useState(postList)
   const [localPendingPostCount, setLocalPendingPostCount] = useState(null)
+  const [hasMore, setHasMore] = useState(true)
+  const [pageCount, setPageCount] = useState(0)
+
+  const getPost = async (page) => {
+    try {
+      const curList = [...localPostList]
+      const query = [`mementoId:=${localMemento.id}`, `status:=published`]
+      const postList = await near.contract.getPostList({
+        query: query,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _skip: page * 10,
+          _limit: 10
+        }
+      })
+
+      const newList = curList.concat(postList)
+      setLocalPostList(newList)
+      setPageCount(page)
+      if(postList.length === 0 || postList.length < 10) {
+        setHasMore(false)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
   
   useEffect(() => {
     const getData = async () => {
@@ -28,27 +56,9 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   }, [id])
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const query = [`mementoId:=${localMemento.id}`, `status:=published`]
-        const postList = await near.contract.getPostList({
-          query: query,
-          opts: {
-            _embed: true,
-            _sort: 'createdAt',
-            _order: 'desc',
-            _limit: 10
-          }
-        })
-
-        setLocalPostList(postList)
-      } catch (err) {
-        console.log(err)
-      }
-    }
     if(localMemento.id) {
       console.log('get memento post list')
-      getData()
+      getPost(0)
     }
   }, [localMemento])
 
@@ -80,7 +90,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   }, [localMemento, me])
 
   return (
-    <Memento memento={localMemento} postList={localPostList} pendingPostCount={localPendingPostCount} />
+    <Memento memento={localMemento} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} />
   )
 }
 

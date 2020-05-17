@@ -6,7 +6,6 @@ import PostCardLoader from "./PostCardLoader"
 import InfiniteScroll from "react-infinite-scroller"
 
 const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
-  console.log(pageCount)
   return (
     <div className="bg-white-1 pb-32 min-h-screen">
       <div className="pb-12">

@@ -29,7 +29,6 @@ const HomeScreen = ({  }) => {
       }
     })
     const newList = curList.concat(newPostList)
-    console.log(newList)
     batch(() => {
       dispatch(addData('/', newList))
       dispatch(addData('/_pageCount', page))
