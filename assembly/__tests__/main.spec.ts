@@ -13,7 +13,7 @@ describe('Memento ', () => {
     mPermissioned = createMemento(name, desc, descRaw, 'permissioned')
 
     for (let i = 0; i < 5; i++) {
-      const body = 'Hello World'
+      const body = 'Hello World '.concat(i.toString())
       const bodyRaw = 'Hello World'
       const imgList: Img[] = []
       const mementoId = mPublic.id
@@ -21,7 +21,7 @@ describe('Memento ', () => {
     }
 
     for (let i = 0; i < 5; i++) {
-      const body = 'Hello World'
+      const body = 'Hola World '.concat(i.toString())
       const bodyRaw = 'Hello World'
       const imgList: Img[] = []
       const mementoId = mPermissioned.id
@@ -77,6 +77,7 @@ describe('Memento ', () => {
       _embed: true,
       _sort: 'createdAt',
       _order: 'desc',
+      _skip: 0,
       _limit: 10
     })
     expect(result[0].createdAt).toBeGreaterThanOrEqual(result[result.length - 1].createdAt)
@@ -118,10 +119,26 @@ describe('Memento ', () => {
         _embed: true,
         _sort: 'createdAt',
         _order: 'desc',
+        _skip: 0,
         _limit: 5
       })
       expect(result.length).toBe(5)
       expect(result[0].createdAt).toBeGreaterThanOrEqual(result[1].createdAt)
+    }
+  })
+
+  it('should get all post sort by createdAt order by desc skip by 3 limit by 3', () => {
+    const list = postCollection.get('list')
+    if(list) {
+      const result = getPostList(null, {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _skip: 3,
+        _limit: 3
+      })
+      expect(result.length).toBe(3)
+      expect(result[0].body).toBe('Hello World 3')
     }
   })
 

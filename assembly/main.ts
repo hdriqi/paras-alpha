@@ -135,7 +135,7 @@ export function getMementoList(
 		result = result.slice(opts._skip)
 	}
 	if(!!opts && opts._limit > 0) {
-		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+		result = result.slice(0, opts._limit)
 	}
 	return result
 }
@@ -379,7 +379,7 @@ export function getPostList(
 		result = result.slice(opts._skip)
 	}
 	if(!!opts && opts._limit > 0) {
-		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+		result = result.slice(0, opts._limit)
 	}
 	return result
 }
@@ -450,7 +450,7 @@ export function getPostListByUserFollowing(
 		result = result.slice(opts._skip)
 	}
 	if(!!opts && opts._limit > 0) {
-		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+		result = result.slice(0, opts._limit)
 	}
 	return result
 }
@@ -603,7 +603,7 @@ export function getUserList(
 		result = result.slice(opts._skip)
 	}
 	if(!!opts && opts._limit > 0) {
-		result = result.slice(0, max(LIMIT, opts._limit) as i32)
+		result = result.slice(0, opts._limit)
 	}
 	return result
 }

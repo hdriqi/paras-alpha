@@ -27,7 +27,9 @@ const ScrollPositionProvider = ({ children }) => {
         x = routes[routeIdx].x
         y = routes[routeIdx].y
       }
-      window.requestAnimationFrame(() => window.scrollTo(x, y))
+      setTimeout(() => {
+        window.requestAnimationFrame(() => window.scrollTo(x, y))
+      }, 50)
     }
 
     window.onpopstate = () => {

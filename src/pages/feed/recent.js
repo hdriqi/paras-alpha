@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import NavMobile from '../../components/NavMobile'
 import Home from '../../components/Home'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { addData } from '../../actions/me'
 import { withRedux } from '../../lib/redux'
 import near from '../../lib/near'
@@ -9,29 +9,44 @@ import near from '../../lib/near'
 const FeedRecentPage = () => {
   const dispatch = useDispatch()
   const postList = useSelector(state => state.me.data['/feed/recent'])
+  const hasMore = useSelector(state => state.me.data['/feed/recent_hasMore'])
+  const pageCount = useSelector(state => state.me.data['/feed/recent_pageCount'])
+
+  const getRecentPost = async (page) => {
+    const query = [`status:=published`]
+    const curList = postList ? [...postList] : []
+    const newPostList = await near.contract.getPostList({
+      query: query,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _skip: page * 5,
+        _limit: 5
+      }
+    })
+    const newList = curList.concat(newPostList)
+    batch(() => {
+      dispatch(addData('/feed/recent', newList))
+      dispatch(addData('/feed/recent_pageCount', page))
+    })
+    if(page === 0) {
+      dispatch(addData('/feed/recent_hasMore', true))
+    }
+    if(newPostList.length === 0) {
+      dispatch(addData('/feed/recent_hasMore', false))
+    }
+  }
 
   useEffect(() => {
-    const getData = async () => {
-      const query = [`status:=published`]
-      const postList = await near.contract.getPostList({
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
-      dispatch(addData('/feed/recent', postList))
-    }
     if(!postList) {
-      getData()
+      getRecentPost(0)
     }
   }, [])
 
   return (
     <div>
-      <Home page={`recent`} postList={postList} />
+      <Home page={`recent`} postList={postList} pageCount={pageCount} getPost={getRecentPost} hasMore={hasMore} />
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>

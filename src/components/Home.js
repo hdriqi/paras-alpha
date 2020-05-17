@@ -3,8 +3,10 @@ import PostCard from './PostCard'
 import Link from 'next/link'
 import Push from "./Push"
 import PostCardLoader from "./PostCardLoader"
+import InfiniteScroll from "react-infinite-scroller"
 
-const Home = ({ postList, page }) => {
+const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
+  console.log(pageCount)
   return (
     <div className="bg-white-1 pb-32 min-h-screen">
       <div className="pb-12">
@@ -43,14 +45,22 @@ const Home = ({ postList, page }) => {
       {
         postList ? (
           <div>
-            {
-            postList.map(post => {
-              return (
-                <div className="mt-6 shadow-subtle" key={post.id}>
-                  <PostCard post={post} />
-                </div>
-              )
-            })}
+            <InfiniteScroll
+              pageStart={pageCount}
+              loadMore={getPost}
+              hasMore={hasMore} 
+              loader={<div className="loader" key={0}>Loading ...</div>}
+            >
+              {
+                postList.map(post => {
+                  return (
+                    <div className="mt-6 shadow-subtle" key={post.id}>
+                      <PostCard post={post} />
+                    </div>
+                  )
+                })
+              }
+            </InfiniteScroll>
           </div>
         ) : (
           <div className="p-4">
