@@ -101,7 +101,7 @@ const NewBlock = () => {
             <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
             <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" placeholder="Memento name" />
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <label className="block text-sm pb-1 font-semibold text-black-2">Type</label>
             <ReactDropdown 
               arrowClosed={
@@ -121,7 +121,7 @@ const NewBlock = () => {
               options={['public', 'permissioned']} 
               placeholder="Memento type"
             />
-          </div>
+          </div> */}
           <div className="mt-4">
             <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
             <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"

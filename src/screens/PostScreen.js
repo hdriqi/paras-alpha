@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Post from '../components/Post'
 import axios from 'axios'
+import near from '../lib/near'
 
 const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
   const [localPost, setLocalPost] = useState(post)
@@ -10,17 +11,10 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const resPost = await axios.get(`https://internal-db.dev.paras.id/posts/${id}`)
-        const post = resPost.data
-
-        if(post.blockId) {
-          const resBlock = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
-          post.block = resBlock.data
-        }
-
-        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${post.userId}`)
-        post.user = resUser.data
-
+        const post = await near.contract.getPostById({
+          id: id
+        })
+        
         setLocalPost(post)
       } catch (err) {
         console.log(err)
@@ -34,16 +28,17 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const resPostMementoList = await axios.get(`https://internal-db.dev.paras.id/posts?originalId=${localPost.originalId}`)
-      const mementoList = await Promise.all(resPostMementoList.data.filter(post => post.blockId).map(post => {
-        return new Promise(async (resolve) => {
-          const resBlock = await axios.get(`https://internal-db.dev.paras.id/blocks/${post.blockId}`)
-          const block = resBlock.data
-          const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${block.userId}`)
-          block.user = resUser.data
-          resolve(block)
-        })
-      }))
+      const q = [`originalId:=${localPost.originalId}`]
+      const similarPost = await near.contract.getPostList({
+        query: q,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _limit: 10
+        }
+      })
+      const mementoList = similarPost.map(post => post.memento)
       setLocalMementoList(mementoList)
     }
     if(localPost.originalId && localMementoList.length === 0) {

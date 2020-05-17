@@ -98,7 +98,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
           )
         }
         <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`http://localhost:3000/post/${post.id}`} id={`urlLink_${post.id}`} />
+          <input readOnly type="text" value={`${window.location.href}/post/${post.id}`} id={`urlLink_${post.id}`} />
         </div>
       </div>
     </div>
@@ -114,7 +114,6 @@ const Post = ({ post }) => {
   const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
-    console.log(showModal)
     if(showModal) {
       disableBodyScroll(document.querySelector('#modal-bg'))
     }
@@ -217,20 +216,22 @@ const Post = ({ post }) => {
                   <ParseBody body={post.bodyRaw || ''} />
                 </p>
               </div>
-              <div className="flex justify-between px-4 py-4">
-                <p className="text-sm font-normal text-black-4">{ timeAgo.format(new Date(post.createdAt/(10**6))) }</p>
-                <p className="text-sm font-normal text-black-4">
-                  {
-                    post.originalId && post.id !== post.originalId && (
-                      <Push href="/post/[id]" as={`/post/${post.originalId}`}>
-                        <a>original post</a>
-                      </Push>
-                    )
-                  }
-                </p>
-              </div>
             </div>
           </Push>
+          <div className="flex justify-between px-4 py-4">
+            <p className="text-sm font-normal text-black-4">{ timeAgo.format(new Date(post.createdAt/(10**6))) }</p>
+            <p className="text-sm font-normal text-black-4">
+              {
+                post.originalId && post.id !== post.originalId && (
+                  <Push href="/post/[id]" as={`/post/${post.originalId}`} props={{
+                    id: post.originalId
+                  }}>
+                    <a>original post</a>
+                  </Push>
+                )
+              }
+            </p>
+          </div>
         </div>
       )
     )

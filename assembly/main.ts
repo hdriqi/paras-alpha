@@ -267,6 +267,52 @@ export function createPost(
 	return p
 }
 
+export function transmitPost(
+	originalId: string,
+	mementoId: string
+): Post | null {
+	// get memento and check its type
+	const m = getMementoById(mementoId)
+	const p = getPostById(originalId)
+	assert(
+		!!m,
+		'Memento is deleted'
+	)
+
+	assert(
+		p,
+		'Post is deleted'
+	)
+	const id = _genId()
+	const status = !!m && m.type == 'public' ? 'published' : 'pending'
+	
+	if(!p) {
+		return null
+	}
+	const newPost = new Post()
+	newPost.id = id
+	newPost.status = status
+	newPost.originalId = p.originalId
+	newPost.body = p.body
+	newPost.bodyRaw = p.bodyRaw
+	newPost.imgList = p.imgList
+	newPost.mementoId = mementoId
+	newPost.owner = context.sender
+	newPost.createdAt = context.blockTimestamp
+
+	const list = postCollection.get('list')
+	if(list) {
+		list.data.push(newPost)
+		postCollection.set('list', list)
+	}
+	else {
+		const newList = new PostList()
+		newList.data = [newPost]
+		postCollection.set('list', newList)
+	}
+	return newPost
+}
+
 function _addToPostList(post: Post, embed: bool, result: Post[]): void {
 	if(embed) {
 		const user = getUserByUsername(post.owner)
@@ -277,40 +323,6 @@ function _addToPostList(post: Post, embed: bool, result: Post[]): void {
 	}
 	result.push(post)
 }
-
-// function quickSort(arr: Any[], left: i32, right: i32): Any[]{
-//   let pivot = 0
-//   let partitionIndex = 0
-
-
-//  if(left < right){
-//    pivot = right;
-//    partitionIndex = partition(arr, pivot, left, right);
-	 
-//   //sort left and right
-//   quickSort(arr, left, partitionIndex - 1);
-//   quickSort(arr, partitionIndex + 1, right);
-//  }
-//  return arr;
-// }
-// function partition(arr: Any[], pivot: i32, left: i32 , right: i32) : i32 {
-//   var pivotValue = arr[pivot],
-//       partitionIndex = left;
-
-//   for(var i = left; i < right; i++){
-//    if(arr[i].createdAt > pivotValue.createdAt){
-//      swap(arr, i, partitionIndex);
-//      partitionIndex++;
-//    }
-//   }
-//   swap(arr, right, partitionIndex);
-//   return partitionIndex;
-// }        
-// function swap(arr: Any[], i: i32, j: i32): void{
-//   var temp = arr[i];
-//   arr[i] = arr[j];
-//   arr[j] = temp;
-// }
 
 export function getPostList(
 	query: string[] | null = null,
@@ -440,7 +452,7 @@ export function getPostById(id: string): Post | null {
 	for (let idx = 0; idx < postList.data.length; idx++) {
 		const post = postList.data[idx]
 		if(post.id == id) {
-			result.push(post)
+			_addToPostList(post, true, result)
 			break
 		}
 	}

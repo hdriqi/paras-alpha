@@ -215,25 +215,26 @@
  (data (i32.const 17488) "\0c\00\00\00\01\00\00\00\01\00\00\00\0c\00\00\00s\00t\00a\00t\00u\00s\00")
  (data (i32.const 17520) "\0e\00\00\00\01\00\00\00\01\00\00\00\0e\00\00\00m\00e\00m\00e\00n\00t\00o\00")
  (data (i32.const 17552) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 17568) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 17584) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 17600) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 17568) "\1e\00\00\00\01\00\00\00\01\00\00\00\1e\00\00\00P\00o\00s\00t\00 \00i\00s\00 \00d\00e\00l\00e\00t\00e\00d\00")
  (data (i32.const 17616) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 17632) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
  (data (i32.const 17648) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 17664) "n\00\00\00\01\00\00\00\01\00\00\00n\00\00\00P\00o\00s\00t\00 \00c\00a\00n\00 \00o\00n\00l\00y\00 \00b\00e\00 \00d\00e\00l\00e\00t\00e\00d\00 \00b\00y\00 \00p\00o\00s\00t\00 \00o\00w\00n\00e\00r\00 \00o\00r\00 \00m\00e\00m\00e\00n\00t\00o\00 \00o\00w\00n\00e\00r\00")
- (data (i32.const 17792) "$\00\00\00\01\00\00\00\01\00\00\00$\00\00\00U\00s\00e\00r\00 \00a\00l\00r\00e\00a\00d\00y\00 \00e\00x\00i\00s\00t\00")
- (data (i32.const 17856) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 17872) "\1c\00\00\00\01\00\00\00\01\00\00\00\1c\00\00\00U\00s\00e\00r\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00")
- (data (i32.const 17920) "\10\00\00\00\01\00\00\00\01\00\00\00\10\00\00\00t\00a\00r\00g\00e\00t\00I\00d\00")
- (data (i32.const 17952) "\14\00\00\00\01\00\00\00\01\00\00\00\14\00\00\00t\00a\00r\00g\00e\00t\00T\00y\00p\00e\00")
- (data (i32.const 18000) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
- (data (i32.const 18016) "\16\00\00\00\01\00\00\00\01\00\00\00\16\00\00\00n\00a\00m\00e\00_\00l\00i\00k\00e\00:\00=\00")
- (data (i32.const 18064) "\1e\00\00\00\01\00\00\00\01\00\00\00\1e\00\00\00u\00s\00e\00r\00n\00a\00m\00e\00_\00l\00i\00k\00e\00:\00=\00")
- (data (i32.const 18112) "\06\00\00\00\01\00\00\00\01\00\00\00\06\00\00\00i\00m\00g\00")
- (data (i32.const 18144) "\n\00\00\00\01\00\00\00\01\00\00\00\n\00\00\00t\00i\00t\00l\00e\00")
- (data (i32.const 18176) "\10\00\00\00\01\00\00\00\01\00\00\00\10\00\00\00s\00u\00b\00t\00i\00t\00l\00e\00")
- (data (i32.const 18208) "4\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\07\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\07\00\00\00\10\00\00\00\07\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\001\00\00\00\02\00\00\00\10\00\00\00\1c\00\00\00\10\00\00\00\00\00\00\00\93\04\00\00\02\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\"\00\00\00\98 A\00\00\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\003\00\00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00")
+ (data (i32.const 17664) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 17680) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 17696) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 17712) "n\00\00\00\01\00\00\00\01\00\00\00n\00\00\00P\00o\00s\00t\00 \00c\00a\00n\00 \00o\00n\00l\00y\00 \00b\00e\00 \00d\00e\00l\00e\00t\00e\00d\00 \00b\00y\00 \00p\00o\00s\00t\00 \00o\00w\00n\00e\00r\00 \00o\00r\00 \00m\00e\00m\00e\00n\00t\00o\00 \00o\00w\00n\00e\00r\00")
+ (data (i32.const 17840) "$\00\00\00\01\00\00\00\01\00\00\00$\00\00\00U\00s\00e\00r\00 \00a\00l\00r\00e\00a\00d\00y\00 \00e\00x\00i\00s\00t\00")
+ (data (i32.const 17904) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 17920) "\1c\00\00\00\01\00\00\00\01\00\00\00\1c\00\00\00U\00s\00e\00r\00 \00n\00o\00t\00 \00f\00o\00u\00n\00d\00")
+ (data (i32.const 17968) "\10\00\00\00\01\00\00\00\01\00\00\00\10\00\00\00t\00a\00r\00g\00e\00t\00I\00d\00")
+ (data (i32.const 18000) "\14\00\00\00\01\00\00\00\01\00\00\00\14\00\00\00t\00a\00r\00g\00e\00t\00T\00y\00p\00e\00")
+ (data (i32.const 18048) "\00\00\00\00\01\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 18064) "\16\00\00\00\01\00\00\00\01\00\00\00\16\00\00\00n\00a\00m\00e\00_\00l\00i\00k\00e\00:\00=\00")
+ (data (i32.const 18112) "\1e\00\00\00\01\00\00\00\01\00\00\00\1e\00\00\00u\00s\00e\00r\00n\00a\00m\00e\00_\00l\00i\00k\00e\00:\00=\00")
+ (data (i32.const 18160) "\06\00\00\00\01\00\00\00\01\00\00\00\06\00\00\00i\00m\00g\00")
+ (data (i32.const 18192) "\n\00\00\00\01\00\00\00\01\00\00\00\n\00\00\00t\00i\00t\00l\00e\00")
+ (data (i32.const 18224) "\10\00\00\00\01\00\00\00\01\00\00\00\10\00\00\00s\00u\00b\00t\00i\00t\00l\00e\00")
+ (data (i32.const 18256) "4\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\07\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\07\00\00\00\10\00\00\00\07\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\001\00\00\00\02\00\00\00\10\00\00\00\1c\00\00\00\10\00\00\00\00\00\00\00\93\04\00\00\02\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\"\00\00\00\98 A\00\00\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\00\10\00\00\00\"\00\00\003\00\00\00\02\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\10\00\00\00\00\00\00\00\93 \00\00\02\00\00\00")
  (table $0 5 funcref)
  (elem (i32.const 1) $assembly/main/getUserList~anonymous|0 $assembly/main/getMementoList~anonymous|0 $assembly/main/getPostList~anonymous|0 $assembly/main/getPostListByUserFollowing~anonymous|0)
  (global $~lib/rt/stub/startOffset (mut i32) (i32.const 0))
@@ -292,8 +293,8 @@
  (global $~lib/builtins/i32.MAX_VALUE i32 (i32.const 2147483647))
  (global $~lib/builtins/u32.MAX_VALUE i32 (i32.const -1))
  (global $~lib/number/U32.MAX_VALUE i32 (i32.const -1))
- (global $~lib/rt/__rtti_base i32 (i32.const 18208))
- (global $~lib/heap/__heap_base i32 (i32.const 18628))
+ (global $~lib/rt/__rtti_base i32 (i32.const 18256))
+ (global $~lib/heap/__heap_base i32 (i32.const 18676))
  (export "__setArgumentsLength" (func $~setArgumentsLength))
  (export "memory" (memory $0))
  (export "devDeleteAllMemento" (func $assembly/main/__wrapper_devDeleteAllMemento))
@@ -305,6 +306,7 @@
  (export "updateMementoById" (func $assembly/main/__wrapper_updateMementoById))
  (export "deleteMementoById" (func $assembly/main/__wrapper_deleteMementoById))
  (export "createPost" (func $assembly/main/__wrapper_createPost))
+ (export "transmitPost" (func $assembly/main/__wrapper_transmitPost))
  (export "getPostList" (func $assembly/main/__wrapper_getPostList))
  (export "getPostListByUserFollowing" (func $assembly/main/__wrapper_getPostListByUserFollowing))
  (export "getPostById" (func $assembly/main/__wrapper_getPostById))
@@ -26255,22 +26257,7 @@
   local.get $6
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getPostList~anonymous|0 (; 446 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
-  (local $3 i32)
-  local.get $2
-  call $~lib/rt/stub/__retain
-  local.set $2
-  local.get $0
-  i32.const 0
-  i32.ne
-  i32.const 1
-  i32.eq
-  local.set $3
-  local.get $2
-  call $~lib/rt/stub/__release
-  local.get $3
- )
- (func $assembly/main/_addToPostList (; 447 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $assembly/main/_addToPostList (; 446 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -26350,7 +26337,478 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Post>#slice (; 448 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getPostById (; 447 ;) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  local.get $0
+  call $~lib/rt/stub/__retain
+  local.set $0
+  i32.const 0
+  i32.const 2
+  i32.const 18
+  i32.const 17568
+  call $~lib/rt/__allocArray
+  call $~lib/rt/stub/__retain
+  local.set $2
+  global.get $assembly/model/postCollection
+  i32.const 720
+  i32.const 0
+  call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#get
+  local.set $1
+  local.get $1
+  i32.eqz
+  if
+   i32.const 0
+   call $~lib/rt/stub/__retain
+   local.set $3
+   local.get $0
+   call $~lib/rt/stub/__release
+   local.get $1
+   call $~lib/rt/stub/__release
+   local.get $2
+   call $~lib/rt/stub/__release
+   local.get $3
+   return
+  end
+  i32.const 0
+  local.set $3
+  block $for-break0
+   loop $for-loop|0
+    local.get $3
+    local.get $1
+    i32.load
+    call $~lib/array/Array<assembly/model/Post>#get:length
+    i32.lt_s
+    local.set $4
+    local.get $4
+    if
+     local.get $1
+     i32.load
+     local.get $3
+     call $~lib/array/Array<assembly/model/Post>#__get
+     local.set $5
+     local.get $5
+     i32.load
+     local.get $0
+     call $~lib/string/String.__eq
+     if
+      local.get $5
+      i32.const 1
+      local.get $2
+      call $assembly/main/_addToPostList
+      local.get $5
+      call $~lib/rt/stub/__release
+      br $for-break0
+     end
+     local.get $5
+     call $~lib/rt/stub/__release
+     local.get $3
+     i32.const 1
+     i32.add
+     local.set $3
+     br $for-loop|0
+    end
+   end
+  end
+  local.get $2
+  call $~lib/array/Array<assembly/model/Post>#get:length
+  i32.const 0
+  i32.gt_s
+  if
+   local.get $2
+   i32.const 0
+   call $~lib/array/Array<assembly/model/Post>#__get
+   local.set $3
+   local.get $0
+   call $~lib/rt/stub/__release
+   local.get $1
+   call $~lib/rt/stub/__release
+   local.get $2
+   call $~lib/rt/stub/__release
+   local.get $3
+   return
+  else
+   i32.const 0
+   call $~lib/rt/stub/__retain
+   local.set $3
+   local.get $0
+   call $~lib/rt/stub/__release
+   local.get $1
+   call $~lib/rt/stub/__release
+   local.get $2
+   call $~lib/rt/stub/__release
+   local.get $3
+   return
+  end
+  unreachable
+ )
+ (func $assembly/main/transmitPost (; 448 ;) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  (local $9 i32)
+  (local $10 i32)
+  (local $11 i32)
+  (local $12 i32)
+  local.get $0
+  call $~lib/rt/stub/__retain
+  local.set $0
+  local.get $1
+  call $~lib/rt/stub/__retain
+  local.set $1
+  local.get $1
+  call $assembly/main/getMementoById
+  local.set $2
+  local.get $0
+  call $assembly/main/getPostById
+  local.set $3
+  local.get $2
+  i32.eqz
+  i32.eqz
+  i32.eqz
+  if
+   i32.const 17168
+   i32.const 15712
+   i32.const 222
+   i32.const 2
+   call $~lib/builtins/abort
+   unreachable
+  end
+  local.get $3
+  i32.eqz
+  if
+   i32.const 17584
+   i32.const 15712
+   i32.const 223
+   i32.const 2
+   call $~lib/builtins/abort
+   unreachable
+  end
+  call $assembly/main/_genId
+  local.set $4
+  local.get $2
+  i32.eqz
+  i32.eqz
+  if (result i32)
+   local.get $2
+   i32.load offset=16
+   i32.const 15520
+   call $~lib/string/String.__eq
+  else
+   i32.const 0
+  end
+  if (result i32)
+   i32.const 17232
+  else
+   i32.const 17280
+  end
+  local.set $5
+  local.get $3
+  i32.eqz
+  if
+   i32.const 0
+   call $~lib/rt/stub/__retain
+   local.set $6
+   local.get $0
+   call $~lib/rt/stub/__release
+   local.get $1
+   call $~lib/rt/stub/__release
+   local.get $2
+   call $~lib/rt/stub/__release
+   local.get $3
+   call $~lib/rt/stub/__release
+   local.get $4
+   call $~lib/rt/stub/__release
+   local.get $5
+   call $~lib/rt/stub/__release
+   local.get $6
+   return
+  end
+  i32.const 0
+  call $assembly/model/Post#constructor
+  local.set $6
+  local.get $6
+  local.tee $7
+  local.get $4
+  local.tee $8
+  local.get $7
+  i32.load
+  local.tee $9
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $9
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store
+  local.get $6
+  local.tee $9
+  local.get $5
+  local.tee $8
+  local.get $9
+  i32.load offset=8
+  local.tee $7
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $7
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=8
+  local.get $6
+  local.tee $7
+  local.get $3
+  i32.load offset=4
+  local.tee $8
+  local.get $7
+  i32.load offset=4
+  local.tee $9
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $9
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=4
+  local.get $6
+  local.tee $9
+  local.get $3
+  i32.load offset=12
+  local.tee $8
+  local.get $9
+  i32.load offset=12
+  local.tee $7
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $7
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=12
+  local.get $6
+  local.tee $7
+  local.get $3
+  i32.load offset=16
+  local.tee $8
+  local.get $7
+  i32.load offset=16
+  local.tee $9
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $9
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=16
+  local.get $6
+  local.tee $9
+  local.get $3
+  i32.load offset=20
+  local.tee $8
+  local.get $9
+  i32.load offset=20
+  local.tee $7
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $7
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=20
+  local.get $6
+  local.tee $7
+  local.get $1
+  local.tee $8
+  local.get $7
+  i32.load offset=28
+  local.tee $9
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $9
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=28
+  local.get $6
+  local.tee $9
+  global.get $~lib/near-sdk-as/runtime/contract/context
+  call $~lib/near-sdk-as/runtime/contract/Context#get:sender
+  local.tee $7
+  local.tee $8
+  local.get $9
+  i32.load offset=24
+  local.tee $10
+  i32.ne
+  if
+   local.get $8
+   call $~lib/rt/stub/__retain
+   local.set $8
+   local.get $10
+   call $~lib/rt/stub/__release
+  end
+  local.get $8
+  i32.store offset=24
+  local.get $6
+  global.get $~lib/near-sdk-as/runtime/contract/context
+  call $~lib/near-sdk-as/runtime/contract/Context#get:blockTimestamp
+  i64.store offset=32
+  global.get $assembly/model/postCollection
+  i32.const 720
+  i32.const 0
+  call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#get
+  local.set $9
+  local.get $9
+  if
+   local.get $9
+   i32.load
+   local.get $6
+   call $~lib/array/Array<assembly/model/Post>#push
+   drop
+   global.get $assembly/model/postCollection
+   i32.const 720
+   local.get $9
+   call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#set
+  else
+   i32.const 0
+   call $assembly/model/PostList#constructor
+   local.set $8
+   local.get $8
+   local.tee $12
+   i32.const 1
+   i32.const 2
+   i32.const 18
+   i32.const 0
+   call $~lib/rt/__allocArray
+   call $~lib/rt/stub/__retain
+   local.set $10
+   local.get $10
+   i32.load offset=4
+   local.set $11
+   local.get $11
+   local.get $6
+   call $~lib/rt/stub/__retain
+   i32.store
+   local.get $10
+   local.set $10
+   local.get $12
+   i32.load
+   call $~lib/rt/stub/__release
+   local.get $10
+   i32.store
+   global.get $assembly/model/postCollection
+   i32.const 720
+   local.get $8
+   call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#set
+   local.get $8
+   call $~lib/rt/stub/__release
+  end
+  local.get $6
+  local.set $8
+  local.get $2
+  call $~lib/rt/stub/__release
+  local.get $3
+  call $~lib/rt/stub/__release
+  local.get $4
+  call $~lib/rt/stub/__release
+  local.get $5
+  call $~lib/rt/stub/__release
+  local.get $7
+  call $~lib/rt/stub/__release
+  local.get $9
+  call $~lib/rt/stub/__release
+  local.get $0
+  call $~lib/rt/stub/__release
+  local.get $1
+  call $~lib/rt/stub/__release
+  local.get $8
+ )
+ (func $assembly/main/__wrapper_transmitPost (; 449 ;)
+  (local $0 i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  call $node_modules/near-sdk-as/assembly/bindgen/getInput
+  local.set $0
+  local.get $0
+  i32.const 17456
+  call $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj>
+  local.tee $1
+  local.get $0
+  i32.const 17120
+  call $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj>
+  local.tee $2
+  call $assembly/main/transmitPost
+  local.set $3
+  i32.const 1
+  global.set $~argumentsLength
+  local.get $3
+  i32.const 608
+  i32.const 0
+  call $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Post,~lib/typedarray/Uint8Array>|trampoline
+  local.set $4
+  local.get $4
+  i32.load offset=8
+  i64.extend_i32_s
+  local.get $4
+  i32.load offset=4
+  i64.extend_i32_u
+  call $node_modules/near-sdk-as/assembly/bindgen/value_return
+  local.get $0
+  call $~lib/rt/stub/__release
+  local.get $1
+  call $~lib/rt/stub/__release
+  local.get $2
+  call $~lib/rt/stub/__release
+  local.get $3
+  call $~lib/rt/stub/__release
+  local.get $4
+  call $~lib/rt/stub/__release
+ )
+ (func $assembly/main/getPostList~anonymous|0 (; 450 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+  (local $3 i32)
+  local.get $2
+  call $~lib/rt/stub/__retain
+  local.set $2
+  local.get $0
+  i32.const 0
+  i32.ne
+  i32.const 1
+  i32.eq
+  local.set $3
+  local.get $2
+  call $~lib/rt/stub/__release
+  local.get $3
+ )
+ (func $~lib/array/Array<assembly/model/Post>#slice (; 451 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -26473,7 +26931,7 @@
   end
   local.get $6
  )
- (func $~lib/array/Array<assembly/model/Post>#shift (; 449 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#shift (; 452 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -26523,7 +26981,7 @@
   i32.store offset=12
   local.get $3
  )
- (func $assembly/utils/_mergePostList (; 450 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/utils/_mergePostList (; 453 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26539,7 +26997,7 @@
   i32.const 0
   i32.const 2
   i32.const 18
-  i32.const 17600
+  i32.const 17664
   call $~lib/rt/__allocArray
   call $~lib/rt/stub/__retain
   local.set $4
@@ -26634,7 +27092,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/utils/mergeSortPostList (; 451 ;) (param $0 i32) (result i32)
+ (func $assembly/utils/mergeSortPostList (; 454 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -26688,7 +27146,7 @@
   call $~lib/rt/stub/__release
   local.get $6
  )
- (func $assembly/main/getPostList (; 452 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getPostList (; 455 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -26712,7 +27170,7 @@
   i32.const 0
   i32.const 2
   i32.const 18
-  i32.const 17568
+  i32.const 17632
   call $~lib/rt/__allocArray
   call $~lib/rt/stub/__retain
   local.set $3
@@ -26727,7 +27185,7 @@
    i32.const 0
    i32.const 2
    i32.const 18
-   i32.const 17584
+   i32.const 17648
    call $~lib/rt/__allocArray
    call $~lib/rt/stub/__retain
    local.set $5
@@ -27023,7 +27481,7 @@
   call $~lib/rt/stub/__release
   local.get $15
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array> (; 453 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array> (; 456 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27094,7 +27552,7 @@
   local.get $3
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array>|trampoline (; 454 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/Post>,~lib/typedarray/Uint8Array>|trampoline (; 457 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -27125,7 +27583,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_getPostList (; 455 ;)
+ (func $assembly/main/__wrapper_getPostList (; 458 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27168,7 +27626,7 @@
   local.get $4
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/Following#constructor (; 456 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/Following#constructor (; 459 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27233,7 +27691,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $assembly/main/getPostListByUserFollowing~anonymous|0 (; 457 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getPostListByUserFollowing~anonymous|0 (; 460 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   local.get $2
   call $~lib/rt/stub/__retain
@@ -27248,7 +27706,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/getPostListByUserFollowing (; 458 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/getPostListByUserFollowing (; 461 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27284,7 +27742,7 @@
    i32.const 0
    i32.const 2
    i32.const 18
-   i32.const 17616
+   i32.const 17680
    call $~lib/rt/__allocArray
    call $~lib/rt/stub/__retain
    local.set $5
@@ -27313,7 +27771,7 @@
   i32.const 0
   i32.const 2
   i32.const 18
-  i32.const 17632
+  i32.const 17696
   call $~lib/rt/__allocArray
   call $~lib/rt/stub/__retain
   local.set $7
@@ -27328,7 +27786,7 @@
    i32.const 0
    i32.const 2
    i32.const 18
-   i32.const 17648
+   i32.const 17712
    call $~lib/rt/__allocArray
    call $~lib/rt/stub/__retain
    local.set $8
@@ -27634,7 +28092,7 @@
   call $~lib/rt/stub/__release
   local.get $19
  )
- (func $assembly/main/__wrapper_getPostListByUserFollowing (; 459 ;)
+ (func $assembly/main/__wrapper_getPostListByUserFollowing (; 462 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27684,115 +28142,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getPostById (; 460 ;) (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  local.get $0
-  call $~lib/rt/stub/__retain
-  local.set $0
-  i32.const 0
-  i32.const 2
-  i32.const 18
-  i32.const 17664
-  call $~lib/rt/__allocArray
-  call $~lib/rt/stub/__retain
-  local.set $2
-  global.get $assembly/model/postCollection
-  i32.const 720
-  i32.const 0
-  call $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/PostList>#get
-  local.set $1
-  local.get $1
-  i32.eqz
-  if
-   i32.const 0
-   call $~lib/rt/stub/__retain
-   local.set $3
-   local.get $0
-   call $~lib/rt/stub/__release
-   local.get $1
-   call $~lib/rt/stub/__release
-   local.get $2
-   call $~lib/rt/stub/__release
-   local.get $3
-   return
-  end
-  i32.const 0
-  local.set $3
-  block $for-break0
-   loop $for-loop|0
-    local.get $3
-    local.get $1
-    i32.load
-    call $~lib/array/Array<assembly/model/Post>#get:length
-    i32.lt_s
-    local.set $4
-    local.get $4
-    if
-     local.get $1
-     i32.load
-     local.get $3
-     call $~lib/array/Array<assembly/model/Post>#__get
-     local.set $5
-     local.get $5
-     i32.load
-     local.get $0
-     call $~lib/string/String.__eq
-     if
-      local.get $2
-      local.get $5
-      call $~lib/array/Array<assembly/model/Post>#push
-      drop
-      local.get $5
-      call $~lib/rt/stub/__release
-      br $for-break0
-     end
-     local.get $5
-     call $~lib/rt/stub/__release
-     local.get $3
-     i32.const 1
-     i32.add
-     local.set $3
-     br $for-loop|0
-    end
-   end
-  end
-  local.get $2
-  call $~lib/array/Array<assembly/model/Post>#get:length
-  i32.const 0
-  i32.gt_s
-  if
-   local.get $2
-   i32.const 0
-   call $~lib/array/Array<assembly/model/Post>#__get
-   local.set $3
-   local.get $0
-   call $~lib/rt/stub/__release
-   local.get $1
-   call $~lib/rt/stub/__release
-   local.get $2
-   call $~lib/rt/stub/__release
-   local.get $3
-   return
-  else
-   i32.const 0
-   call $~lib/rt/stub/__retain
-   local.set $3
-   local.get $0
-   call $~lib/rt/stub/__release
-   local.get $1
-   call $~lib/rt/stub/__release
-   local.get $2
-   call $~lib/rt/stub/__release
-   local.get $3
-   return
-  end
-  unreachable
- )
- (func $assembly/main/__wrapper_getPostById (; 461 ;)
+ (func $assembly/main/__wrapper_getPostById (; 463 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -27828,7 +28178,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Post>#splice (; 462 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Post>#splice (; 464 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -27936,7 +28286,7 @@
   i32.store offset=12
   local.get $6
  )
- (func $assembly/main/deletePostById (; 463 ;) (param $0 i32) (result i32)
+ (func $assembly/main/deletePostById (; 465 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -28026,9 +28376,9 @@
       end
       i32.eqz
       if
-       i32.const 17680
+       i32.const 17728
        i32.const 15712
-       i32.const 355
+       i32.const 386
        i32.const 6
        call $~lib/builtins/abort
        unreachable
@@ -28090,7 +28440,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/main/__wrapper_deletePostById (; 464 ;)
+ (func $assembly/main/__wrapper_deletePostById (; 466 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28126,7 +28476,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/User#constructor (; 465 ;) (param $0 i32) (result i32)
+ (func $assembly/model/User#constructor (; 467 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -28159,7 +28509,7 @@
   i64.store offset=24
   local.get $0
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/UserList> (; 466 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/UserList> (; 468 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -28173,7 +28523,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 467 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/User>,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 469 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -28240,7 +28590,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/UserList#_encode (; 468 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/UserList#_encode (; 470 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -28280,7 +28630,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array> (; 469 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array> (; 471 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -28321,7 +28671,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array>|trampoline (; 470 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/UserList,~lib/typedarray/Uint8Array>|trampoline (; 472 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -28352,7 +28702,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/UserList> (; 471 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/storage/Storage#set<assembly/model/UserList> (; 473 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -28377,7 +28727,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#set (; 472 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/near-sdk-as/runtime/collections/persistentMap/PersistentMap<~lib/string/String,assembly/model/UserList>#set (; 474 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   local.get $1
   call $~lib/rt/stub/__retain
@@ -28399,7 +28749,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/model/UserList#constructor (; 473 ;) (param $0 i32) (result i32)
+ (func $assembly/model/UserList#constructor (; 475 ;) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -28414,7 +28764,7 @@
   i32.store
   local.get $0
  )
- (func $assembly/main/createUser (; 474 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/createUser (; 476 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -28442,9 +28792,9 @@
   i32.eqz
   i32.eqz
   if
-   i32.const 17808
+   i32.const 17856
    i32.const 15712
-   i32.const 370
+   i32.const 401
    i32.const 2
    call $~lib/builtins/abort
    unreachable
@@ -28485,7 +28835,7 @@
   i32.const 0
   i32.const 2
   i32.const 16
-  i32.const 17872
+  i32.const 17920
   call $~lib/rt/__allocArray
   call $~lib/rt/stub/__retain
   local.set $7
@@ -28617,7 +28967,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array> (; 475 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array> (; 477 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -28658,7 +29008,7 @@
   local.get $4
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array>|trampoline (; 476 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/User,~lib/typedarray/Uint8Array>|trampoline (; 478 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -28689,7 +29039,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_createUser (; 477 ;)
+ (func $assembly/main/__wrapper_createUser (; 479 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28739,7 +29089,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/__wrapper_getUserList (; 478 ;)
+ (func $assembly/main/__wrapper_getUserList (; 480 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28782,7 +29132,7 @@
   local.get $4
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getUserById (; 479 ;) (param $0 i32) (result i32)
+ (func $assembly/main/getUserById (; 481 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -28891,7 +29241,7 @@
   end
   unreachable
  )
- (func $assembly/main/__wrapper_getUserById (; 480 ;)
+ (func $assembly/main/__wrapper_getUserById (; 482 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28927,7 +29277,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/__wrapper_getUserByUsername (; 481 ;)
+ (func $assembly/main/__wrapper_getUserByUsername (; 483 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -28963,7 +29313,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/User>#__unchecked_set (; 482 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<assembly/model/User>#__unchecked_set (; 484 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   local.get $2
@@ -28993,7 +29343,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/User>#__set (; 483 ;) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<assembly/model/User>#__set (; 485 ;) (param $0 i32) (param $1 i32) (param $2 i32)
   local.get $2
   call $~lib/rt/stub/__retain
   local.set $2
@@ -29034,7 +29384,7 @@
   local.get $2
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/updateUserById (; 484 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $assembly/main/updateUserById (; 486 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -29124,9 +29474,9 @@
    i32.eqz
    i32.eqz
    if
-    i32.const 17888
+    i32.const 17936
     i32.const 15712
-    i32.const 495
+    i32.const 526
     i32.const 4
     call $~lib/builtins/abort
     unreachable
@@ -29143,7 +29493,7 @@
     if
      i32.const 16752
      i32.const 15712
-     i32.const 497
+     i32.const 528
      i32.const 6
      call $~lib/builtins/abort
      unreachable
@@ -29243,7 +29593,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $assembly/main/__wrapper_updateUserById (; 485 ;)
+ (func $assembly/main/__wrapper_updateUserById (; 487 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -29300,7 +29650,7 @@
   local.get $6
   call $~lib/rt/stub/__release
  )
- (func $~lib/array/Array<assembly/model/Following>#splice (; 486 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/Following>#splice (; 488 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -29408,7 +29758,7 @@
   i32.store offset=12
   local.get $6
  )
- (func $assembly/main/toggleUserFollow (; 487 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/main/toggleUserFollow (; 489 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -29495,9 +29845,9 @@
    i32.eqz
    i32.eqz
    if
-    i32.const 17888
+    i32.const 17936
     i32.const 15712
-    i32.const 521
+    i32.const 552
     i32.const 4
     call $~lib/builtins/abort
     unreachable
@@ -29514,7 +29864,7 @@
     if
      i32.const 16752
      i32.const 15712
-     i32.const 523
+     i32.const 554
      i32.const 6
      call $~lib/builtins/abort
      unreachable
@@ -29631,7 +29981,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $assembly/main/__wrapper_toggleUserFollow (; 488 ;)
+ (func $assembly/main/__wrapper_toggleUserFollow (; 490 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -29645,11 +29995,11 @@
   call $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj>
   local.tee $1
   local.get $0
-  i32.const 17936
+  i32.const 17984
   call $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj>
   local.tee $2
   local.get $0
-  i32.const 17968
+  i32.const 18016
   call $node_modules/near-sdk-as/assembly/bindgen/decode<~lib/string/String,~lib/assemblyscript-json/JSON/JSON.Obj>
   local.tee $3
   call $assembly/main/toggleUserFollow
@@ -29681,7 +30031,7 @@
   local.get $5
   call $~lib/rt/stub/__release
  )
- (func $assembly/main/getMementoList|trampoline (; 489 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/main/getMementoList|trampoline (; 491 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   block $2of2
@@ -29724,7 +30074,7 @@
   call $~lib/rt/stub/__release
   local.get $3
  )
- (func $assembly/model/SearchResult#constructor (; 490 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
+ (func $assembly/model/SearchResult#constructor (; 492 ;) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -29864,7 +30214,7 @@
   call $~lib/rt/stub/__release
   local.get $0
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#push (; 491 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#push (; 493 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -29900,7 +30250,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/searchPostAndMemento (; 492 ;) (param $0 i32) (result i32)
+ (func $assembly/main/searchPostAndMemento (; 494 ;) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -29916,7 +30266,7 @@
   i32.const 0
   i32.const 2
   i32.const 51
-  i32.const 18016
+  i32.const 18064
   call $~lib/rt/__allocArray
   call $~lib/rt/stub/__retain
   local.set $2
@@ -29933,7 +30283,7 @@
   i32.load offset=4
   local.set $3
   local.get $3
-  i32.const 18032
+  i32.const 18080
   local.get $0
   call $~lib/string/String#concat
   i32.store
@@ -29995,7 +30345,7 @@
   i32.load offset=4
   local.set $5
   local.get $5
-  i32.const 18080
+  i32.const 18128
   local.get $0
   call $~lib/string/String#concat
   i32.store
@@ -30059,7 +30409,7 @@
   call $~lib/rt/stub/__release
   local.get $7
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/SearchResult>> (; 493 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<~lib/array/Array<assembly/model/SearchResult>> (; 495 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -30073,11 +30423,11 @@
   local.get $1
   return
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#get:length (; 494 ;) (param $0 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#get:length (; 496 ;) (param $0 i32) (result i32)
   local.get $0
   i32.load offset=12
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#__unchecked_get (; 495 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#__unchecked_get (; 497 ;) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   i32.load offset=4
   local.get $1
@@ -30087,7 +30437,7 @@
   i32.load
   call $~lib/rt/stub/__retain
  )
- (func $~lib/array/Array<assembly/model/SearchResult>#__get (; 496 ;) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<assembly/model/SearchResult>#__get (; 498 ;) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   local.get $1
   local.get $0
@@ -30119,7 +30469,7 @@
   end
   local.get $2
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/SearchResult> (; 497 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/SearchResult> (; 499 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -30133,7 +30483,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Img | null> (; 498 ;) (param $0 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/isNull<assembly/model/Img | null> (; 500 ;) (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   call $~lib/rt/stub/__retain
@@ -30147,7 +30497,7 @@
   local.get $1
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 499 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 501 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -30184,7 +30534,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/model/SearchResult#_encode (; 500 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $assembly/model/SearchResult#_encode (; 502 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $1
@@ -30216,19 +30566,19 @@
   call $~lib/rt/stub/__release
   local.get $0
   i32.load offset=4
-  i32.const 18128
+  i32.const 18176
   local.get $3
   call $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/Img | null,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder>
   call $~lib/rt/stub/__release
   local.get $0
   i32.load offset=8
-  i32.const 18160
+  i32.const 18208
   local.get $3
   call $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/string/String,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder>
   call $~lib/rt/stub/__release
   local.get $0
   i32.load offset=12
-  i32.const 18192
+  i32.const 18240
   local.get $3
   call $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/string/String,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder>
   call $~lib/rt/stub/__release
@@ -30248,7 +30598,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/SearchResult,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 501 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<assembly/model/SearchResult,node_modules/near-sdk-as/assembly/bindgen/JSONEncoder> (; 503 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   local.get $0
@@ -30285,7 +30635,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array> (; 502 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array> (; 504 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -30356,7 +30706,7 @@
   local.get $3
   return
  )
- (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array>|trampoline (; 503 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $node_modules/near-sdk-as/assembly/bindgen/encode<~lib/array/Array<assembly/model/SearchResult>,~lib/typedarray/Uint8Array>|trampoline (; 505 ;) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
   block $2of2
@@ -30387,7 +30737,7 @@
   call $~lib/rt/stub/__release
   local.get $4
  )
- (func $assembly/main/__wrapper_searchPostAndMemento (; 504 ;)
+ (func $assembly/main/__wrapper_searchPostAndMemento (; 506 ;)
   (local $0 i32)
   (local $1 i32)
   (local $2 i32)
@@ -30423,7 +30773,7 @@
   local.get $3
   call $~lib/rt/stub/__release
  )
- (func $~start (; 505 ;)
+ (func $~start (; 507 ;)
   call $start:assembly/main
   call $start:node_modules/near-sdk-as/assembly/bindgen
  )

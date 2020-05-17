@@ -7,6 +7,7 @@ import { MentionsInput, Mention } from 'react-mentions'
 import { useSelector } from 'react-redux'
 import Pop from './Pop'
 import Push from './Push'
+import near from '../lib/near'
 
 const PostDetail = ({ post , commentList, mementoList }) => {
   const profile = useSelector(state => state.me.profile)
@@ -53,15 +54,17 @@ const PostDetail = ({ post , commentList, mementoList }) => {
       setSearchMemento([])
       return
     }
-    const response = await axios.get(`https://internal-db.dev.paras.id/blocks?name_like=${query}`)
-    const newList = await Promise.all(response.data.map(memento => {
-      return new Promise(async (resolve) => {
-        const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${memento.userId}`)
-        memento.user = resUser.data
-        resolve(memento)
-      })
-    }))
-    setSearchMemento(newList)
+    const q = [`name_like:=${query}`]
+    const mementoList = await near.contract.getMementoList({
+      query: q,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _limit: 10
+      }
+    })
+    setSearchMemento(mementoList)
     searchMementoRef.current.scrollTo(0, searchMementoRef.current.scrollHeight)
   }
 
@@ -72,20 +75,11 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   }
 
   const _transmitInputMemento = async () => {
-    const id = Math.random().toString(36).substr(2, 9)
-    const newData = {
-      id: id,
+    const newData = await near.contract.transmitPost({
       originalId: post.originalId,
-      status: inputMementoData.type === 'public' ? 'published' : 'pending',
-      body: post.body,
-      bodyRaw: post.bodyRaw,
-      imgList: post.imgList,
-      userId: profile.id,
-      blockId: inputMementoData.id,
-      createdAt: new Date().toISOString()
-    }
+      mementoId: inputMementoData.id
+    })
 
-    await axios.post('https://internal-db.dev.paras.id/posts', newData)
     setInputMemento('')
     setInputMementoData({})
     setSearchMemento([])

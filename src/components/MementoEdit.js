@@ -89,7 +89,7 @@ const MementoEdit = ({ memento = {} }) => {
             <label>Name</label>
             <input className="mt-2 w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={name} onChange={e => setName(e.target.value)} />
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <label className="block text-sm pb-1 font-semibold text-black-2">Type</label>
             <ReactDropdown 
               arrowClosed={
@@ -107,7 +107,7 @@ const MementoEdit = ({ memento = {} }) => {
               options={['public', 'permissioned']} 
               placeholder="Memento type"
             />
-          </div>
+          </div> */}
           <div className="mt-4">
             <label>Description</label>
             <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
