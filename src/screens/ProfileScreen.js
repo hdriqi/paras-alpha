@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import Profile from '../components/Profile'
 import { withRedux } from '../lib/redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addData } from '../actions/me'
 import near from '../lib/near'
 
-const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
+const ProfileScreen = ({ username }) => {
   const dispatch = useDispatch()
 
-  const [localUser, setLocalUser] = useState(user)
-  const [localMementoList, setLocalMementoList] = useState(mementoList)
-  const [localPostList, setLocalPostList] = useState(postList)
+  // const [localUser, setLocalUser] = useState(user)
+  // const [localMementoList, setLocalMementoList] = useState(mementoList)
+  // const [localPostList, setLocalPostList] = useState(postList)
+
+  const user = useSelector(state => state.me.data[`/${username}_user`])
+  const mementoList = useSelector(state => state.me.data[`/${username}_mementoList`])
+  const postList = useSelector(state => state.me.data[`/${username}_postList`])
 
   useEffect(() => {
     const getData = async () => {
       const user = await near.contract.getUserByUsername({
         username: username
       })
-      setLocalUser(user)
+      // setLocalUser(user)
       dispatch(addData(`/${username}_user`, user))
     }
 
@@ -56,7 +60,7 @@ const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
         })
       }))
 
-      setLocalMementoList(MementoWithPostList)
+      // setLocalMementoList(MementoWithPostList)
       dispatch(addData(`/${username}_mementoList`, MementoWithPostList))
     }
     if(username && !mementoList) {
@@ -78,7 +82,7 @@ const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
         }
       })
 
-      setLocalPostList(postList)
+      // setLocalPostList(postList)
       dispatch(addData(`/${username}_postList`, postList))
     }
     if(username && !postList) {
@@ -87,8 +91,10 @@ const ProfileScreen = ({ username, user = {}, mementoList, postList }) => {
     }
   }, [username])
 
+  // console.log(localMementoList, localPostList)
+
   return (
-    <Profile user={localUser} mementoList={localMementoList} postList={localPostList} />
+    <Profile user={user} mementoList={mementoList} postList={postList} />
   )
 }
 

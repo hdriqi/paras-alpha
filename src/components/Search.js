@@ -63,7 +63,7 @@ const Search = () => {
                       username: data.id
                     }}>
                       <a>
-                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
+                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4">
                           <div>
                             <div className="w-10 h-10 rounded-full overflow-hidden">
                               <Image style={{
@@ -71,7 +71,7 @@ const Search = () => {
                               }} className="object-cover w-full h-full" data={data.img} />
                             </div>
                           </div>
-                          <div className="px-4 w-auto">
+                          <div className="px-4 w-auto overflow-hidden">
                             <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.title }</p>
                             <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.subtitle }</p>
                           </div>
@@ -83,13 +83,13 @@ const Search = () => {
                       id: data.id
                     }}>
                       <a>
-                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4 overflow-hidden">
+                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4">
                           <div>
                             <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
                               <div className='w-4 h-4 m-auto bg-white'></div>
                             </div>
                           </div>
-                          <div className='px-4 w-auto'>
+                          <div className='px-4 w-auto overflow-hidden'>
                             <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.title }</p>
                             <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.subtitle }</p>
                           </div>
