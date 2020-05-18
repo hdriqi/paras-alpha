@@ -1,6 +1,6 @@
 import PostCard from './PostCard'
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { setProfile } from '../actions/me'
 import { withRedux } from '../lib/redux'
 import Pop from './Pop'
@@ -133,6 +133,8 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
   }, [showModal])
 
   const _toggleFollow = async (me, memento) => {
+    const msg = isFollowing ? 'Unfollowing memento...' : 'Following memento...'
+    dispatch(setLoading(true, msg))
     const newMe = await near.contract.toggleUserFollow({
       id: me.id,
       targetId: memento.id, 
@@ -140,7 +142,10 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
     })
 
     setIsFollowing(!isFollowing)
-    dispatch(setProfile(newMe))
+    batch(() => {
+      dispatch(setProfile(newMe))
+      dispatch(setLoading(false))
+    })
   }
 
   return (

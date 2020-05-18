@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { setProfile } from '../actions/me'
 
 import PostCard from './PostCard'
@@ -12,6 +12,7 @@ import Image from './Image'
 import near from '../lib/near'
 import { useRouter } from 'next/router'
 import Modal from './Modal'
+import { setLoading } from '../actions/ui'
 
 const Profile = ({ user, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
@@ -40,10 +41,15 @@ const Profile = ({ user, mementoList, postList }) => {
       targetId: user.username, 
       targetType: 'user'
     }
+    const msg = isFollowing ? 'Unfollowing user...' : 'Following user...'
+    dispatch(setLoading(true, msg))
     const newMe = await near.contract.toggleUserFollow(newData)
     
     setIsFollowing(!isFollowing)
-    dispatch(setProfile(newMe))
+    batch(() => {
+      dispatch(setProfile(newMe))
+      dispatch(setLoading(false))
+    })
   }
 
   const _signOut = async () => {
