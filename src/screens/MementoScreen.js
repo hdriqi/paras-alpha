@@ -3,10 +3,10 @@ import Memento from '../components/Memento'
 import near from '../lib/near'
 import { useSelector } from 'react-redux'
 
-const MementoScreen = ({ id, memento = {}, postList = [] }) => {
+const MementoScreen = ({ id }) => {
   const me = useSelector(state => state.me.profile)
-  const [localMemento, setLocalMemento] = useState(memento)
-  const [localPostList, setLocalPostList] = useState(postList)
+  const [localMemento, setLocalMemento] = useState({})
+  const [localPostList, setLocalPostList] = useState([])
   const [localPendingPostCount, setLocalPendingPostCount] = useState(null)
   const [hasMore, setHasMore] = useState(true)
   const [pageCount, setPageCount] = useState(0)
@@ -15,7 +15,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   const getPost = async (page) => {
     try {
       const curList = [...localPostList]
-      const query = [`mementoId:=${localMemento.id}`, `status:=published`]
+      const query = [`mementoId:=${id}`, `status:=published`]
       const postList = await near.contract.getPostList({
         query: query,
         opts: {
@@ -53,18 +53,18 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
         console.log(err)
       }
     }
-    if(id && !memento.id) {
+    if(id) {
       console.log('get memento data')
       getData()
     }
   }, [id])
 
   useEffect(() => {
-    if(localMemento && localMemento.id) {
+    if(id) {
       console.log('get memento post list')
       getPost(0)
     }
-  }, [localMemento])
+  }, [id])
 
   useEffect(() => {
     const getData = async () => {

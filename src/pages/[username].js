@@ -11,8 +11,7 @@ const UserPage = () => {
   const user = useSelector(state => state.me.data[`${router.asPath}_user`])
   const mementoList = useSelector(state => state.me.data[`${router.asPath}_mementoList`])
   const postList = useSelector(state => state.me.data[`${router.asPath}_postList`])
-
-  console.log(mementoList, postList)
+  
   return (
     <div>
       <ProfileScreen username={router.query.username} user={router.query.username === me.username ? me : user} mementoList={mementoList} postList={postList} />

@@ -91,8 +91,6 @@ const ProfileScreen = ({ username }) => {
     }
   }, [username])
 
-  // console.log(localMementoList, localPostList)
-
   return (
     <Profile user={user} mementoList={mementoList} postList={postList} />
   )

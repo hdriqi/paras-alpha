@@ -174,7 +174,7 @@ const Profile = ({ user, mementoList, postList }) => {
                               </div>
                               <div>
                                 <Push href="/m/[id]" as={`/m/${memento.id}`} props={{
-                                  memento: memento
+                                  id: memento.id
                                 }}>
                                   <p className="font-semibold text-black-4 text-sm">View All</p>
                                 </Push>
