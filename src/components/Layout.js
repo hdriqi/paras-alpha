@@ -36,6 +36,12 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const init = async () => {
+      // bug history state undefined
+      if(router.asPath === '/') {
+        router.push(router.asPath)
+        router.push(router.asPath)
+      }
+
       ipfs.init()
       if(typeof window !== 'undefined') {
         await near.init()

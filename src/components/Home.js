@@ -10,37 +10,24 @@ import { useSelector } from "react-redux"
 
 const RECOMMENDATIONS = [
   {
-    name: 'tech',
-    id: '123'
+    name: 'Tech',
+    id: "avwcsckgvc6"
   },
   {
-    name: 'crypto',
-    id: '345'
+    name: 'Movies',
+    id: "e8jzz3lijyw"
   },
   {
-    name: 'movies',
-    id: '345'
+    name: 'Capture 365',
+    id: "mwsfpwtqrf1"
   },
   {
-    name: 'music',
-    id: '123'
-  },
-  {
-    name: 'crypto',
-    id: '345'
-  },
-  {
-    name: 'movies',
-    id: '345'
-  },
-  {
-    name: 'music',
-    id: '123'
-  },
+    name: 'Paras News',
+    id: "fegx4vhpqpu"
+  }
 ]
 
 const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
-
   const me = useSelector(state => state.me.profile)
 
   return (
@@ -91,7 +78,7 @@ const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
                   </svg>
                 </div>
                 <div>
-                  <Link href="/login" as={`/login`}>
+                  <Link href="/login">
                     <div className="flex items-center">
                       <p>Login</p>
                       <svg className="ml-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -136,11 +123,11 @@ const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
                   {
                     RECOMMENDATIONS.map(rec => {
                       return (
-                        <Push href={'/m/id'} as={`/m/${rec.id}`} props={{
+                        <Push href="/m/[id]" as={`/m/${rec.id}`} props={{
                           id: rec.id
                         }}>
                           <a>
-                            <p className="p-2 text-sm bg-black-3 text-white mr-2 mt-4 rounded-md">{rec.name}</p>
+                            <p className="p-2 text-sm bg-black-3 text-white mr-2 mt-4 `rou`nded-md">{rec.name}</p>
                           </a>
                         </Push>
                       )

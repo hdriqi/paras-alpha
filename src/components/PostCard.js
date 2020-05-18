@@ -103,7 +103,7 @@ const ModalPost = ({ me, meMementoList, post, close }) => {
           )
         }
         <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`${window.location.href}/post/${post.id}`} id={`urlLink_${post.id}`} />
+          <input readOnly type="text" value={`${window.location.origin}/post/${post.id}`} id={`urlLink_${post.id}`} />
         </div>
       </div>
     </div>

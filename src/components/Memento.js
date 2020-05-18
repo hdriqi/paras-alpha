@@ -101,7 +101,7 @@ const ModalMemento = ({ me, memento, close }) => {
           )
         }
         <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`${window.location.href}/m/${memento.id}`} id={`urlLink_${memento.id}`} />
+          <input readOnly type="text" value={`${window.location.origin}/m/${memento.id}`} id={`urlLink_${memento.id}`} />
         </div>
       </div>
     </div>

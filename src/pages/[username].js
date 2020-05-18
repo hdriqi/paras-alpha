@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import NavMobile from '../components/NavMobile'
 import { useSelector } from 'react-redux'
