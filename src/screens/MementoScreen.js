@@ -10,6 +10,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   const [localPendingPostCount, setLocalPendingPostCount] = useState(null)
   const [hasMore, setHasMore] = useState(true)
   const [pageCount, setPageCount] = useState(0)
+  const [notFound, setNotFound] = useState(false)
 
   const getPost = async (page) => {
     try {
@@ -44,6 +45,9 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
           id: id
         })
         
+        if(!memento) {
+          setNotFound(true)
+        }
         setLocalMemento(memento)
       } catch (err) {
         console.log(err)
@@ -56,7 +60,7 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
   }, [id])
 
   useEffect(() => {
-    if(localMemento.id) {
+    if(localMemento && localMemento.id) {
       console.log('get memento post list')
       getPost(0)
     }
@@ -83,14 +87,14 @@ const MementoScreen = ({ id, memento = {}, postList = [] }) => {
         }
       }
     }
-    if(localMemento.id && me.username === localMemento.owner) {
+    if(localMemento && localMemento.id && me.username === localMemento.owner) {
       console.log('get memento pending post list')
       getData()
     }
   }, [localMemento, me])
 
   return (
-    <Memento memento={localMemento} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} />
+    <Memento memento={localMemento} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} notFound={notFound} />
   )
 }
 

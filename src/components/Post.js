@@ -2,7 +2,6 @@ import PostCard from './PostCard'
 import Comment from './Comment'
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import axios from 'axios'
 import { MentionsInput, Mention } from 'react-mentions'
 import { useSelector, useDispatch } from 'react-redux'
 import Pop from './Pop'
@@ -11,7 +10,7 @@ import near from '../lib/near'
 import Image from './Image'
 import { setLoading } from '../actions/ui'
 
-const PostDetail = ({ post , commentList, mementoList }) => {
+const PostDetail = ({ post , commentList, mementoList, notFound }) => {
   const profile = useSelector(state => state.me.profile)
   const searchMementoRef = useRef(null)
   const [comment, setComment] = useState('')
@@ -128,13 +127,15 @@ const PostDetail = ({ post , commentList, mementoList }) => {
             </Pop>
           </div>
           <div>
-            <h3 className='text-2xl font-bold text-black-1 tracking-tighter'>Post {post.status === 'pending' && 'Pending'}</h3>
+            <h3 className='text-2xl font-bold text-black-1 tracking-tighter'>Post</h3>
           </div>
           <div className='absolute right-0'>
           </div>
         </div>
       </div>
-      <div className={`${post.status === 'pending' && 'opacity-25'}`}>
+      {
+        !notFound ? (
+          <div className={`${post.status === 'pending' && 'opacity-25'}`}>
         <div>
           <div>
             <PostCard post={post} />
@@ -346,6 +347,13 @@ const PostDetail = ({ post , commentList, mementoList }) => {
           )
         }
       </div>
+        ) : (
+          <div className="px-4 pt-8">
+            <p className="font-bold uppercase text-3xl">Not Found</p>
+            <p className="mt-4 text-black-3">This post does not exist. It might be deleted by the owner.</p>
+          </div>
+        )
+      }
     </div>
   )
 }

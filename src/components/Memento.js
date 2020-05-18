@@ -108,7 +108,7 @@ const ModalMemento = ({ me, memento, close }) => {
   )
 }
 
-const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCount }) => {
+const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCount, notFound }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -145,9 +145,6 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
 
   return (
     <div className='py-12 bg-white-1 min-h-screen'>
-      <div className={`${showModal ? 'visible' : 'invisible'}`}>
-        <ModalMemento me={me} memento={memento} meMementoList={meMementoList} close={() => setShowModal(false)} />
-      </div>
       <div className='fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 '>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>
@@ -168,77 +165,91 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
         </div>
       </div>
       <div className='pb-12'>
-        <div className='bg-white py-6 px-4 text-center shadow-subtle'>
-          <h4 className='text-2xl font-bold'>{memento.name}</h4>
-            {
-              memento.user && (
-                <p>by&nbsp;
-                  <Push href="/[username]" as={ `/${memento.user.username}` } props={{
-                    username: memento.user.username,
-                    user: memento.user
-                  }}>
-                    <span className='font-semibold text-black-1'>{ memento.user.username }</span>
-                  </Push>
-                </p>
-              )
-            }
-            <p className='mt-2 text-black-3 whitespace-pre-line '><ParseBody body={memento.descRaw}/></p>
-            <div className={`${memento.user ? 'visible' : 'invisible'} px-4 mt-4`}>
-              {
-                memento.user && me.username == memento.owner ? (
-                  <Push href="/m/[id]/edit" as={`/m/${memento.id}/edit`} props={{
-                    id: memento.id,
-                    memento: memento
-                  }}>
-                    <button className='outline-none focus:outline-none relative font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
-                      minWidth: `6rem`
-                    }}>
-                      Edit Memento
-                      {
-                        pendingPostCount && (
-                          <div className="text-xs absolute flex items-center justify-center w-6 h-6 rounded-full overflow-hidden bg-black-1 text-white" style={{
-                            bottom: `50%`,
-                            right: `-.75rem`
-                          }}>
-                            {pendingPostCount}
-                          </div>
-                        )
-                      }
-                    </button>
-                  </Push>
-                ) : (
-                  isFollowing ? (
-                    <button onClick={e => _toggleFollow(me, memento)} className='font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
-                      minWidth: `6rem`
-                    }}>Following</button>
-                  ) : (
-                    <button onClick={e => _toggleFollow(me, memento)} className='font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md' style={{
-                      minWidth: `6rem`
-                    }}>Follow</button>
+        {
+          !notFound ? (
+            <div>
+              <div className={`${showModal ? 'visible' : 'invisible'}`}>
+                <ModalMemento me={me} memento={memento} meMementoList={meMementoList} close={() => setShowModal(false)} />
+              </div>
+              <div className='bg-white py-6 px-4 text-center shadow-subtle'>
+              <h4 className='text-2xl font-bold'>{memento.name}</h4>
+                {
+                  memento.user && (
+                    <p>by&nbsp;
+                      <Push href="/[username]" as={ `/${memento.user.username}` } props={{
+                        username: memento.user.username,
+                        user: memento.user
+                      }}>
+                        <span className='font-semibold text-black-1'>{ memento.user.username }</span>
+                      </Push>
+                    </p>
                   )
-                )
-              }
+                }
+                <p className='mt-2 text-black-3 whitespace-pre-line '><ParseBody body={memento.descRaw}/></p>
+                <div className={`${memento.user ? 'visible' : 'invisible'} px-4 mt-4`}>
+                  {
+                    memento.user && me.username == memento.owner ? (
+                      <Push href="/m/[id]/edit" as={`/m/${memento.id}/edit`} props={{
+                        id: memento.id,
+                        memento: memento
+                      }}>
+                        <button className='outline-none focus:outline-none relative font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
+                          minWidth: `6rem`
+                        }}>
+                          Edit Memento
+                          {
+                            pendingPostCount && (
+                              <div className="text-xs absolute flex items-center justify-center w-6 h-6 rounded-full overflow-hidden bg-black-1 text-white" style={{
+                                bottom: `50%`,
+                                right: `-.75rem`
+                              }}>
+                                {pendingPostCount}
+                              </div>
+                            )
+                          }
+                        </button>
+                      </Push>
+                    ) : (
+                      isFollowing ? (
+                        <button onClick={e => _toggleFollow(me, memento)} className='font-semibold border border-black-1 border-solid px-2 py-1 text-sm rounded-md' style={{
+                          minWidth: `6rem`
+                        }}>Following</button>
+                      ) : (
+                        <button onClick={e => _toggleFollow(me, memento)} className='font-semibold bg-black-1 text-white px-2 py-1 text-sm rounded-md' style={{
+                          minWidth: `6rem`
+                        }}>Follow</button>
+                      )
+                    )
+                  }
+                </div>
             </div>
-        </div>
-        <div>
-          <InfiniteScroll
-            pageStart={pageCount}
-            loadMore={getPost}
-            hasMore={hasMore} 
-            initialLoad={false}
-            loader={<InfiniteLoader/>}
-          >
-            {
-              postList.map(post => {
-                return (
-                  <div className='mt-6 shadow-subtle' key={post.id}>
-                    <PostCard post={post} />
-                  </div>
-                )
-              })
-            }
-          </InfiniteScroll>
-        </div>
+            <div>
+              <InfiniteScroll
+                pageStart={pageCount}
+                loadMore={getPost}
+                hasMore={hasMore} 
+                initialLoad={false}
+                loader={<InfiniteLoader/>}
+              >
+                {
+                  postList.map(post => {
+                    return (
+                      <div className='mt-6 shadow-subtle' key={post.id}>
+                        <PostCard post={post} />
+                      </div>
+                    )
+                  })
+                }
+              </InfiniteScroll>
+            </div>
+            </div>
+          ) : (
+            <div className="px-4 pt-8">
+              <p className="font-bold uppercase text-3xl">Not Found</p>
+              <p className="mt-4 text-black-3">This memento does not exist. It might be deleted by the owner.</p>
+            </div>
+          )
+        }
       </div>
     </div>
   )

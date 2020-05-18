@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Post from '../components/Post'
-import axios from 'axios'
 import near from '../lib/near'
 
 const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
   const [localPost, setLocalPost] = useState(post)
   const [localMementoList, setLocalMementoList] = useState(mementoList)
   const [localCommentList, setLocalCommentList] = useState(commentList)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
@@ -15,12 +15,15 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
           id: id
         })
         
+        if(!post) {
+          setNotFound(true)
+        }
         setLocalPost(post)
       } catch (err) {
         console.log(err)
       }
     }
-    if(!localPost.id && id) {
+    if(localPost && !localPost.id && id) {
       console.log('get post data')
       getData()
     }
@@ -41,7 +44,7 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
       const mementoList = similarPost.map(post => post.memento)
       setLocalMementoList(mementoList)
     }
-    if(localPost.originalId && localMementoList.length === 0) {
+    if(localPost && localPost.originalId && localMementoList.length === 0) {
       console.log('get memento list')
       getData()
     }
@@ -63,14 +66,14 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
 
       setLocalCommentList(commentList)
     }
-    if(localPost.id && localCommentList.length === 0) {
+    if(localPost && localPost.id && localCommentList.length === 0) {
       console.log('get comment data')
       getData()
     }
   }, [localPost])
 
   return (
-    <Post post={localPost} commentList={localCommentList} mementoList={localMementoList} />
+    <Post post={localPost} commentList={localCommentList} mementoList={localMementoList} notFound={notFound} />
   )
 }
 
