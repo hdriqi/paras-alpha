@@ -1,7 +1,5 @@
-import { context, math, u128, PersistentVector, PersistentMap } from 'near-sdk-as'
-/** 
- * Exporting a new class PostedMessage so it can be used outside of this file.
- */
+import { context, PersistentMap } from 'near-sdk-as'
+
 @nearBindgen
 export class Memento {
   id: string
