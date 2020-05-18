@@ -1,7 +1,10 @@
 const CONTRACT_NAME = process.env.CONTRACT_NAME ||'paras-dev.testnet';
 
-function getConfig() {
-    switch (process.env.CONTRACT_ENV || 'development') {
+function getConfig(env) {
+    if(process.env && process.env.CONTRACT_ENV) {
+        env = process.env.CONTRACT_ENV
+    }
+    switch (env) {
 
     case 'production':
     case 'mainnet':
