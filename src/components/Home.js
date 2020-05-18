@@ -8,7 +8,39 @@ import InfiniteLoader from "./InfiniteLoader"
 
 import { useSelector } from "react-redux"
 
+const RECOMMENDATIONS = [
+  {
+    name: 'tech',
+    id: '123'
+  },
+  {
+    name: 'crypto',
+    id: '345'
+  },
+  {
+    name: 'movies',
+    id: '345'
+  },
+  {
+    name: 'music',
+    id: '123'
+  },
+  {
+    name: 'crypto',
+    id: '345'
+  },
+  {
+    name: 'movies',
+    id: '345'
+  },
+  {
+    name: 'music',
+    id: '123'
+  },
+]
+
 const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
+
   const me = useSelector(state => state.me.profile)
 
   return (
@@ -75,26 +107,49 @@ const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
       </div>
       {
         postList ? (
-          <div>
-            <InfiniteScroll
-              pageStart={pageCount}
-              loadMore={getPost}
-              hasMore={hasMore} 
-              loader={
-                <InfiniteLoader key={0} />
-              }
-            >
-              {
-                postList.map(post => {
-                  return (
-                    <div className="mt-6 shadow-subtle" key={post.id}>
-                      <PostCard post={post} />
-                    </div>
-                  )
-                })
-              }
-            </InfiniteScroll>
-          </div>
+          postList.length > 0 ? (
+            <div>
+              <InfiniteScroll
+                pageStart={pageCount}
+                loadMore={getPost}
+                hasMore={hasMore} 
+                loader={
+                  <InfiniteLoader key={0} />
+                }
+              >
+                {
+                  postList.map(post => {
+                    return (
+                      <div className="mt-6 shadow-subtle" key={post.id}>
+                        <PostCard post={post} />
+                      </div>
+                    )
+                  })
+                }
+              </InfiniteScroll>
+            </div>
+          ) : (
+            <div className="mt-6 shadow-subtle">
+              <div className="p-4 bg-white text-center">
+                <p className="tracking-tight">Jump into a memento! <br/>Interact or create post carefree</p>
+                <div className="flex flex-wrap justify-center">
+                  {
+                    RECOMMENDATIONS.map(rec => {
+                      return (
+                        <Push href={'/m/id'} as={`/m/${rec.id}`} props={{
+                          id: rec.id
+                        }}>
+                          <a>
+                            <p className="p-2 text-sm bg-black-3 text-white mr-2 mt-4 rounded-md">{rec.name}</p>
+                          </a>
+                        </Push>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+            </div>
+          )
         ) : (
           <div className="p-4">
             <PostCardLoader />

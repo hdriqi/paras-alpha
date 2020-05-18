@@ -208,7 +208,7 @@ const PostDetail = ({ post , commentList, mementoList, notFound }) => {
                   })
                 }
               </div>
-              <div className='fixed bottom-0 left-0 right-0'>
+              <div className={`${profile && profile.id ? 'visible' : 'invisible'} fixed bottom-0 left-0 right-0`}>
                 <div ref={searchMementoRef} className='shadow-subtle overflow-auto' style={{
                   maxHeight: `32rem`
                 }}>
@@ -277,7 +277,7 @@ const PostDetail = ({ post , commentList, mementoList, notFound }) => {
                   })
                 }
               </div>
-              <div className='fixed bottom-0 left-0 right-0'>
+              <div className={`${profile && profile.id ? 'visible' : 'invisible'} fixed bottom-0 left-0 right-0`}>
                 <div className="flex items-center justify-center shadow-subtle bg-white relative">
                   <div className='w-full'>
                     <MentionsInput className='outline-none w-full max-w-full' 
