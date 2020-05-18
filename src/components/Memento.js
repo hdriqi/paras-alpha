@@ -13,6 +13,7 @@ import ParseBody from './parseBody'
 import near from '../lib/near'
 import InfiniteScroll from 'react-infinite-scroller'
 import { setLoading } from '../actions/ui'
+import InfiniteLoader from './InfiniteLoader'
 
 const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
@@ -182,7 +183,7 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
               )
             }
             <p className='mt-2 text-black-3 whitespace-pre-line '><ParseBody body={memento.descRaw}/></p>
-            <div className='px-4 mt-4'>
+            <div className={`${memento.user ? 'visible' : 'invisible'} px-4 mt-4`}>
               {
                 memento.user && me.username == memento.owner ? (
                   <Push href="/m/[id]/edit" as={`/m/${memento.id}/edit`} props={{
@@ -225,7 +226,7 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
             loadMore={getPost}
             hasMore={hasMore} 
             initialLoad={false}
-            loader={<div className="loader" key={0}>Loading ...</div>}
+            loader={<InfiniteLoader/>}
           >
             {
               postList.map(post => {

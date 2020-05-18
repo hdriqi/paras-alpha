@@ -4,10 +4,11 @@ import Link from 'next/link'
 import Push from "./Push"
 import PostCardLoader from "./PostCardLoader"
 import InfiniteScroll from "react-infinite-scroller"
+import InfiniteLoader from "./InfiniteLoader"
 
 const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
   return (
-    <div className="bg-white-1 pb-32 min-h-screen">
+    <div className="bg-white-1 pb-12 min-h-screen">
       <div className="pb-12">
         <div className="fixed z-10 top-0 left-0 right-0 bg-white shadow-subtle px-4 py-2">
           <div className="w-full h-full flex items-center justify-between">
@@ -48,7 +49,9 @@ const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
               pageStart={pageCount}
               loadMore={getPost}
               hasMore={hasMore} 
-              loader={<div className="loader" key={0}>Loading ...</div>}
+              loader={
+                <InfiniteLoader />
+              }
             >
               {
                 postList.map(post => {
