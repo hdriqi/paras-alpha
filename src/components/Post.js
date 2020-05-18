@@ -152,7 +152,9 @@ const PostDetail = ({ post , commentList, mementoList, notFound }) => {
         {
           view === 'memento' && (
             <div>
-              <div>
+              <div style={{
+                minHeight: `8rem`
+              }}>
                 {
                   mementoList.map((memento, idx) => {
                     return (
@@ -255,27 +257,31 @@ const PostDetail = ({ post , commentList, mementoList, notFound }) => {
         {
           view === 'comment' && (
             <div>
-              <div>
-                {
-                  commentList.map(comment => {
-                    return (
-                      <div key={comment.id}>
-                        <Comment comment={comment} />
-                      </div>
-                    )
-                  })
-                }
-              </div>
-              <div>
-                {
-                  newCommentList.map(newComment => {
-                    return (
-                      <div key={newComment.id}>
-                        <Comment comment={newComment} />
-                      </div>
-                    )
-                  })
-                }
+              <div style={{
+                minHeight: `8rem`
+              }}>
+                <div>
+                  {
+                    commentList.map(comment => {
+                      return (
+                        <div key={comment.id}>
+                          <Comment comment={comment} />
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+                <div>
+                  {
+                    newCommentList.map(newComment => {
+                      return (
+                        <div key={newComment.id}>
+                          <Comment comment={newComment} />
+                        </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
               <div className={`${profile && profile.id ? 'visible' : 'invisible'} fixed bottom-0 left-0 right-0`}>
                 <div className="flex items-center justify-center shadow-subtle bg-white relative">
