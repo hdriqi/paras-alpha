@@ -229,7 +229,7 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
                 loadMore={getPost}
                 hasMore={hasMore} 
                 initialLoad={false}
-                loader={<InfiniteLoader/>}
+                loader={<InfiniteLoader key={0}/>}
               >
                 {
                   postList.map(post => {

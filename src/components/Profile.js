@@ -10,12 +10,16 @@ import Push from './Push'
 import PostCardLoader from './PostCardLoader'
 import Image from './Image'
 import near from '../lib/near'
+import { useRouter } from 'next/router'
+import Modal from './Modal'
 
 const Profile = ({ user, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
   const [isFollowing, setIsFollowing] = useState(false)
   const [view, setView] = useState('post')
   const dispatch = useDispatch()
+  const router = useRouter()
+  const [confirmLogout, setConfirmLogout] = useState(false)
 
   useEffect(() => {
     if(me && user) {
@@ -42,8 +46,27 @@ const Profile = ({ user, mementoList, postList }) => {
     dispatch(setProfile(newMe))
   }
 
+  const _signOut = async () => {
+    await near.wallet.signOut()
+
+    window.location.replace(window.location.origin + '/login')
+  }
+
   return (
     <div className="bg-white-1 min-h-screen pb-32">
+      {
+        confirmLogout && (
+          <Modal close={() => setConfirmLogout(false)}>
+            <div className="flex flex-col text-center">
+              <div className="p-4 border-b">
+                <p>Log out from Paras?</p>
+              </div>
+              <button className="border-b py-2 font-medium" onClick={() => _signOut()}>Log out</button>
+              <button className="py-2 font-medium" onClick={() => setConfirmLogout(false)}>Cancel</button>
+            </div>
+          </Modal>
+        )
+      }
       <div className="pb-12">
         <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
@@ -58,6 +81,13 @@ const Profile = ({ user, mementoList, postList }) => {
               <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Profile</h3>
             </div>
             <div className="absolute right-0">
+              {
+                me && me.username === user.username  && (
+                  <svg onClick={e => setConfirmLogout(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.3785 3V12.1636M12.2174 20.9877C7.67905 20.9877 4 17.2918 4 12.7327C4 9.45516 5.90139 6.62375 8.65652 5.29091M12.2174 21C16.7557 21 20.4348 17.3041 20.4348 12.745C20.4348 9.46746 18.5334 6.63605 15.7783 5.3032" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                )
+              }
             </div>
           </div>
         </div>

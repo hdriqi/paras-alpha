@@ -17,17 +17,32 @@ const HomeScreen = ({  }) => {
   const getFeed = async (page) => {
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
-    const newPostList = await near.contract.getPostListByUserFollowing({
-      username: me.username,
-      query: query,
-      opts: {
-        _embed: true,
-        _sort: 'createdAt',
-        _order: 'desc',
-        _skip: page * 3,
-        _limit: 3
-      }
-    })
+    let newPostList = []
+    if(me && me.id) {
+      newPostList = await near.contract.getPostListByUserFollowing({
+        username: me.username,
+        query: query,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _skip: page * 5,
+          _limit: 5
+        }
+      })
+    }
+    else {
+      newPostList = await near.contract.getPostList({
+        query: query,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'desc',
+          _skip: page * 5,
+          _limit: 5
+        }
+      })
+    }
     const newList = curList.concat(newPostList)
     batch(() => {
       dispatch(addData('/', newList))
@@ -42,7 +57,7 @@ const HomeScreen = ({  }) => {
   }
 
   useEffect(() => {
-    if(!postList && me.id) {
+    if(!postList) {
       getFeed(0)
     }
   }, [me])
