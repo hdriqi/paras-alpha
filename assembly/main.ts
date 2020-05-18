@@ -11,26 +11,26 @@ function _genId(): string {
 	return randomId.replaceAll('/', '').toLowerCase()
 }
 
-export function devDeleteAllMemento(): bool {
-	mementoCollection.delete('list')
-	return true
-}
+// export function devDeleteAllMemento(): bool {
+// 	mementoCollection.delete('list')
+// 	return true
+// }
 
-export function devDeleteAllPost(): bool {
-	postCollection.delete('list')
-	return true
-}
+// export function devDeleteAllPost(): bool {
+// 	postCollection.delete('list')
+// 	return true
+// }
 
-export function devDeleteAllComment(): bool {
-	commentCollection.delete('list')
-	return true
-}
+// export function devDeleteAllComment(): bool {
+// 	commentCollection.delete('list')
+// 	return true
+// }
 
-export function devDeleteAllUser(): User[] {
-	userCollection.delete('list')
-	const userList = getUserList()
-	return userList
-}
+// export function devDeleteAllUser(): User[] {
+// 	userCollection.delete('list')
+// 	const userList = getUserList()
+// 	return userList
+// }
 
 export function createMemento(
 	name: string, 
