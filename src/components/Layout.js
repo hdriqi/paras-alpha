@@ -8,7 +8,7 @@ import ipfs from "../lib/ipfs"
 import near from "../lib/near"
 
 const DEFAULT_AVATAR = {
-  url: 'QmbyiNskTRPLHyVGUVoRrxrStevj4RA7Umn1tyH5wywoLA',
+  url: 'QmbmkUNfVEQwUHzufSbC5nZQbdEMnNp6Hzfr88sQhZAois',
   type: 'ipfs'
 }
 
