@@ -6,9 +6,7 @@ import PostScreen from '../screens/PostScreen'
 import HomeScreen from '../screens/HomeScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import MementoScreen from '../screens/MementoScreen'
-import MementoManageScreen from '../screens/MementoManageScreen'
 import MementoEditScreen from '../screens/MementoEditScreen'
-import MementoPendingScreen from '../screens/MementoPendingScreen'
 import { useRouter } from 'next/router'
 import { popPage } from '../actions/ui'
 import ProfileEditScreen from '../screens/ProfileEditScreen'
@@ -31,9 +29,7 @@ const PageManager = ({ children }) => {
     '/post/[id]': PostScreen,
     '/me/edit': ProfileEditScreen,
     '/m/[id]': MementoScreen,
-    '/m/[id]/manage': MementoManageScreen,
     '/m/[id]/edit': MementoEditScreen,
-    '/m/[id]/pending': MementoPendingScreen,
     '/hub/search': SearchScreen,
     '/new/post': NewPostScreen,
     '/new/memento': NewMementoScreen

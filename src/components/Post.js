@@ -98,27 +98,19 @@ const PostDetail = ({ post , commentList, mementoList }) => {
   const _submitComment = async (e) => {
     e.preventDefault()
 
-    const id = Math.random().toString(36).substr(2, 9)
-
-    await axios.post('https://internal-db.dev.paras.id/comments', {
-      id: id,
+    dispatch(setLoading('true', 'Sending your comment...'))
+    const params = {
       postId: router.query.id,
       body: commentRef.current.value,
       bodyRaw: comment,
-      userId: profile.id,
-      createdAt: new Date().toISOString()
-    })
+    }
+    const newData = await near.contract.createComment(params)
+
+    newData.user = profile
 
     const localComment = [...newCommentList]
-    localComment.push({
-      id: id,
-      postId: router.query.id,
-      body: commentRef.current.value,
-      bodyRaw: comment,
-      userId: profile.id,
-      createdAt: new Date().toISOString(),
-      user: profile
-    })
+    localComment.push(newData)
+    dispatch(setLoading(false))
     setNewCommentList(localComment)
 
     setComment('')
@@ -164,7 +156,7 @@ const PostDetail = ({ post , commentList, mementoList }) => {
                   mementoList.map((memento, idx) => {
                     return (
                       <Push key={memento.id} href='/m/[id]' as={ `/m/${memento.id}`} props={{
-                        memento: memento
+                        id: memento.id
                       }} query={{id: post.blockId}}>
                         <div className='flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle'>
                           <div className='w-8/12 flex items-center overflow-hidden'>

@@ -44,13 +44,15 @@ class Near {
         'getUserList',
         'getUserById',
         'getUserByUsername',
-        'searchPostAndMemento'
+        'searchPostAndMemento',
+        'getCommentList'
       ],
       // Change methods can modify the state, but you don't receive the returned value when called
       changeMethods: [
         'devDeleteAllMemento',
         'devDeleteAllPost',
         'devDeleteAllUser',
+        'devDeleteAllComment',
         'createMemento',
         'updateMementoById',
         'deleteMementoById',
@@ -59,7 +61,9 @@ class Near {
         'deletePostById',
         'createUser',
         'updateUserById',
-        'toggleUserFollow'
+        'toggleUserFollow',
+        'createComment',
+        'deleteCommentById'
       ],
       // Sender is the account ID to initialize transactions.
       // getAccountId() will return empty string if user is still unauthorized

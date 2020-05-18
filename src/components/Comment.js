@@ -1,12 +1,16 @@
 import ParseBody from "./parseBody"
 import { useState } from "react"
 import axios from 'axios'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { withRedux } from "../lib/redux"
 import Push from "./Push"
+import Image from "./Image"
+import near from "../lib/near"
+import { setLoading } from "../actions/ui"
 
 const ModalComment = ({ close, data, cb }) => {
   const [view, setView] = useState('default')
+  const dispatch = useDispatch()
 
   const _closeModal = (e) => {
     if(e.target.id === 'modal-bg') {
@@ -16,10 +20,14 @@ const ModalComment = ({ close, data, cb }) => {
   }
 
   const _delete = async (id) => {
-    await axios.delete(`https://internal-db.dev.paras.id/comments/${id}`)
+    dispatch(setLoading(true, 'Forgetting comment...'))
+    await near.contract.deleteCommentById({
+      id: id
+    })
     if(cb) {
       cb()
     }
+    dispatch(setLoading(false))
     close()
   }
 
@@ -32,17 +40,17 @@ const ModalComment = ({ close, data, cb }) => {
           {
             view === 'default' && (
               <div>
-                <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Delete</button>
+                <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
               </div>
             )
           }
           {
             view === 'confirmDelete' && (
               <div>
-                <p className="p-4">Do you want to delete this comment?</p>
+                <p className="p-4">Do you want to forget this comment?</p>
                 <div className="flex justify-end">
                   <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                  <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(data.id)}>Delete</button>
+                  <button className="p-4 text-red-600 font-medium text-left"  onClick={_ => _delete(data.id)}>Forget</button>
                 </div>
               </div>
             )
@@ -79,7 +87,7 @@ const Comment = ({ comment }) => {
     return (
       <div className="flex items-center px-4 py-2 mt-4 bg-white shadow-subtle">
         <div className="w-10 rounded-full overflow-hidden">
-          <img className="object-cover w-full h-full" src={comment.user.avatarUrl} />
+          <Image className="object-cover w-full h-full" data={comment.user.imgAvatar} />
         </div>
         <div className="pl-4 w-full">
           <div className="flex w-full justify-between">

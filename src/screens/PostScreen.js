@@ -49,20 +49,19 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      try {
-        const resCommentList = await axios.get(`https://internal-db.dev.paras.id/comments?postId=${localPost.id}`)
-        const commentList = await Promise.all(resCommentList.data.map(comment => {
-          return new Promise(async (resolve) => {
-            const resUser = await axios.get(`https://internal-db.dev.paras.id/users/${comment.userId}`)
-            comment.user = resUser.data
-            resolve(comment)
-          })
-        }))
+      const q = [`postId:=${localPost.id}`]
+      const commentList = await near.contract.getCommentList({
+        query: q,
+        opts: {
+          _embed: true,
+          _sort: 'createdAt',
+          _order: 'asc',
+          _skip: 0,
+          _limit: 10
+        }
+      })
 
-        setLocalCommentList(commentList)
-      } catch (err) {
-        console.log(err)
-      }
+      setLocalCommentList(commentList)
     }
     if(localPost.id && localCommentList.length === 0) {
       console.log('get comment data')

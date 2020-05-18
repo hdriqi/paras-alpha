@@ -36,6 +36,26 @@ export class Post {
 }
 
 @nearBindgen
+export class Comment {
+  id: string
+  postId: string
+  body: string
+  bodyRaw: string
+  owner: string
+  createdAt: u64
+  user: User | null
+
+  constructor(id: string, postId: string, body: string, bodyRaw: string) {
+    this.id = id
+    this.postId = postId
+    this.body = body
+    this.bodyRaw = bodyRaw
+    this.owner = context.sender
+    this.createdAt = context.blockTimestamp
+  }
+}
+
+@nearBindgen
 export class Following {
   id: string
   type: string
@@ -82,6 +102,11 @@ export class UserList {
 }
 
 @nearBindgen
+export class CommentList {
+  data: Comment[]
+}
+
+@nearBindgen
 export class SearchResult {
   id: string
   img: Img | null
@@ -101,3 +126,4 @@ export class SearchResult {
 export const postCollection = new PersistentMap<string, PostList>("p")
 export const mementoCollection = new PersistentMap<string, MementoList>("m")
 export const userCollection = new PersistentMap<string, UserList>("u")
+export const commentCollection = new PersistentMap<string, CommentList>("c")

@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
         // await near.contract.devDeleteAllUser()
         // await near.contract.devDeleteAllPost()
         // await near.contract.devDeleteAllMemento()
-        // console.log(x)
+        // await near.contract.devDeleteAllComment()
         //
 
         if(near.wallet.isSignedIn()) {

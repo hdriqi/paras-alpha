@@ -1,6 +1,6 @@
 import { context, math, base58 } from 'near-sdk-as'
-import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList, Following, SearchResult } from './model'
-import { mergeSortPostList, mergeSortUserList, mergeSortMementoList } from './utils'
+import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList, Following, SearchResult, Comment, commentCollection, CommentList } from './model'
+import { mergeSortPostList, mergeSortUserList, mergeSortMementoList, mergeSortCommentList } from './utils'
 
 const LIMIT = 10
 
@@ -18,6 +18,11 @@ export function devDeleteAllMemento(): bool {
 
 export function devDeleteAllPost(): bool {
 	postCollection.delete('list')
+	return true
+}
+
+export function devDeleteAllComment(): bool {
+	commentCollection.delete('list')
 	return true
 }
 
@@ -760,4 +765,126 @@ export function searchPostAndMemento(query: string): SearchResult[] {
 		result.push(newSearchResult)
 	}
 	return result
+}
+
+export function createComment(
+	postId: string, 
+	body: string, 
+	bodyRaw: string
+): Comment {
+	const id = _genId()
+
+	assert(
+		!!postId && !!body && !!bodyRaw,
+		'Bad input'
+	)
+	const c = new Comment(id, postId, body, bodyRaw)
+
+	const list = commentCollection.get('list')
+	if(list) {
+		list.data.push(c)
+		commentCollection.set('list', list)
+	}
+	else {
+		const newList = new CommentList()
+		newList.data = [c]
+		commentCollection.set('list', newList)
+	}
+	return c
+}
+
+function _addToCommentList(comment: Comment, embed: bool, result: Comment[]): void {
+	if(embed) {
+		const user = getUserByUsername(comment.owner)
+		comment.user = user
+	}
+	result.push(comment)
+}
+
+/**
+ * 
+ * @param query [id, name, owner, type]
+ * @param opts 
+ */
+export function getCommentList(
+	query: string[] | null = null,
+	opts: QueryOpts = {
+		_embed: true,
+		_sort: null,
+		_order: null,
+		_skip: 0,
+		_limit: 10
+}): Comment[] {
+	var result: Comment[] = []
+	const commentList = commentCollection.get('list')
+	if(!commentList) {
+		return []
+	}
+
+	for (let idx = 0; idx < commentList.data.length; idx++) {
+		const comment: Comment = commentList.data[idx]
+		if(query) {
+			const matches: bool[] = new Array<bool>(query.length)
+			for (let i = 0; i < query.length; i++) {
+				// split key and val
+				const splitted = query[i].split(':=')
+				const key = splitted[0]
+				const val = splitted[1]
+
+				if(
+					(key == 'id' && val.split(',').includes(comment.id)) ||
+					(key == 'postId' && val.split(',').includes(comment.postId))
+				) {
+					matches[i] = true
+				}
+			}
+			if(matches.every(match => match == true)) {
+				_addToCommentList(comment, opts._embed, result)
+			}
+		}
+		else {
+			_addToCommentList(comment, opts._embed, result)
+		}
+	}
+	if(!!opts && !!opts._sort) {
+		if(opts._sort == 'createdAt') {
+			if(!!opts._order && opts._order == 'desc') {
+				result = mergeSortCommentList(result)
+			}
+		}
+	}
+	if(!!opts && opts._skip > 0) {
+		result = result.slice(opts._skip)
+	}
+	if(!!opts && opts._limit > 0) {
+		result = result.slice(0, opts._limit)
+	}
+	return result
+}
+
+export function deleteCommentById(id: string): Comment | null {
+	let idx = -1
+	const commentList = commentCollection.get('list')
+	if(!commentList) {
+		return null
+	}
+
+	for (let i = 0; i < commentList.data.length; i++) {
+		const comment = commentList.data[i]
+		if(comment.id == id) {
+			assert(
+				comment.owner == context.sender,
+				'Comment can only be deleted by owner'
+			)
+			idx = i
+			break
+		}
+	}
+	if(idx > -1) {
+		const p = commentList.data[idx]
+		commentList.data.splice(idx, 1)
+		commentCollection.set('list', commentList)
+		return p
+	}
+	return null
 }
