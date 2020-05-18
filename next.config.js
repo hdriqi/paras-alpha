@@ -10,6 +10,7 @@ module.exports = {
     return config
   },
   env: {
-    CONTRACT_NAME: process.env.CONTRACT_NAME
+    CONTRACT_NAME: process.env.CONTRACT_NAME,
+    CONTRACT_ENV: 'development'
   }
 }

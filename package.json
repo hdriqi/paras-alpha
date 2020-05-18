@@ -8,8 +8,9 @@
     "dev:deploy:contract": "near dev-deploy",
     "deploy:contract": "near deploy",
     "dev": "nodemon --watch assembly -e ts --exec \"npm run build:contract && npm run dev:deploy:contract && env-cmd -f ./neardev/dev-account.env next dev\"",
-    "build": "next build",
-    "start": "next start",
+    "dev:web": "next dev",
+    "build:web": "next build",
+    "start:web": "next start",
     "test:contract": "asp",
     "dev:contract": "nodemon --watch assembly -e ts --exec asp"
   },
