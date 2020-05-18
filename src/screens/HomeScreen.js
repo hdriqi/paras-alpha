@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
 
 import Home from '../components/Home'
@@ -13,11 +13,16 @@ const HomeScreen = ({  }) => {
   const postList = useSelector(state => state.me.data['/'])
   const hasMore = useSelector(state => state.me.data['/_hasMore'])
   const pageCount = useSelector(state => state.me.data['/_pageCount'])
+  const [isFetching, setIsFetching] = useState(false)
 
   const getFeed = async (page) => {
+    if(isFetching) {
+      return
+    }
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
     let newPostList = []
+    setIsFetching(true)
     if(me && me.id) {
       newPostList = await near.contract.getPostListByUserFollowing({
         username: me.username,
@@ -54,6 +59,7 @@ const HomeScreen = ({  }) => {
     if(newPostList.length === 0) {
       dispatch(addData('/_hasMore', false))
     }
+    setIsFetching(false)
   }
 
   useEffect(() => {

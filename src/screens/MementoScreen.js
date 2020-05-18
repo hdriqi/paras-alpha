@@ -11,11 +11,15 @@ const MementoScreen = ({ id }) => {
   const [hasMore, setHasMore] = useState(true)
   const [pageCount, setPageCount] = useState(0)
   const [notFound, setNotFound] = useState(false)
+  const [isFetching, setIsFetching] = useState(false)
 
   const getPost = async (page) => {
+    if(isFetching) {
+      return
+    }
     try {
-      const curList = [...localPostList]
       const query = [`mementoId:=${id}`, `status:=published`]
+      setIsFetching(true)
       const postList = await near.contract.getPostList({
         query: query,
         opts: {
@@ -27,9 +31,10 @@ const MementoScreen = ({ id }) => {
         }
       })
 
-      const newList = curList.concat(postList)
+      const newList = [...localPostList].concat(postList)
       setLocalPostList(newList)
       setPageCount(page)
+      setIsFetching(false)
       if(postList.length === 0 || postList.length < 10) {
         setHasMore(false)
       }
