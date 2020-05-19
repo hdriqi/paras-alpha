@@ -108,7 +108,7 @@ const ModalMemento = ({ me, memento, close }) => {
   )
 }
 
-const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCount, notFound }) => {
+const Memento = ({ memento, postList, getPost, isFetching, pageCount, hasMore, pendingPostCount, notFound }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -147,7 +147,7 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
       dispatch(setLoading(false))
     })
   }
-
+  
   return (
     <div className='py-12 bg-white-1 min-h-screen'>
       <div className='fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 '>
@@ -232,7 +232,7 @@ const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCo
               <InfiniteScroll
                 pageStart={pageCount}
                 loadMore={getPost}
-                hasMore={hasMore} 
+                hasMore={hasMore && !isFetching} 
                 initialLoad={false}
                 loader={<InfiniteLoader key={0}/>}
               >

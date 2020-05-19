@@ -99,7 +99,7 @@ const MementoScreen = ({ id }) => {
   }, [localMemento, me])
 
   return (
-    <Memento memento={localMemento} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} notFound={notFound} />
+    <Memento memento={localMemento} isFetching={isFetching} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} notFound={notFound} />
   )
 }
 

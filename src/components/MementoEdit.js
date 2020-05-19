@@ -59,8 +59,9 @@ const MementoEdit = ({ memento = {} }) => {
 
   useEffect(() => {
     if(memento.id) {
+      console.log(memento)
       setName(memento.name)
-      setDesc(memento.desc)
+      setDesc(memento.descRaw)
       setType({
         label: memento.type,
         value: memento.type
