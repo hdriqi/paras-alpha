@@ -14,11 +14,16 @@ const HomeScreen = ({  }) => {
   const hasMore = useSelector(state => state.me.data['/_hasMore'])
   const pageCount = useSelector(state => state.me.data['/_pageCount'])
 
-  const getFeed = async () => {
+  const getFeed = async (type) => {
+    if(type == 'latest') {
+      dispatch(addData('/', null))
+      dispatch(addData('/_pageCount', 0))
+    }
+
     const ITEM_LIMIT = 5
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
-    const page = pageCount || 0
+    let page = pageCount || 0 
 
     let newPostList = []
     if(me && me.id) {

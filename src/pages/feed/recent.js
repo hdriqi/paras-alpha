@@ -12,7 +12,12 @@ const FeedRecentPage = () => {
   const hasMore = useSelector(state => state.me.data['/feed/recent_hasMore'])
   const pageCount = useSelector(state => state.me.data['/feed/recent_pageCount'])
 
-  const getRecentPost = async () => {
+  const getRecentPost = async (type) => {
+    if(type == 'latest') {
+      dispatch(addData('/feed/recent', null))
+      dispatch(addData('/feed/recent_pageCount', 0))
+    }
+
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
     const page = pageCount || 0
