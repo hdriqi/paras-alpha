@@ -10,7 +10,7 @@ import near from "../lib/near"
 import Image from "./Image"
 import { setLoading } from "../actions/ui"
 
-const NewPost = () => {
+const NewPost = ({ memento }) => {
   const blockList = useSelector(state => state.me.blockList)
   const backRef = useRef()
   const dispatch = useDispatch()
@@ -134,6 +134,14 @@ const NewPost = () => {
       setPostText(bodyRef.current.value)
     }
   }, [postTextRaw])
+
+  useEffect(() => {
+    if(memento) {
+      setChosenMemento(memento)
+      setInputMemento(memento.name)
+      setSearchMemento([memento])
+    }
+  }, [])
 
   const _validateSubmit = () => {
     if((postText.length > 0 || postImageList.length > 0) && chosenMemento.id) {

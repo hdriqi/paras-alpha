@@ -1,9 +1,9 @@
 import React from 'react'
 import NewPost from '../components/NewPost'
 
-const NewPostScreen = () => {
+const NewPostScreen = ({ memento }) => {
   return (
-    <NewPost />
+    <NewPost memento={memento} />
   )
 }
 

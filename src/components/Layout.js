@@ -111,13 +111,14 @@ const Layout = ({ children }) => {
   return (
     <Fragment>
       <Head>
-        <title>Paras</title>
+        <title>Paras - People-Powered Decentralized Social Media</title>
+        <script async src="https://stat.paras.id/tracker.js" data-ackee-server="https://stat.paras.id" data-ackee-domain-id="fef11e6a-3d7c-4ede-bb9d-64f7b6ef32dc"></script>
       </Head>
         {
           isLoading ? (
             <SplashScreen />
           ) : (
-            <div className="max-w-sm m-auto mobile">
+            <div className="max-w-sm m-auto mobile shadow-subtle">
               { children }
             </div>
           )
