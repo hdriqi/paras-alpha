@@ -1,4 +1,8 @@
 module.exports = {
+  purge: {
+    enabled: true,
+    content: ["./src/components/**/*.js", "./src/pages/**/*.js"],
+  },
   corePlugins: {
     fontFamily: false
   },

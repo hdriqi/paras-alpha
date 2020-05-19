@@ -3,7 +3,7 @@ import PostCard from './PostCard'
 import Link from 'next/link'
 import Push from "./Push"
 import PostCardLoader from "./PostCardLoader"
-import InfiniteScroll from "react-infinite-scroller"
+import InfiniteScroll from "react-infinite-scroll-component"
 import InfiniteLoader from "./InfiniteLoader"
 
 import { useSelector } from "react-redux"
@@ -97,17 +97,15 @@ const Home = ({ postList, page, getPost, hasMore, pageCount }) => {
           postList.length > 0 ? (
             <div>
               <InfiniteScroll
-                pageStart={pageCount}
-                loadMore={getPost}
-                hasMore={hasMore} 
-                loader={
-                  <InfiniteLoader key={0} />
-                }
-              >
+                dataLength={postList.length}
+                next={getPost}
+                hasMore={hasMore}
+                loader={<InfiniteLoader key={0}/>}
+                >
                 {
                   postList.map(post => {
                     return (
-                      <div className="mt-6 shadow-subtle" key={post.id}>
+                      <div className='mt-6 shadow-subtle' key={post.id}>
                         <PostCard post={post} />
                       </div>
                     )

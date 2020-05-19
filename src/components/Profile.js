@@ -12,9 +12,10 @@ import Image from './Image'
 import near from '../lib/near'
 import Modal from './Modal'
 import { setLoading } from '../actions/ui'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import InfiniteLoader from './InfiniteLoader'
 
-const Profile = ({ user, mementoList, postList }) => {
+const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
   const me = useSelector(state => state.me.profile)
   const [isFollowing, setIsFollowing] = useState(false)
   const [view, setView] = useState('post')
@@ -149,13 +150,31 @@ const Profile = ({ user, mementoList, postList }) => {
                   view === 'post' ? (
                     <div>
                       {
-                        postList ? postList.map(post => {
-                          return (
-                            <div className="mt-6 shadow-subtle" key={post.id}>
-                              <PostCard post={post} />
-                            </div>
-                          )
-                        }) : (
+                        postList ? (
+                          <InfiniteScroll
+                            dataLength={postList.length}
+                            next={getPost}
+                            hasMore={hasMore}
+                            loader={<InfiniteLoader key={0}/>}
+                            >
+                            {
+                              postList.map(post => {
+                                return (
+                                  <div className='mt-6 shadow-subtle' key={post.id}>
+                                    <PostCard post={post} />
+                                  </div>
+                                )
+                              })
+                            }
+                          </InfiniteScroll>
+                          // postList.map(post => {
+                          //   return (
+                          //     <div className="mt-6 shadow-subtle" key={post.id}>
+                          //       <PostCard post={post} />
+                          //     </div>
+                          //   )
+                          // })
+                        ) : (
                           <div className="p-4">
                             <PostCardLoader />
                           </div>

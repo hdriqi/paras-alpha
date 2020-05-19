@@ -11,31 +11,26 @@ const MementoScreen = ({ id }) => {
   const [hasMore, setHasMore] = useState(true)
   const [pageCount, setPageCount] = useState(0)
   const [notFound, setNotFound] = useState(false)
-  const [isFetching, setIsFetching] = useState(false)
 
-  const getPost = async (page) => {
-    if(isFetching) {
-      return
-    }
+  const getPost = async () => {
     try {
+      const ITEM_COUNT = 10
       const query = [`mementoId:=${id}`, `status:=published`]
-      setIsFetching(true)
       const postList = await near.contract.getPostList({
         query: query,
         opts: {
           _embed: true,
           _sort: 'createdAt',
           _order: 'desc',
-          _skip: page * 10,
-          _limit: 10
+          _skip: pageCount * ITEM_COUNT,
+          _limit: ITEM_COUNT
         }
       })
 
       const newList = [...localPostList].concat(postList)
       setLocalPostList(newList)
-      setPageCount(page)
-      setIsFetching(false)
-      if(postList.length === 0 || postList.length < 10) {
+      setPageCount(pageCount + 1)
+      if(postList.length === 0 || postList.length < ITEM_COUNT) {
         setHasMore(false)
       }
     } catch (err) {
@@ -99,7 +94,7 @@ const MementoScreen = ({ id }) => {
   }, [localMemento, me])
 
   return (
-    <Memento memento={localMemento} isFetching={isFetching} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} notFound={notFound} />
+    <Memento memento={localMemento} postList={localPostList} getPost={getPost} pageCount={pageCount} hasMore={hasMore} pendingPostCount={localPendingPostCount} notFound={notFound} />
   )
 }
 

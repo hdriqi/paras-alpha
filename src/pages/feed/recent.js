@@ -12,9 +12,11 @@ const FeedRecentPage = () => {
   const hasMore = useSelector(state => state.me.data['/feed/recent_hasMore'])
   const pageCount = useSelector(state => state.me.data['/feed/recent_pageCount'])
 
-  const getRecentPost = async (page) => {
+  const getRecentPost = async () => {
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
+    const page = pageCount || 0
+
     const newPostList = await near.contract.getPostList({
       query: query,
       opts: {
@@ -28,7 +30,7 @@ const FeedRecentPage = () => {
     const newList = curList.concat(newPostList)
     batch(() => {
       dispatch(addData('/feed/recent', newList))
-      dispatch(addData('/feed/recent_pageCount', page))
+      dispatch(addData('/feed/recent_pageCount', page + 1))
     })
     if(page === 0) {
       dispatch(addData('/feed/recent_hasMore', true))

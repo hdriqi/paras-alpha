@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Profile from '../components/Profile'
 import { withRedux } from '../lib/redux'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, batch } from 'react-redux'
 import { addData } from '../actions/me'
 import near from '../lib/near'
 
@@ -15,6 +15,39 @@ const ProfileScreen = ({ username }) => {
   const user = useSelector(state => state.me.data[`/${username}_user`])
   const mementoList = useSelector(state => state.me.data[`/${username}_mementoList`])
   const postList = useSelector(state => state.me.data[`/${username}_postList`])
+  const pageCount = useSelector(state => state.me.data[`/${username}_pageCount`])
+  const hasMore = useSelector(state => state.me.data[`/${username}_hasMore`])
+
+  const getPost = async () => {
+    const ITEM_LIMIT = 5
+    const query = [`owner:=${username}`, 'status:=published']
+    const curList = postList ? [...postList] : []
+    const page = pageCount || 0
+
+    const newPostList = await near.contract.getPostList({
+      query: query,
+      opts: {
+        _embed: true,
+        _sort: 'createdAt',
+        _order: 'desc',
+        _skip: page * ITEM_LIMIT,
+        _limit: ITEM_LIMIT
+      }
+    })
+
+    const newList = curList.concat(newPostList)
+    dispatch(addData(`/${username}_postList`, postList))
+    batch(() => {
+      dispatch(addData(`/${username}_postList`, newList))
+      dispatch(addData(`/${username}_pageCount`, page + 1))
+    })
+    if(page === 0) {
+      dispatch(addData(`/${username}_hasMore`, true))
+    }
+    if(newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
+      dispatch(addData(`/${username}_hasMore`, false))
+    }
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -70,29 +103,14 @@ const ProfileScreen = ({ username }) => {
   }, [username])
 
   useEffect(() => {
-    const getData = async () => {
-      const query = [`owner:=${username}`, 'status:=published']
-      const postList = await near.contract.getPostList({
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
-
-      // setLocalPostList(postList)
-      dispatch(addData(`/${username}_postList`, postList))
-    }
     if(username && !postList) {
       console.log('get user post list')
-      getData()
+      getPost()
     }
   }, [username])
 
   return (
-    <Profile user={user} mementoList={mementoList} postList={postList} />
+    <Profile user={user} hasMore={hasMore} getPost={getPost} mementoList={mementoList} postList={postList} />
   )
 }
 

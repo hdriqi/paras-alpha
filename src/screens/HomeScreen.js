@@ -13,16 +13,14 @@ const HomeScreen = ({  }) => {
   const postList = useSelector(state => state.me.data['/'])
   const hasMore = useSelector(state => state.me.data['/_hasMore'])
   const pageCount = useSelector(state => state.me.data['/_pageCount'])
-  const [isFetching, setIsFetching] = useState(false)
 
-  const getFeed = async (page) => {
-    if(isFetching) {
-      return
-    }
+  const getFeed = async () => {
+    const ITEM_LIMIT = 5
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
+    const page = pageCount || 0
+
     let newPostList = []
-    setIsFetching(true)
     if(me && me.id) {
       newPostList = await near.contract.getPostListByUserFollowing({
         username: me.username,
@@ -43,23 +41,22 @@ const HomeScreen = ({  }) => {
           _embed: true,
           _sort: 'createdAt',
           _order: 'desc',
-          _skip: page * 5,
-          _limit: 5
+          _skip: page * ITEM_LIMIT,
+          _limit: ITEM_LIMIT
         }
       })
     }
     const newList = curList.concat(newPostList)
     batch(() => {
       dispatch(addData('/', newList))
-      dispatch(addData('/_pageCount', page))
+      dispatch(addData('/_pageCount', page + 1))
     })
     if(page === 0) {
       dispatch(addData('/_hasMore', true))
     }
-    if(newPostList.length === 0) {
+    if(newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
       dispatch(addData('/_hasMore', false))
     }
-    setIsFetching(false)
   }
 
   useEffect(() => {

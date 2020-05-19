@@ -11,7 +11,7 @@ import PushForward from './PushForward'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import ParseBody from './parseBody'
 import near from '../lib/near'
-import InfiniteScroll from 'react-infinite-scroller'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { setLoading } from '../actions/ui'
 import InfiniteLoader from './InfiniteLoader'
 
@@ -108,7 +108,7 @@ const ModalMemento = ({ me, memento, close }) => {
   )
 }
 
-const Memento = ({ memento, postList, getPost, isFetching, pageCount, hasMore, pendingPostCount, notFound }) => {
+const Memento = ({ memento, postList, getPost, pageCount, hasMore, pendingPostCount, notFound }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -230,12 +230,11 @@ const Memento = ({ memento, postList, getPost, isFetching, pageCount, hasMore, p
             </div>
             <div>
               <InfiniteScroll
-                pageStart={pageCount}
-                loadMore={getPost}
-                hasMore={hasMore && !isFetching} 
-                initialLoad={false}
+                dataLength={postList.length}
+                next={getPost}
+                hasMore={hasMore}
                 loader={<InfiniteLoader key={0}/>}
-              >
+                >
                 {
                   postList.map(post => {
                     return (
