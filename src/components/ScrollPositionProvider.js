@@ -29,7 +29,7 @@ const ScrollPositionProvider = ({ children }) => {
       }
       setTimeout(() => {
         window.requestAnimationFrame(() => window.scrollTo(x, y))
-      }, 50)
+      }, 10)
     }
 
     window.onpopstate = () => {

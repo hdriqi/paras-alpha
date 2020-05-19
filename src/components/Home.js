@@ -101,15 +101,7 @@ const Home = ({ postList, page, getPost, hasMore }) => {
                 next={getPost}
                 hasMore={hasMore}
                 loader={<InfiniteLoader key={0}/>}
-                refreshFunction={() => getPost('latest')}
-                pullDownToRefresh
-                pullDownToRefreshThreshold={200}
-                pullDownToRefreshContent={
-                  <h3 className="text-center my-4">&#8595; Pull down to refresh</h3>
-                }
-                releaseToRefreshContent={
-                  <h3 className="text-center my-4">&#8593; Release to refresh</h3>
-                }>
+              >
                 {
                   postList.map(post => {
                     return (

@@ -10,7 +10,11 @@ const NavLink = ({ name, href, as, activePage, children }) => {
 
   const _navigate = () => {
     if(router.asPath == as) {
-      window.scrollTo(0, 0)
+      window.scroll({
+        top: 0, 
+        left: 0, 
+        behavior: 'smooth'
+      });
     }
     else {
       router.push(href, as)
