@@ -5,6 +5,7 @@ import PopForward from './PopForward'
 import near from '../lib/near'
 import Image from './Image'
 import { useDispatch } from 'react-redux'
+import { setLoading } from '../actions/ui'
 
 const MementoEdit = ({ memento = {} }) => {
   const [name, setName] = useState('')
