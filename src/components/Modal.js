@@ -10,9 +10,9 @@ const Modal = ({ style, children, close }) => {
       backgroundColor: `rgba(0,0,0,0.5)`,
       ...style
     }}>
-      <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
-        { children }
-      </div>
+      {
+        children
+      }
     </div>
   )
 }

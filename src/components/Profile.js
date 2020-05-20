@@ -63,12 +63,14 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
       {
         confirmLogout && (
           <Modal close={() => setConfirmLogout(false)}>
-            <div className="flex flex-col text-center">
-              <div className="p-4 border-b">
-                <p>Log out from Paras?</p>
+            <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
+              <div className="flex flex-col text-center">
+                <div className="p-4 border-b">
+                  <p>Log out from Paras?</p>
+                </div>
+                <button className="border-b py-2 font-medium" onClick={() => _signOut()}>Log out</button>
+                <button className="py-2 font-medium" onClick={() => setConfirmLogout(false)}>Cancel</button>
               </div>
-              <button className="border-b py-2 font-medium" onClick={() => _signOut()}>Log out</button>
-              <button className="py-2 font-medium" onClick={() => setConfirmLogout(false)}>Cancel</button>
             </div>
           </Modal>
         )
