@@ -92,8 +92,8 @@ const NewBlock = () => {
   }
 
   return (
-    <div id="new-memento" className="fixed bg-white inset-0 z-30 px-4">
-      <div className="h-12 w-full flex items-center justify-center relative">
+    <div id="new-memento" className="bg-white inset-0 px-4 min-h-screen">
+      <div className="fixed bg-white top-0 left-0 right-0 h-12 z-20 w-full flex items-center justify-center relative">
         <div className="absolute left-0">
           <PopForward ref={backRef}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

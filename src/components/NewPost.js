@@ -172,10 +172,10 @@ const NewPost = ({ memento }) => {
   }
 
   return (
-    <div id="new-post" className="fixed bg-white inset-0 z-30">
+    <div id="new-post" className="bg-white z-30 min-h-screen">
       <div className={`${step === 0 ? 'visible' : 'hidden'}`}>
         <div className="pt-12 h-full">
-          <div className="fixed top-0 left-0 right-0 h-12 px-4">
+          <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
             <div className="relative w-full h-full flex items-center justify-center">
               <div className="absolute left-0">
                 <PopForward ref={backRef}>
@@ -302,7 +302,7 @@ const NewPost = ({ memento }) => {
       </div>
       <div className={`${step === 1 ? 'visible' : 'hidden'}`}>
         <div className="pt-12 px-4">
-          <div className="fixed top-0 left-0 right-0 h-12 px-4">
+          <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
             <div className="relative w-full h-full flex items-center justify-center">
               <div className="absolute left-0">
                 <svg onClick={e => setStep(0)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
