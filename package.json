@@ -42,6 +42,8 @@
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {
+    "@as-pect/cli": "^3.1.6",
+    "@as-pect/core": "^3.1.6",
     "assemblyscript": "^0.9.4",
     "env-cmd": "^10.1.0",
     "near-sdk-as": "git+https://github.com/near/near-sdk-as.git#block-timestamp",

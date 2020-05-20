@@ -2,8 +2,6 @@ import { context, math, base58 } from 'near-sdk-as'
 import { Post, Memento, Img, QueryOpts, postCollection, mementoCollection, MementoList, PostList, User, userCollection, UserList, Following, SearchResult, Comment, commentCollection, CommentList } from './model'
 import { mergeSortPostList, mergeSortUserList, mergeSortMementoList, mergeSortCommentList } from './utils'
 
-const LIMIT = 10
-
 function _genId(): string {
 	const buff = math.randomBuffer(8)
 	
@@ -322,15 +320,14 @@ export function transmitPost(
 	return newPost
 }
 
-function _addToPostList(post: Post, embed: bool, result: Post[]): void {
-	if(embed) {
-		const user = getUserByUsername(post.owner)
-		if(!!user) post.user = user
+function _embedPost(post: Post): Post {
+	const user = getUserByUsername(post.owner)
+	if(!!user) post.user = user
 
-		const memento = getMementoById(post.mementoId)
-		if(!!memento) post.memento = memento
-	}
-	result.push(post)
+	const memento = getMementoById(post.mementoId)
+	if(!!memento) post.memento = memento
+
+	return post
 }
 
 export function getPostList(
@@ -366,11 +363,11 @@ export function getPostList(
 				}
 			}
 			if(matches.every(match => match == true)) {
-				_addToPostList(post, opts._embed, result)
+				result.push(post)
 			}
 		}
 		else {
-			_addToPostList(post, opts._embed, result)
+			result.push(post)
 		}
 	}
 	if(!!opts && !!opts._sort) {
@@ -385,6 +382,12 @@ export function getPostList(
 	}
 	if(!!opts && opts._limit > 0) {
 		result = result.slice(0, opts._limit)
+	}
+	if(!!opts && opts._embed) {
+		for (let i = 0; i < result.length; i++) {
+			const post = result[i];
+			result[i] = _embedPost(post)	
+		}
 	}
 	return result
 }
@@ -437,11 +440,11 @@ export function getPostListByUserFollowing(
 				}
 			}
 			if(matches.every(match => match == true)) {
-				_addToPostList(post, opts._embed, result)
+				result.push(post)
 			}
 		}
 		else {
-			_addToPostList(post, opts._embed, result)
+			result.push(post)
 		}
 	}
 	if(!!opts && !!opts._sort) {
@@ -457,6 +460,12 @@ export function getPostListByUserFollowing(
 	if(!!opts && opts._limit > 0) {
 		result = result.slice(0, opts._limit)
 	}
+	if(!!opts && opts._embed) {
+		for (let i = 0; i < result.length; i++) {
+			const post = result[i];
+			result[i] = _embedPost(post)	
+		}
+	}
 	return result
 }
 
@@ -469,7 +478,8 @@ export function getPostById(id: string): Post | null {
 	for (let idx = 0; idx < postList.data.length; idx++) {
 		const post = postList.data[idx]
 		if(post.id == id) {
-			_addToPostList(post, true, result)
+			const embeddedPost = _embedPost(post)
+			result.push(embeddedPost)
 			break
 		}
 	}
