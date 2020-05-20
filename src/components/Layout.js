@@ -156,7 +156,7 @@ const Layout = ({ children }) => {
               { children }
               {
                 showOnboarding && (
-                  <div className="fixed inset-0 bg-white pt-40 p-8" style={{
+                  <div className="fixed inset-0 bg-white pt-24 p-8" style={{
                     zIndex: 100
                   }}>
                     <div className="max-w-sm m-auto">
