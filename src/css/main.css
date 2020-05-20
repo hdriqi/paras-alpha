@@ -13,6 +13,10 @@ body {
   font-weight: 500;
 }
 
+p {
+  @apply leading-normal tracking-tight;
+}
+
 button:disabled {
   @apply opacity-25;
 }

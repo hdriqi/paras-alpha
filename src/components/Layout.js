@@ -6,6 +6,7 @@ import { useDispatch, useSelector, batch } from "react-redux"
 import { useRouter } from "next/router"
 import ipfs from "../lib/ipfs"
 import near from "../lib/near"
+import Modal from './Modal'
 
 const DEFAULT_AVATAR = {
   url: 'QmbmkUNfVEQwUHzufSbC5nZQbdEMnNp6Hzfr88sQhZAois',
@@ -31,6 +32,10 @@ const Layout = ({ children }) => {
   const user = useSelector(state => state.me.user)
   const profile = useSelector(state => state.me.profile)
   const mementoList = useSelector(state => state.me.blockList)
+  const [showOnboarding, setShowOnboarding] = useState(false)
+  const [email, setEmail] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [referral, setReferral] = useState('')
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -54,6 +59,12 @@ const Layout = ({ children }) => {
         //
 
         if(near.wallet.isSignedIn()) {
+          let onboarding = await axios.get('http://localhost:8000/register/adopters', {
+            username: near.currentUser.accountId
+          })
+          if(!onboarding) {
+            setShowOnboarding(true)
+          }
           let profile = await near.contract.getUserByUsername({
             username: near.currentUser.accountId
           })
@@ -120,6 +131,29 @@ const Layout = ({ children }) => {
           ) : (
             <div className="max-w-sm m-auto mobile shadow-subtle">
               { children }
+              {
+                showOnboarding && (
+                  <Modal style={{
+                    backgroundColor: `white`
+                  }} close={() => setShowOnboarding(false)}>
+                    <div className="flex flex-col text-center">
+                      <div>
+                        <label>Fullname</label>
+                        <input className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={fullName} onChange={e => setFullName(e.target.value)} />
+                      </div>
+                      <div>
+                        <label>Email</label>
+                        <input className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={email} onChange={e => setEmail(e.target.value)} />
+                      </div>
+                      <div>
+                        <label>How do you know Paras?</label>
+                        <textarea className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={referral} onChange={e => setReferral(e.target.value)} />
+                      </div>
+                      {/* <button className="py-2 font-medium" onClick={() => setConfirmLogout(false)}>Cancel</button> */}
+                    </div>
+                  </Modal>
+                )
+              }
             </div>
           )
         }
