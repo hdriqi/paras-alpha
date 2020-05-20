@@ -17,6 +17,7 @@ const ProfileEdit = ({ me }) => {
 
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
+  const [bioRaw, setBioRaw] = useState('')
   const [imgAvatar, setImgAvatar] = useState({})
   const [newImgUrl, setNewImgUrl] = useState('')
   const dispatch = useDispatch()
@@ -24,10 +25,16 @@ const ProfileEdit = ({ me }) => {
   useEffect(() => {
     if(me.id) {
       setUsername(me.username)
-      setBio(me.bioRaw)
+      setBioRaw(me.bioRaw)
       setImgAvatar(me.imgAvatar)
     }
   }, [me])
+
+  useEffect(() => {
+    if(bodyRef.current) {
+      setBio(bodyRef.current.value)
+    }
+  }, [bioRaw])
 
   const _changeImg = async (files) => {
     if(files.length > 0) {
@@ -57,8 +64,8 @@ const ProfileEdit = ({ me }) => {
       const newData = {
         id: me.id,
         imgAvatar: newImgAvatar,
-        bio: bodyRef.current.value,
-        bioRaw: bio
+        bio: bio,
+        bioRaw: bioRaw
       }
       const newProfile = await near.contract.updateUserById(newData)
       batch(() => {
@@ -92,6 +99,13 @@ const ProfileEdit = ({ me }) => {
     callback(list)
   }
 
+  const _validateSubmit = () => {
+    if(bio.length <= 150) {
+      return true
+    }
+    return false
+  }
+
   return (
     <div className="min-h-screen">
       <div className="pb-12">
@@ -108,7 +122,7 @@ const ProfileEdit = ({ me }) => {
               <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Edit Profile</h3>
             </div>
             <div className="absolute right-0">
-              <h3 onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Save</h3>
+              <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Save</button>
             </div>
           </div>
         </div>
@@ -129,7 +143,10 @@ const ProfileEdit = ({ me }) => {
             <input className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={username} onChange={e => setUsername(e.target.value)} />
           </div> */}
           <div className="mt-4">
-            <label>Bio</label>
+            <div className="flex justify-between">
+              <label className="block text-sm pb-1 font-semibold text-black-2">Bio</label>
+              <p className={`${bio.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{bio.length}/150</p>
+            </div>
             <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
               style={{
                 control: {
@@ -153,8 +170,8 @@ const ProfileEdit = ({ me }) => {
                 },
               }}
               placeholder="Tell us about yourself" 
-              onChange={e => setBio(e.target.value)} 
-              value={bio}
+              onChange={e => setBioRaw(e.target.value)} 
+              value={bioRaw}
               allowSuggestionsAboveCursor={true}
               inputRef={bodyRef}
             >

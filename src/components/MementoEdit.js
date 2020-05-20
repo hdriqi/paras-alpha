@@ -10,6 +10,7 @@ import { setLoading } from '../actions/ui'
 const MementoEdit = ({ memento = {} }) => {
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
+  const [descRaw, setDescRaw] = useState('')
   const [type, setType] = useState('')
   const bodyRef = useRef()
   const backBtnRef = useRef()
@@ -36,6 +37,19 @@ const MementoEdit = ({ memento = {} }) => {
     callback(list)
   }
 
+  const _validateSubmit = () => {
+    if((name.length > 0 && name.length <= 30) && (desc.length <= 150)) {
+      return true
+    }
+    return false
+  }
+
+  useEffect(() => {
+    if(bodyRef.current) {
+      setDesc(bodyRef.current.value)
+    }
+  }, [descRaw])
+
   const _submit = async (e) => {
     e.preventDefault()
 
@@ -45,8 +59,8 @@ const MementoEdit = ({ memento = {} }) => {
         id: memento.id, 
         name: name, 
         type: type.value, 
-        desc: bodyRef.current.value, 
-        descRaw: desc
+        desc: desc, 
+        descRaw: descRaw
       }
       await near.contract.updateMementoById(newData)
 
@@ -59,9 +73,8 @@ const MementoEdit = ({ memento = {} }) => {
 
   useEffect(() => {
     if(memento.id) {
-      console.log(memento)
       setName(memento.name)
-      setDesc(memento.descRaw)
+      setDescRaw(memento.descRaw)
       setType({
         label: memento.type,
         value: memento.type
@@ -85,7 +98,7 @@ const MementoEdit = ({ memento = {} }) => {
               <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Edit Memento</h3>
             </div>
             <div className="absolute right-0">
-              <h3 onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Save</h3>
+              <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Save</button>
             </div>
           </div>
         </div>
@@ -93,7 +106,10 @@ const MementoEdit = ({ memento = {} }) => {
       <div className="py-6 px-4">
         <div className="bg-white">
           <div className="mt-4">
-            <label>Name</label>
+            <div className="flex justify-between">
+              <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
+              <p className={`${name.length > 30 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{name.length}/30</p>
+            </div>
             <input className="mt-2 w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={name} onChange={e => setName(e.target.value)} />
           </div>
           {/* <div className="mt-4">
@@ -116,7 +132,10 @@ const MementoEdit = ({ memento = {} }) => {
             />
           </div> */}
           <div className="mt-4">
-            <label>Description</label>
+            <div className="flex justify-between">
+              <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
+              <p className={`${desc.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{desc.length}/150</p>
+            </div>
             <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
               style={{
                 control: {
@@ -140,8 +159,8 @@ const MementoEdit = ({ memento = {} }) => {
                 },
               }}
               placeholder="Memento description (optional)" 
-              onChange={e => setDesc(e.target.value)} 
-              value={desc}
+              onChange={e => setDescRaw(e.target.value)} 
+              value={descRaw}
               allowSuggestionsAboveCursor={true}
               inputRef={bodyRef}
             >

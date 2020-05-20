@@ -1,6 +1,6 @@
 import { withRedux } from "../lib/redux"
 import { useSelector, useDispatch, batch } from "react-redux"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { addBlockList } from "../actions/me"
 import ReactDropdown from "react-dropdown"
 import { Mention, MentionsInput } from "react-mentions"
@@ -17,6 +17,7 @@ const NewBlock = () => {
 
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
+  const [descRaw, setDescRaw] = useState('')
   const [type, setType] = useState({
     value: 'public',
     label: 'public'
@@ -48,11 +49,17 @@ const NewBlock = () => {
   }
 
   const _validateSubmit = () => {
-    if(name.length > 0) {
+    if((name.length > 0 && name.length <= 30) && (desc.length <= 150)) {
       return true
     }
     return false
   }
+
+  useEffect(() => {
+    if(bodyRef.current) {
+      setDesc(bodyRef.current.value)
+    }
+  }, [descRaw])
 
   const _submit = async (e) => {
     e.preventDefault()
@@ -60,7 +67,7 @@ const NewBlock = () => {
     try {
       const newData = {
         name: name,
-        desc: bodyRef.current.value,
+        desc: desc,
         descRaw: desc,
         type: type.value,
       }
@@ -104,7 +111,10 @@ const NewBlock = () => {
       <div>
         <div className="mt-8">
           <div>
+            <div className="flex justify-between">
             <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
+              <p className={`${name.length > 30 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{name.length}/30</p>
+            </div>
             <input value={name} onChange={e => setName(e.target.value)} className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" placeholder="Memento name" />
           </div>
           {/* <div className="mt-4">
@@ -129,7 +139,10 @@ const NewBlock = () => {
             />
           </div> */}
           <div className="mt-4">
-            <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
+            <div className="flex justify-between">
+              <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
+              <p className={`${desc.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{desc.length}/150</p>
+            </div>
             <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
               style={{
                 control: {
@@ -153,8 +166,8 @@ const NewBlock = () => {
                 },
               }}
               placeholder="Memento description (optional)" 
-              onChange={e => setDesc(e.target.value)} 
-              value={desc}
+              onChange={e => setDescRaw(e.target.value)} 
+              value={descRaw}
               allowSuggestionsAboveCursor={true}
               inputRef={bodyRef}
             >

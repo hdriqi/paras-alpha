@@ -8,6 +8,7 @@ import ipfs from "../lib/ipfs"
 import PopForward from "./PopForward"
 import near from "../lib/near"
 import Image from "./Image"
+import { Scrollbars } from 'react-custom-scrollbars'
 import { setLoading } from "../actions/ui"
 
 const NewPost = ({ memento }) => {
@@ -172,7 +173,7 @@ const NewPost = ({ memento }) => {
 
   return (
     <div id="new-post" className="fixed bg-white inset-0 z-30">
-      <div className={`${step === 0 ? 'visible' : 'invisible fixed'}`}>
+      <div className={`${step === 0 ? 'visible' : 'hidden'}`}>
         <div className="pt-12 h-full">
           <div className="fixed top-0 left-0 right-0 h-12 px-4">
             <div className="relative w-full h-full flex items-center justify-center">
@@ -187,7 +188,7 @@ const NewPost = ({ memento }) => {
                 <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Create</h3>
               </div>
               <div className="absolute right-0">
-                <button onClick={e => setStep(step+1)} disabled={!(postText.length > 0 || postImageList.length > 0)}>
+                <button onClick={e => setStep(step+1)} disabled={!((postText.length > 0 && postText.length <= 300) && (postImageList.length > 0 && postImageList.length <= 3))}>
                   <h4 className="text-2xl font-bold text-black-1 tracking-tighter">Next</h4>
                 </button>
               </div>
@@ -195,6 +196,9 @@ const NewPost = ({ memento }) => {
           </div>
           <div className="mt-8">
             <div className="">
+              <div className="px-4 text-right">
+                <p className={`${postText.length > 300 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{postText.length}/300</p>
+              </div>
               <div className="pb-4">
                 <MentionsInput className='outline-none w-full max-w-full' 
                   style={{
@@ -253,43 +257,50 @@ const NewPost = ({ memento }) => {
                 </MentionsInput>
               </div>
               <div className="h-40 px-4">
-                <label className="block text-sm font-semibold text-black-2">Image</label>
-                <div className="flex flex-nowrap overflow-x-auto">
-                  <div className="w-1/3 min-w-third -ml-2 relative rounded-md h-24 p-2">
-                    <div className="absolute inset-0 opacity-0">
-                      <input type="file" multiple accept="image/*" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
-                    </div>
-                    <div className="flex items-center h-full bg-black-1">
-                      <div className="m-auto">
-                        <svg className="m-auto" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path fillRule="evenodd" clipRule="evenodd" d="M2.7 -4.57764e-05L24.3 -4.57764e-05C25.7912 -4.57764e-05 27 1.20878 27 2.69995V24.3C27 25.7912 25.7912 27 24.3 27H2.7C1.20883 27 0 25.7912 0 24.3L0 2.69995C0 1.20878 1.20883 -4.57764e-05 2.7 -4.57764e-05ZM2.7 2.69995L2.7 18.3408L8.1 12.9408L12.825 17.6658L21.6 8.89077L24.3 11.5908V2.69995L2.7 2.69995ZM2.7 24.3V22.1591L8.1 16.7591L15.6408 24.3H2.7ZM24.3 24.3H19.4592L14.7342 19.575L21.6 12.7091L24.3 15.4091V24.3ZM16.2 8.09995C16.2 5.86321 14.3868 4.04995 12.15 4.04995C9.91325 4.04995 8.1 5.86321 8.1 8.09995C8.1 10.3367 9.91325 12.15 12.15 12.15C14.3868 12.15 16.2 10.3367 16.2 8.09995ZM10.8 8.09995C10.8 7.35438 11.4044 6.74995 12.15 6.74995C12.8956 6.74995 13.5 7.35438 13.5 8.09995C13.5 8.84553 12.8956 9.44995 12.15 9.44995C11.4044 9.44995 10.8 8.84553 10.8 8.09995Z" fill="white"/>
-                        </svg>
-                        <p className="mt-1 text-sm font-semibold text-white">Add Image</p>
+                <div className="flex justify-between">
+                  <label className="block text-sm font-semibold text-black-2">Image</label>
+                  <p className={`${postImageList.length > 3 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{postImageList.length}/3</p>
+                </div>
+                <Scrollbars style={{
+                  height: `6.5rem`
+                }} autoHide>
+                  <div className="flex flex-nowrap">
+                    <div className="w-1/3 min-w-third -ml-2 relative rounded-md h-24 p-2">
+                      <div className="absolute inset-0 opacity-0">
+                        <input type="file" multiple accept="image/*" onClick={(event)=> { event.target.value = null }} onChange={e => _addImg(e)} className="absolute inset-0 w-full h-full opacity-0" />
+                      </div>
+                      <div className="flex items-center h-full bg-black-1">
+                        <div className="m-auto">
+                          <svg className="m-auto" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M2.7 -4.57764e-05L24.3 -4.57764e-05C25.7912 -4.57764e-05 27 1.20878 27 2.69995V24.3C27 25.7912 25.7912 27 24.3 27H2.7C1.20883 27 0 25.7912 0 24.3L0 2.69995C0 1.20878 1.20883 -4.57764e-05 2.7 -4.57764e-05ZM2.7 2.69995L2.7 18.3408L8.1 12.9408L12.825 17.6658L21.6 8.89077L24.3 11.5908V2.69995L2.7 2.69995ZM2.7 24.3V22.1591L8.1 16.7591L15.6408 24.3H2.7ZM24.3 24.3H19.4592L14.7342 19.575L21.6 12.7091L24.3 15.4091V24.3ZM16.2 8.09995C16.2 5.86321 14.3868 4.04995 12.15 4.04995C9.91325 4.04995 8.1 5.86321 8.1 8.09995C8.1 10.3367 9.91325 12.15 12.15 12.15C14.3868 12.15 16.2 10.3367 16.2 8.09995ZM10.8 8.09995C10.8 7.35438 11.4044 6.74995 12.15 6.74995C12.8956 6.74995 13.5 7.35438 13.5 8.09995C13.5 8.84553 12.8956 9.44995 12.15 9.44995C11.4044 9.44995 10.8 8.84553 10.8 8.09995Z" fill="white"/>
+                          </svg>
+                          <p className="mt-1 text-sm font-semibold text-white">Add Image</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {
-                    postImageList.map((img, idx) => {
-                      return (
-                        <div key={idx} className="w-1/3 h-24 min-w-third relative p-2">
-                          <div onClick={e => _removeImg(idx)} className="absolute top-0 right-0 mr-3 mt-3 z-10" >
-                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="0.400024" y="0.400146" width="16.2" height="16.2" rx="8.1" fill="#222222"/>
-                          <path fillRule="evenodd" clipRule="evenodd" d="M8.50008 9.64596L5.02283 13.1232L3.87732 11.9777L7.35456 8.50044L3.87732 5.0232L5.02283 3.87769L8.50008 7.35493L11.9773 3.87769L13.1228 5.0232L9.64559 8.50044L13.1228 11.9777L11.9773 13.1232L8.50008 9.64596Z" fill="white"/>
-                          </svg>
+                    {
+                      postImageList.map((img, idx) => {
+                        return (
+                          <div key={idx} className="w-1/3 h-24 min-w-third relative p-2">
+                            <div onClick={e => _removeImg(idx)} className="absolute top-0 right-0 mr-3 mt-3 z-10" >
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.400024" y="0.400146" width="16.2" height="16.2" rx="8.1" fill="#222222"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M8.50008 9.64596L5.02283 13.1232L3.87732 11.9777L7.35456 8.50044L3.87732 5.0232L5.02283 3.87769L8.50008 7.35493L11.9773 3.87769L13.1228 5.0232L9.64559 8.50044L13.1228 11.9777L11.9773 13.1232L8.50008 9.64596Z" fill="white"/>
+                            </svg>
+                            </div>
+                            <img className="h-full m-auto object-contain" src={img.url} />
                           </div>
-                          <img className="h-full m-auto object-contain" src={img.url} />
-                        </div>
-                      )
-                    })
-                  }
-                </div>
+                        )
+                      })
+                    }
+                  </div>
+                </Scrollbars>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className={`${step === 1 ? 'visible' : 'invisible fixed'}`}>
+      <div className={`${step === 1 ? 'visible' : 'hidden'}`}>
         <div className="pt-12 px-4">
           <div className="fixed top-0 left-0 right-0 h-12 px-4">
             <div className="relative w-full h-full flex items-center justify-center">
