@@ -14,10 +14,20 @@ const reducer = combineReducers({
   near
 })
 
+let middleware = composeWithDevTools(
+  applyMiddleware(
+    logger
+  )
+)
+if (process.env.NODE_ENV === 'production') {
+  middleware = applyMiddleware(
+  )
+}
+
 export const initializeStore = (preloadedState = initialState) => {
   return createStore(
     reducer,
     preloadedState,
-    composeWithDevTools(applyMiddleware(logger))
+    middleware
   )
 }

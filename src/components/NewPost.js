@@ -115,7 +115,7 @@ const NewPost = ({ memento }) => {
           })
         }
       }
-      
+
       await near.contract.createPost({
         body: postText,
         bodyRaw: postTextRaw,
@@ -144,8 +144,17 @@ const NewPost = ({ memento }) => {
     }
   }, [])
 
+  const _validateNext = () => {
+    if(postText.length > 0 || postImageList.length > 0) {
+      if(postText.length <= 300 && postImageList.length <= 3) {
+        return true
+      }
+    }
+    return false
+  }
+
   const _validateSubmit = () => {
-    if((postText.length > 0 || postImageList.length > 0) && chosenMemento.id) {
+    if((postText.length >= 0 || postImageList.length >= 0) && chosenMemento.id) {
       return true
     }
     return false
@@ -188,7 +197,7 @@ const NewPost = ({ memento }) => {
                 <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Create</h3>
               </div>
               <div className="absolute right-0">
-                <button onClick={e => setStep(step+1)} disabled={!((postText.length > 0 && postText.length <= 300) && (postImageList.length > 0 && postImageList.length <= 3))}>
+                <button onClick={e => setStep(step+1)} disabled={!_validateNext()}>
                   <h4 className="text-2xl font-bold text-black-1 tracking-tighter">Next</h4>
                 </button>
               </div>
