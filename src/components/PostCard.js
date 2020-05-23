@@ -183,7 +183,7 @@ const Post = ({ post }) => {
               </button>
             </div>
           </div>
-          <Push href="/post/[id]" as={ `/post/${post.id}` } props={{
+          <div href="/post/[id]" as={ `/post/${post.id}` } props={{
             post: post
           }} query={{id: post.id}}>
             <div>
@@ -221,7 +221,7 @@ const Post = ({ post }) => {
                 </p>
               </div>
             </div>
-          </Push>
+          </div>
           <div className="px-4 py-2">
             <p className="text-sm font-normal text-black-4">
               {
@@ -243,20 +243,26 @@ const Post = ({ post }) => {
             </div>
             <div className="flex">
               <div>
-                <Push>
-                  <svg className='fill-current' width='21' height='21' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                    <path d='M15 9H9V15H15V9ZM13.5 13.5H10.5V10.5H13.5V13.5Z' />
-                    <path d='M22.5 10.5V9H19.125V4.875H15V1.5H13.5V4.875H10.5V1.5H9V4.875H4.875V9H1.5V10.5H4.875V13.5H1.5V15H4.875V19.125H9V22.5H10.5V19.125H13.5V22.5H15V19.125H19.125V15H22.5V13.5H19.125V10.5H22.5ZM17.625 17.625H6.375V6.375H17.625V17.625Z' />
-                  </svg>
+               <Push href="/post/[id]/memento" as={`/post/${post.id}/memento`} props={{
+                  id: post.id
+                }}>
+                  <a>
+                    <svg className='fill-current' width='21' height='21' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                      <path d='M15 9H9V15H15V9ZM13.5 13.5H10.5V10.5H13.5V13.5Z' />
+                      <path d='M22.5 10.5V9H19.125V4.875H15V1.5H13.5V4.875H10.5V1.5H9V4.875H4.875V9H1.5V10.5H4.875V13.5H1.5V15H4.875V19.125H9V22.5H10.5V19.125H13.5V22.5H15V19.125H19.125V15H22.5V13.5H19.125V10.5H22.5ZM17.625 17.625H6.375V6.375H17.625V17.625Z' />
+                    </svg>
+                  </a>
                 </Push>
               </div>
               <div className="ml-2">
                 <Push href="/post/[id]/comment" as={`/post/${post.id}/comment`} props={{
                   id: post.id
                 }}>
-                  <svg className='fill-current' width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                    <path fillRule='evenodd' clipRule='evenodd' d='M0 6.89285L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 0L0 6.89285ZM7.84579 10.2772L4.25371 7.58313L17.5163 3.16228L13.0954 16.4248L10.4014 12.8328L14.2347 6.44384L7.84579 10.2772Z' fill='#222222'/>
-                  </svg>
+                  <a>
+                    <svg className='fill-current' width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                      <path fillRule='evenodd' clipRule='evenodd' d='M0 6.89285L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 0L0 6.89285ZM7.84579 10.2772L4.25371 7.58313L17.5163 3.16228L13.0954 16.4248L10.4014 12.8328L14.2347 6.44384L7.84579 10.2772Z' fill='#222222'/>
+                    </svg>
+                  </a>
                 </Push>
               </div>
             </div>

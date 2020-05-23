@@ -29,51 +29,8 @@ const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
     }
   }, [id, localPost])
 
-  useEffect(() => {
-    const getData = async () => {
-      const q = [`originalId:=${localPost.originalId}`]
-      const similarPost = await near.contract.getPostList({
-        query: q,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
-      const mementoList = similarPost.map(post => post.memento)
-      setLocalMementoList(mementoList)
-    }
-    if(localPost && localPost.originalId && localMementoList.length === 0) {
-      console.log('get memento list')
-      getData()
-    }
-  }, [localPost])
-
-  useEffect(() => {
-    const getData = async () => {
-      const q = [`postId:=${localPost.id}`]
-      const commentList = await near.contract.getCommentList({
-        query: q,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'asc',
-          _skip: 0,
-          _limit: 10
-        }
-      })
-
-      setLocalCommentList(commentList)
-    }
-    if(localPost && localPost.id && localCommentList.length === 0) {
-      console.log('get comment data')
-      getData()
-    }
-  }, [localPost])
-
   return (
-    <Post post={localPost} commentList={localCommentList} mementoList={localMementoList} notFound={notFound} />
+    <Post post={localPost} notFound={notFound} />
   )
 }
 

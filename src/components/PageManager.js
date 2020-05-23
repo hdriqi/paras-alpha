@@ -15,6 +15,7 @@ import NewPostScreen from '../screens/NewPostScreen'
 import NewMementoScreen from '../screens/NewMementoScreen'
 import Loading from './Loading'
 import PostCommentScreen from '../screens/PostCommentScreen'
+import PostMementoScreen from '../screens/PostMementoScreen'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
@@ -28,6 +29,7 @@ const PageManager = ({ children }) => {
     '/': HomeScreen,
     '/[username]': ProfileScreen,
     '/post/[id]': PostScreen,
+    '/post/[id]/memento': PostMementoScreen,
     '/post/[id]/comment': PostCommentScreen,
     '/me/edit': ProfileEditScreen,
     '/m/[id]': MementoScreen,
