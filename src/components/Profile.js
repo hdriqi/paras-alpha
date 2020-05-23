@@ -75,8 +75,8 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
           </Modal>
         )
       }
-      <div className="sticky top-0">
-        <div className="bg-white h-12 px-4 z-20">
+      <div className="sticky top-0 z-20">
+        <div className="bg-white h-12 px-4">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <Pop>
@@ -169,13 +169,6 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
                               })
                             }
                           </InfiniteScroll>
-                          // postList.map(post => {
-                          //   return (
-                          //     <div className="mt-6 shadow-subtle" key={post.id}>
-                          //       <PostCard post={post} />
-                          //     </div>
-                          //   )
-                          // })
                         ) : (
                           <div className="p-4">
                             <PostCardLoader />

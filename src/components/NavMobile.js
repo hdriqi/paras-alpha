@@ -87,7 +87,7 @@ const NavMobile = () => {
   }, [profile, router])
 
   return (
-    <div className={`${profile && profile.username ? 'visible' : 'invisible'} md:hidden flex h-12 w-full bg-white`} style={{
+    <div className={`${profile && profile.username ? 'visible' : 'invisible'} block md:hidden flex h-12 w-full bg-white`} style={{
       boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
     }}>
       <div className="w-1/3">
@@ -97,39 +97,12 @@ const NavMobile = () => {
           </svg>
         </NavLink>
       </div>
-      {/* <div className="w-1/3">
-        <NavLink name="hub" href="/hub/recent" activePage={activePage} >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path className="fill-current" fillRule="evenodd" clipRule="evenodd" d="M14 8H10V6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.20914 3.79086 10 6 10H8L8 14H6C3.79086 14 2 15.7909 2 18C2 20.2091 3.79086 22 6 22C8.20914 22 10 20.2091 10 18V16H14V18C14 20.2091 15.7909 22 18 22C20.2091 22 22 20.2091 22 18C22 15.7909 20.2091 14 18 14H16V10H18C20.2091 10 22 8.20914 22 6C22 3.79086 20.2091 2 18 2C15.7909 2 14 3.79086 14 6V8ZM10 14V10H14V14H10ZM16 16V18C16 19.1046 16.8954 20 18 20C19.1046 20 20 19.1046 20 18C20 16.8954 19.1046 16 18 16H16ZM6 16H8V18C8 19.1046 7.10457 20 6 20C4.89543 20 4 19.1046 4 18C4 16.8954 4.89543 16 6 16ZM16 8H18C19.1046 8 20 7.10457 20 6C20 4.89543 19.1046 4 18 4C16.8954 4 16 4.89543 16 6V8ZM8 6V8H6C4.89543 8 4 7.10457 4 6C4 4.89543 4.89543 4 6 4C7.10457 4 8 4.89543 8 6Z"/>
-          </svg>
-        </NavLink>
-      </div> */}
       <div className="w-1/3 flex items-center justify-center">
-        <svg onClick={e => setShowCreateNav(true)} width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g filter="url(#filter0_d)">
-          <circle cx="24" cy="24" r="20" fill="#222222"/>
-          </g>
-          <path d="M21.4718 34V26.5282H14V21.4718H21.4718V14H26.5282V21.4718H34V26.5282H26.5282V34H21.4718Z" fill="white"/>
-          <defs>
-          <filter id="filter0_d" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-          <feFlood floodOpacity="0" result="BackgroundImageFix"/>
-          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-          <feOffset/>
-          <feGaussianBlur stdDeviation="2"/>
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-          </filter>
-          </defs>
+        <svg onClick={e => setShowCreateNav(true)} width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 20C40 31.0457 31.0457 40 20 40C8.9543 40 0 31.0457 0 20C0 8.9543 8.9543 0 20 0C31.0457 0 40 8.9543 40 20Z" fill="#222222"/>
+          <path d="M17.4718 30V22.5282H10V17.4718H17.4718V10H22.5282V17.4718H30V22.5282H22.5282V30H17.4718Z" fill="white"/>
         </svg>
       </div>
-      {/* <div className="w-1/3">
-        <NavLink name="message" href="/hub/following" activePage={activePage} >
-          <svg className="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" clipRule="evenodd" d="M0 6.89287L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 1.52588e-05L0 6.89287ZM7.84579 10.2772L4.25371 7.58315L17.5163 3.16229L13.0954 16.4249L10.4014 12.8328L14.2347 6.44385L7.84579 10.2772Z" fill="#616161"/>
-          </svg>
-        </NavLink>
-      </div> */}
       <div className="w-1/3">
         <NavLink name="me" href="/[username]" as={`/${profile.username}`} activePage={activePage} >
           <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -173,23 +146,9 @@ const NavMobile = () => {
               </Push>
             </div>
           </div>
-          <svg onClick={e => setShowCreateNav(false)} className="m-auto h-12 flex items-center" width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g filter="url(#filter0_d)">
-            <circle cx="24" cy="24" r="20" fill="#191F2C"/>
-            <circle cx="24" cy="24" r="19.5" stroke="black"/>
-            </g>
-            <path d="M29.2833 32.8588L24 27.5755L18.7167 32.8588L15.1412 29.2833L20.4245 24L15.1412 18.7167L18.7167 15.1412L24 20.4245L29.2833 15.1412L32.8588 18.7167L27.5755 24L32.8588 29.2833L29.2833 32.8588Z" fill="white"/>
-            <defs>
-            <filter id="filter0_d" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-            <feFlood floodOpacity="0" result="BackgroundImageFix"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-            <feOffset/>
-            <feGaussianBlur stdDeviation="2"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-            </filter>
-            </defs>
+          <svg onClick={e => setShowCreateNav(false)} className="m-auto h-12 flex items-center" width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="20" fill="#191F2C"/>
+            <path d="M25.2833 28.8588L20 23.5755L14.7167 28.8588L11.1412 25.2833L16.4245 20L11.1412 14.7167L14.7167 11.1412L20 16.4245L25.2833 11.1412L28.8588 14.7167L23.5755 20L28.8588 25.2833L25.2833 28.8588Z" fill="white"/>
           </svg>
         </div>
       </div>

@@ -32,8 +32,8 @@ const Home = ({ postList, page, getPost, hasMore }) => {
 
   return (
     <div className="bg-white-1 min-h-screen">
-      <div className="sticky top-0">
-        <div className="z-10 bg-white h-12 shadow-subtle px-4 py-2">
+      <div className="sticky top-0 z-20">
+        <div className="bg-white h-12 shadow-subtle px-4 py-2">
           {
             me && me.id ? (
             <div className="w-full h-full flex items-center justify-between">

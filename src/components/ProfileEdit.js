@@ -108,8 +108,8 @@ const ProfileEdit = ({ me }) => {
 
   return (
     <div className="min-h-screen">
-      <div className="sticky top-0">
-        <div className="bg-white h-12 px-4 z-20">
+      <div className="sticky top-0 z-20">
+        <div className="bg-white h-12 px-4">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <PopForward ref={backRef}>

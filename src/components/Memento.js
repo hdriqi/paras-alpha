@@ -151,8 +151,8 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
   }
   
   return (
-    <div className='py-12 bg-white-1 min-h-screen'>
-      <div className='fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20 '>
+    <div className='pb-12 bg-white-1 min-h-screen'>
+      <div className='sticky bg-white top-0 h-12 px-4 z-20 '>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>
             <Pop>
@@ -177,7 +177,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
         <Push href="/new/post" as={`/new/post`} props={{
           memento: memento
         }}>
-          <div className="w-32 mr-4 mb-4 shadow-subtle rounded-md p-2 bg-black text-white flex items-center justify-center text-center font-semibold text-white" style={{
+          <div className="w-32 mr-4 mb-8 shadow-subtle rounded-md p-2 bg-black text-white flex items-center justify-center text-center font-semibold text-white" style={{
             marginLeft: 'auto'
           }}>
             <svg className="mr-2 fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
