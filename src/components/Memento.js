@@ -125,7 +125,9 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
 
   useEffect(() => {
     if(showModal) {
-      disableBodyScroll(document.querySelector('#modal-bg'))
+      disableBodyScroll(document.querySelector('#modal-bg'), {
+        reserveScrollBarGap: true,
+      })
     }
     else {
       enableBodyScroll(document.querySelector('#modal-bg'))

@@ -36,8 +36,8 @@ const Search = () => {
 
   return (
     <div className="bg-white-1 min-h-screen">
-      <div className="pb-12">
-        <div className="fixed bg-white shadow-subtle top-0 left-0 right-0 h-12 px-4">
+      <div className="sticky top-0">
+        <div className="bg-white shadow-subtle h-12 px-4">
           <div className="relative w-full h-full flex items-center">
             <div>
               <Pop>

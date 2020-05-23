@@ -17,6 +17,10 @@ p {
   @apply leading-normal tracking-tight;
 }
 
+button:focus {
+  @apply outline-none;
+}
+
 button:disabled {
   @apply opacity-25;
 }
@@ -30,8 +34,8 @@ textarea {
   @apply outline-none;
 }
 
-.mobile .fixed {
-  @apply max-w-sm m-auto;
+a {
+  cursor: pointer;
 }
 
 /* loading animation */

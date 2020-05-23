@@ -9,7 +9,9 @@ const Loading = () => {
 
   useEffect(() => {
     if(isLoading) {
-      disableBodyScroll(document.querySelector('#loading-screen'))
+      disableBodyScroll(document.querySelector('#loading-screen'), {
+        reserveScrollBarGap: true,
+      })
     }
     else {
       enableBodyScroll(document.querySelector('#loading-screen'))

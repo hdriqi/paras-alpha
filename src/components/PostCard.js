@@ -120,7 +120,9 @@ const Post = ({ post }) => {
 
   useEffect(() => {
     if(showModal) {
-      disableBodyScroll(document.querySelector('#modal-bg'))
+      disableBodyScroll(document.querySelector('#modal-bg'), {
+        reserveScrollBarGap: true,
+      })
     }
     else {
       enableBodyScroll(document.querySelector('#modal-bg'))
@@ -174,9 +176,11 @@ const Post = ({ post }) => {
               </div>
             </div>
             <div>
-              <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14ZM12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14ZM17 12C17 13.1046 17.8954 14 19 14C20.1046 14 21 13.1046 21 12C21 10.8954 20.1046 10 19 10C17.8954 10 17 10.8954 17 12Z" fill="black"/>
-              </svg>
+              <button>
+                <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14ZM12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14ZM17 12C17 13.1046 17.8954 14 19 14C20.1046 14 21 13.1046 21 12C21 10.8954 20.1046 10 19 10C17.8954 10 17 10.8954 17 12Z" fill="black"/>
+                </svg>
+              </button>
             </div>
           </div>
           <Push href="/post/[id]" as={ `/post/${post.id}` } props={{
@@ -218,19 +222,44 @@ const Post = ({ post }) => {
               </div>
             </div>
           </Push>
-          <div className="flex justify-between px-4 py-4">
-            <p className="text-sm font-normal text-black-4">{ timeAgo.format(new Date(post.createdAt/(10**6))) }</p>
+          <div className="px-4 py-2">
             <p className="text-sm font-normal text-black-4">
               {
                 post.originalId && post.id !== post.originalId && (
                   <Push href="/post/[id]" as={`/post/${post.originalId}`} props={{
                     id: post.originalId
                   }}>
-                    <a>original post</a>
+                    <a>original</a>
                   </Push>
                 )
               }
             </p>
+          </div>
+          <div className="flex justify-between px-4 pb-4">
+            <div>
+              <p className="text-sm font-normal text-black-4">
+                { timeAgo.format(new Date(post.createdAt/(10**6))) }
+              </p>
+            </div>
+            <div className="flex">
+              <div>
+                <Push>
+                  <svg className='fill-current' width='21' height='21' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                    <path d='M15 9H9V15H15V9ZM13.5 13.5H10.5V10.5H13.5V13.5Z' />
+                    <path d='M22.5 10.5V9H19.125V4.875H15V1.5H13.5V4.875H10.5V1.5H9V4.875H4.875V9H1.5V10.5H4.875V13.5H1.5V15H4.875V19.125H9V22.5H10.5V19.125H13.5V22.5H15V19.125H19.125V15H22.5V13.5H19.125V10.5H22.5ZM17.625 17.625H6.375V6.375H17.625V17.625Z' />
+                  </svg>
+                </Push>
+              </div>
+              <div className="ml-2">
+                <Push href="/post/[id]/comment" as={`/post/${post.id}/comment`} props={{
+                  id: post.id
+                }}>
+                  <svg className='fill-current' width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                    <path fillRule='evenodd' clipRule='evenodd' d='M0 6.89285L7.72163 12.6841L8.40377 12.2748L7.99448 12.9569L13.7857 20.6786L20.6786 0L0 6.89285ZM7.84579 10.2772L4.25371 7.58313L17.5163 3.16228L13.0954 16.4248L10.4014 12.8328L14.2347 6.44384L7.84579 10.2772Z' fill='#222222'/>
+                  </svg>
+                </Push>
+              </div>
+            </div>
           </div>
         </div>
       )

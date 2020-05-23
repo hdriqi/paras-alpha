@@ -9,6 +9,7 @@ import near from "../lib/near"
 import Modal from './Modal'
 import axios from 'axios'
 import { setLoading } from "../actions/ui"
+import NavDesktop from "./NavDesktop"
 
 const DEFAULT_AVATAR = {
   url: 'QmbmkUNfVEQwUHzufSbC5nZQbdEMnNp6Hzfr88sQhZAois',
@@ -152,8 +153,15 @@ const Layout = ({ children }) => {
           isLoading ? (
             <SplashScreen />
           ) : (
-            <div className="max-w-sm m-auto mobile shadow-subtle">
-              { children }
+            <div className="max-w-2xl m-auto">
+              <div className="flex">
+                <div className="w-1/5 hidden md:block">
+                  <NavDesktop />
+                </div>
+                <div className="w-full md:w-4/5 m-auto shadow-subtle">
+                  { children }
+                </div>
+              </div>
               {
                 showOnboarding && (
                   <div className="fixed inset-0 bg-white pt-24 p-8" style={{
