@@ -119,10 +119,10 @@ const ProfileEdit = ({ me }) => {
               </PopForward>
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Edit Profile</h3>
+              <h3 className="text-xl font-bold text-black-1 tracking-tighter">Edit Profile</h3>
             </div>
             <div className="absolute right-0">
-              <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Save</button>
+              <button disabled={!_validateSubmit()} onClick={e => _submit(e)} className="text-xl font-bold text-black-1 tracking-tighter">Save</button>
             </div>
           </div>
         </div>

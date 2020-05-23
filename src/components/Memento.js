@@ -162,7 +162,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
             </Pop>
           </div>
           <div>
-            <h3 className='text-2xl font-bold text-black-1 tracking-tighter'>Memento</h3>
+            <h3 className='text-xl font-bold text-black-1 tracking-tighter'>Memento</h3>
           </div>
           <div className='absolute right-0'>
             <svg onClick={_ => setShowModal(true)} width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -195,7 +195,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
                 <ModalMemento me={me} memento={memento} meMementoList={meMementoList} close={() => setShowModal(false)} />
               </div>
               <div className='bg-white py-6 px-4 text-center shadow-subtle'>
-              <h4 className='text-2xl font-bold'>{memento.name}</h4>
+              <h4 className='text-xl font-bold'>{memento.name}</h4>
                 {
                   memento.user && (
                     <p>by&nbsp;

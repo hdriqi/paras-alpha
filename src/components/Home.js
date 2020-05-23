@@ -41,18 +41,18 @@ const Home = ({ postList, page, getPost, hasMore }) => {
                 <Link href="/">
                   {
                     page === 'feed' ? (
-                      <a className="text-2xl font-bold">Feed</a>
+                      <a className="text-xl font-bold">Feed</a>
                     ) : (
-                      <a className="text-2xl font-bold text-black-3">Feed</a>
+                      <a className="text-xl font-bold text-black-3">Feed</a>
                     )
                   }
                 </Link>
                 <Link href="/feed/recent">
                   {
                     page === 'recent' ? (
-                      <a className="ml-4 text-2xl font-bold">Recent</a>
+                      <a className="ml-4 text-xl font-bold">Recent</a>
                     ) : (
-                      <a className="ml-4 text-2xl font-bold text-black-3">Recent</a>
+                      <a className="ml-4 text-xl font-bold text-black-3">Recent</a>
                     )
                   }
                 </Link>

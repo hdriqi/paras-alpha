@@ -127,7 +127,7 @@ const PostComment = ({ post , commentList, mementoList, notFound }) => {
             </Pop>
           </div>
           <div>
-            <h3 className='text-2xl font-bold text-black-1 tracking-tighter'>Comments</h3>
+            <h3 className='text-xl font-bold text-black-1 tracking-tighter'>Comments</h3>
           </div>
           <div className='absolute right-0'>
           </div>

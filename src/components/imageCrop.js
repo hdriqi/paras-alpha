@@ -54,10 +54,10 @@ const ImageCrop = ({ imgUrl, cb }) => {
                 </svg>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Edit Image</h3>
+                <h3 className="text-xl font-bold text-black-1 tracking-tighter">Edit Image</h3>
               </div>
               <div className="absolute right-0">
-                <h3 onClick={e => _submit(e)} className="text-2xl font-bold text-black-1 tracking-tighter">Save</h3>
+                <h3 onClick={e => _submit(e)} className="text-xl font-bold text-black-1 tracking-tighter">Save</h3>
               </div>
             </div>
           </div>

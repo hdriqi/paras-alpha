@@ -86,7 +86,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
               </Pop>
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Profile</h3>
+              <h3 className="text-xl font-bold text-black-1 tracking-tighter">Profile</h3>
             </div>
             <div className="absolute right-0">
               {
@@ -106,7 +106,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
             <div>
               <div className="bg-white py-6 px-4 text-center">
                 <Image className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" data={user.imgAvatar} />
-                <h4 className="mt-4 text-2xl font-bold">{user.username}</h4>
+                <h4 className="mt-4 text-xl font-bold">{user.username}</h4>
                 <p className="mt-2 text-black-3">
                   <ParseBody body={user.bioRaw || user.bio} />
                 </p>
@@ -191,7 +191,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
                           <div className="mt-6" key={memento.id}>
                             <div className="flex items-center justify-between">
                               <div>
-                                <h4 className="text-2xl font-bold">{memento.name}</h4>
+                                <h4 className="text-xl font-bold">{memento.name}</h4>
                               </div>
                               <div>
                                 <Push href="/m/[id]" as={`/m/${memento.id}`} props={{

@@ -190,7 +190,7 @@ const Layout = ({ children }) => {
                       {
                         onboardingView == 1 && (
                           <div className="flex flex-col">
-                            <p className="text-2xl font-bold">Set up Profile</p>
+                            <p className="text-xl font-bold">Set up Profile</p>
                             <div className="mt-4">
                               <label>Fullname</label>
                               <input placeholder="Your fullname" className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 p-2 rounded-md" type="text" value={fullName} onChange={e => setFullName(e.target.value)} />

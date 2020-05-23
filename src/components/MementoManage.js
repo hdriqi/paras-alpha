@@ -15,7 +15,7 @@ const MementoManage = ({ id, memento, pendingPostCount }) => {
               </Pop>
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-black-1 tracking-tighter">Manage Memento</h3>
+              <h3 className="text-xl font-bold text-black-1 tracking-tighter">Manage Memento</h3>
             </div>
           </div>
         </div>
