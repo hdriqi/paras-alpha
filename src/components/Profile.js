@@ -140,7 +140,9 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
                 }
               </div>
               <div>
-                <div className="bg-white flex">
+                <div className="bg-white flex sticky" style={{
+                  top: `3rem`
+                }}>
                   <div className={`${view !== 'post' && `opacity-25`} w-1/2  border-b border-black-1`}>
                     <button onClick={_ => setView('post')} className="w-full font-semibold p-4 focus:outline-none">Post</button>
                   </div>
