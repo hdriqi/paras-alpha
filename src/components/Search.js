@@ -35,9 +35,9 @@ const Search = () => {
   }
 
   return (
-    <div className="bg-white-1 min-h-screen">
+    <div className="bg-dark-0 min-h-screen">
       <div className="sticky top-0">
-        <div className="bg-white shadow-subtle h-12 px-4">
+        <div className="bg-dark-0 shadow-subtle h-12 px-4">
           <div className="relative w-full h-full flex items-center">
             <div>
               <Pop>
@@ -63,7 +63,7 @@ const Search = () => {
                       username: data.id
                     }}>
                       <a>
-                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4">
+                        <div className="flex items-center bg-dark-0 shadow-subtle mt-4 p-4">
                           <div>
                             <div className="w-10 h-10 rounded-full overflow-hidden">
                               <Image style={{
@@ -83,10 +83,10 @@ const Search = () => {
                       id: data.id
                     }}>
                       <a>
-                        <div className="flex items-center bg-white shadow-subtle mt-4 p-4">
+                        <div className="flex items-center bg-dark-0 shadow-subtle mt-4 p-4">
                           <div>
                             <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
-                              <div className='w-4 h-4 m-auto bg-white'></div>
+                              <div className='w-4 h-4 m-auto bg-dark-0'></div>
                             </div>
                           </div>
                           <div className='px-4 w-auto overflow-hidden'>

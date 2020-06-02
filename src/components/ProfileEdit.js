@@ -109,7 +109,7 @@ const ProfileEdit = ({ me }) => {
   return (
     <div className="min-h-screen">
       <div className="sticky top-0 z-20">
-        <div className="bg-white h-12 px-4">
+        <div className="bg-dark-0 h-12 px-4">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <PopForward ref={backRef}>
@@ -184,7 +184,7 @@ const ProfileEdit = ({ me }) => {
                 }}
                 renderSuggestion={(entry) => {
                   return (
-                    <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
+                    <div className='flex items-center justify-between px-4 py-2 bg-dark-0 h-16'>
                       <div className="w-8/12 flex items-center overflow-hidden">
                         <div>
                           <div className="w-8 h-8 rounded-full overflow-hidden">

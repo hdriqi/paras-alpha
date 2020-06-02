@@ -134,7 +134,7 @@ const NavMobile = () => {
         backgroundColor: `rgba(0,0,0,0.5)`,
         visibility: `${showCreateNav ? `visible` : 'hidden'}`
       }}>
-        <div className="text-center absolute bottom-0 left-0 right-0 bg-white" style={{
+        <div className="text-center absolute bottom-0 left-0 right-0 bg-dark-0" style={{
           transform: `translate3d(0,${showCreateNav ? `0%` : `100%`},0)`,
           transition: `all .2s`
         }}>

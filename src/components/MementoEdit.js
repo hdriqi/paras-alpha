@@ -83,9 +83,9 @@ const MementoEdit = ({ memento = {} }) => {
   }, [memento])
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-dark-0 min-h-screen">
       <div className="sticky top-0 z-20">
-        <div className="px-4 bg-white">
+        <div className="px-4 bg-dark-0">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <PopForward ref={backBtnRef}>
@@ -104,7 +104,7 @@ const MementoEdit = ({ memento = {} }) => {
         </div>
       </div>
       <div className="py-6 px-4">
-        <div className="bg-white">
+        <div className="bg-dark-0">
           <div className="mt-4">
             <div className="flex justify-between">
               <label className="block text-sm pb-1 font-semibold text-black-2">Name</label>
@@ -173,7 +173,7 @@ const MementoEdit = ({ memento = {} }) => {
                 }}
                 renderSuggestion={(entry) => {
                   return (
-                    <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
+                    <div className='flex items-center justify-between px-4 py-2 bg-dark-0 h-16'>
                       <div className="w-8/12 flex items-center overflow-hidden">
                         <div>
                           <div className="w-8 h-8 rounded-full overflow-hidden">

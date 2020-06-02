@@ -155,16 +155,19 @@ const Layout = ({ children }) => {
           ) : (
             <div className="max-w-2xl m-auto">
               <div className="flex">
-                <div className="w-1/5 hidden md:block">
+                <div className="hidden md:block">
                   <NavDesktop />
                 </div>
-                <div className="w-full md:w-4/5 m-auto shadow-subtle">
+                <div className="w-full max-w-sm m-auto shadow-subtle">
                   { children }
+                </div>
+                <div className="hidden md:block">
+                  <NavDesktop />
                 </div>
               </div>
               {
                 showOnboarding && (
-                  <div className="fixed inset-0 bg-white pt-24 p-8" style={{
+                  <div className="fixed inset-0 bg-dark-0 pt-24 p-8" style={{
                     zIndex: 100
                   }}>
                     <div className="max-w-sm m-auto">

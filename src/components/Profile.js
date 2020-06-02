@@ -59,11 +59,11 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
   }
 
   return (
-    <div className="bg-white-1 min-h-screen pb-32">
+    <div className="bg-dark-0 min-h-screen pb-32">
       {
         confirmLogout && (
           <Modal close={() => setConfirmLogout(false)}>
-            <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
+            <div className="max-w-sm m-auto bg-dark-0 shadow-lg rounded-lg">
               <div className="flex flex-col text-center">
                 <div className="p-4 border-b">
                   <p>Log out from Paras?</p>
@@ -76,7 +76,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
         )
       }
       <div className="sticky top-0 z-20">
-        <div className="bg-white h-12 px-4">
+        <div className="bg-dark-0 h-12 px-4">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <Pop>
@@ -104,7 +104,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
         {
           user ? (
             <div>
-              <div className="bg-white py-6 px-4 text-center">
+              <div className="bg-dark-0 py-6 px-4 text-center">
                 <Image className="m-auto w-20 h-20 rounded-full overflow-hidden object-cover" data={user.imgAvatar} />
                 <h4 className="mt-4 text-xl font-bold">{user.username}</h4>
                 <p className="mt-2 text-black-3">
@@ -140,7 +140,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
                 }
               </div>
               <div>
-                <div className="bg-white flex sticky" style={{
+                <div className="bg-dark-0 flex sticky" style={{
                   top: `3rem`
                 }}>
                   <div className={`${view !== 'post' && `opacity-25`} w-1/2  border-b border-black-1`}>
@@ -212,7 +212,7 @@ const Profile = ({ user, hasMore, getPost, mementoList, postList }) => {
                                       <div className="w-1/3">
                                         <div className="w-full relative pb-full">
                                           <div className="absolute inset-0 px-1">
-                                            <div className="w-full h-full shadow-subtle bg-white overflow-hidden rounded-md">
+                                            <div className="w-full h-full shadow-subtle bg-dark-0 overflow-hidden rounded-md">
                                               {
                                                 post.imgList.length > 0 ? (
                                                   <Image className="w-full h-full object-cover" data={post.imgList[0]} />

@@ -116,8 +116,8 @@ const PostDetail = ({ post , commentList, mementoList, notFound }) => {
   }
 
   return (
-    <div className={`bg-white-1 min-h-screen`}>
-      <div className='sticky bg-white top-0 h-12 px-4 z-20'>
+    <div className={`bg-dark-0 min-h-screen`}>
+      <div className='sticky bg-dark-0 top-0 h-12 px-4 z-20'>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>
             <Pop>

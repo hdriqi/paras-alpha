@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@evius/pure-react-carousel": "0.0.0-semantically-released",
     "@fullhuman/postcss-purgecss": "^2.1.0",
     "axios": "^0.19.2",
     "body-scroll-lock": "^3.0.2",
@@ -29,6 +30,7 @@
     "near-api-js": "^0.24.0",
     "next": "^9.3.1",
     "postcss-import": "^12.0.1",
+    "pure-react-carousel": "git+https://github.com/hdriqi/pure-react-carousel.git",
     "react": "^16.13.0",
     "react-content-loader": "^5.0.4",
     "react-custom-scrollbars": "^4.2.1",
@@ -39,6 +41,7 @@
     "react-redux": "^7.2.0",
     "react-responsive-carousel": "^3.2.4",
     "react-textarea-autosize": "^7.1.2",
+    "react-touch-carousel": "^0.9.4",
     "redux": "^4.0.5",
     "tailwindcss": "^1.2.0"
   },

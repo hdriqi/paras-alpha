@@ -54,7 +54,7 @@ const PageManager = ({ children }) => {
   }, [router])
 
   return (
-    <div>
+    <div className="bg-dark-0">
       <Loading />
       <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
         { rootEl }

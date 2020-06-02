@@ -44,7 +44,7 @@ const ImageCrop = ({ imgUrl, cb }) => {
 
   return (
     showImageCrop ? (
-      <div className="fixed bg-white inset-0 z-30 px-4">
+      <div className="fixed bg-dark-0 inset-0 z-30 px-4">
         <div className="pt-12">
           <div className="fixed top-0 left-0 right-0 h-12 px-4">
             <div className="relative w-full h-full flex items-center justify-center">

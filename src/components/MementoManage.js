@@ -3,9 +3,9 @@ import Pop from "./Pop"
 
 const MementoManage = ({ id, memento, pendingPostCount }) => {
   return (
-    <div className="bg-white-1 min-h-screen">
+    <div className="bg-dark-0 min-h-screen">
       <div className="pb-12">
-        <div className="fixed bg-white top-0 left-0 right-0 h-12 px-4 z-20">
+        <div className="fixed bg-dark-0 top-0 left-0 right-0 h-12 px-4 z-20">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
               <Pop>
@@ -21,7 +21,7 @@ const MementoManage = ({ id, memento, pendingPostCount }) => {
         </div>
       </div>
       <div className="py-6">
-        <div className="bg-white border-t border-black-6">
+        <div className="bg-dark-0 border-t border-black-6">
           <Push href="/m/[id]/edit" as={`/m/${id}/edit`} props={{
             id: id,
             memento: memento

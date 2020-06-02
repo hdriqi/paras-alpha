@@ -92,7 +92,7 @@ const NewBlock = () => {
   }
 
   return (
-    <div id="new-memento" className="fixed bg-white inset-0 z-30 px-4">
+    <div id="new-memento" className="fixed bg-dark-0 inset-0 z-30 px-4">
       <div className="h-12 w-full flex items-center justify-center relative">
         <div className="absolute left-0">
           <PopForward ref={backRef}>
@@ -180,7 +180,7 @@ const NewBlock = () => {
                 }}
                 renderSuggestion={(entry) => {
                   return (
-                    <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
+                    <div className='flex items-center justify-between px-4 py-2 bg-dark-0 h-16'>
                       <div className="w-8/12 flex items-center overflow-hidden">
                         <div>
                           <div className="w-8 h-8 rounded-full overflow-hidden">

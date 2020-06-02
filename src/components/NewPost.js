@@ -181,7 +181,7 @@ const NewPost = ({ memento }) => {
   }
 
   return (
-    <div id="new-post" className="fixed bg-white inset-0 z-30">
+    <div id="new-post" className="fixed bg-dark-0 inset-0 z-30">
       <div className={`${step === 0 ? 'visible' : 'hidden'}`}>
         <div className="pt-12 h-full">
           <div className="fixed top-0 left-0 right-0 h-12 px-4">
@@ -246,7 +246,7 @@ const NewPost = ({ memento }) => {
                     }}
                     renderSuggestion={(entry) => {
                       return (
-                        <div className="flex items-center justify-between px-4 py-2 bg-white h-16">
+                        <div className="flex items-center justify-between px-4 py-2 bg-dark-0 h-16">
                           <div className="w-8/12 flex items-center overflow-hidden">
                             <div>
                               <div className="w-8 h-8 rounded-full overflow-hidden">
@@ -344,11 +344,11 @@ const NewPost = ({ memento }) => {
                               else {
                                 setChosenMemento(memento)
                               }
-                            }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                            }} className={`flex items-center justify-between px-4 py-2 bg-dark-0 mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
                               <div className="w-8/12 flex items-center overflow-hidden">
                                 <div>
                                   <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
-                                    <div className="w-4 h-4 m-auto bg-white"></div>
+                                    <div className="w-4 h-4 m-auto bg-dark-0"></div>
                                   </div>
                                 </div>
                                 <div className="px-4 w-auto">
@@ -376,11 +376,11 @@ const NewPost = ({ memento }) => {
                                 else {
                                   setChosenMemento(memento)
                                 }
-                              }} className={`flex items-center justify-between px-4 py-2 bg-white mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                              }} className={`flex items-center justify-between px-4 py-2 bg-dark-0 mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
                                 <div className="w-8/12 flex items-center overflow-hidden">
                                   <div>
                                     <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
-                                      <div className="w-4 h-4 m-auto bg-white"></div>
+                                      <div className="w-4 h-4 m-auto bg-dark-0"></div>
                                     </div>
                                   </div>
                                   <div className="px-4 w-auto">

@@ -116,8 +116,8 @@ const PostComment = ({ post , commentList, mementoList, notFound }) => {
   }
 
   return (
-    <div className={`bg-white-1 min-h-screen`}>
-      <div className='sticky bg-white top-0 h-12 px-4 z-20'>
+    <div className={`bg-dark-0 min-h-screen`}>
+      <div className='sticky bg-dark-0 top-0 h-12 px-4 z-20'>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>
             <Pop>
@@ -164,7 +164,7 @@ const PostComment = ({ post , commentList, mementoList, notFound }) => {
                 </div>
               </div>
               <div className={`${profile && profile.id ? 'visible' : 'invisible'} fixed bottom-0 left-0 right-0`}>
-                <div className="flex items-center justify-center shadow-subtle bg-white relative">
+                <div className="flex items-center justify-center shadow-subtle bg-dark-0 relative">
                   <div className='w-full'>
                     <MentionsInput className='outline-none w-full max-w-full' 
                       style={{
@@ -203,7 +203,7 @@ const PostComment = ({ post , commentList, mementoList, notFound }) => {
                         }}
                         renderSuggestion={(entry) => {
                           return (
-                            <div className='flex items-center justify-between px-4 py-2 bg-white h-16'>
+                            <div className='flex items-center justify-between px-4 py-2 bg-dark-0 h-16'>
                               <div className="w-8/12 flex items-center overflow-hidden">
                                 <div>
                                   <div className="w-8 h-8 rounded-full overflow-hidden">

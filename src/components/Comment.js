@@ -36,7 +36,7 @@ const ModalComment = ({ close, data, cb }) => {
       <div id="modal-bg" onClick={(e) => _closeModal(e)} className="fixed inset-0 w-full h-full z-40 p-8 pt-40" style={{
         backgroundColor: `rgba(0,0,0,0.5)`
       }}>
-        <div className="max-w-sm m-auto bg-white shadow-lg rounded-lg">
+        <div className="max-w-sm m-auto bg-dark-0 shadow-lg rounded-lg">
           {
             view === 'default' && (
               <div>
@@ -85,7 +85,7 @@ const Comment = ({ comment }) => {
   }
   else {
     return (
-      <div className="flex items-center px-4 py-2 mt-4 bg-white shadow-subtle">
+      <div className="flex items-center px-4 py-2 mt-4 bg-dark-0 shadow-subtle">
         <div className="w-10 rounded-full overflow-hidden">
           <Image className="object-cover w-full h-full" data={comment.user.imgAvatar} />
         </div>

@@ -60,8 +60,8 @@ const PostMemento = ({ post, mementoList, notFound }) => {
   }
 
   return (
-    <div className={`bg-white-1 min-h-screen`}>
-      <div className='sticky bg-white top-0 h-12 px-4 z-20'>
+    <div className={`bg-dark-0 min-h-screen`}>
+      <div className='sticky bg-dark-0 top-0 h-12 px-4 z-20'>
         <div className='relative w-full h-full flex items-center justify-center'>
           <div className='absolute left-0'>
             <Pop>
@@ -90,11 +90,11 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                       <Push key={memento.id} href='/m/[id]' as={ `/m/${memento.id}`} props={{
                         id: memento.id
                       }} query={{id: post.blockId}}>
-                        <div className='flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle'>
+                        <div className='flex items-center justify-between px-4 py-2 mt-4 bg-dark-0 shadow-subtle'>
                           <div className='w-8/12 flex items-center overflow-hidden'>
                             <div>
                               <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
-                                <div className='w-4 h-4 m-auto bg-white'></div>
+                                <div className='w-4 h-4 m-auto bg-dark-0'></div>
                               </div>
                             </div>
                             <div className='px-4 w-auto'>
@@ -116,11 +116,11 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                       <Push key={idx} href='/m/[id]' as={`/m/${memento.id}`} props={{
                         memento: memento
                       }}>
-                        <div className='flex items-center justify-between px-4 py-2 mt-4 bg-white shadow-subtle'>
+                        <div className='flex items-center justify-between px-4 py-2 mt-4 bg-dark-0 shadow-subtle'>
                           <div className='w-8/12 flex items-center overflow-hidden'>
                             <div>
                               <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
-                                <div className='w-4 h-4 m-auto bg-white'></div>
+                                <div className='w-4 h-4 m-auto bg-dark-0'></div>
                               </div>
                             </div>
                             <div className='px-4 w-auto'>
@@ -144,11 +144,11 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                   {
                     searchMemento.map(memento => {
                       return (
-                        <div key={memento.id} onClick={_ => _selectMemento(memento)} className='flex items-center justify-between px-4 py-2 bg-white border-t h-16'>
+                        <div key={memento.id} onClick={_ => _selectMemento(memento)} className='flex items-center justify-between px-4 py-2 bg-dark-0 border-t h-16'>
                           <div className='w-8/12 flex items-center overflow-hidden'>
                             <div>
                               <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
-                                <div className='w-4 h-4 m-auto bg-white'></div>
+                                <div className='w-4 h-4 m-auto bg-dark-0'></div>
                               </div>
                             </div>
                             <div className='px-4 w-auto'>
@@ -164,7 +164,7 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                     })
                   }
                 </div>
-                <div className='flex items-center justify-center shadow-subtle bg-white'>
+                <div className='flex items-center justify-center shadow-subtle bg-dark-0'>
                   <div className='w-full pl-4 py-2'>
                     <input type='text' value={inputMemento} onChange={e => _getSearchMemento(e.target.value)} className='w-full outline-none' placeholder='Search memento' />
                   </div>

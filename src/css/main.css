@@ -2,15 +2,15 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css?family=Inter:400,500,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700;800;900&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'M PLUS 1p', monospace;
+  font-weight: 400;
 }
 
 p {
@@ -21,13 +21,16 @@ button:focus {
   @apply outline-none;
 }
 
+button:active {
+  @apply bg-dark-12;
+}
+
 button:disabled {
   @apply opacity-25;
 }
 
 input, textarea {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'M PLUS 1p', sans-serif;
 }
 
 textarea {
