@@ -15,6 +15,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { setLoading } from '../actions/ui'
 import InfiniteLoader from './InfiniteLoader'
 import NavTop from './NavTop'
+import InView, { useInView } from 'react-intersection-observer'
 
 const ModalMemento = ({ me, memento, close }) => {
   const backBtnRef = useRef(null)
@@ -117,6 +118,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
 
   const [isFollowing, setIsFollowing] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [stickySubNav, setStickySubNav] = useState(false)
 
   useEffect(() => {
     if (Array.isArray(me.following) && me.following.filter(following => following.id === memento.id).length > 0) {
@@ -149,6 +151,13 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
       dispatch(setProfile(newMe))
       dispatch(setLoading(false))
     })
+  }
+
+  const m = {
+    img: `https://i.pinimg.com/originals/f9/6a/26/f96a261e5a60d7d66b36e2850e3eb19b.png`,
+    name: 'Linux Desktopoholic',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+    createdAt: 1591082951638
   }
 
   const list = [
@@ -195,17 +204,18 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
   ]
 
   return (
-    <div className="bg-dark-0 max-w-sm min-h-screen">
+    <div className="bg-dark-0 max-w-sm min-h-screen relative">
       <NavTop
         left={
           <Pop>
-            <svg className="fill-current text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" />
+            <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#F2F2F2" />
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M14.394 9.93934C14.9798 10.5251 14.9798 11.4749 14.394 12.0607L11.6213 14.8333H24C24.8284 14.8333 25.5 15.5049 25.5 16.3333C25.5 17.1618 24.8284 17.8333 24 17.8333H11.6213L14.394 20.606C14.9798 21.1918 14.9798 22.1415 14.394 22.7273C13.8082 23.3131 12.8585 23.3131 12.2727 22.7273L6.93934 17.394C6.65804 17.1127 6.5 16.7312 6.5 16.3333C6.5 15.9355 6.65804 15.554 6.93934 15.2727L12.2727 9.93934C12.8585 9.35355 13.8082 9.35355 14.394 9.93934Z" fill="#F2F2F2" />
             </svg>
           </Pop>
         }
         center={
-          <h3 className="text-xl font-bold text-white">Memento</h3>
+          <h3 className="text-lg font-bold text-white">{stickySubNav ? m.name : `Memento`} </h3>
         }
         right={
           <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -213,6 +223,44 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           </svg>
         }
       />
+      <div className="px-4 pt-4">
+        <div className="flex justify-center items-center">
+          <div className="w-40 h-40 rounded-md overflow-hidden">
+            <img className="object-cover h-full" src={m.img} />
+          </div>
+        </div>
+        <div className="pt-4 flex justify-between items-center">
+          <div>
+            <p className="text-white text-xl font-semibold">{m.name}</p>
+          </div>
+          <div>
+            <button className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">JOIN</button>
+          </div>
+        </div>
+        <div className="pt-2">
+          <p className="text-white opacity-87">{m.desc}</p>
+        </div>
+      </div>
+      <div className={`
+          ${stickySubNav && 'bg-dark-4 sticky'}
+          mt-4 flex px-4 py-2 z-20`
+      } style={{
+        top: `40px`
+      }}>
+        <InView rootMargin={`-86px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
+          <div className="flex">
+            <div className="relative">
+              <h4 className="text-primary-5 font-bold z-10 relative">POST</h4>
+            </div>
+            <div className="ml-4">
+              <h4 className="text-white font-bold">MEMBER</h4>
+            </div>
+            <div className="ml-4">
+              <h4 className="text-white font-bold">SETTING</h4>
+            </div>
+          </div>
+        </InView>
+      </div>
       {
         list.map(post => {
           return (
@@ -222,6 +270,14 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           )
         })
       }
+      <div className="sticky" style={{
+        bottom: `2rem`
+      }}>
+        <svg className="ml-auto mr-4" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28Z" fill="#E13128" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M26.5292 38.6667V30.1375H18V26.5292H26.5292V18H30.1375V26.5292H38.6667V30.1375H30.1375V38.6667H26.5292Z" fill="white" />
+        </svg>
+      </div>
     </div>
   )
 }

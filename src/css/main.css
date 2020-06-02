@@ -13,6 +13,10 @@ body {
   font-weight: 400;
 }
 
+h1, h2, h3, h4 {
+  @apply tracking-normal;
+}
+
 p {
   @apply leading-normal tracking-tight;
 }
