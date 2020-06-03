@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const NewPostUrl = ({ left, right, input = '' }) => {
   const [err, setErr] = useState(false)
-  const [url, setUrl] = useState(input)
+  const [url, setUrl] = useState(input || '')
 
   const _right = async () => {
     const response = await axios.get(`https://paras.id/metaget?link=${url}`)

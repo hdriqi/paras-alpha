@@ -8,7 +8,7 @@ const NewPostImage = ({ left, right, input = {} }) => {
 
   useEffect(() => {
     const readImg = async () => {
-      const imgUrl = await readFileAsUrl(input)
+      const imgUrl = await readFileAsUrl(input || {})
       setImgUrl(imgUrl)
     }
     readImg()

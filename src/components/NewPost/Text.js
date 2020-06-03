@@ -46,8 +46,8 @@ const NewPostText = ({ left, right, input = '' }) => {
   const offsetY = 16
 
   const inputRef = useRef(null)
-  const [textRaw, setTextRaw] = useState(input)
-  const [curText, setCurText] = useState(input)
+  const [textRaw, setTextRaw] = useState(input || '')
+  const [curText, setCurText] = useState(input || '')
   const [lineCount, setLineCount] = useState(0)
   const [err, setErr] = useState(false)
 
