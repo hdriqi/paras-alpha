@@ -13,7 +13,7 @@ body {
   font-weight: 400;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, button {
   @apply tracking-normal;
 }
 
@@ -23,10 +23,6 @@ p {
 
 button:focus {
   @apply outline-none;
-}
-
-button:active {
-  @apply bg-dark-12;
 }
 
 button:disabled {
