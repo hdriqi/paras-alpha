@@ -132,7 +132,7 @@ const NewPostCreate = ({ content, setContent }) => {
       <div>
         <div className="">
           <div className="mt-8 mx-4">
-            <div className="bg-dark-1">
+            <div className="bg-dark-1 rounded-md">
               <CarouselProvider
                 naturalSlideWidth={100}
                 naturalSlideHeight={100}

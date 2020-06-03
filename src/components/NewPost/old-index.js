@@ -376,7 +376,7 @@ const NewPost = ({ memento }) => {
                                 else {
                                   setChosenMemento(memento)
                                 }
-                              }} className={`flex items-center justify-between px-4 py-2 bg-dark-0 mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                              }} className={`flex items-center justify-between px-4 py-2 bg-dark-0 mt-4 rounded-md border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
                                 <div className="w-8/12 flex items-center overflow-hidden">
                                   <div>
                                     <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">
@@ -408,7 +408,7 @@ const NewPost = ({ memento }) => {
                                   else {
                                     setChosenMemento(memento)
                                   }
-                                }} className={`flex items-center justify-between px-4 py-2 bg-dark-0 mt-4 rounded-sm border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
+                                }} className={`flex items-center justify-between px-4 py-2 bg-dark-0 mt-4 rounded-md border ${chosenMemento.id === memento.id ? ` border-black-1` : `border-white`}`}>
                                   <div className="w-8/12 flex items-center overflow-hidden">
                                     <div>
                                       <div className="flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1">

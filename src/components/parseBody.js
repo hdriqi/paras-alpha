@@ -11,7 +11,10 @@ const ParseBody = ({ body = '' }) => {
         <Push key={idx} href="/[username]" as={`/${match[1]}`} props={{
           username: match[1]
         }}>
-          <a className="font-semibold text-black-1">@{ match[1] }</a>
+          <a style={{
+            backgroundColor: `#df4544`,
+            borderRadius: `.1rem`
+          }}>@{ match[1] }</a>
         </Push>
       )
     }

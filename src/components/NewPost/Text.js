@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { MentionsInput, Mention } from 'react-mentions'
+import near from '../../lib/near'
+import Image from '../Image'
 
 const textareaStyle = {
   control: {
@@ -7,25 +9,34 @@ const textareaStyle = {
     fontWeight: `500`,
     color: '#616161'
   },
+  highlighter: {
+    letterSpacing: `-.01rem`
+  },
   input: {
     margin: 0,
     padding: `0 .5rem`,
-    overflow: `hidden`,
     color: `white`,
+    height: `100%`
   },
   suggestions: {
-    marginTop: `20px`,
-    maxHeight: `32rem`,
+    marginTop: `1rem`,
+    maxHeight: `8rem`,
     overflowY: 'auto',
     width: `100vw`,
     maxWidth: `100%`,
-    boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`
+    boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`,
+    item: {
+      backgroundColor: `#121212`,
+      '&focused': {
+        backgroundColor: '#333333',
+      },
+    },
   },
 }
 
 const RenderUser = (entry) => {
   return (
-    <div className="flex items-center justify-between px-4 py-2 bg-dark-0 h-16">
+    <div className="flex items-center justify-between p-2">
       <div className="w-8/12 flex items-center overflow-hidden">
         <div>
           <div className="w-8 h-8 rounded-full overflow-hidden">
@@ -35,7 +46,7 @@ const RenderUser = (entry) => {
           </div>
         </div>
         <div className="px-4 w-auto">
-          <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{entry.username}</p>
+          <p className="text-sm font-semibold text-white truncate whitespace-no-wrap min-w-0">{entry.username}</p>
         </div>
       </div>
     </div>
@@ -88,10 +99,10 @@ const NewPostText = ({ left, right, input = '' }) => {
       username: user.username
     }))
     callback(list)
-    const suggestionsEl = document.querySelector('.outline-none__suggestions')
-    if (suggestionsEl) {
-      suggestionsEl.scrollTo(0, suggestionsEl.scrollHeight)
-    }
+  }
+
+  const _validateSubmit = () => {
+    return textRaw.length > 0
   }
 
   const _onChange = (val) => {
@@ -119,8 +130,8 @@ const NewPostText = ({ left, right, input = '' }) => {
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
       <div className="max-w-sm m-auto p-4 flex items-center h-full w-full">
-        <div className="bg-dark-1 w-full rounded-md overflow-hidden">
-          <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2">
+        <div className="bg-dark-1 w-full rounded-md">
+          <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2 rounded-t-md">
             <div className="w-8 text-white">
               <svg onClick={_ => _left()} width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="white" />
@@ -128,11 +139,14 @@ const NewPostText = ({ left, right, input = '' }) => {
               </svg>
             </div>
             <div className="flex-auto text-white overflow-hidden px-2">Add Text</div>
-            <div className="w-8 text-white">
-              <svg onClick={_ => _right()} className="ml-auto" width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="#E13128" />
-              </svg>
+            <div className="w-8 text-white flex items-center justify-end">
+              <button disabled={!_validateSubmit()} className="ml-auto" onClick={e => _right(e)}>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
+                  <circle cx="16" cy="16" r="16" fill="#E13128" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
+                </svg>
+              </button>
             </div>
           </div>
           <div className="h-1 w-full relative bg-dark-12 relative">
@@ -153,13 +167,15 @@ const NewPostText = ({ left, right, input = '' }) => {
                   value={textRaw}
                   allowSuggestionsAboveCursor={true}
                   inputRef={inputRef}
+                  autoFocus
                 >
                   <Mention
                     trigger='@'
                     data={_getUsers}
                     appendSpaceOnAdd={true}
                     style={{
-                      color: '#1B1B1B'
+                      backgroundColor: `#df4544`,
+                      borderRadius: `.1rem`
                     }}
                     renderSuggestion={RenderUser}
                   />
