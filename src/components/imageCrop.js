@@ -6,7 +6,7 @@ import { readFileAsUrl } from "../lib/utils"
 
 let cropper = null
 
-const ImageCrop = ({ imgUrl, cb }) => {
+const ImageCrop = ({ imgUrl, cb, viewport }) => {
   const showImageCrop = useSelector(state => state.ui.showImageCrop)
   const dispatch = useDispatch()
   
@@ -37,7 +37,7 @@ const ImageCrop = ({ imgUrl, cb }) => {
 			const Croppie  = require('croppie')
 			cropper = new Croppie(document.getElementById('img'), {
 				boundary: { width: `100%`, height: 256 },
-				viewport: { width: 200, height: 200, type: 'circle' }
+				viewport: viewport || { width: 200, height: 200, type: 'circle' }
       })
 		}
 	}, [imgUrl, showImageCrop])

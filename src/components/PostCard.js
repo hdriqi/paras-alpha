@@ -232,14 +232,14 @@ const Post = ({ post }) => {
                             <div className="absolute m-auto w-full h-full p-2">
                               <a href={content.body.url} target="_blank">
                                 <div className="bg-dark-12 rounded-md overflow-hidden h-full hover:opacity-75">
-                                  <div className="relative" style={{
+                                  <div className="relative bg-white" style={{
                                     height: `60%`
                                   }}>
-                                    <img className="h-full object-cover" src={content.body.img} />
+                                    <img className="h-full w-full object-cover" src={content.body.img} />
                                     <div className="absolute inset-0 flex items-center justify-center" style={{
                                       background: `rgba(0,0,0,0.4)`
                                     }}>
-                                      <p className="text-white font-bold text-2xl text-center">{content.body.title}</p>
+                                      <p className="text-white font-bold text-2xl text-center px-2">{content.body.title}</p>
                                     </div>
                                   </div>
                                   <div className="px-2 pb-2" style={{
