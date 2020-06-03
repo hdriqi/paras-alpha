@@ -1,4 +1,3 @@
-import { Carousel } from 'react-responsive-carousel'
 import ParseBody from './parseBody'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { withRedux } from '../lib/redux'
