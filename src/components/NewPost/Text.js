@@ -3,8 +3,6 @@ import Confirm from '../Utils/Confirm'
 import RichText from 'components/Input/RichText'
 
 const NewPostText = ({ left, right, input = '' }) => {
-  const offsetY = 16
-
   const inputRef = useRef(null)
   const [textRaw, setTextRaw] = useState(input || '')
   const [curText, setCurText] = useState(input || '')
@@ -13,7 +11,7 @@ const NewPostText = ({ left, right, input = '' }) => {
   const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
-    const maxHeight = inputRef.current.offsetWidth - offsetY
+    const maxHeight = inputRef.current.offsetWidth
     if (inputRef.current.scrollHeight > maxHeight) {
       setTextRaw(curText)
       setErr(true)
@@ -122,7 +120,7 @@ const NewPostText = ({ left, right, input = '' }) => {
             <div className="absolute m-auto w-full h-full object-contain">
               <div className={`
                 ${err && 'animated shake'}
-                flex items-center h-full
+                flex items-center h-full px-2
               `}>
                 <RichText 
                   autoFocus 
@@ -130,6 +128,8 @@ const NewPostText = ({ left, right, input = '' }) => {
                   text={textRaw} 
                   setText={setTextRaw} 
                   initialText={textRaw} 
+                  placeholder="Share your ideas, thought and creativity"  
+                  className="w-full"
                 />
               </div>
             </div>

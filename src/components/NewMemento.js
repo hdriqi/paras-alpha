@@ -8,6 +8,7 @@ import PopForward from "./PopForward"
 import near from "../lib/near"
 import { setLoading } from "../actions/ui"
 import Image from "./Image"
+import RichText from "./Input/RichText"
 
 const NewBlock = () => {
   const profile = useSelector(state => state.me.profile)
@@ -143,61 +144,16 @@ const NewBlock = () => {
               <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
               <p className={`${desc.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{desc.length}/150</p>
             </div>
-            <MentionsInput className="w-full transition-all duration-300 text-black-3 leading-normal outline-none border border-black-6 focus:border-black-4 rounded-md"
-              style={{
-                control: {
-                  fontSize: `16px`,
-                  fontWeight: `500`,
-                  color: '#616161'
-                },
-                input: {
-                  margin: 0,
-                  padding: `.5rem`,
-                  overflow: `auto`,
-                  height: `5.5rem`,
-                },
-                suggestions: {
-                  marginTop: `2rem`,
-                  maxHeight: `32rem`,
-                  overflowY: 'auto',
-                  width: `100vw`,
-                  maxWidth: `100%`,
-                  boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`
-                },
-              }}
-              placeholder="Memento description (optional)" 
-              onChange={e => setDescRaw(e.target.value)} 
-              value={descRaw}
-              allowSuggestionsAboveCursor={true}
+            <RichText 
               inputRef={bodyRef}
-            >
-              <Mention
-                trigger='@'
-                data={_getUsers}
-                appendSpaceOnAdd={true}
-                style={{
-                  color: '#1B1B1B'
-                }}
-                renderSuggestion={(entry) => {
-                  return (
-                    <div className='flex items-center justify-between px-4 py-2 bg-dark-0 h-16'>
-                      <div className="w-8/12 flex items-center overflow-hidden">
-                        <div>
-                          <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <Image style={{
-                              boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                            }} className="object-cover w-full h-full" data={entry.imgAvatar} />
-                          </div>
-                        </div>
-                        <div className="px-4 w-auto">
-                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                }}
-              />
-            </MentionsInput>
+              text={descRaw}
+              setText={setDescRaw}
+              placeholder="Memento description"
+              className="bg-dark-8 p-2"
+              style={{
+                height: `8rem`
+              }}
+            />
           </div>
         </div>
       </div>

@@ -2,10 +2,10 @@ import { MentionsInput, Mention } from 'react-mentions'
 import near from '../../lib/near'
 import Image from 'components/Image'
 
-const textareaStyle = {
+const defaultStyle = {
   control: {
     fontSize: `16px`,
-    fontWeight: `500`,
+    fontWeight: `400`,
     color: '#616161'
   },
   highlighter: {
@@ -13,9 +13,10 @@ const textareaStyle = {
   },
   input: {
     margin: 0,
-    padding: `0 .5rem`,
+    padding: `0`,
     color: `white`,
-    height: `100%`
+    height: `100%`,
+    overflowY: `auto`
   },
   suggestions: {
     marginTop: `1rem`,
@@ -52,7 +53,7 @@ const RenderUser = (entry) => {
   )
 }
 
-const RichText = ({ text, setText, inputRef, autoFocus }) => {
+const RichText = ({ text, setText, inputRef, autoFocus, placeholder = '', className, style}) => {
   const _getUsers = async (query, callback) => {
     if (!query) return
     const q = [`username_like:=${query}`]
@@ -78,27 +79,34 @@ const RichText = ({ text, setText, inputRef, autoFocus }) => {
     setText(e.target.value)
   }
 
+  const combinedStyle = {
+    ...defaultStyle,
+    ...style
+  }
+
   return (
-    <MentionsInput className="outline-none w-full max-w-full"
-      style={textareaStyle}
-      placeholder="Share your ideas, thought and creativity"
-      onChange={e => _onChange(e)}
-      value={text}
-      allowSuggestionsAboveCursor={true}
-      inputRef={inputRef}
-      autoFocus={autoFocus}
-    >
-      <Mention
-        trigger='@'
-        data={_getUsers}
-        appendSpaceOnAdd={true}
-        style={{
-          backgroundColor: `#df4544`,
-          borderRadius: `.1rem`
-        }}
-        renderSuggestion={RenderUser}
-      />
-    </MentionsInput>
+    <div className={className}>
+      <MentionsInput className="outline-none w-full max-w-full"
+        style={combinedStyle}
+        placeholder={placeholder}
+        onChange={e => _onChange(e)}
+        value={text}
+        allowSuggestionsAboveCursor={true}
+        inputRef={inputRef}
+        autoFocus={autoFocus}
+      >
+        <Mention
+          trigger='@'
+          data={_getUsers}
+          appendSpaceOnAdd={true}
+          style={{
+            backgroundColor: `#df4544`,
+            borderRadius: `.1rem`
+          }}
+          renderSuggestion={RenderUser}
+        />
+      </MentionsInput>
+    </div>
   )
 }
 
