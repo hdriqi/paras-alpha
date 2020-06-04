@@ -39,6 +39,19 @@ const NewPostImage = ({ left, right, input = {} }) => {
     }
   }, [imgUrl])
 
+  useEffect(() => {
+    const onKeydown = e => {
+      if (e.key === "Escape") {
+        _left()
+      }
+    }
+    document.addEventListener('keydown', onKeydown)
+
+    return () => {
+      document.removeEventListener('keydown', onKeydown) 
+    }
+  }, [])
+
   const _right = async (e) => {
     e.preventDefault()
 

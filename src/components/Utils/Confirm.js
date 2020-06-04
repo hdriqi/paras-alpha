@@ -1,6 +1,25 @@
 import propType from 'prop-types'
+import { useEffect } from 'react'
 
 const Confirm = ({ show, onClose, onComplete, mainText, leftText, rightText }) => {
+  useEffect(() => {
+    const onKeydown = (e) => {
+      if (e.key === "Escape") {
+        onClose()
+      }
+      else if (e.key === 'Enter') {
+        onComplete()
+      }
+    }
+    if(show) {
+      document.addEventListener('keydown', onKeydown)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', onKeydown) 
+    }
+  }, [show])
+
   const _bgClick = (e) => {
     if (e.target.id === 'confirm-modal-bg') {
       onClose()

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 import Confirm from 'components/Utils/Confirm'
@@ -8,6 +8,19 @@ const NewPostUrl = ({ left, right, input = '' }) => {
   const [url, setUrl] = useState(input || '')
   const [loading, setLoading] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+
+  useEffect(() => {
+    const onKeydown = e => {
+      if (e.key === "Escape") {
+        _left()
+      }
+    }
+    document.addEventListener('keydown', onKeydown)
+
+    return () => {
+      document.removeEventListener('keydown', onKeydown) 
+    }
+  }, [url])
 
   const _validateSubmit = () => {
     const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
@@ -104,7 +117,7 @@ const NewPostUrl = ({ left, right, input = '' }) => {
                 ${err && 'animated shake'}
                 flex items-center h-full
               `}>
-              <input type="text" className="w-full text-white px-2 py-2 bg-dark-0 outline-none" onChange={e => setUrl(e.target.value)} placeholder="https://" value={url} />
+              <input autoFocus type="text" className="w-full text-white px-2 py-2 bg-dark-0 outline-none" onChange={e => setUrl(e.target.value)} placeholder="https://" value={url} />
             </div>
           </div>
         </div>

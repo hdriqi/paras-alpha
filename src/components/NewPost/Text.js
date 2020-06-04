@@ -82,6 +82,19 @@ const NewPostText = ({ left, right, input = '' }) => {
     }
   }, [textRaw])
 
+  useEffect(() => {
+    const onKeydown = e => {
+      if (e.key === "Escape") {
+        _left()
+      }
+    }
+    document.addEventListener('keydown', onKeydown)
+
+    return () => {
+      document.removeEventListener('keydown', onKeydown) 
+    }
+  }, [textRaw])
+
   const _getUsers = async (query, callback) => {
     if (!query) return
     const q = [`username_like:=${query}`]
