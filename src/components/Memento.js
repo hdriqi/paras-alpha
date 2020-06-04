@@ -242,7 +242,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
         </div>
       </div>
       <div className={`
-          ${stickySubNav && 'bg-dark-4 sticky'}
+          ${stickySubNav && 'bg-dark-8 sticky'}
           mt-4 flex px-4 py-2 z-20`
       } style={{
         top: `40px`
