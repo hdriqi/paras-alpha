@@ -125,10 +125,16 @@ const NewPostText = ({ left, right, input = '' }) => {
     })
   }
 
+  const _bgClick = (e) => {
+    if (e.target.id === 'new-modal-bg') {
+      left()
+    }
+  }
+
   const title = input && input.length > 0 ? `Edit Text` : `Add Text`
 
   return (
-    <div className="fixed inset-0 z-50" style={{
+    <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50" style={{
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
       <div className="max-w-sm m-auto p-4 flex items-center h-full w-full">
