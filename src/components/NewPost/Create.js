@@ -6,6 +6,7 @@ import SlideImage from '../Slide/Image'
 import SlideText from '../Slide/Text'
 import SlideUrl from '../Slide/Url'
 import SlideCommon from '../Slide/Common'
+import Confirm from 'components/Utils/Confirm'
 
 const SlideCounter = ({ setCurrentSlide }) => {
   const carouselContext = useContext(CarouselContext);
@@ -29,6 +30,8 @@ const NewPostCreate = ({ content, setContent }) => {
 
   const [modalData, setModalData] = useState({})
   const [modalInput, setModalInput] = useState(null)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [showConfirmRmvPage, setShowConfirmRmvPage] = useState(false)
 
   const _addNewPage = () => {
     const clonePageContent = [...content]
@@ -65,7 +68,6 @@ const NewPostCreate = ({ content, setContent }) => {
       })
     }
     else if (content.type === 'text') {
-      console.log(content)
       setModalInput(content.body)
       setModalData({
         idx: idx,
@@ -129,6 +131,28 @@ const NewPostCreate = ({ content, setContent }) => {
           />
         )
       }
+      <Confirm 
+        show={showConfirmRmvPage}
+        onClose={_ => setShowConfirmRmvPage(false)} 
+        onComplete={_ => {
+          setShowConfirmRmvPage(false)
+          _removePage(currentSlide)
+        }} 
+        mainText="Remove current page?"
+        leftText="Cancel"
+        rightText="Remove"
+      />
+      <Confirm 
+        show={showConfirm}
+        onClose={_ => setShowConfirm(false)} 
+        onComplete={_ => {
+          setShowConfirm(false)
+          _clearPage(currentSlide)
+        }} 
+        mainText="Clear current page?"
+        leftText="Cancel"
+        rightText="Clear"
+      />
       <div>
         <div className="">
           <div className="mt-8 mx-4">
@@ -176,7 +200,7 @@ const NewPostCreate = ({ content, setContent }) => {
                                 </div>
                                 {
                                   idx > 0 && (
-                                    <div onClick={e => _removePage(idx)} className="mt-4">
+                                    <div onClick={e => setShowConfirmRmvPage(true)} className="mt-4">
                                       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z" stroke="white" stroke-width="2" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9 8H18.1C18.8732 8 19.5 8.65122 19.5 9.45455V10.1818H21.6C22.3732 10.1818 23 10.833 23 11.6364V13.0909C23 13.8942 22.3732 14.5455 21.6 14.5455H21.5439L20.9 22.5455C20.9 23.3488 20.2732 24 19.5 24H12.5C11.7268 24 11.1 23.3488 11.1024 22.6058L10.4559 14.5455H10.4C9.6268 14.5455 9 13.8942 9 13.0909V11.6364C9 10.833 9.6268 10.1818 10.4 10.1818H12.5V9.45455C12.5 8.65122 13.1268 8 13.9 8ZM10.4 11.6364H12.5H19.5H21.6V13.0909H10.4V11.6364ZM11.8605 14.5455H20.1392L19.5024 22.4851L19.5 22.5455H12.5L11.8605 14.5455ZM18.1 9.45455V10.1818H13.9V9.45455H18.1ZM16.9899 18.1818L18.595 19.8494L17.605 20.8779L16 19.2103L14.395 20.8779L13.405 19.8494L15.0101 18.1818L13.405 16.5143L14.395 15.4857L16 17.1533L17.605 15.4857L18.595 16.5143L16.9899 18.1818Z" fill="white" />
@@ -194,7 +218,7 @@ const NewPostCreate = ({ content, setContent }) => {
                                     </svg>
                                   </div>
                                   <div className="ml-2">
-                                    <svg onClick={e => _clearPage(idx)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg onClick={e => setShowConfirm(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22.5C17.799 22.5 22.5 17.799 22.5 12C22.5 6.20101 17.799 1.5 12 1.5C6.20101 1.5 1.5 6.20101 1.5 12C1.5 17.799 6.20101 22.5 12 22.5ZM12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F2F2F2" />
                                       <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9991 13.0607L8.77941 16.2804L7.71875 15.2197L10.9384 12.0001L7.71875 8.78039L8.77941 7.71973L11.9991 10.9394L15.2187 7.71973L16.2794 8.78039L13.0597 12.0001L16.2794 15.2197L15.2187 16.2804L11.9991 13.0607V13.0607Z" fill="white" />
                                     </svg>
