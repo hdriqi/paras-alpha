@@ -154,7 +154,7 @@ const Layout = ({ children }) => {
           <SplashScreen />
         ) : (
             <div className="bg-dark-0">
-              <div className="max-w-2xl m-auto">
+              <div>
                 <div className="flex">
                   <div className="flex-auto hidden md:block">
                     <NavDesktop />
