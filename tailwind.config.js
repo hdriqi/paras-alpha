@@ -38,6 +38,10 @@ module.exports = {
         'white-2': '#A5A5A5',
         'white-3': '#787878'
       },
+      text: {
+        'xs': '.75rem',
+        '2xs': '.5rem'
+      },
       opacity: {
         '87': '87%',
         '60': '60%'

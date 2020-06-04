@@ -155,7 +155,8 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
 
   const m = {
     img: `https://i.pinimg.com/originals/f9/6a/26/f96a261e5a60d7d66b36e2850e3eb19b.png`,
-    name: 'Linux Desktopoholic',
+    name: 'linuxdesktopoholic',
+    domain: 'tech',
     desc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
     createdAt: 1591082951638
   }
@@ -203,6 +204,8 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
     }
   ]
 
+  const completeName = `${m.name}.${m.domain}`
+
   return (
     <div className="bg-dark-0 max-w-sm min-h-screen relative">
       <NavTop
@@ -215,7 +218,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white">{stickySubNav ? m.name : `Memento`} </h3>
+          <h3 className="text-lg font-bold text-white">{stickySubNav ? completeName : `Memento`} </h3>
         }
         right={
           <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -229,37 +232,19 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
             <img className="object-cover h-full" src={m.img} />
           </div>
         </div>
-        <div className="pt-4 flex justify-between items-center">
+        <div className="pt-4 flex justify-center items-center">
           <div>
-            <p className="text-white text-xl font-semibold">{m.name}</p>
-          </div>
-          <div>
-            <button className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">JOIN</button>
+            <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
+              <p className="text-white text-xl font-semibold">{completeName}</p>
+            </InView>
           </div>
         </div>
-        <div className="pt-2">
+        <div className="pt-2 text-center">
           <p className="text-white opacity-87">{m.desc}</p>
         </div>
-      </div>
-      <div className={`
-          ${stickySubNav && 'bg-dark-8 sticky'}
-          mt-4 flex px-4 py-2 z-20`
-      } style={{
-        top: `40px`
-      }}>
-        <InView rootMargin={`-86px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
-          <div className="flex">
-            <div className="relative">
-              <h4 className="text-primary-5 font-bold z-10 relative">POST</h4>
-            </div>
-            <div className="ml-4">
-              <h4 className="text-white font-bold">MEMBER</h4>
-            </div>
-            <div className="ml-4">
-              <h4 className="text-white font-bold">SETTING</h4>
-            </div>
-          </div>
-        </InView>
+        <div className="text-center pt-4">
+          <button className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">FOLLOW</button>
+        </div>
       </div>
       {
         list.map(post => {

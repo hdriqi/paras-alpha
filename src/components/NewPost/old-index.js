@@ -294,7 +294,7 @@ const NewPost = ({ memento }) => {
                             <div className="w-full relative pb-full">
                               <div className="absolute m-auto w-full h-full p-2">
                                 <a href={content.body.url} target="_blank">
-                                  <div className="bg-dark-12 rounded-md overflow-hidden h-full hover:opacity-75">
+                                  <div className="bg-dark-6 rounded-md overflow-hidden h-full hover:opacity-75">
                                     <div className="relative bg-white" style={{
                                       height: `60%`
                                     }}>

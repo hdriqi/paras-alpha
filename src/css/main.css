@@ -2,14 +2,15 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700;800&display=swap');
+
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'M PLUS 1p', monospace;
+  font-family: 'Inconsolata', monospace;
   font-weight: 400;
 }
 
@@ -18,7 +19,8 @@ h1, h2, h3, h4, button {
 }
 
 p {
-  @apply leading-normal tracking-tight;
+  @apply leading-normal;
+  letter-spacing: -.02em;
 }
 
 button:focus {
@@ -30,7 +32,7 @@ button:disabled {
 }
 
 input, textarea {
-  font-family: 'M PLUS 1p', sans-serif;
+  font-family: 'Inconsolata', monospace;
 }
 
 textarea {

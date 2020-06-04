@@ -93,7 +93,7 @@ const NewPostText = ({ left, right, input = '' }) => {
       />
       <div className="max-w-sm m-auto p-4 w-full">
         <div className="bg-dark-1 w-full rounded-md">
-          <div className="flex justify-between items-center w-full h-12 bg-dark-6 px-2 rounded-t-md">
+          <div className="flex justify-between items-center w-full h-12 bg-dark-12 px-2 rounded-t-md">
             <div className="w-8 text-white">
               <svg onClick={_ => _left()} width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="white" />
@@ -111,7 +111,7 @@ const NewPostText = ({ left, right, input = '' }) => {
               </button>
             </div>
           </div>
-          <div className="h-1 w-full relative bg-dark-12 relative">
+          <div className="h-1 w-full relative bg-dark-6 relative">
             <div className="h-full absolute top-0 left-0 bg-primary-5" style={{
               width: `${lineCount}%`
             }}></div>

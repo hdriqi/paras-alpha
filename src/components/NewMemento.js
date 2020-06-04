@@ -149,7 +149,7 @@ const NewBlock = () => {
               text={descRaw}
               setText={setDescRaw}
               placeholder="Memento description"
-              className="bg-dark-8 p-2"
+              className="bg-dark-12 p-2"
               style={{
                 height: `8rem`
               }}

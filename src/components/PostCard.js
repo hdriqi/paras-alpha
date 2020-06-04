@@ -179,7 +179,15 @@ const Post = ({ post }) => {
   else {
     return (
       !_isDeleted() && (
-        <div className="rounded-md overflow-hidden bg-dark-1">
+        <div className="rounded-md overflow-hidden bg-dark-6">
+          <div className="bg-dark-2 text-center p-2 flex justify-center">
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-sm overflow-hidden">
+                <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
+              </div>
+              <h4 className="ml-2 font-bold text-white text-xs">linuxdesktopoholic.tech</h4>
+            </div>
+          </div>
           <div className="p-2 flex items-center">
             <div className="h-8 w-8 rounded-full overflow-hidden shadow-inner">
               <img className="object-fill" src="https://images.pexels.com/photos/2253415/pexels-photo-2253415.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
@@ -188,7 +196,7 @@ const Post = ({ post }) => {
               <p className="text-white text-sm font-bold">{post.owner}</p>
             </div>
           </div>
-          <div className="bg-dark-1">
+          <div>
             <CarouselProvider
               naturalSlideWidth={100}
               naturalSlideHeight={100}
