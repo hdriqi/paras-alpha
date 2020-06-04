@@ -110,10 +110,6 @@ const NewPostText = ({ left, right, input = '' }) => {
     setTextRaw(val)
   }
 
-  const _left = () => {
-    left()
-  }
-
   const _right = () => {
     right({
       type: 'text',
@@ -125,19 +121,31 @@ const NewPostText = ({ left, right, input = '' }) => {
     })
   }
 
+  const _left = () => {
+    if (textRaw.length > 0) {
+      const conf = confirm('Are you sure?')
+      if(conf) {
+        left()
+      }
+    }
+    else {
+      left()
+    }
+  }
+
   const _bgClick = (e) => {
     if (e.target.id === 'new-modal-bg') {
-      left()
+      _left()
     }
   }
 
   const title = input && input.length > 0 ? `Edit Text` : `Add Text`
 
   return (
-    <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50" style={{
+    <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
-      <div className="max-w-sm m-auto p-4 flex items-center h-full w-full">
+      <div className="max-w-sm m-auto p-4 w-full">
         <div className="bg-dark-1 w-full rounded-md">
           <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2 rounded-t-md">
             <div className="w-8 text-white">

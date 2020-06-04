@@ -37,12 +37,6 @@ const NewPostImage = ({ left, right, input = {} }) => {
     }
   }, [imgUrl])
 
-  const _bgClick = (e) => {
-    if (e.target.id === 'new-modal-bg') {
-      left()
-    }
-  }
-
   const _right = async (e) => {
     e.preventDefault()
 
@@ -68,18 +62,27 @@ const NewPostImage = ({ left, right, input = {} }) => {
   }
 
   const _left = () => {
-    left()
+    const conf = confirm('Are you sure?')
+    if (conf) {
+      left()
+    }
+  }
+
+  const _bgClick = (e) => {
+    if (e.target.id === 'new-modal-bg') {
+      _left()
+    }
   }
 
   return (
     <div id="new-modal-bg" onClick={e => _bgClick(e)} className={
       `${!firstLoad ? `visible` : `invisible`}
-      fixed inset-0 z-50
+      fixed inset-0 z-50 flex items-center
       `
     } style={{
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
-      <div className="max-w-sm m-auto p-4 flex items-center h-full w-full">
+      <div className="max-w-sm m-auto p-4 w-full">
         <div className="bg-dark-1 w-full rounded-md overflow-hidden">
           <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2">
             <div className="w-8 text-white">
