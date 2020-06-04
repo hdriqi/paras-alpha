@@ -125,6 +125,8 @@ const NewPostText = ({ left, right, input = '' }) => {
     })
   }
 
+  const title = input && input.length > 0 ? `Edit Text` : `Add Text`
+
   return (
     <div className="fixed inset-0 z-50" style={{
       backgroundColor: `rgba(0,0,0,0.8)`
@@ -138,7 +140,7 @@ const NewPostText = ({ left, right, input = '' }) => {
                 <path fillRule="evenodd" clipRule="evenodd" d="M15.9999 17.6979L10.8484 22.8494L9.15137 21.1523L14.3028 16.0009L9.15137 10.8494L10.8484 9.15234L15.9999 14.3038L21.1514 9.15234L22.8484 10.8494L17.697 16.0009L22.8484 21.1523L21.1514 22.8494L15.9999 17.6979Z" fill="white" />
               </svg>
             </div>
-            <div className="flex-auto text-white overflow-hidden px-2">Add Text</div>
+            <div className="flex-auto text-white overflow-hidden px-2">{title}</div>
             <div className="w-8 text-white flex items-center justify-end">
               <button disabled={!_validateSubmit()} className="ml-auto" onClick={e => _right(e)}>
                 <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

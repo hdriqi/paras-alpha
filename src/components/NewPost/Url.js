@@ -40,6 +40,8 @@ const NewPostUrl = ({ left, right, input = '' }) => {
     left()
   }
 
+  const title = input && input.length > 0 ? `Edit Link` : `Add Link`
+
   return (
     <div className="fixed inset-0 z-50" style={{
       backgroundColor: `rgba(0,0,0,0.8)`
@@ -53,7 +55,7 @@ const NewPostUrl = ({ left, right, input = '' }) => {
                 <path fillRule="evenodd" clipRule="evenodd" d="M15.9999 17.6979L10.8484 22.8494L9.15137 21.1523L14.3028 16.0009L9.15137 10.8494L10.8484 9.15234L15.9999 14.3038L21.1514 9.15234L22.8484 10.8494L17.697 16.0009L22.8484 21.1523L21.1514 22.8494L15.9999 17.6979Z" fill="white" />
               </svg>
             </div>
-            <div className="flex-auto text-white font-bold overflow-hidden px-2">Add Link</div>
+            <div className="flex-auto text-white font-bold overflow-hidden px-2">{title}</div>
             <div className="w-8 text-white flex items-center justify-end">
               {
                 !loading ? (
