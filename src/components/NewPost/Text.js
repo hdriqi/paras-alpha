@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { MentionsInput, Mention } from 'react-mentions'
 import near from '../../lib/near'
 import Image from '../Image'
+import Confirm from '../Utils/Confirm'
 
 const textareaStyle = {
   control: {
@@ -61,6 +62,7 @@ const NewPostText = ({ left, right, input = '' }) => {
   const [curText, setCurText] = useState(input || '')
   const [lineCount, setLineCount] = useState(0)
   const [err, setErr] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
     const maxHeight = inputRef.current.offsetWidth - offsetY
@@ -123,10 +125,7 @@ const NewPostText = ({ left, right, input = '' }) => {
 
   const _left = () => {
     if (textRaw.length > 0) {
-      const conf = confirm('Are you sure?')
-      if(conf) {
-        left()
-      }
+      setShowConfirm(true)
     }
     else {
       left()
@@ -145,6 +144,17 @@ const NewPostText = ({ left, right, input = '' }) => {
     <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
+      <Confirm 
+        show={showConfirm}
+        onClose={_ => setShowConfirm(false)} 
+        onComplete={_ => {
+          setShowConfirm(false)
+          left()
+        }} 
+        mainText="Discard current text?"
+        leftText="Cancel"
+        rightText="Discard"
+      />
       <div className="max-w-sm m-auto p-4 w-full">
         <div className="bg-dark-1 w-full rounded-md">
           <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2 rounded-t-md">

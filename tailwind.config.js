@@ -34,7 +34,9 @@ module.exports = {
         'black-4': '#8F8F8F',
         'black-5': '#BFBFBF',
         'black-6': '#DFDFDF',
-        'white-1': '#F9F9F9'
+        'white-1': '#E2E2E2',
+        'white-2': '#A5A5A5',
+        'white-3': '#787878'
       },
       opacity: {
         '87': '87%',

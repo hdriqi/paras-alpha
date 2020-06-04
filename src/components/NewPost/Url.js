@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
+import Confirm from 'components/Utils/Confirm'
 
 const NewPostUrl = ({ left, right, input = '' }) => {
   const [err, setErr] = useState(false)
   const [url, setUrl] = useState(input || '')
   const [loading, setLoading] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const _validateSubmit = () => {
     const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
@@ -38,10 +40,7 @@ const NewPostUrl = ({ left, right, input = '' }) => {
 
   const _left = () => {
     if (url.length > 0) {
-      const conf = confirm('Are you sure?')
-      if(conf) {
-        left()
-      }
+      setShowConfirm(true)
     }
     else {
       left()
@@ -60,6 +59,17 @@ const NewPostUrl = ({ left, right, input = '' }) => {
     <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
+      <Confirm 
+        show={showConfirm}
+        onClose={_ => setShowConfirm(false)} 
+        onComplete={_ => {
+          setShowConfirm(false)
+          left()
+        }} 
+        mainText="Discard current link?"
+        leftText="Cancel"
+        rightText="Discard"
+      />
       <div className="max-w-sm m-auto p-4 w-full">
         <div className="bg-dark-1 w-full rounded-md overflow-hidden">
           <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2">

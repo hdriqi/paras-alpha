@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { readFileAsUrl, compressImg } from '../../lib/utils'
+import Confirm from 'components/Utils/Confirm'
 
 let cropper = null
 let height = 0
@@ -9,6 +10,7 @@ const NewPostImage = ({ left, right, input = {} }) => {
   const containerRef = useRef(null)
   const [imgUrl, setImgUrl] = useState('')
   const [firstLoad, setFirstLoad] = useState(true)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
     const readImg = async () => {
@@ -62,10 +64,7 @@ const NewPostImage = ({ left, right, input = {} }) => {
   }
 
   const _left = () => {
-    const conf = confirm('Are you sure?')
-    if (conf) {
-      left()
-    }
+    setShowConfirm(true)
   }
 
   const _bgClick = (e) => {
@@ -82,6 +81,17 @@ const NewPostImage = ({ left, right, input = {} }) => {
     } style={{
       backgroundColor: `rgba(0,0,0,0.8)`
     }}>
+      <Confirm 
+        show={showConfirm}
+        onClose={_ => setShowConfirm(false)} 
+        onComplete={_ => {
+          setShowConfirm(false)
+          left()
+        }} 
+        mainText="Discard current image?"
+        leftText="Cancel"
+        rightText="Discard"
+      />
       <div className="max-w-sm m-auto p-4 w-full">
         <div className="bg-dark-1 w-full rounded-md overflow-hidden">
           <div className="flex justify-between items-center w-full h-12 bg-dark-4 px-2">
