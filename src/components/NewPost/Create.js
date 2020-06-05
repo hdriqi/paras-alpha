@@ -31,7 +31,7 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
   const [modalInput, setModalInput] = useState(null)
   const [showConfirm, setShowConfirm] = useState(false)
   const [showConfirmRmvPage, setShowConfirmRmvPage] = useState(false)
-  const [showDistribute, setShowDistribute] = useState(true)
+  const [showDistribute, setShowDistribute] = useState(false)
 
   const _addNewPage = () => {
     const clonePageContent = [...content]
