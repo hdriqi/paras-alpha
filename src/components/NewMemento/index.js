@@ -16,37 +16,18 @@ import Select from 'components/Input/Select'
 const NewMemento = () => {
   const profile = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
-  const bodyRef = useRef()
-  const backRef = useRef()
+  const bodyRef = useRef(null)
+  const backRef = useRef(null)
+  const descRef = useRef(null)
 
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
   const [descRaw, setDescRaw] = useState('')
+  const [descBackground, setDescBackground] = useState('bg-dark-2')
   const [type, setType] = useState({
     value: 'public',
     label: 'public'
   })
-
-  const _getUsers = async (query, callback) => {
-    if (!query) return
-    const q = [`username_like:=${query}`]
-    const userList = await near.contract.getUserList({
-      query: q,
-      opts: {
-        _embed: true,
-        _sort: 'createdAt',
-        _order: 'desc',
-        _limit: 10
-      }
-    })
-    const list = userList.map(user => ({
-      display: `@${user.username}`,
-      id: user.id,
-      imgAvatar: user.imgAvatar,
-      username: user.username
-    }))
-    callback(list)
-  }
 
   const _close = () => {
     backRef.current.click()
@@ -93,6 +74,13 @@ const NewMemento = () => {
     } catch (err) {
       console.log(err)
     }
+  }
+
+  const _descOnFocus = (e) => {
+    setDescBackground('bg-dark-12')
+  }
+  const _descOnBlur = () => {
+    setDescBackground('bg-dark-2')
   }
 
   return (
@@ -150,20 +138,29 @@ const NewMemento = () => {
             />
           </div>
           <div className="mt-4">
-            <div className="flex justify-between">
-              <label className="block text-sm pb-1 font-semibold text-black-2">Description</label>
+            <div ref={descRef} className="flex justify-between">
+              <label className="block text-sm pb-1 font-semibold text-white">Description</label>
               <p className={`${desc.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{desc.length}/150</p>
             </div>
-            <RichText
-              inputRef={bodyRef}
-              text={descRaw}
-              setText={setDescRaw}
-              placeholder="Memento description"
-              className="bg-dark-2 p-2 rounded-md overflow-hidden"
-              style={{
-                height: `8rem`
-              }}
-            />
+            <div className={`${descBackground} rounded-md h-32 p-2`}>
+              <Scrollbars>
+                <RichText
+                  inputRef={bodyRef}
+                  text={descRaw}
+                  setText={setDescRaw}
+                  placeholder="Memento description"
+                  className="w-full"
+                  suggestionsPortalHost={descRef.current}
+                  onFocus={_descOnFocus}
+                  onBlur={_descOnBlur}
+                  style={{
+                    suggestions: {
+                      maxWidth: descRef && descRef.current ? `${descRef.current.clientWidth}px` : '100%'
+                    }
+                  }}
+                />
+              </Scrollbars>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { MentionsInput, Mention } from 'react-mentions'
 import near from '../../lib/near'
 import Image from 'components/Image'
+import { mergeDeep } from 'lib/utils'
 
 const defaultStyle = {
   control: {
@@ -9,24 +10,25 @@ const defaultStyle = {
     color: '#616161'
   },
   highlighter: {
-    letterSpacing: `-.01rem`
+    letterSpacing: `0`
   },
   input: {
     margin: 0,
     padding: `0`,
     color: `white`,
-    height: `100%`,
-    overflowY: `auto`
+    height: `100%`
   },
   suggestions: {
     marginTop: `1rem`,
     maxHeight: `8rem`,
     overflowY: 'auto',
-    width: `100vw`,
+    left: `auto`,
+    right: `auto`,
+    width: `100%`,
     maxWidth: `100%`,
     boxShadow: `0px 0px 4px rgba(0, 0, 0, 0.15)`,
+    backgroundColor: `#121212`,
     item: {
-      backgroundColor: `#121212`,
       '&focused': {
         backgroundColor: '#333333',
       },
@@ -53,7 +55,7 @@ const RenderUser = (entry) => {
   )
 }
 
-const RichText = ({ text, setText, inputRef, autoFocus, placeholder = '', className, style}) => {
+const RichText = ({ text, onBlur, onFocus, setText, inputRef, autoFocus, placeholder = '', className, style = {}, suggestionsPortalHost}) => {
   const _getUsers = async (query, callback) => {
     if (!query) return
     const q = [`username_like:=${query}`]
@@ -79,10 +81,7 @@ const RichText = ({ text, setText, inputRef, autoFocus, placeholder = '', classN
     setText(e.target.value)
   }
 
-  const combinedStyle = {
-    ...defaultStyle,
-    ...style
-  }
+  const combinedStyle = mergeDeep(defaultStyle, style)
 
   return (
     <div className={className}>
@@ -94,6 +93,9 @@ const RichText = ({ text, setText, inputRef, autoFocus, placeholder = '', classN
         allowSuggestionsAboveCursor={true}
         inputRef={inputRef}
         autoFocus={autoFocus}
+        suggestionsPortalHost={suggestionsPortalHost}
+        onFocus={onFocus}
+        onBlur={onBlur}
       >
         <Mention
           trigger='@'
