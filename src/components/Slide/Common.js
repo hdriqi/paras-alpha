@@ -2,25 +2,25 @@ import SlideImage from "./Image"
 import SlideText from "./Text"
 import SlideUrl from "./Url"
 
-const SlideCommon = ({ content }) => {
-  if (content.type === 'blank') {
+const SlideCommon = ({ page }) => {
+  if (page.type === 'blank') {
     return (
       <div />
     )
   }
-  else if (content.type === 'img') {
+  else if (page.type === 'img') {
     return (
-      <SlideImage body={content.body} />
+      <SlideImage body={page.body} />
     )
   }
-  else if (content.type === 'text') {
+  else if (page.type === 'text') {
     return (
-      <SlideText body={content.body} />
+      <SlideText body={page.body} />
     )
   }
-  else if (content.type === 'url') {
+  else if (page.type === 'url') {
     return (
-      <SlideUrl body={content.body} />
+      <SlideUrl body={page.body} />
     )
   }
 }
