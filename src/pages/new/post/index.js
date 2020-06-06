@@ -1,5 +1,5 @@
 import React from 'react'
-import NewPostScreen from '../../screens/NewPostScreen'
+import NewPostScreen from '../../../screens/NewPostScreen'
 
 const NewPostPage = () => {
   return (

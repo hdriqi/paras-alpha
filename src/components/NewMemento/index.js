@@ -2,8 +2,7 @@ import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
 import { addBlockList } from '../../actions/me'
-import ReactDropdown from 'react-dropdown'
-import { Mention, MentionsInput } from 'react-mentions'
+
 import PopForward from '../PopForward'
 import near from '../../lib/near'
 import { setLoading } from '../../actions/ui'
@@ -12,9 +11,11 @@ import RichText from '../Input/RichText'
 import NavTop from 'components/NavTop'
 import Scrollbars from 'react-custom-scrollbars'
 import Select from 'components/Input/Select'
+import Alert from 'components/Utils/Alert'
+import Pop from 'components/Pop'
 
-const NewMemento = () => {
-  const profile = useSelector(state => state.me.profile)
+const NewMemento = ({ onClose, onComplete }) => {
+  const me = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
   const bodyRef = useRef(null)
   const backRef = useRef(null)
@@ -28,16 +29,28 @@ const NewMemento = () => {
     value: 'public',
     label: 'public'
   })
+  const [domain, setDomain] = useState({})
+
+  const [showAlert, setShowAlert] = useState(false)
 
   const _close = () => {
     backRef.current.click()
   }
 
   const _validateSubmit = () => {
-    if ((name.length > 0 && name.length <= 30) && (desc.length <= 150)) {
+    if (
+      (_validateName()) &&
+      (!!domain.value) &&
+      (!!type.value) &&
+      (desc.length <= 150)) {
       return true
     }
     return false
+  }
+
+  const _validateName = () => {
+    if (name.length === 0) return true
+    return name.match(/^[a-zA-Z0-9]{1,30}$/)
   }
 
   useEffect(() => {
@@ -48,32 +61,44 @@ const NewMemento = () => {
 
   const _submit = async (e) => {
     e.preventDefault()
-
-    try {
-      const newData = {
-        name: name,
-        desc: desc,
-        descRaw: desc,
-        type: ype.value,
-      }
-      dispatch(setLoading(true, 'Creating memento...'))
-      const m = await near.contract.createMemento(newData)
-
-      const newLocalData = {
-        ...m,
-        ...{
-          user: profile
-        }
-      }
-      batch(() => {
-        dispatch(setLoading(false))
-        dispatch(addBlockList([newLocalData]))
-      })
-
-      _close()
-    } catch (err) {
-      console.log(err)
+    const newData = {
+      name: name,
+      desc: desc,
+      descRaw: desc,
+      type: type.value,
+      domain: domain.value,
+      owner: me.username
     }
+    dispatch(addBlockList([newData]))
+    if (typeof onComplete === 'function') {
+      onComplete(newData)
+    }
+    // setShowAlert(true)
+    // try {
+    //   const newData = {
+    //     name: name,
+    //     desc: desc,
+    //     descRaw: desc,
+    //     type: ype.value,
+    //   }
+    //   dispatch(setLoading(true, 'Creating memento...'))
+    //   const m = await near.contract.createMemento(newData)
+
+    //   const newLocalData = {
+    //     ...m,
+    //     ...{
+    //       user: profile
+    //     }
+    //   }
+    //   batch(() => {
+    //     dispatch(setLoading(false))
+    //     dispatch(addBlockList([newLocalData]))
+    //   })
+
+    //   _close()
+    // } catch (err) {
+    //   console.log(err)
+    // }
   }
 
   const _descOnFocus = (e) => {
@@ -83,19 +108,28 @@ const NewMemento = () => {
     setDescBackground('bg-dark-2')
   }
 
+  const completeName = (type.value === 'personal' ? `${name || '[name]'}.${me.username.split('.')[0]}` : `${name || '[name]'}.${domain.value || '[domain]'}`).toLowerCase()
+
   return (
     <div id="new-memento" className="bg-dark-0 min-h-screen">
+      <Alert
+        show={showAlert}
+        onClose={_ => setShowAlert(false)}
+        mainText={`${completeName} is not available`}
+      />
       <NavTop
         left={
-          <PopForward ref={backRef}>
-            <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#F2F2F2" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M14.394 9.93934C14.9798 10.5251 14.9798 11.4749 14.394 12.0607L11.6213 14.8333H24C24.8284 14.8333 25.5 15.5049 25.5 16.3333C25.5 17.1618 24.8284 17.8333 24 17.8333H11.6213L14.394 20.606C14.9798 21.1918 14.9798 22.1415 14.394 22.7273C13.8082 23.3131 12.8585 23.3131 12.2727 22.7273L6.93934 17.394C6.65804 17.1127 6.5 16.7312 6.5 16.3333C6.5 15.9355 6.65804 15.554 6.93934 15.2727L12.2727 9.93934C12.8585 9.35355 13.8082 9.35355 14.394 9.93934Z" fill="#F2F2F2" />
-            </svg>
-          </PopForward>
+          <Pop>
+            <button>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22.5C17.799 22.5 22.5 17.799 22.5 12C22.5 6.20101 17.799 1.5 12 1.5C6.20101 1.5 1.5 6.20101 1.5 12C1.5 17.799 6.20101 22.5 12 22.5ZM12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F2F2F2" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9991 13.0607L8.77941 16.2804L7.71875 15.2197L10.9384 12.0001L7.71875 8.78039L8.77941 7.71973L11.9991 10.9394L15.2187 7.71973L16.2794 8.78039L13.0597 12.0001L16.2794 15.2197L15.2187 16.2804L11.9991 13.0607V13.0607Z" fill="white" />
+              </svg>
+            </button>
+          </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white">New Post</h3>
+          <h3 className="text-lg font-bold text-white">New Memento</h3>
         }
         right={
           <button disabled={!_validateSubmit()} onClick={_submit}>
@@ -109,31 +143,52 @@ const NewMemento = () => {
       />
       <div className="mt-8">
         <div className="px-4">
-          <div>
+          <div className="text-center">
+            <h4 className="text-white text">Create Memento</h4>
+            <h4 className="text-white text-xl font-semibold break-words">{completeName}</h4>
+          </div>
+          <div className="mt-4">
             <div className="flex justify-between">
               <label className="block text-sm pb-1 font-semibold text-white">Name</label>
               <p className={`${name.length > 30 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{name.length}/30</p>
             </div>
             <input value={name} onChange={e => setName(e.target.value)} className="w-full rounded-md p-2 outline-none bg-dark-2 focus:bg-dark-16 text-white" type="text" placeholder="Memento name" />
-            {/* <div className="pt-1">
-              <p className="text-primary-4 text-sm opacity-0">Memento name must only contain letters and numbers</p>
-            </div> */}
+            {
+              !_validateName() && (
+                <div className="pt-1">
+                  <p className="text-primary-4 text-sm">Memento name must only contain letters and numbers</p>
+                </div>
+              )
+            }
           </div>
           <div className="mt-4">
-            <label className="block text-sm pb-1 font-semibold text-white">Domain</label>
+            <label className="block text-sm pb-1 font-semibold text-white">Category</label>
             <Select
-              placeholder="Memento domain"
+              onChange={setDomain}
+              placeholder="Memento category"
               options={[
                 { value: 'art', label: 'Art' },
-                { value: 'business', label: 'Business' },
-                { value: 'gaming', label: 'Gaming' },
-                { value: 'general', label: 'General' },
+                { value: 'com', label: 'Business' },
+                { value: 'gg', label: 'Gaming' },
+                { value: 'info', label: 'General' },
                 { value: 'health', label: 'Health' },
-                { value: 'lifestyle', label: 'Lifestyle' },
+                { value: 'life', label: 'Lifestyle' },
                 { value: 'science', label: 'Science' },
                 { value: 'sport', label: 'Sport' },
-                { value: 'technology', label: 'Technology' },
+                { value: 'tech', label: 'Technology' },
                 { value: 'travel', label: 'Travel' },
+              ]}
+            />
+          </div>
+          <div className="mt-4">
+            <label className="block text-sm pb-1 font-semibold text-white">Type</label>
+            <Select
+              isSearchable={false}
+              onChange={setType}
+              placeholder="Memento type"
+              options={[
+                { value: 'public', label: 'Public' },
+                { value: 'personal', label: 'Personal' }
               ]}
             />
           </div>

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
 
-const Select = ({ isSearchable = true, placeholder = 'Select...', options, onSelect }) => {
+const Select = ({ isSearchable = true, placeholder = 'Select...', initial = {}, options, onChange }) => {
   const [text, setText] = useState('')
   const [showOptions, setShowOptions] = useState(false)
-  const [option, setOption] = useState({})
+  const [option, setOption] = useState(initial)
   const selectRef = useRef(null)
 
   useEffect(() => {
@@ -28,6 +28,12 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', options, onSel
     }
   }, [showOptions])
 
+  useEffect(() => {
+    if (typeof onChange === 'function') {
+      onChange(option)
+    }
+  }, [option])
+
   const _textOnChange = (val) => {
     if (val.length === 0) {
       setOption({})
@@ -37,15 +43,9 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', options, onSel
   }
 
   const _chooseOpt = (opt) => {
-    console.log('hmm')
     setText('')
     setOption(opt)
-    setTimeout(() => {
-      setShowOptions(false)
-    }, 5)
-    if (typeof onSelect === 'function') {
-      onSelect(opt)
-    }
+    setShowOptions(false)
   }
 
   const filteredOptions = isSearchable ? options.filter(opt => opt.label.toLowerCase().includes(text.toLowerCase())) : options
@@ -54,7 +54,7 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', options, onSel
   
   return (
     <div ref={selectRef} className="relative">
-      <div className={`
+      <div onClick={_ => setShowOptions(!showOptions)}  className={`
         ${showOptions ? 'bg-dark-16' : 'bg-dark-2'}
         flex items-center w-full rounded-md outline-none
       `}>
@@ -64,7 +64,7 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', options, onSel
               <p className="absolute inset-0 text-white p-2">{option.label}</p>
             )
           }
-          <input onFocus={_ => setShowOptions(true)} readOnly={!isSearchable} className="z-10 relative cursor-default p-2 w-full bg-transparent outline-none text-white" value={text} onChange={e => _textOnChange(e.target.value)} type="text" placeholder={computedPlaceholder} />
+          <input readOnly={!isSearchable} className="z-10 relative cursor-default p-2 w-full bg-transparent outline-none text-white" value={text} onChange={e => _textOnChange(e.target.value)} type="text" placeholder={computedPlaceholder} />
         </div>
         <div className="w-1/12 flex justify-center">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,9 +83,9 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', options, onSel
             autoHeightMax={200}
           >
             {
-              filteredOptions.map((opt) => {
+              filteredOptions.map((opt, idx) => {
                 return (
-                  <div onClick={_ => _chooseOpt(opt)} className={`
+                  <div key={idx} onClick={_ => _chooseOpt(opt)} className={`
                     ${opt.value === option.value && 'bg-dark-6'}
                     p-2 text-white hover:bg-dark-6 cursor-pointer
                   `}>

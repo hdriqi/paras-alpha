@@ -61,7 +61,7 @@ const PageManager = ({ children }) => {
       </div>
       {
         pageList.map((page, idx) => {
-          const Page = screenList[page.href]
+          const Page = page.component || screenList[page.href]
           if(!Page) {
             throw Error('Page not registered')
           }

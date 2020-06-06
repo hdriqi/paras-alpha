@@ -4,7 +4,7 @@ import { withRedux } from '../lib/redux'
 import { pushPage } from '../actions/ui'
 import { Fragment, cloneElement } from 'react'
 
-const Push = ({ href, as, props, children }) => {
+const Push = ({ href, as, props, children, component }) => {
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -23,11 +23,14 @@ const Push = ({ href, as, props, children }) => {
       dispatch(pushPage({
         href: href,
         url: as,
-        props: props
+        props: props,
+        component: component
       }))
-      router.push({ pathname: href }, as, {
-        shallow: true
-      })
+      if(href) {
+        router.push({ pathname: href }, as, {
+          shallow: true
+        })
+      }
     }
   }
 

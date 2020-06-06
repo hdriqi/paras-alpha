@@ -5,6 +5,8 @@ import NewPostModal from './Modal'
 import SlideCommon from '../Slide/Common'
 import Confirm from 'components/Utils/Confirm'
 import Distribute from './Distribute'
+import Push from 'components/Push'
+import { usePopRouter } from 'components/Router'
 
 const SlideCounter = ({ setCurrentSlide }) => {
   const carouselContext = useContext(CarouselContext)
@@ -32,6 +34,8 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
   const [showConfirm, setShowConfirm] = useState(false)
   const [showConfirmRmvPage, setShowConfirmRmvPage] = useState(false)
   const [showDistribute, setShowDistribute] = useState(false)
+
+  const popRouter = usePopRouter()
 
   const _addNewPage = () => {
     const clonePageContent = [...content]
@@ -116,6 +120,18 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
     })
   }
 
+  const distributeOnSubmit = (memento) => {
+    console.log(memento)
+    setChosenMemento(memento)
+    popRouter()
+  }
+
+  const DistributeComp = () => (
+    <Distribute
+      onSelect={distributeOnSubmit}
+    />
+  )
+
   return (
     <div id="new-post">
       {
@@ -128,17 +144,6 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
             }}
             right={(result) => _setPage(result)}
             input={modalInput}
-          />
-        )
-      }
-      {
-        showDistribute && (
-          <Distribute
-            onClose={_ => setShowDistribute(false)}
-            onSubmit={memento => {
-              setShowDistribute(false)
-              setChosenMemento(memento)
-            }}
           />
         )
       }
@@ -169,20 +174,26 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
         <div className="">
           <div className="mt-4 mx-4">
             <div className=" rounded-md overflow-hidden">
-              <div className="w-full bg-dark-6 p-2 cursor-pointer hover:bg-dark-24" onClick={e => setShowDistribute(true)}>
-                <div className="text-white-3">
-                  {
-                    chosenMemento ? (
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 rounded-sm overflow-hidden">
-                          <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
+              <Push
+                href="/new/post/distribute"
+                as="/new/post/distribute"
+                component={DistributeComp}
+              >
+                <div className="w-full bg-dark-6 p-2 cursor-pointer hover:bg-dark-24">
+                  <div className="text-white-3">
+                    {
+                      chosenMemento ? (
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 rounded-sm overflow-hidden">
+                            <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
+                          </div>
+                          <h4 className="ml-2 font-bold text-white">{chosenMemento.type === 'personal' ? `${chosenMemento.name}.${chosenMemento.owner.split('.')[0]}` : `${chosenMemento.name}.${chosenMemento.domain}`}</h4>
                         </div>
-                        <h4 className="ml-2 font-bold text-white">{chosenMemento.type === 'personal' ? `${chosenMemento.name}.${chosenMemento.owner.split('.')[0]}` : `${chosenMemento.name}.${chosenMemento.domain}`}</h4>
-                      </div>
-                    ) : `Choose a Memento`
-                  }
+                      ) : `Choose a Memento`
+                    }
+                  </div>
                 </div>
-              </div>
+              </Push>
             </div>
             <div className="mt-4 bg-dark-6 rounded-md overflow-hidden">
               <CarouselProvider
