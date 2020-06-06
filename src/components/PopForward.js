@@ -13,7 +13,6 @@ const PopForward = (props, ref) => {
       router.push('/', '/')
     }
     else {
-      dispatch(popPage())
       router.back()
     }
   }

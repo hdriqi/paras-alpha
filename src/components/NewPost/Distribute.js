@@ -5,7 +5,7 @@ import Scrollbars from 'react-custom-scrollbars'
 import NewMemento from 'components/NewMemento'
 import Push from 'components/Push'
 import Pop from 'components/Pop'
-import { usePopRouter } from 'components/Router'
+import { useRouter } from 'next/router'
 
 const _mockMyMemento = [
   {
@@ -58,11 +58,11 @@ const _mockMyFollowingMemento = [
 ]
 
 const Distribute = ({ onClose, onSelect }) => {
-  const popRouter = usePopRouter()
-  
+  const router = useRouter()
+
   const _createMementoOnComplete = (data) => {
     console.log(data)
-    popRouter()
+    router.back()  
   }
 
   const NewMementoComp = () => {

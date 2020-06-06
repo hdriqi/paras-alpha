@@ -6,7 +6,7 @@ import SlideCommon from '../Slide/Common'
 import Confirm from 'components/Utils/Confirm'
 import Distribute from './Distribute'
 import Push from 'components/Push'
-import { usePopRouter } from 'components/Router'
+import { useRouter } from 'next/router'
 
 const SlideCounter = ({ setCurrentSlide }) => {
   const carouselContext = useContext(CarouselContext)
@@ -25,6 +25,7 @@ const SlideCounter = ({ setCurrentSlide }) => {
 }
 
 const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento }) => {
+  const router = useRouter()
   const backRef = useRef(null)
   const inputImgRef = useRef(null)
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -34,8 +35,6 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
   const [showConfirm, setShowConfirm] = useState(false)
   const [showConfirmRmvPage, setShowConfirmRmvPage] = useState(false)
   const [showDistribute, setShowDistribute] = useState(false)
-
-  const popRouter = usePopRouter()
 
   const _addNewPage = () => {
     const clonePageContent = [...content]
@@ -123,7 +122,7 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
   const distributeOnSubmit = (memento) => {
     console.log(memento)
     setChosenMemento(memento)
-    popRouter()
+    router.back()
   }
 
   const DistributeComp = () => (

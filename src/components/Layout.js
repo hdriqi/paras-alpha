@@ -48,10 +48,8 @@ const Layout = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       // bug history state undefined
-      if (router.asPath === '/') {
-        router.push(router.asPath)
-        router.push(router.asPath)
-      }
+      router.push(router.pathname, window.location.pathname)
+      router.push(router.pathname, window.location.pathname)
 
       ipfs.init()
       if (typeof window !== 'undefined') {
