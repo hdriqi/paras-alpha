@@ -31,6 +31,7 @@ const RECOMMENDATIONS = [
 const Home = ({ postList, page, getPost, hasMore }) => {
   const me = useSelector(state => state.me.profile)
 
+  console.log(postList)
   return (
     <div className="bg-dark-0 min-h-screen">
       <NavTop
@@ -51,7 +52,7 @@ const Home = ({ postList, page, getPost, hasMore }) => {
                 {
                   postList.map(post => {
                     return (
-                      <div className='mt-6 shadow-subtle' key={post.id}>
+                      <div className="mt-4 mx-4 shadow-subtle" key={post.id}>
                         <PostCard post={post} />
                       </div>
                     )

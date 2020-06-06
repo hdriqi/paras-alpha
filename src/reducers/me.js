@@ -1,7 +1,7 @@
-import { ADD_BLOCK_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA, DELETE_POST, SET_USER } from '../actions/me'
+import { ADD_MEMENTO_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA, DELETE_POST, SET_USER } from '../actions/me'
 
 const initialState = {
-  blockList: [
+  mementoList: [
     
   ],
   postList: [
@@ -15,10 +15,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_BLOCK_LIST:
+    case ADD_MEMENTO_LIST:
       return {
         ...state,
-        blockList: state.blockList.concat(action.blockList)
+        mementoList: state.mementoList.concat(action.mementoList)
       }
     case ADD_POST_LIST:
       return {

@@ -166,7 +166,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
       id: '123',
       owner: 'hikigaya.testnet',
       createdAt: 1591062544522,
-      content: [
+      contentList: [
         {
           type: 'url',
           body: {
@@ -182,7 +182,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
       id: '234',
       owner: 'johndoe.testnet',
       createdAt: 1591023010572,
-      content: [
+      contentList: [
         {
           type: 'img',
           body: 'https://siasky.net/fAFPTzAK85tAlobv6YyCXJ4LVvW1rtiwZSF2PJpyU3lbkQ'
@@ -207,7 +207,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
   const completeName = `${m.name}.${m.domain}`
 
   return (
-    <div className="bg-dark-0 max-w-sm min-h-screen relative">
+    <div className="bg-dark-0 min-h-screen relative">
       <NavTop
         left={
           <Pop>
@@ -218,7 +218,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white">{stickySubNav ? completeName : `Memento`} </h3>
+          <h3 className="text-lg font-bold text-white px-2">{stickySubNav ? completeName : `Memento`} </h3>
         }
         right={
           <svg onClick={_ => setShowModal(true)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -255,7 +255,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           )
         })
       }
-      <div className="sticky" style={{
+      <div className="sticky block md:hidden" style={{
         bottom: `2rem`
       }}>
         <Push href="/new/post" as="/new/post">

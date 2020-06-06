@@ -1,7 +1,7 @@
 import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import { addBlockList } from '../../actions/me'
+import { addBlockList, addMementoList } from '../../actions/me'
 
 import PopForward from '../PopForward'
 import near from '../../lib/near'
@@ -69,7 +69,7 @@ const NewMemento = ({ onClose, onComplete }) => {
       domain: domain.value,
       owner: me.username
     }
-    dispatch(addBlockList([newData]))
+    dispatch(addMementoList([newData]))
     if (typeof onComplete === 'function') {
       onComplete(newData)
     }
@@ -129,7 +129,7 @@ const NewMemento = ({ onClose, onComplete }) => {
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white">New Memento</h3>
+          <h3 className="text-lg font-bold text-white px-2">New Memento</h3>
         }
         right={
           <button disabled={!_validateSubmit()} onClick={_submit}>

@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import Head from 'next/head'
-import { setProfile, addBlockList, setUser } from "../actions/me"
+import { setProfile, addMementoList, setUser } from "../actions/me"
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import { useRouter } from "next/router"
@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
   const router = useRouter()
   const user = useSelector(state => state.me.user)
   const profile = useSelector(state => state.me.profile)
-  const mementoList = useSelector(state => state.me.blockList)
+  const mementoList = useSelector(state => state.me.mementoList)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [onboardingView, setOnboardingView] = useState(0)
   const [email, setEmail] = useState('')
@@ -114,10 +114,10 @@ const Layout = ({ children }) => {
         }
       })
 
-      dispatch(addBlockList(mementoList))
+      dispatch(addMementoList(mementoList))
     }
     if (!isLoading && profile.id && mementoList.length === 0) {
-      getUserMementoData()
+      // getUserMementoData()
     }
   }, [isLoading, profile])
 
@@ -153,15 +153,30 @@ const Layout = ({ children }) => {
         ) : (
             <div className="bg-dark-0">
               <div>
-                <div className="flex">
-                  <div className="flex-auto hidden md:block">
+                <div className="flex m-auto">
+                  <div className="flex-auto hidden sm:block w-1/3">
                     <NavDesktop />
                   </div>
-                  <div className="w-full max-w-sm m-auto">
+                  <div className="w-full max-w-md m-auto flex-grow-0 flex-shrink-0">
                     {children}
                   </div>
-                  <div className="flex-auto hidden md:block">
-                    <NavDesktop />
+                  <div className="flex-auto hidden sm:block w-1/3">
+                    <div className={`${profile && profile.username ? 'visible' : 'invisible'} sticky min-h-screen top-0 flex flex-col w-full`} style={{
+                      boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
+                    }}>
+                      <div className="h-12 px-4 flex items-center bg-dark-12">
+                        <div className="mr-auto w-full" style={{
+                          maxWidth: `10rem`
+                        }}>
+                        </div>
+                      </div>
+                      <div className="ml-auto w-full" style={{
+                        maxWidth: `10rem`
+                      }}>
+                        
+                      </div>
+                      <div className="w-full mt-6"></div>
+                    </div>
                   </div>
                 </div>
                 {

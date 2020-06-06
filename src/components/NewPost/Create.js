@@ -120,7 +120,6 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
   }
 
   const distributeOnSubmit = (memento) => {
-    console.log(memento)
     setChosenMemento(memento)
     router.back()
   }
@@ -179,17 +178,24 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
                 component={DistributeComp}
               >
                 <div className="w-full bg-dark-6 p-2 cursor-pointer hover:bg-dark-24">
-                  <div className="text-white-3">
-                    {
-                      chosenMemento ? (
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 rounded-sm overflow-hidden">
-                            <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
+                  <div className="flex items-center">
+                    <div className="w-11/12 relative text-white">
+                      {
+                        chosenMemento ? (
+                          <div className="flex items-center">
+                            <div className="w-6 h-6 rounded-sm overflow-hidden">
+                              <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
+                            </div>
+                            <h4 className="ml-2 font-bold text-white">{chosenMemento.type === 'personal' ? `${chosenMemento.name}.${chosenMemento.owner.split('.')[0]}` : `${chosenMemento.name}.${chosenMemento.domain}`}</h4>
                           </div>
-                          <h4 className="ml-2 font-bold text-white">{chosenMemento.type === 'personal' ? `${chosenMemento.name}.${chosenMemento.owner.split('.')[0]}` : `${chosenMemento.name}.${chosenMemento.domain}`}</h4>
-                        </div>
-                      ) : `Choose a Memento`
-                    }
+                        ) : `Choose a Memento`
+                      }
+                    </div>
+                    <div className="w-1/12 flex justify-center">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 4.29291L14.7072 5.70712L8.00008 12.4142L1.29297 5.70712L2.70718 4.29291L8.00008 9.5858L13.293 4.29291Z" fill="white" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </Push>
@@ -254,7 +260,7 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
                                 <div className="flex absolute right-0 p-2 z-10">
                                   <div>
                                     <button>
-                                      <svg className="shadow-subtle rounded-full" onClick={e => _updatePage(idx, content)} width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <svg className="shadow-subtle rounded-full" onClick={e => _updatePage(idx, page)} width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="12" cy="12" r="12" fill="#E13128" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M14.6624 6C15.0552 6 15.4318 6.15683 15.7068 6.434L17.5673 8.29433C17.8444 8.5713 18 8.94696 18 9.33866C18 9.73037 17.8444 10.106 17.5673 10.383L10.7745 17.173C10.3554 17.6564 9.76132 17.9533 9.08074 18H6V17.4001L6.00195 14.8714C6.05306 14.2387 6.3472 13.6505 6.7959 13.2552L13.6172 6.43473C13.8938 6.15648 14.27 6 14.6624 6ZM9.03837 16.8016C9.35891 16.779 9.65728 16.6298 9.89685 16.3558L14.434 11.8192L12.1813 9.5667L7.61765 14.1288C7.37456 14.3438 7.22418 14.6445 7.19999 14.9197V16.8005L9.03837 16.8016ZM13.03 8.71838L15.2825 10.9707L16.7188 9.53457C16.7708 9.48261 16.8 9.41214 16.8 9.33866C16.8 9.26518 16.7708 9.19472 16.7188 9.14276L14.8566 7.28077C14.8053 7.22899 14.7353 7.19986 14.6624 7.19986C14.5894 7.19986 14.5195 7.22899 14.4681 7.28077L13.03 8.71838Z" fill="white" />
                                       </svg>

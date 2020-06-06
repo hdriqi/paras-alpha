@@ -10,7 +10,7 @@ import near from '../lib/near'
 const HomeScreen = ({  }) => {
   const dispatch = useDispatch()
   const me = useSelector(state => state.me.profile)
-  const postList = useSelector(state => state.me.data['/'])
+  const postList = useSelector(state => state.me.postList)
   const hasMore = useSelector(state => state.me.data['/_hasMore'])
   const pageCount = useSelector(state => state.me.data['/_pageCount'])
 
@@ -66,7 +66,7 @@ const HomeScreen = ({  }) => {
 
   useEffect(() => {
     if(!postList) {
-      getFeed(0)
+      // getFeed(0)
     }
   }, [me])
   

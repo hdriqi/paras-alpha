@@ -1,8 +1,8 @@
-export const ADD_BLOCK_LIST = 'ADD_BLOCK'
-export const addBlockList = (blockList) => {
+export const ADD_MEMENTO_LIST = 'ADD_MEMENTO'
+export const addMementoList = (mementoList) => {
   return {
-    type: ADD_BLOCK_LIST,
-    blockList: blockList
+    type: ADD_MEMENTO_LIST,
+    mementoList: mementoList
   }
 }
 

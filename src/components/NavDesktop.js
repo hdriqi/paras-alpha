@@ -108,6 +108,11 @@ const NavMobile = () => {
             </svg>
           </div>
         </NavLink>
+        <div>
+          <Push href="/new/post" as="/new/post">
+            <button className="text-primary-5">New Post</button>
+          </Push>
+        </div>
       </div>
       <div className="w-full mt-6">
 

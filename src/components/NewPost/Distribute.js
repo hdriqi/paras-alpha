@@ -6,6 +6,7 @@ import NewMemento from 'components/NewMemento'
 import Push from 'components/Push'
 import Pop from 'components/Pop'
 import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 const _mockMyMemento = [
   {
@@ -59,10 +60,11 @@ const _mockMyFollowingMemento = [
 
 const Distribute = ({ onClose, onSelect }) => {
   const router = useRouter()
+  const mementoList = useSelector(state => state.me.mementoList)
 
   const _createMementoOnComplete = (data) => {
     console.log(data)
-    router.back()  
+    router.back()
   }
 
   const NewMementoComp = () => {
@@ -88,7 +90,7 @@ const Distribute = ({ onClose, onSelect }) => {
             </Pop>
           }
           center={
-            <h3 className="text-lg font-bold text-white">Choose a Memento</h3>
+            <h3 className="text-lg font-bold text-white px-2">Choose a Memento</h3>
           }
           right={
             <Push
@@ -97,8 +99,11 @@ const Distribute = ({ onClose, onSelect }) => {
               component={NewMementoComp}
             >
               <button>
-                New
-                </button>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="15" fill="#E13128" stroke="#E13128" stroke-width="2" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5408 22.3337V17.4598H9.66699V14.5408H14.5408V9.66699H17.4598V14.5408H22.3337V17.4598H17.4598V22.3337H14.5408Z" fill="white" />
+                </svg>
+              </button>
             </Push>
           }
         />
@@ -106,7 +111,7 @@ const Distribute = ({ onClose, onSelect }) => {
           <h3 className="text-lg font-bold text-white">My Memento</h3>
           <div>
             {
-              _mockMyMemento.map(m => {
+              mementoList.map(m => {
                 const completeName = m.type === 'personal' ? `${m.name}.${m.owner.split('.')[0]}` : `${m.name}.${m.domain}`
                 m.completeName = completeName
                 return (
@@ -121,51 +126,6 @@ const Distribute = ({ onClose, onSelect }) => {
             }
           </div>
           <h3 className="text-lg font-bold text-white mt-4">Following Memento</h3>
-          <div>
-            {
-              _mockMyFollowingMemento.map(m => {
-                const completeName = m.type === 'personal' ? `${m.name}.${m.owner.split('.')[0]}` : `${m.name}.${m.domain}`
-                return (
-                  <div className="flex items-center my-2 bg-dark-2 rounded-md p-2">
-                    <div className="w-6 h-6 rounded-sm overflow-hidden">
-                      <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
-                    </div>
-                    <h4 className="ml-2 font-bold text-white">{completeName}</h4>
-                  </div>
-                )
-              })
-            }
-          </div>
-          <div>
-            {
-              _mockMyFollowingMemento.map(m => {
-                const completeName = m.type === 'personal' ? `${m.name}.${m.owner.split('.')[0]}` : `${m.name}.${m.domain}`
-                return (
-                  <div className="flex items-center my-2 bg-dark-2 rounded-md p-2">
-                    <div className="w-6 h-6 rounded-sm overflow-hidden">
-                      <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
-                    </div>
-                    <h4 className="ml-2 font-bold text-white">{completeName}</h4>
-                  </div>
-                )
-              })
-            }
-          </div>
-          <div>
-            {
-              _mockMyFollowingMemento.map(m => {
-                const completeName = m.type === 'personal' ? `${m.name}.${m.owner.split('.')[0]}` : `${m.name}.${m.domain}`
-                return (
-                  <div className="flex items-center my-2 bg-dark-2 rounded-md p-2">
-                    <div className="w-6 h-6 rounded-sm overflow-hidden">
-                      <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
-                    </div>
-                    <h4 className="ml-2 font-bold text-white">{completeName}</h4>
-                  </div>
-                )
-              })
-            }
-          </div>
           <div>
             {
               _mockMyFollowingMemento.map(m => {

@@ -14,6 +14,7 @@ import Image from './Image'
 import near from '../lib/near'
 import { setLoading } from '../actions/ui'
 import { CarouselProvider, Slider, Slide, CarouselContext, WithStore } from '@evius/pure-react-carousel'
+import SlideCommon from './Slide/Common'
 
 TimeAgo.addLocale(en)
 
@@ -130,7 +131,7 @@ const MetadataComp = ({ post }) => {
       </div>
       <div className="w-1/3 text-center">
         <p className="text-white opacity-60 text-xs">
-          {currentSlide + 1}/{post.content.length}
+          {currentSlide + 1}/{post.contentList.length}
         </p>
       </div>
       <div className="w-1/3 text-right">
@@ -201,73 +202,16 @@ const Post = ({ post }) => {
               naturalSlideWidth={100}
               naturalSlideHeight={100}
               lockOnWindowScroll={true}
-              totalSlides={post.content.length}
+              totalSlides={post.contentList.length}
             >
               <Slider ignoreCrossMove={true}>
                 {
-                  post.content.map(content => {
-                    if (content.type === 'img') {
-                      return (
-                        <Slide>
-                          <div className="w-full relative pb-full">
-                            <div className="absolute m-auto w-full h-full object-contain">
-                              <div className="flex items-center h-full">
-                                <img src={content.body} />
-                              </div>
-                            </div>
-                          </div>
-                        </Slide>
-                      )
-                    }
-                    else if (content.type === 'text') {
-                      return (
-                        <Slide>
-                          <div className="w-full relative pb-full">
-                            <div className="absolute m-auto w-full h-full overflow-y-auto">
-                              <div className="flex h-full px-2">
-                                <p className="mt-auto mb-auto text-left text-white whitespace-pre-line">{content.body}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </Slide>
-                      )
-                    }
-                    else if (content.type === 'url') {
-                      return (
-                        <Slide>
-                          <div className="w-full relative pb-full">
-                            <div className="absolute m-auto w-full h-full p-2">
-                              <a href={content.body.url} target="_blank">
-                                <div className="bg-dark-12 rounded-md overflow-hidden h-full hover:opacity-75">
-                                  <div className="relative bg-white" style={{
-                                    height: `60%`
-                                  }}>
-                                    <img className="h-full w-full object-cover" src={content.body.img} />
-                                    <div className="absolute inset-0 flex items-center justify-center" style={{
-                                      background: `rgba(0,0,0,0.4)`
-                                    }}>
-                                      <p className="text-white font-bold text-2xl text-center px-2">{content.body.title}</p>
-                                    </div>
-                                  </div>
-                                  <div className="px-2 pb-2" style={{
-                                    height: `30%`
-                                  }}>
-                                    <div className="h-full overflow-hidden">
-                                      <p className="text-white opacity-60">{content.body.desc}</p>
-                                    </div>
-                                  </div>
-                                  <div className="px-2 pb-2" style={{
-                                    height: `10%`
-                                  }}>
-                                    <p className="text-white font-medium opacity-87">{content.body.url}</p>
-                                  </div>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </Slide>
-                      )
-                    }
+                  post.contentList.map((page, idx) => {
+                    return (
+                      <Slide key={idx}>
+                        <SlideCommon page={page} />
+                      </Slide>
+                    )
                   })
                 }
               </Slider>

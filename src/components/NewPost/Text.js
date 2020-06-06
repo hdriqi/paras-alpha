@@ -1,8 +1,12 @@
 import { useRef, useState, useEffect } from 'react'
 import Confirm from '../Utils/Confirm'
 import RichText from 'components/Input/RichText'
+import Scrollbars from 'react-custom-scrollbars'
+
+const MAX_CHAR = 400
 
 const NewPostText = ({ left, right, input = '' }) => {
+  const containerRef = useRef(null)
   const inputRef = useRef(null)
   const [textRaw, setTextRaw] = useState(input || '')
   const [curText, setCurText] = useState(input || '')
@@ -11,8 +15,7 @@ const NewPostText = ({ left, right, input = '' }) => {
   const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
-    const maxHeight = inputRef.current.offsetWidth
-    if (inputRef.current.scrollHeight > maxHeight) {
+    if (textRaw.length > MAX_CHAR) {
       setTextRaw(curText)
       setErr(true)
       setTimeout(() => {
@@ -23,12 +26,29 @@ const NewPostText = ({ left, right, input = '' }) => {
       setCurText(textRaw)
     }
     if (textRaw.length > 0) {
-      const lineCount = Math.round(inputRef.current.scrollHeight * 100 / maxHeight)
+      const lineCount = (textRaw.length / MAX_CHAR) * 100
       setLineCount(lineCount)
     }
     else {
       setLineCount(0)
     }
+    // if (inputRef.current.scrollHeight > maxHeight) {
+    //   setTextRaw(curText)
+    //   setErr(true)
+    //   setTimeout(() => {
+    //     setErr(false)
+    //   }, 500)
+    // }
+    // else {
+    //   setCurText(textRaw)
+    // }
+    // if (textRaw.length > 0) {
+    //   const lineCount = Math.round(inputRef.current.scrollHeight * 100 / maxHeight)
+    //   setLineCount(lineCount)
+    // }
+    // else {
+    //   setLineCount(0)
+    // }
   }, [textRaw])
 
   useEffect(() => {
@@ -118,21 +138,32 @@ const NewPostText = ({ left, right, input = '' }) => {
               width: `${lineCount}%`
             }}></div>
           </div>
-          <div className="w-full relative pb-full">
+          <div ref={containerRef} className="w-full relative pb-full">
             <div className="absolute m-auto w-full h-full object-contain">
               <div className={`
                 ${err && 'animated shake'}
-                flex items-center h-full px-2
+                flex items-center h-full p-2
               `}>
-                <RichText
-                  autoFocus
-                  inputRef={inputRef}
-                  text={textRaw}
-                  setText={setTextRaw}
-                  initialText={textRaw}
-                  placeholder="Share your ideas, thought and creativity"
-                  className="w-full"
-                />
+                <Scrollbars
+                 autoHeight={true}
+                 autoHeightMax={containerRef && containerRef.current ? (containerRef.current.clientWidth - 16) : 200}
+                >
+                  <RichText
+                    autoFocus
+                    inputRef={inputRef}
+                    text={textRaw}
+                    setText={setTextRaw}
+                    initialText={textRaw}
+                    placeholder="Share your ideas and thought"
+                    className="w-full"
+                    suggestionsPortalHost={containerRef.current}
+                    style={{
+                      suggestions: {
+                        maxWidth: containerRef && containerRef.current ? `${containerRef.current.clientWidth}px` : '100%'
+                      }
+                    }}
+                  />
+                </Scrollbars>
               </div>
             </div>
           </div>
