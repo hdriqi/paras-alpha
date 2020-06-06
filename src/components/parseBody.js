@@ -3,7 +3,8 @@ import Push from './Push'
 const ParseBody = ({ body = '' }) => {
   const splitRegex = /(@\[@.+?\]\(.+?\))/
   const captureRegex = /@\[@(.+)?\]\(.+?\)/
-  const bodyBlocks = body.split(splitRegex)
+  const trim = body.replace(/(\r\n|\r|\n){2,}/g, '$1\n')
+  const bodyBlocks = trim.split(splitRegex)
   const parsedBlock = bodyBlocks.map((block, idx) => {
     const match = block.match(captureRegex)
     if(match) {
