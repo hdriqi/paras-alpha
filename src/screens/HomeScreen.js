@@ -6,11 +6,12 @@ import Home from '../components/Home'
 import { addData } from '../actions/me'
 import { withRedux } from '../lib/redux'
 import near from '../lib/near'
+import axios from 'axios'
 
 const HomeScreen = ({  }) => {
   const dispatch = useDispatch()
   const me = useSelector(state => state.me.profile)
-  const postList = useSelector(state => state.me.postList)
+  const postList = useSelector(state => state.me.data['/'])
   const hasMore = useSelector(state => state.me.data['/_hasMore'])
   const pageCount = useSelector(state => state.me.data['/_pageCount'])
 
@@ -24,33 +25,35 @@ const HomeScreen = ({  }) => {
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
     let page = pageCount || 0 
-
-    let newPostList = []
-    if(me && me.id) {
-      newPostList = await near.contract.getPostListByUserFollowing({
-        username: me.username,
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _skip: page * 5,
-          _limit: 5
-        }
-      })
-    }
-    else {
-      newPostList = await near.contract.getPostList({
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _skip: page * ITEM_LIMIT,
-          _limit: ITEM_LIMIT
-        }
-      })
-    }
+    
+    const response = await axios.get(`http://localhost:9090/post`)
+    let newPostList = response.data.data || []
+    
+    // if(me && me.id) {
+    //   newPostList = await near.contract.getPostListByUserFollowing({
+    //     username: me.username,
+    //     query: query,
+    //     opts: {
+    //       _embed: true,
+    //       _sort: 'createdAt',
+    //       _order: 'desc',
+    //       _skip: page * 5,
+    //       _limit: 5
+    //     }
+    //   })
+    // }
+    // else {
+    //   newPostList = await near.contract.getPostList({
+    //     query: query,
+    //     opts: {
+    //       _embed: true,
+    //       _sort: 'createdAt',
+    //       _order: 'desc',
+    //       _skip: page * ITEM_LIMIT,
+    //       _limit: ITEM_LIMIT
+    //     }
+    //   })
+    // }
     const newList = curList.concat(newPostList)
     batch(() => {
       dispatch(addData('/', newList))
@@ -66,7 +69,7 @@ const HomeScreen = ({  }) => {
 
   useEffect(() => {
     if(!postList) {
-      // getFeed(0)
+      getFeed(0)
     }
   }, [me])
   

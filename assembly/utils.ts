@@ -1,4 +1,12 @@
 import { Post, Memento, User, Comment } from './model'
+import { math, base58 } from 'near-sdk-as'
+
+export function generateId(): string {
+	const buff = math.randomBuffer(16)
+
+	var randomId = base58.encode(buff)
+	return randomId.replaceAll('/', '')
+}
 
 export function mergeSortPostList(arr: Post[]) : Post[] {
 	if (arr.length < 2)

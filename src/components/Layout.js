@@ -103,21 +103,22 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const getUserMementoData = async () => {
-      const query = [`owner:=${profile.username}`]
-      const mementoList = await near.contract.getMementoList({
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
+      // const query = [`owner:=${profile.username}`]
+      // const mementoList = await near.contract.getMementoList({
+      //   query: query,
+      //   opts: {
+      //     _embed: true,
+      //     _sort: 'createdAt',
+      //     _order: 'desc',
+      //     _limit: 10
+      //   }
+      // })
 
-      dispatch(addMementoList(mementoList))
+      const response = await axios.get(`http://localhost:9090/memento`)
+      dispatch(addMementoList(response.data.data))
     }
     if (!isLoading && profile.id && mementoList.length === 0) {
-      // getUserMementoData()
+      getUserMementoData()
     }
   }, [isLoading, profile])
 

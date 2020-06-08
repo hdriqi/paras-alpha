@@ -68,7 +68,7 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', initial = {}, 
         </div>
         <div className="w-1/12 flex justify-center">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.293 4.29291L14.7072 5.70712L8.00008 12.4142L1.29297 5.70712L2.70718 4.29291L8.00008 9.5858L13.293 4.29291Z" fill="white" />
+            <path fillRule="evenodd" clipRule="evenodd" d="M13.293 4.29291L14.7072 5.70712L8.00008 12.4142L1.29297 5.70712L2.70718 4.29291L8.00008 9.5858L13.293 4.29291Z" fill="white" />
           </svg>
         </div>
       </div>

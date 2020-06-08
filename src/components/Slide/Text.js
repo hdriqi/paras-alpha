@@ -1,5 +1,6 @@
 import ParseBody from '../parseBody'
 import Scrollbars from 'react-custom-scrollbars'
+import { parseJSON } from 'lib/utils'
 
 const SlideText = ({ body }) => {
   return (
@@ -8,7 +9,7 @@ const SlideText = ({ body }) => {
         <Scrollbars>
           <div className="flex h-full">
             <p className="mt-auto mb-auto text-left text-white whitespace-pre-line">
-              <ParseBody body={body} />
+              <ParseBody body={parseJSON(body)} />
             </p>
           </div>
         </Scrollbars>

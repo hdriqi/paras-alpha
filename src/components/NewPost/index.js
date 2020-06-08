@@ -4,7 +4,12 @@ import NewPostCreate from './Create'
 import NavTop from '../NavTop'
 import PopForward from '../PopForward'
 import { useDispatch } from 'react-redux'
-import { addMementoList } from 'actions/me'
+import { addPostList } from 'actions/me'
+import { compressImg } from 'lib/utils'
+import ipfs from 'lib/ipfs'
+import axios from 'axios'
+import near from 'lib/near'
+import { setLoading } from 'actions/ui'
 
 const NewPost = () => {
   const backRef = useRef(null)
@@ -14,16 +19,71 @@ const NewPost = () => {
   }])
   const [chosenMemento, setChosenMemento] = useState(null)
 
-  const _submit = () => {
+  const _submit = async () => {
+    const postContentList = content.map(content => {
+      return new Promise(async (resolve, reject) => {
+        let newContent = {
+          type: content.type
+        }
+        if (content.type === 'text') {
+          newContent.body = content.body
+        }
+        else if (content.type === 'url') {
+          newContent.body = content.body
+          const response = await axios.get(content.body.img, {
+            responseType: 'blob'
+          })
+          // const file = new File([response.data], '123')
+          // console.log(file)
+          const img = await compressImg(response.data)
+          for await (const file of ipfs.client.add([{
+            content: img
+          }])) {
+            newContent.body.img = {
+              url: file.path,
+              type: 'ipfs'
+            }
+            newContent.body = JSON.stringify(newContent.body)
+          }
+        }
+        else if (content.type === 'img') {
+          const img = await compressImg(content.payload.imgFile)
+          for await (const file of ipfs.client.add([{
+            content: img
+          }])) {
+            newContent.body = {
+              url: file.path,
+              type: 'ipfs'
+            }
+            newContent.body = JSON.stringify(newContent.body)
+          }
+        }
+        else if (content.type === 'blank') {
+          newContent.body = ''
+        }
+        resolve(newContent)
+      })
+    })
+
+    const newContentList = await Promise.all(postContentList)
+
+    // mock
+    // const newData = {
+    //   id: `123`,
+    //   originalId: '123',
+    //   contentList: newContentList,
+    //   owner: 'john.doe',
+    //   mementoId: chosenMemento.id,
+    //   createdAt: new Date().toISOString()
+    // }
     const newData = {
-      id: `123`,
-      originalId: '123',
-      contentList: content,
-      owner: 'john.doe',
+      contentList: newContentList,
       mementoId: chosenMemento.id,
-      createdAt: new Date().toISOString()
     }
-    dispatch(addMementoList([newData]))
+    dispatch(setLoading(true, 'Creating post...'))
+    await near.contract.createPost(newData)
+    dispatch(setLoading(false))
+    dispatch(addPostList([newData]))
   }
 
   const _validateSubmit = () => {
@@ -53,9 +113,9 @@ const NewPost = () => {
         right={
           <button disabled={!_validateSubmit()} onClick={_submit}>
             <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
               <circle cx="16" cy="16" r="16" fill="#E13128" />
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
             </svg>
           </button>
         }

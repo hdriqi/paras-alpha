@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME ||'paras-dev.testnet';
+const CONTRACT_NAME = process.env.CONTRACT_NAME ||'alpha-v1.paras-dev.testnet';
 
 function getConfig(env) {
     if(process.env && process.env.CONTRACT_ENV) {

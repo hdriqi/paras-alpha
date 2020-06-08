@@ -1,5 +1,13 @@
 import Compressor from 'compressorjs'
 
+export function parseJSON(str) {
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    return str;
+  }
+}
+
 export const readFileAsUrl = (file) => {
   const temporaryFileReader = new FileReader()
 

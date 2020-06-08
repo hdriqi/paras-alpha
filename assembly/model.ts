@@ -1,16 +1,5 @@
-import { context, PersistentMap } from 'near-sdk-as'
-
-@nearBindgen
-export class Memento {
-  id: string
-  name: string
-  desc: string
-  descRaw: string
-  type: string
-  owner: string
-  createdAt: u64
-  user: User | null
-}
+import { context, PersistentMap, PersistentVector } from 'near-sdk-as'
+import { generateId } from './utils'
 
 @nearBindgen
 export class Img {
@@ -19,18 +8,68 @@ export class Img {
 }
 
 @nearBindgen
+export class Link {
+  img: Img
+  title: string
+  desc: string
+  url: string
+}
+
+@nearBindgen
+export class Content {
+  type: string
+  body: string
+}
+
+@nearBindgen
+export class Memento {
+  id: string
+  name: string
+  category: string
+  domain: string
+  img: Img
+  desc: string
+  type: string
+  owner: string
+  createdAt: u64
+  user: User | null
+
+  constructor(name: string, category: string, img: Img, desc: string, type: string) {
+    const tail = type === 'personal' ? context.sender : category
+
+    this.id = generateId()
+    this.name = name
+    this.category = category
+    this.domain = name.concat('.').concat(tail)
+    this.img = img
+    this.desc = desc
+    this.type = type
+    this.owner = context.sender
+    this.createdAt = context.blockTimestamp
+  }
+}
+
+@nearBindgen
 export class Post {
   id: string
   originalId: string
-  status: string
-  body: string
-  bodyRaw: string
-  imgList: Img[]
+  contentList: Content[]
   owner: string
   mementoId: string
   createdAt: u64
   user: User | null
   memento: Memento | null
+
+  constructor(contentList: Content[], mementoId: string) {
+    const id = generateId()
+
+    this.id = id
+    this.originalId = id
+    this.contentList = contentList
+    this.mementoId = mementoId
+    this.owner = context.sender
+    this.createdAt = context.blockTimestamp
+  }
 }
 
 @nearBindgen
@@ -78,10 +117,10 @@ export class User {
 @nearBindgen
 export class QueryOpts {
   _embed: bool
-	_sort: string | null
+  _sort: string | null
   _order: string | null
   _skip: u32
-	_limit: u32
+  _limit: u32
 }
 
 @nearBindgen
@@ -121,7 +160,10 @@ export class SearchResult {
   }
 }
 
-export const postCollection = new PersistentMap<string, PostList>("p")
-export const mementoCollection = new PersistentMap<string, MementoList>("m")
+export const mementoCollection = new PersistentMap<string, Memento>('memento')
+export const postCollection = new PersistentMap<string, Post>('post')
+
+// export const postCollection = new PersistentMap<string, PostList>("p")
+// export const mementoCollection = new PersistentMap<string, MementoList>("m")
 export const userCollection = new PersistentMap<string, UserList>("u")
-export const commentCollection = new PersistentMap<string, CommentList>("c")
+// export const commentCollection = new PersistentMap<string, CommentList>("c")

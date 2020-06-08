@@ -126,7 +126,7 @@ const MetadataComp = ({ post }) => {
     <div className="flex p-2">
       <div className="w-1/3">
         <p className="text-white opacity-60 text-xs">
-          {timeAgo.format(new Date(post.createdAt))}
+          {timeAgo.format(new Date(post.createdAt / (10 ** 6)))}
         </p>
       </div>
       <div className="w-1/3 text-center">
@@ -186,7 +186,7 @@ const Post = ({ post }) => {
               <div className="w-4 h-4 rounded-sm overflow-hidden">
                 <img className="w-full h-full object-fill" src="https://res.cloudinary.com/teepublic/image/private/s--g-Leur7F--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_eae0c7,e_outline:48/co_eae0c7,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1479303627/production/designs/824678_1.jpg" />
               </div>
-              <h4 className="ml-2 font-bold text-white text-xs">linuxdesktopoholic.tech</h4>
+              <h4 className="ml-2 font-bold text-white text-xs">{post.memento.domain}</h4>
             </div>
           </div>
           <div className="p-2 flex items-center">

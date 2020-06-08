@@ -4040,6 +4040,11 @@ ini@^1.3.5, ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
 
+initials@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/initials/-/initials-3.1.0.tgz#ea8b93a4e2b67944db894e83dad383890da1924b"
+  integrity sha512-kWcyG5epBl4Wxvz49eW8dZAYgexQKI9qu2WP0XogWCu9nzigV7DEKhrkrKzGjYoynguxpEyo22ZCBB+NgHWiGQ==
+
 invariant@^2.2.0, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
@@ -7553,6 +7558,11 @@ supports-color@^7.1.0:
   integrity sha512-oRSIpR8pxT1Wr2FquTNnGet79b3BWljqOuoW/h4oBhxJ/HUbX5nX6JSruTkvXDCFMwDPvsaTTbvMLKZWSy0R5g==
   dependencies:
     has-flag "^4.0.0"
+
+svg-text@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/svg-text/-/svg-text-0.5.1.tgz#517e8a8ff903e07a0ab40bbcbba7687429ca235b"
+  integrity sha1-UX6Kj/kD4HoKtAu8u6dodCnKI1s=
 
 svgo@^1.0.0:
   version "1.3.2"
