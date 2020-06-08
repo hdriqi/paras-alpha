@@ -1,115 +1,25 @@
-import ParseBody from './parseBody'
+import ParseBody from '../parseBody'
 import { useSelector, useDispatch, batch } from 'react-redux'
-import { withRedux } from '../lib/redux'
+import { withRedux } from '../../lib/redux'
 import TimeAgo from 'javascript-time-ago'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
 import en from 'javascript-time-ago/locale/en'
-import Push from './Push'
+import Push from '../Push'
 import { useState, useRef, useEffect, useContext } from 'react'
-import PopForward from './PopForward'
-import { deletePost } from '../actions/me'
-import PostCardLoader from './PostCardLoader'
-import Image from './Image'
-import near from '../lib/near'
-import { setLoading } from '../actions/ui'
+import PopForward from '../PopForward'
+import { deletePost } from '../../actions/me'
+import PostCardLoader from '../PostCardLoader'
+import Image from '../Image'
+import near from '../../lib/near'
+import { setLoading } from '../../actions/ui'
 import { CarouselProvider, Slider, Slide, CarouselContext, WithStore } from '@evius/pure-react-carousel'
-import SlideCommon from './Slide/Common'
+import SlideCommon from '../Slide/Common'
+import ModalPost from './Modal'
 
 TimeAgo.addLocale(en)
 
 const timeAgo = new TimeAgo('en-US')
-
-const ModalPost = ({ me, meMementoList, post, close }) => {
-  const dispatch = useDispatch()
-  const pageList = useSelector(state => state.ui.pageList)
-  const [view, setView] = useState('default')
-  const backBtnRef = useRef()
-
-  const _close = (e) => {
-    if (!e) {
-      setView('default')
-      close()
-    }
-    else if (e.target.id === 'modal-bg') {
-      setView('default')
-      close()
-    }
-  }
-
-  const _delete = async (id) => {
-    dispatch(setLoading(true, 'Forgetting memory...'))
-    await near.contract.deletePostById({
-      id: id
-    })
-
-    if (pageList.length > 0) {
-      backBtnRef.current.click()
-    }
-
-    batch(() => {
-      dispatch(deletePost(id))
-      dispatch(setLoading(false))
-    })
-    _close()
-  }
-
-  const _copyLink = (e) => {
-    var copyText = document.getElementById(`urlLink_${post.id}`)
-    copyText.select()
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy")
-    setView('confirmCopyLink')
-    setTimeout(() => {
-      _close()
-    }, 1000)
-  }
-
-  return (
-    <div id="modal-bg" onClick={(e) => _close(e)} className="fixed inset-0 w-full h-full z-40 p-8 pt-40" style={{
-      backgroundColor: `rgba(0,0,0,0.5)`
-    }}>
-      <div className="invisible">
-        <PopForward ref={backBtnRef}></PopForward>
-      </div>
-      <div className="max-w-sm m-auto bg-dark-0 shadow-lg rounded-lg">
-        {
-          view === 'default' && (
-            <div>
-              <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-              {
-                (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
-                  <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
-                )
-              }
-            </div>
-          )
-        }
-        {
-          view === 'confirmDelete' && (
-            <div>
-              <p className="p-4">Do you want to forget this memory?</p>
-              <div className="flex justify-end">
-                <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                <button className="p-4 text-red-600 font-medium text-left" onClick={_ => _delete(post.id)}>Forget</button>
-              </div>
-            </div>
-          )
-        }
-        {
-          view === 'confirmCopyLink' && (
-            <div>
-              <p className="p-4">Link copied!</p>
-            </div>
-          )
-        }
-        <div className="opacity-0 absolute">
-          <input readOnly type="text" value={`${window.location.origin}/post/${post.id}`} id={`urlLink_${post.id}`} />
-        </div>
-      </div>
-    </div>
-  )
-}
 
 const MetadataComp = ({ post }) => {
   const carouselContext = useContext(CarouselContext);
@@ -147,21 +57,9 @@ const Metadata = WithStore(MetadataComp)
 
 const Post = ({ post }) => {
   const me = useSelector(state => state.me.profile)
-  const meMementoList = useSelector(state => state.me.blockList)
-  const pageList = useSelector(state => state.ui.pageList)
+  const meMementoList = useSelector(state => state.me.mementoList)
   const deletedPostList = useSelector(state => state.me.deletedPostList)
   const [showModal, setShowModal] = useState(false)
-
-  useEffect(() => {
-    if (showModal) {
-      disableBodyScroll(document.querySelector('#modal-bg'), {
-        reserveScrollBarGap: true,
-      })
-    }
-    else {
-      enableBodyScroll(document.querySelector('#modal-bg'))
-    }
-  }, [showModal])
 
   const _isDeleted = () => {
     if (deletedPostList.findIndex(id => id === post.id) > -1) {
@@ -181,20 +79,37 @@ const Post = ({ post }) => {
     return (
       !_isDeleted() && (
         <div className="rounded-md overflow-hidden bg-dark-6">
+          <ModalPost
+            showModal={showModal}
+            setShowModal={setShowModal}
+            post={post}
+            meMementoList={meMementoList}
+          />
           <div className="bg-dark-2 text-center p-2 flex justify-center">
             <div className="flex items-center">
               <div className="w-4 h-4 rounded-sm overflow-hidden">
                 <Image className="w-full h-full object-fill" data={post.memento.img} />
               </div>
-              <h4 className="ml-2 font-bold text-white text-xs">{post.memento.domain}</h4>
+              <h4 className="ml-2 font-bold text-white text-sm">{post.memento.domain}</h4>
             </div>
           </div>
-          <div className="p-2 flex items-center">
-            <div className="h-8 w-8 rounded-full overflow-hidden shadow-inner">
-              <img className="object-fill" src="https://images.pexels.com/photos/2253415/pexels-photo-2253415.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+          <div className="p-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="h-8 w-8 rounded-full overflow-hidden shadow-inner">
+                <img className="object-fill" src="https://images.pexels.com/photos/2253415/pexels-photo-2253415.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+              </div>
+              <div className="ml-2">
+                <p className="text-white text-sm font-bold">{post.owner}</p>
+              </div>
             </div>
-            <div className="ml-2">
-              <p className="text-white text-sm font-bold">{post.owner}</p>
+            <div>
+              <button className="flex items-center" onClick={_ => setShowModal(true)}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 12C20 13.1046 19.1046 14 18 14C16.8954 14 16 13.1046 16 12C16 10.8954 16.8954 10 18 10C19.1046 10 20 10.8954 20 12Z" fill="#E2E2E2" />
+                  <path d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z" fill="#E2E2E2" />
+                  <path d="M8 12C8 13.1046 7.10457 14 6 14C4.89543 14 4 13.1046 4 12C4 10.8954 4.89543 10 6 10C7.10457 10 8 10.8954 8 12Z" fill="#E2E2E2" />
+                </svg>
+              </button>
             </div>
           </div>
           <div>

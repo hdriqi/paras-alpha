@@ -141,6 +141,12 @@ const Layout = ({ children }) => {
     dispatch(setLoading(false))
   }
 
+  const _logOut = () => {
+    near.wallet.signOut()
+
+    window.location.replace(window.location.origin + '/login')
+  }
+
   return (
     <Fragment>
       <Head>
@@ -168,6 +174,7 @@ const Layout = ({ children }) => {
                         <div className="mr-auto w-full" style={{
                           maxWidth: `10rem`
                         }}>
+                          <p onClick={_ => _logOut()} className="text-white">Logout</p>
                         </div>
                       </div>
                       <div className="ml-auto w-full" style={{

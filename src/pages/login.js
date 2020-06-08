@@ -13,7 +13,8 @@ const LoginPage = () => {
   }, [])
 
   const _signIn = async () => {
-    const appTitle = 'Paras Alpha'
+    const appTitle = 'Paras'
+    console.log(near.config)
     await near.wallet.requestSignIn(
       near.config.contractName,
       appTitle

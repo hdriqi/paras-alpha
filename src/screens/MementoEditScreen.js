@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import MementoEdit from '../components/MementoEdit'
+import MementoEdit from '../components/Memento/Edit'
 import near from '../lib/near'
 
 const MementoEditScreen = ({ id, memento = {} }) => {

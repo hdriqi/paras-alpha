@@ -41,9 +41,10 @@ class Near {
       // Change methods can modify the state, but you don't receive the returned value when called
       changeMethods: [
         'createMemento',
-        'updateMementoById',
-        'deleteMementoById',
+        'updateMemento',
         'createPost', 
+        'deletePost',
+        'deleteMementoById',
         'transmitPost',
         'deletePostById',
         'createUser',

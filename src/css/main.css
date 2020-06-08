@@ -12,6 +12,7 @@
 body {
   font-family: 'Inconsolata', monospace;
   font-weight: 400;
+  @apply bg-dark-0;
 }
 
 h1, h2, h3, h4, button {
