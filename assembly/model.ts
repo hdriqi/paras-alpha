@@ -106,12 +106,18 @@ export class Following {
 @nearBindgen
 export class User {
   id: string
-  username: string
   following: Following[]
   imgAvatar: Img
   bio: string
-  bioRaw: string
   createdAt: u64
+
+  constructor(imgAvatar: Img, bio: string) {
+    this.id = context.sender
+    this.following = []
+    this.imgAvatar = imgAvatar
+    this.bio = bio
+    this.createdAt = context.blockTimestamp
+  }
 }
 
 @nearBindgen
@@ -121,26 +127,6 @@ export class QueryOpts {
   _order: string | null
   _skip: u32
   _limit: u32
-}
-
-@nearBindgen
-export class PostList {
-  data: Post[]
-}
-
-@nearBindgen
-export class MementoList {
-  data: Memento[]
-}
-
-@nearBindgen
-export class UserList {
-  data: User[]
-}
-
-@nearBindgen
-export class CommentList {
-  data: Comment[]
 }
 
 @nearBindgen
@@ -162,8 +148,9 @@ export class SearchResult {
 
 export const mementoCollection = new PersistentMap<string, Memento>('memento')
 export const postCollection = new PersistentMap<string, Post>('post')
+export const userCollection = new PersistentMap<string, User>('user')
 
 // export const postCollection = new PersistentMap<string, PostList>("p")
 // export const mementoCollection = new PersistentMap<string, MementoList>("m")
-export const userCollection = new PersistentMap<string, UserList>("u")
+
 // export const commentCollection = new PersistentMap<string, CommentList>("c")

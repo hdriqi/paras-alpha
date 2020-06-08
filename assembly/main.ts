@@ -30,23 +30,24 @@ export function createPost(
   return p
 }
 
-export function getUserByUsername(username: string): User | null {
-	let result: User | null = null
-	const userList = userCollection.get('list')
-	if(!userList) {
-		return null
+export function getUserById(id: string): User | null {
+	const user = userCollection.get(id)
+	if (user) {
+		return user
 	}
-	for (let idx = 0; idx < userList.data.length; idx++) {
-		const user = userList.data[idx]
-		if(user.username == username) {
-			result = user
-			break
-		}
-	}
-	if(result) {
-		return result
-	}
-	else {
-		return null
-	}
+	return null
+}
+
+export function createUser(imgAvatar: Img, bio: string): User {
+	const userExist = getUserById(context.sender)
+	assert(
+		!userExist,
+		'User already exist'
+	)
+
+	const newUser = new User(imgAvatar, bio)
+
+	userCollection.set(newUser.id, newUser)
+
+	return newUser
 }

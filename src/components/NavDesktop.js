@@ -68,7 +68,7 @@ const NavMobile = () => {
   }, [profile, router])
 
   return (
-    <div className={`${profile && profile.username ? 'visible' : 'invisible'} sticky min-h-screen top-0 flex flex-col w-full`} style={{
+    <div className={`${profile && profile.id ? 'visible' : 'invisible'} sticky min-h-screen top-0 flex flex-col w-full`} style={{
       boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
     }}>
       <div className="h-12 flex items-center bg-dark-12">

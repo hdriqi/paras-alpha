@@ -135,14 +135,14 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
     setDescBackground('bg-dark-2')
   }
 
-  const completeName = (type.value === 'personal' ? `${name || '[name]'}.${me.username.split('.')[0]}` : `${name || '[name]'}.${domain.value || '[domain]'}`).toLowerCase()
+  const domainName = (type.value === 'personal' ? `${name || '[name]'}.${me.id.split('.')[0]}` : `${name || '[name]'}.${domain.value || '[domain]'}`).toLowerCase()
 
   return (
     <div id="new-memento" className="bg-dark-0 min-h-screen">
       <Alert
         show={showAlert}
         onClose={_ => setShowAlert(false)}
-        mainText={`${completeName} is not available`}
+        mainText={`${domainName} is not available`}
       />
       <NavTop
         left={
@@ -172,7 +172,7 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
         <div className="px-4">
           <div className="text-center">
             <h4 className="text-white text">Create Memento</h4>
-            <h4 className="text-white text-xl font-semibold break-words">{completeName}</h4>
+            <h4 className="text-white text-xl font-semibold break-words">{domainName}</h4>
           </div>
           <div className="mt-4">
             <div className="flex justify-between">

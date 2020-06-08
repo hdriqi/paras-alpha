@@ -10,10 +10,12 @@ import ipfs from 'lib/ipfs'
 import axios from 'axios'
 import near from 'lib/near'
 import { setLoading } from 'actions/ui'
+import { useRouter } from 'next/router'
 
 const NewPost = () => {
   const backRef = useRef(null)
   const dispatch = useDispatch()
+  const router = useRouter()
   const [content, setContent] = useState([{
     type: 'blank'
   }])
@@ -33,8 +35,6 @@ const NewPost = () => {
           const response = await axios.get(content.body.img, {
             responseType: 'blob'
           })
-          // const file = new File([response.data], '123')
-          // console.log(file)
           const img = await compressImg(response.data)
           for await (const file of ipfs.client.add([{
             content: img
@@ -84,6 +84,8 @@ const NewPost = () => {
     await near.contract.createPost(newData)
     dispatch(setLoading(false))
     dispatch(addPostList([newData]))
+
+    router.back()
   }
 
   const _validateSubmit = () => {

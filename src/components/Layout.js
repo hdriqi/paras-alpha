@@ -67,15 +67,14 @@ const Layout = ({ children }) => {
           if (onboarding.data.success == 0) {
             setShowOnboarding(true)
           }
-          let profile = await near.contract.getUserByUsername({
-            username: near.currentUser.accountId
+          let profile = await near.contract.getUserById({
+            id: near.currentUser.accountId
           })
           if (!profile) {
             try {
               profile = await near.contract.createUser({
                 imgAvatar: DEFAULT_AVATAR,
-                bio: '',
-                bioRaw: ''
+                bio: ''
               })
             } catch (err) {
               const msg = err.toString()
@@ -162,7 +161,7 @@ const Layout = ({ children }) => {
                     {children}
                   </div>
                   <div className="flex-auto hidden sm:block w-1/3">
-                    <div className={`${profile && profile.username ? 'visible' : 'invisible'} sticky min-h-screen top-0 flex flex-col w-full`} style={{
+                    <div className={`${profile && profile.id ? 'visible' : 'invisible'} sticky min-h-screen top-0 flex flex-col w-full`} style={{
                       boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
                     }}>
                       <div className="h-12 px-4 flex items-center bg-dark-12">

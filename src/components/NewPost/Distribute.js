@@ -113,24 +113,31 @@ const Distribute = ({ onClose, onSelect }) => {
           <h3 className="text-lg font-bold text-white">My Memento</h3>
           <div>
             {
-              mementoList.map(m => {
-                return (
-                  <div key={m.id} onClick={_ => onSelect(m)} className="flex items-center my-2 bg-dark-2 rounded-md p-2 cursor-pointer hover:bg-dark-24">
-                    <div className="w-6 h-6 rounded-sm overflow-hidden">
-                      {
-                        m.img ? (
-                          <Image data={m.img} />                          
-                        ) : (
-                          <div className="bg-white flex items-center justify-center">
-                            <p className="text-primary-5 font-extrabold">{m.domain}</p>
-                          </div>
-                        )
-                      }
+              mementoList.length > 0 ? (
+                mementoList.map(m => {
+                  return (
+                    <div key={m.id} onClick={_ => onSelect(m)} className="flex items-center my-2 bg-dark-2 rounded-md p-2 cursor-pointer hover:bg-dark-24">
+                      <div className="w-6 h-6 rounded-sm overflow-hidden">
+                        {
+                          m.img ? (
+                            <Image data={m.img} />
+                          ) : (
+                              <div className="bg-white flex items-center justify-center">
+                                <p className="text-primary-5 font-extrabold">{m.domain}</p>
+                              </div>
+                            )
+                        }
+                      </div>
+                      <h4 className="ml-2 font-bold text-white">{m.domain}</h4>
                     </div>
-                    <h4 className="ml-2 font-bold text-white">{m.domain}</h4>
+                  )
+                })
+              ) : (
+                  <div className="text-center mt-2 p-2 ">
+                    <h4 className="text-white text-lg font-semibold">Empty Memento</h4>
+                    <p className="text-white-1 pt-2">Click on button at top right to add Memento</p>
                   </div>
                 )
-              })
             }
           </div>
         </div>
