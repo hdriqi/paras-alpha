@@ -187,7 +187,7 @@ const NewPostCreate = ({ content, setContent, chosenMemento, setChosenMemento })
                             <div className="w-6 h-6 rounded-sm overflow-hidden">
                               <Image data={chosenMemento.img} />
                             </div>
-                            <h4 className="ml-2 font-bold text-white">{chosenMemento.domain}</h4>
+                            <h4 className="ml-2 font-bold text-white">{chosenMemento.id}</h4>
                           </div>
                         ) : `Choose a Memento`
                       }

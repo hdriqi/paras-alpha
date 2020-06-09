@@ -169,7 +169,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white px-2">{stickySubNav ? memento.domain : `Memento`} </h3>
+          <h3 className="text-lg font-bold text-white px-2">{stickySubNav ? memento.id : `Memento`} </h3>
         }
         right={
           <button onClick={_ => setShowModal(true)}>
@@ -190,7 +190,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
         <div className="pt-4 flex justify-center items-center">
           <div>
             <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
-              <p className="text-white text-xl font-semibold">{memento.domain}</p>
+              <p className="text-white text-xl font-semibold">{memento.id}</p>
             </InView>
           </div>
         </div>

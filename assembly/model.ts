@@ -26,7 +26,6 @@ export class Memento {
   id: string
   name: string
   category: string
-  domain: string
   img: Img
   desc: string
   type: string
@@ -37,10 +36,9 @@ export class Memento {
   constructor(name: string, category: string, img: Img, desc: string, type: string) {
     const tail = type === 'personal' ? context.sender : category
 
-    this.id = generateId()
+    this.id = name.concat('.').concat(tail)
     this.name = name
     this.category = category
-    this.domain = name.concat('.').concat(tail)
     this.img = img
     this.desc = desc
     this.type = type

@@ -138,7 +138,7 @@ const MementoEdit = ({ memento }) => {
         <div className="px-4">
           <div className="text-center">
             <h4 className="text-white text">Create Memento</h4>
-            <h4 className="text-white text-xl font-semibold break-words">{memento.domain}</h4>
+            <h4 className="text-white text-xl font-semibold break-words">{memento.id}</h4>
           </div>
           <div className="mt-4">
             <div ref={descRef} className="flex justify-between">

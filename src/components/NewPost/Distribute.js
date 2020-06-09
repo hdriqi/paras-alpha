@@ -123,12 +123,12 @@ const Distribute = ({ onClose, onSelect }) => {
                             <Image data={m.img} />
                           ) : (
                               <div className="bg-white flex items-center justify-center">
-                                <p className="text-primary-5 font-extrabold">{m.domain}</p>
+                                <p className="text-primary-5 font-extrabold">{m.id}</p>
                               </div>
                             )
                         }
                       </div>
-                      <h4 className="ml-2 font-bold text-white">{m.domain}</h4>
+                      <h4 className="ml-2 font-bold text-white">{m.id}</h4>
                     </div>
                   )
                 })

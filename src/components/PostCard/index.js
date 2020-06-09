@@ -91,7 +91,7 @@ const Post = ({ post }) => {
                 <div className="w-4 h-4 rounded-sm overflow-hidden">
                   <Image className="w-full h-full object-fill" data={post.memento.img} />
                 </div>
-                <h4 className="ml-2 font-bold text-white text-sm">{post.memento.domain}</h4>
+                <h4 className="ml-2 font-bold text-white text-sm">{post.memento.id}</h4>
               </a>
             </Push>
           </div>

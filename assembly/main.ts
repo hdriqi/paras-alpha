@@ -14,6 +14,13 @@ export function createMemento(
 	)
 	const m = new Memento(name, category, img, desc, type)
 
+	// check if memento id already taken
+	const exist = getMementoById(m.id)
+	assert(
+		exist,
+		'Memento id already taken'
+	)
+	
 	mementoCollection.set(m.id, m)
 
 	return m
