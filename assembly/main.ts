@@ -1,5 +1,5 @@
 import { context, math, base58, logging } from 'near-sdk-as'
-import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection } from './model'
+import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Following, feedCollection, feedIndex, Feed, FeedIndex } from './model'
 
 export function createMemento(
 	name: string,
@@ -17,7 +17,7 @@ export function createMemento(
 	// check if memento id already taken
 	const exist = getMementoById(m.id)
 	assert(
-		exist,
+		!exist,
 		'Memento id already taken'
 	)
 	
@@ -111,4 +111,46 @@ export function createUser(imgAvatar: Img, bio: string): User {
 	userCollection.set(newUser.id, newUser)
 
 	return newUser
+}
+
+export function getFeedById(id: string): Feed | null {
+	
+	const feed = feedCollection.get(id)
+	if(feed) {
+		return feed
+	}
+	return null
+}
+
+export function toggleFollow(target: Following): boolean {
+	const feedId = math.hash32(context.sender).toString()
+
+	const feed = getFeedById(feedId)
+	const feedIdx = feedId.concat('->').concat(target.id)
+	if (feed) {
+		const isFollowing = feedIndex.get(feedIdx)
+		// if already following, set to unfollow target
+		if (isFollowing) {
+			feed.list.splice(isFollowing.index, 1)
+			feed.id = feedId
+			feedCollection.set(feedId, feed)
+			feedIndex.delete(feedId.concat('->').concat(target.id))
+		}
+		// else follow target
+		else {
+			feed.list.push(target)
+			feed.id = feedId
+			feedCollection.set(feedId, feed)
+			const idx = new FeedIndex(feed.list.length - 1)
+			feedIndex.set(feedId.concat('->').concat(target.id), idx)
+		}
+		
+		return true
+	}
+
+	const newFeed = new Feed(feedId, [target])
+	feedCollection.set(feedId, newFeed)
+	const idx = new FeedIndex(0)
+	feedIndex.set(feedIdx, idx)
+	return true
 }

@@ -14,99 +14,7 @@ import NavTop from '../NavTop'
 import InView, { useInView } from 'react-intersection-observer'
 import Image from 'components/Image'
 import MementoModal from './Modal'
-
-// const ModalMemento = ({ me, memento, close }) => {
-//   const backBtnRef = useRef(null)
-//   const pushBtnManageRef = useRef(null)
-//   const [view, setView] = useState('default')
-//   const dispatch = useDispatch()
-
-//   const _closeModal = (e) => {
-//     if (e.target.id === 'modal-bg') {
-//       setView('default')
-//       close()
-//     }
-//   }
-
-//   const _delete = async (id) => {
-//     dispatch(setLoading(true, 'Forgetting memento...'))
-//     await near.contract.deleteMementoById({
-//       id: id
-//     })
-//     dispatch(setLoading(false))
-//     close()
-//     backBtnRef.current.click()
-//   }
-
-//   const _copyLink = () => {
-//     var copyText = document.getElementById(`urlLink_${memento.id}`)
-//     copyText.select()
-//     copyText.setSelectionRange(0, 99999)
-//     document.execCommand("copy")
-//     setView('confirmCopyLink')
-//     setTimeout(() => {
-//       setView('default')
-//       close()
-//     }, 1000)
-//   }
-
-//   const _manage = () => {
-//     setView('default')
-//     close()
-//     pushBtnManageRef.current.click()
-//   }
-
-//   return (
-//     <div id="modal-bg" onClick={(e) => _closeModal(e)} className="fixed inset-0 w-full h-full z-40 p-8 pt-40" style={{
-//       backgroundColor: `rgba(0,0,0,0.5)`
-//     }}>
-//       <div className="invisible">
-//         <PushForward ref={pushBtnManageRef} href="/m/[id]/manage" as={`/m/${memento.id}/manage`} props={{ id: memento.id }}></PushForward>
-//         <PopForward ref={backBtnRef}></PopForward>
-//       </div>
-//       <div className="max-w-sm m-auto bg-dark-0 shadow-lg rounded-lg">
-//         {
-//           view === 'default' && (
-//             <div>
-//               {/* {
-//               meMementoList.findIndex(memento => memento.id === memento.id) > -1 && (
-//                 <button className="w-full p-4 font-medium text-left" onClick={_ => _manage()}>Manage</button>
-//               )
-//             } */}
-//               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-//               {
-//                 me && me.username == memento.owner && (
-//                   <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
-//                 )
-//               }
-//             </div>
-//           )
-//         }
-//         {
-//           view === 'confirmDelete' && (
-//             <div>
-//               <p className="p-4">Are you sure you want to forget this memento?</p>
-//               <div className="flex justify-end">
-//                 <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-//                 <button className="p-4 text-red-600 font-medium text-left" onClick={_ => _delete(memento.id)}>Forget</button>
-//               </div>
-//             </div>
-//           )
-//         }
-//         {
-//           view === 'confirmCopyLink' && (
-//             <div>
-//               <p className="p-4">Link copied!</p>
-//             </div>
-//           )
-//         }
-//         <div className="opacity-0 absolute">
-//           <input readOnly type="text" value={`${window.location.origin}/m/${memento.id}`} id={`urlLink_${memento.id}`} />
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
+import PostCard from '../PostCard'
 
 const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFound }) => {
   const dispatch = useDispatch()
@@ -135,13 +43,16 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
     }
   }, [showModal])
 
-  const _toggleFollow = async (me, memento) => {
+  const _toggleFollow = async () => {
     const msg = isFollowing ? 'Unfollowing memento...' : 'Following memento...'
     dispatch(setLoading(true, msg))
-    const newMe = await near.contract.toggleUserFollow({
-      id: me.id,
-      targetId: memento.id,
-      targetType: 'memento'
+    const target = {
+      id: memento.id,
+      type: 'memento'
+    }
+    console.log(target)
+    const newMe = await near.contract.toggleFollow({
+      target: target
     })
 
     setIsFollowing(!isFollowing)
@@ -181,7 +92,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           </button>
         }
       />
-      <div className="px-4 pt-4">
+      <div className="p-4">
         <div className="flex justify-center items-center">
           <div className="w-40 h-40 rounded-md overflow-hidden">
             <Image className="object-cover h-full" data={memento.img} />
@@ -198,22 +109,30 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
           <p className="text-white opacity-87">{memento.desc}</p>
         </div>
         <div className="text-center pt-4">
-          <button className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">FOLLOW</button>
+          {
+            !isFollowing ? (
+              <button onClick={_toggleFollow} className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">FOLLOW</button>
+            ) : (
+                <button onClick={_toggleFollow} className="border-primary-5 px-4 py-1 text-xs font-bold text-primary-5 rounded-md uppercase">FOLLOWING</button>
+              )
+          }
         </div>
       </div>
-      {/* {
-        list.map(post => {
+      {
+        postList.map(post => {
           return (
             <div className="mx-4 mt-4">
               <PostCard post={post} />
             </div>
           )
         })
-      } */}
+      }
       <div className="sticky block md:hidden" style={{
         bottom: `2rem`
       }}>
-        <Push href="/new/post" as="/new/post">
+        <Push href="/new/post" as="/new/post" props={{
+          memento: memento
+        }}>
           <svg className="ml-auto mr-4" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28Z" fill="#E13128" />
             <path fillRule="evenodd" clipRule="evenodd" d="M26.5292 38.6667V30.1375H18V26.5292H26.5292V18H30.1375V26.5292H38.6667V30.1375H30.1375V38.6667H26.5292Z" fill="white" />

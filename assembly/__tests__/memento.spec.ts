@@ -18,7 +18,7 @@ describe('Memento ', () => {
     const m = createMemento(name, category, img, desc, type)
 
     const newM = mementoCollection.getSome(m.id)
-    expect(m.domain).toBe(newM.domain)
+    expect(m.id).toBe(newM.id)
   })
 
   it('should update memento', () => {
@@ -35,8 +35,11 @@ describe('Memento ', () => {
     const newDesc = 'Hello world'
     updateMemento(m.id, m.img, newDesc)
 
-    const newM = mementoCollection.getSome(m.id)
-    expect(newM.desc).toBe(newDesc)
+    const newM = mementoCollection.get(m.id)
+    if(newM) {
+      expect(newM.desc).toBe(newDesc)  
+    }
+    
   })
 
   // itThrows('should throw error Memento type', () => {

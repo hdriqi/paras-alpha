@@ -86,7 +86,9 @@ const Post = ({ post }) => {
             meMementoList={meMementoList}
           />
           <div className="bg-dark-2 text-center p-2 flex justify-center">
-            <Push href="/m/[id]" as={`/m/${post.memento.id}`}>
+            <Push href="/m/[id]" as={`/m/${post.memento.id}`} props={{
+              id: post.memento.id
+            }}>
               <a className="flex items-center">
                 <div className="w-4 h-4 rounded-sm overflow-hidden">
                   <Image className="w-full h-full object-fill" data={post.memento.img} />

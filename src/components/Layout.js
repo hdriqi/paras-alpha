@@ -102,18 +102,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const getUserMementoData = async () => {
-      // const query = [`owner:=${profile.username}`]
-      // const mementoList = await near.contract.getMementoList({
-      //   query: query,
-      //   opts: {
-      //     _embed: true,
-      //     _sort: 'createdAt',
-      //     _order: 'desc',
-      //     _limit: 10
-      //   }
-      // })
-
-      const response = await axios.get(`http://localhost:9090/memento`)
+      const response = await axios.get(`http://localhost:9090/mementos?owner=${profile.id}`)
       dispatch(addMementoList(response.data.data))
     }
     if (!isLoading && profile.id && mementoList.length === 0) {
@@ -146,6 +135,8 @@ const Layout = ({ children }) => {
 
     window.location.replace(window.location.origin + '/login')
   }
+
+  console.log(near.wallet)
 
   return (
     <Fragment>

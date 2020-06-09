@@ -26,7 +26,7 @@ const HomeScreen = ({  }) => {
     const curList = postList ? [...postList] : []
     let page = pageCount || 0 
     
-    const response = await axios.get(`http://localhost:9090/post`)
+    const response = await axios.get(`http://localhost:9090/posts?_skip=${page * 5}&_limit=${5}`)
     let newPostList = response.data.data || []
     
     // if(me && me.id) {

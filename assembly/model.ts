@@ -34,7 +34,7 @@ export class Memento {
   user: User | null
 
   constructor(name: string, category: string, img: Img, desc: string, type: string) {
-    const tail = type === 'personal' ? context.sender : category
+    const tail = type == 'personal' ? context.sender : category
 
     this.id = name.concat('.').concat(tail)
     this.name = name
@@ -102,16 +102,34 @@ export class Following {
 }
 
 @nearBindgen
+export class Feed {
+  id: string
+  list: Following[]
+
+  constructor(id: string, list: Following[]) {
+    this.id = id
+    this.list = list
+  }
+}
+
+@nearBindgen
+export class FeedIndex {
+  index: u32
+
+  constructor(index: u32) {
+    this.index = index
+  }
+}
+
+@nearBindgen
 export class User {
   id: string
-  following: Following[]
   imgAvatar: Img
   bio: string
   createdAt: u64
 
   constructor(imgAvatar: Img, bio: string) {
     this.id = context.sender
-    this.following = []
     this.imgAvatar = imgAvatar
     this.bio = bio
     this.createdAt = context.blockTimestamp
@@ -147,6 +165,8 @@ export class SearchResult {
 export const mementoCollection = new PersistentMap<string, Memento>('memento')
 export const postCollection = new PersistentMap<string, Post>('post')
 export const userCollection = new PersistentMap<string, User>('user')
+export const feedCollection = new PersistentMap<string, Feed>('feed')
+export const feedIndex = new PersistentMap<string, FeedIndex>('feedIdx')
 
 // export const postCollection = new PersistentMap<string, PostList>("p")
 // export const mementoCollection = new PersistentMap<string, MementoList>("m")

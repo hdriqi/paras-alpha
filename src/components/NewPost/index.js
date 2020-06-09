@@ -12,14 +12,14 @@ import near from 'lib/near'
 import { setLoading } from 'actions/ui'
 import { useRouter } from 'next/router'
 
-const NewPost = () => {
+const NewPost = ({ memento = null }) => {
   const backRef = useRef(null)
   const dispatch = useDispatch()
   const router = useRouter()
   const [content, setContent] = useState([{
     type: 'blank'
   }])
-  const [chosenMemento, setChosenMemento] = useState(null)
+  const [chosenMemento, setChosenMemento] = useState(memento)
 
   const _submit = async () => {
     const postContentList = content.map(content => {

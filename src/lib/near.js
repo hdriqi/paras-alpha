@@ -45,6 +45,7 @@ class Near {
         'updateMemento',
         'createPost', 
         'deletePost',
+        'toggleFollow',
         'deleteMementoById',
         'transmitPost',
         'deletePostById',
@@ -56,7 +57,7 @@ class Near {
       ],
       // Sender is the account ID to initialize transactions.
       // getAccountId() will return empty string if user is still unauthorized
-      sender: wallet.getAccountId()
+      sender: wallet.getAccountId(),
     })
   
     this.contract = contract
