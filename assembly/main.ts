@@ -1,4 +1,4 @@
-import { context, math, base58 } from 'near-sdk-as'
+import { context, math, base58, logging } from 'near-sdk-as'
 import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection } from './model'
 
 export function createMemento(
@@ -38,7 +38,7 @@ export function updateMemento(
 	if (memento) {
 		memento.img = img
 		memento.desc = desc
-
+		
 		mementoCollection.set(id, memento)
 
 		return memento

@@ -86,12 +86,14 @@ const Post = ({ post }) => {
             meMementoList={meMementoList}
           />
           <div className="bg-dark-2 text-center p-2 flex justify-center">
-            <div className="flex items-center">
-              <div className="w-4 h-4 rounded-sm overflow-hidden">
-                <Image className="w-full h-full object-fill" data={post.memento.img} />
-              </div>
-              <h4 className="ml-2 font-bold text-white text-sm">{post.memento.domain}</h4>
-            </div>
+            <Push href="/m/[id]" as={`/m/${post.memento.id}`}>
+              <a className="flex items-center">
+                <div className="w-4 h-4 rounded-sm overflow-hidden">
+                  <Image className="w-full h-full object-fill" data={post.memento.img} />
+                </div>
+                <h4 className="ml-2 font-bold text-white text-sm">{post.memento.domain}</h4>
+              </a>
+            </Push>
           </div>
           <div className="p-2 flex items-center justify-between">
             <div className="flex items-center">

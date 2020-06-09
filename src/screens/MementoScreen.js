@@ -62,7 +62,7 @@ const MementoScreen = ({ id }) => {
   useEffect(() => {
     if(id) {
       console.log('get memento post list')
-      getPost(0)
+      // getPost(0)
     }
   }, [id])
 

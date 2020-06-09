@@ -5,8 +5,9 @@ import Notify from "components/Utils/Notify"
 import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
+import Push from "components/Push"
 
-const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
+const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
   const dispatch = useDispatch()
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
@@ -30,7 +31,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   }
 
   const _copyLink = (e) => {
-    var copyText = document.getElementById(`urlLink_${post.id}`)
+    var copyText = document.getElementById(`urlLink_${memento.id}`)
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy")
@@ -46,7 +47,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
       <Notify show={showNotifyCopyLink}>
         <p className="text-white p-2">Link copied!</p>
       </Notify>
-      <Confirm 
+      <Confirm
         show={showConfirmForget}
         onClose={_ => setShowConfirmForget(false)}
         onComplete={_ => _deletePost()}
@@ -58,7 +59,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
         <div className="opacity-0 absolute" style={{
           zIndex: `-1`
         }}>
-          <input readOnly type="text" value={`${window.location.origin}/post/${post.id}`} id={`urlLink_${post.id}`} />
+          <input readOnly type="text" value={`${window.location.origin}/post/${memento.id}`} id={`urlLink_${memento.id}`} />
         </div>
         <div>
           <div>
@@ -66,9 +67,16 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
             {
-              (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
-                <button className="w-full text-left" onClick={_ => _forget()}>
-                  <h4 className="p-4 text-white font-bold">Forget</h4>
+              me && me.id == memento.owner && (
+                <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+                  <Push href="/m/[id]/edit" as={`/m/${memento.id}/edit`} props={{
+                    id: memento.id,
+                    memento: memento
+                  }}>
+                    <a>
+                      <h4 className="p-4 text-white font-bold">Edit Memento</h4>
+                    </a>
+                  </Push>
                 </button>
               )
             }
@@ -109,4 +117,4 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   )
 }
 
-export default ModalPost
+export default MementoModal
