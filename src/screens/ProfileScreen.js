@@ -4,110 +4,68 @@ import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { addData } from '../actions/me'
 import near from '../lib/near'
+import axios from 'axios'
 
-const ProfileScreen = ({ username }) => {
+const ProfileScreen = ({ id }) => {
   const dispatch = useDispatch()
 
   // const [localUser, setLocalUser] = useState(user)
   // const [localMementoList, setLocalMementoList] = useState(mementoList)
   // const [localPostList, setLocalPostList] = useState(postList)
 
-  const user = useSelector(state => state.me.data[`/${username}_user`])
-  const mementoList = useSelector(state => state.me.data[`/${username}_mementoList`])
-  const postList = useSelector(state => state.me.data[`/${username}_postList`])
-  const pageCount = useSelector(state => state.me.data[`/${username}_pageCount`])
-  const hasMore = useSelector(state => state.me.data[`/${username}_hasMore`])
+  const user = useSelector(state => state.me.data[`/${id}_user`])
+  const mementoList = useSelector(state => state.me.data[`/${id}_mementoList`])
+  const postList = useSelector(state => state.me.data[`/${id}_postList`])
+  const pageCount = useSelector(state => state.me.data[`/${id}_pageCount`])
+  const hasMore = useSelector(state => state.me.data[`/${id}_hasMore`])
 
   const getPost = async () => {
     const ITEM_LIMIT = 5
-    const query = [`owner:=${username}`, 'status:=published']
+    const query = [`owner:=${id}`, 'status:=published']
     const curList = postList ? [...postList] : []
     const page = pageCount || 0
 
-    const newPostList = await near.contract.getPostList({
-      query: query,
-      opts: {
-        _embed: true,
-        _sort: 'createdAt',
-        _order: 'desc',
-        _skip: page * ITEM_LIMIT,
-        _limit: ITEM_LIMIT
-      }
-    })
+    const response = await axios.get(`http://localhost:9090/posts?owner=${id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
+    const newPostList = response.data.data
 
     const newList = curList.concat(newPostList)
-    dispatch(addData(`/${username}_postList`, postList))
+    dispatch(addData(`/${id}_postList`, postList))
     batch(() => {
-      dispatch(addData(`/${username}_postList`, newList))
-      dispatch(addData(`/${username}_pageCount`, page + 1))
+      dispatch(addData(`/${id}_postList`, newList))
+      dispatch(addData(`/${id}_pageCount`, page + 1))
     })
     if(page === 0) {
-      dispatch(addData(`/${username}_hasMore`, true))
+      dispatch(addData(`/${id}_hasMore`, true))
     }
     if(newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
-      dispatch(addData(`/${username}_hasMore`, false))
+      dispatch(addData(`/${id}_hasMore`, false))
     }
   }
 
   useEffect(() => {
     const getData = async () => {
-      const user = await near.contract.getUserByUsername({
-        username: username
-      })
+      const response = await axios.get(`http://localhost:9090/users?id=${id}`)
+      const user = response.data.data[0]
+      console.log(user)
+      // const user = await near.contract.getUserByid({
+      //   id: id
+      // })
       // setLocalUser(user)
-      dispatch(addData(`/${username}_user`, user))
+      dispatch(addData(`/${id}_user`, user))
     }
 
-    if(username) {
+    if(id) {
       console.log('get user data')
       getData()
     }    
-  }, [username])
+  }, [id])
 
   useEffect(() => {
-    const getData = async () => {
-      const query = [`owner:=${username}`]
-      const mementoList = await near.contract.getMementoList({
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
-      const MementoWithPostList = await Promise.all(mementoList.map(memento => {
-        return new Promise(async (resolve) => {
-          const query = [`mementoId:=${memento.id}`, 'status:=published']
-          const postList = await near.contract.getPostList({
-            query: query,
-            opts: {
-              _embed: true,
-              _sort: 'createdAt',
-              _order: 'desc',
-              _limit: 3
-            }
-          })
-          memento.postList = postList
-          resolve(memento)
-        })
-      }))
-
-      // setLocalMementoList(MementoWithPostList)
-      dispatch(addData(`/${username}_mementoList`, MementoWithPostList))
-    }
-    if(username && !mementoList) {
-      console.log('get user memento list')
-      getData()
-    }
-  }, [username])
-
-  useEffect(() => {
-    if(username && !postList) {
+    if(id && !postList) {
       console.log('get user post list')
       getPost()
     }
-  }, [username])
+  }, [id])
 
   return (
     <Profile user={user} hasMore={hasMore} getPost={getPost} mementoList={mementoList} postList={postList} />

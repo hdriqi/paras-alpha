@@ -59,7 +59,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
         <div className="opacity-0 absolute" style={{
           zIndex: `-1`
         }}>
-          <input readOnly type="text" value={`${window.location.origin}/post/${memento.id}`} id={`urlLink_${memento.id}`} />
+          <input readOnly type="text" value={`${window.location.origin}/m/${memento.id}`} id={`urlLink_${memento.id}`} />
         </div>
         <div>
           <div>
@@ -86,7 +86,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
             <div>
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
               {
-                (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
+                (me && me.id == post.user.id || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
                   <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
                 )
               }

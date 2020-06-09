@@ -14,7 +14,7 @@ const UserPage = () => {
   
   return (
     <div>
-      <ProfileScreen username={router.query.username} user={router.query.username === me.username ? me : user} mementoList={mementoList} postList={postList} />
+      <ProfileScreen id={router.query.id} user={router.query.id === me.id ? me : user} mementoList={mementoList} postList={postList} />
       <div className="fixed bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>

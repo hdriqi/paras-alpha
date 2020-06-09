@@ -37,10 +37,10 @@ const PostComment = ({ post , commentList, mementoList, notFound }) => {
       }
     })
     const list = userList.map(user => ({ 
-      display: `@${user.username}`, 
+      display: `@${user.id}`, 
       id: user.id,
       imgAvatar: user.imgAvatar,
-      username: user.username
+      username: user.id
     }))
     callback(list)
     const suggestionsEl = document.querySelector('.outline-none__suggestions')
@@ -213,7 +213,7 @@ const PostComment = ({ post , commentList, mementoList, notFound }) => {
                                   </div>
                                 </div>
                                 <div className="px-4 w-auto">
-                                  <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.username }</p>
+                                  <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ entry.id }</p>
                                 </div>
                               </div>
                             </div>

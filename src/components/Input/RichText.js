@@ -48,7 +48,7 @@ const RenderUser = (entry) => {
           </div>
         </div>
         <div className="px-4 w-auto">
-          <p className="text-sm font-semibold text-white truncate whitespace-no-wrap min-w-0">{entry.username}</p>
+          <p className="text-sm font-semibold text-white truncate whitespace-no-wrap min-w-0">{entry.id}</p>
         </div>
       </div>
     </div>
@@ -69,10 +69,10 @@ const RichText = ({ text, onBlur, onFocus, setText, inputRef, autoFocus, placeho
       }
     })
     const list = userList.map(user => ({
-      display: `@${user.username}`,
+      display: `@${user.id}`,
       id: user.id,
       imgAvatar: user.imgAvatar,
-      username: user.username
+      username: user.id
     }))
     callback(list)
   }

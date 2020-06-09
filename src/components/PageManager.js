@@ -27,7 +27,7 @@ const PageManager = ({ children }) => {
 
   const screenList = {
     '/': HomeScreen,
-    '/[username]': ProfileScreen,
+    '/[id]': ProfileScreen,
     '/post/[id]': PostScreen,
     '/post/[id]/memento': PostMementoScreen,
     '/post/[id]/comment': PostCommentScreen,
@@ -40,7 +40,7 @@ const PageManager = ({ children }) => {
   }
 
   useEffect(() => {
-    if(router.asPath === '/' || router.asPath === `/${me.username}` || pageList.length === 0) {
+    if(router.asPath === '/' || router.asPath === `/${me.id}` || pageList.length === 0) {
       setRootEl(cloneElement(children))
     }
     // if back, then pop page

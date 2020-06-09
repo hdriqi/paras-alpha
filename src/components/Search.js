@@ -59,7 +59,7 @@ const Search = () => {
               <div key={data.id}>
                 {
                   data.type === 'user' ? (
-                    <Push href="/[username]" as={ `/${data.id}` } props={{
+                    <Push href="/[id]" as={ `/${data.id}` } props={{
                       username: data.id
                     }}>
                       <a>

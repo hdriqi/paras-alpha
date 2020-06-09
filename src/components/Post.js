@@ -37,10 +37,10 @@ const PostDetail = ({ post , commentList, mementoList, notFound }) => {
       }
     })
     const list = userList.map(user => ({ 
-      display: `@${user.username}`, 
+      display: `@${user.id}`, 
       id: user.id,
       imgAvatar: user.imgAvatar,
-      username: user.username
+      username: user.id
     }))
     callback(list)
     const suggestionsEl = document.querySelector('.outline-none__suggestions')

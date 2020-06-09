@@ -24,7 +24,7 @@ const ProfileEdit = ({ me }) => {
 
   useEffect(() => {
     if(me.id) {
-      setUsername(me.username)
+      setUsername(me.id)
       setBioRaw(me.bioRaw)
       setImgAvatar(me.imgAvatar)
     }
@@ -91,10 +91,10 @@ const ProfileEdit = ({ me }) => {
       }
     })
     const list = userList.map(user => ({ 
-      display: `@${user.username}`, 
+      display: `@${user.id}`, 
       id: user.id,
       imgAvatar: user.imgAvatar,
-      username: user.username
+      username: user.id
     }))
     callback(list)
   }
@@ -194,7 +194,7 @@ const ProfileEdit = ({ me }) => {
                           </div>
                         </div>
                         <div className="px-4 w-auto">
-                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap">{ entry.username }</p>
+                          <p className="font-semibold text-black-1 truncate whitespace-no-wrap">{ entry.id }</p>
                         </div>
                       </div>
                     </div>

@@ -61,15 +61,17 @@ const MementoScreen = ({ id }) => {
   useEffect(() => {
     const getData = async () => {
       const query = [`mementoId:=${localMemento.id}`, `status:=pending`]
-      const postList = await near.contract.getPostList({
-        query: query,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
+      const response = await axios.get(`http://localhost:9090/posts?mementoId=${localMemento.id}`)
+      const postList = response.data.data
+      // const postList = await near.contract.getPostList({
+      //   query: query,
+      //   opts: {
+      //     _embed: true,
+      //     _sort: 'createdAt',
+      //     _order: 'desc',
+      //     _limit: 10
+      //   }
+      // })
       if(postList.length > 0) {
         if(postList.length > 9) {
           setLocalPendingPostCount('9+')
@@ -79,7 +81,7 @@ const MementoScreen = ({ id }) => {
         }
       }
     }
-    if(localMemento && localMemento.id && me.username === localMemento.owner) {
+    if(localMemento && localMemento.id && me.id === localMemento.owner) {
       console.log('get memento pending post list')
       getData()
     }

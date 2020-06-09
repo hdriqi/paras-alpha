@@ -99,7 +99,7 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                             </div>
                             <div className='px-4 w-auto'>
                               <p className='font-semibold text-black-1 truncate whitespace-no-wrap min-w-0'>{ memento.name }</p>
-                              <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>by { memento.user.username }</p>
+                              <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>by { memento.user.id }</p>
                             </div>
                           </div>
                           <div className='text-right'>
@@ -125,7 +125,7 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                             </div>
                             <div className='px-4 w-auto'>
                               <p className='font-semibold text-black-1 truncate whitespace-no-wrap min-w-0'>{ memento.name }</p>
-                              <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>by { memento.user.username }</p>
+                              <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>by { memento.user.id }</p>
                             </div>
                           </div>
                           <div className='text-right'>
@@ -153,7 +153,7 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                             </div>
                             <div className='px-4 w-auto'>
                               <p className='font-semibold text-black-1 truncate whitespace-no-wrap min-w-0'>{ memento.name }</p>
-                              <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>by { memento.user.username }</p>
+                              <p className='text-black-3 text-sm truncate whitespace-no-wrap min-w-0'>by { memento.user.id }</p>
                             </div>
                           </div>
                           <div className='text-right'>

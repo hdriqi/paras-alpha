@@ -31,7 +31,7 @@ const HomeScreen = ({  }) => {
     
     // if(me && me.id) {
     //   newPostList = await near.contract.getPostListByUserFollowing({
-    //     username: me.username,
+    //     username: me.id,
     //     query: query,
     //     opts: {
     //       _embed: true,

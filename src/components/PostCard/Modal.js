@@ -66,7 +66,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
             {
-              (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
+              (me && me.id == post.user.id || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
                 <button className="w-full text-left" onClick={_ => _forget()}>
                   <h4 className="p-4 text-white font-bold">Forget</h4>
                 </button>
@@ -78,7 +78,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
             <div>
               <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
               {
-                (me && me.username == post.user.username || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
+                (me && me.id == post.user.id || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
                   <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
                 )
               }
