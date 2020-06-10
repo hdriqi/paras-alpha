@@ -5,7 +5,10 @@ import Confirm from 'components/Utils/Confirm'
 let cropper = null
 let height = 0
 
-const NewPostImage = ({ left, right, input = {} }) => {
+const NewPostImage = ({ left, right, input = {}, type = 'square', size = {
+  width: 1080,
+  height: 1080
+} }) => {
   const offsetY = 16
   const containerRef = useRef(null)
   const [imgUrl, setImgUrl] = useState('')
@@ -33,7 +36,7 @@ const NewPostImage = ({ left, right, input = {} }) => {
       const viewport = height * 2 / 3
       cropper = new Croppie(document.getElementById('new-img'), {
         boundary: { width: `100%`, height: height },
-        viewport: { width: viewport, height: viewport, type: 'square' }
+        viewport: { width: viewport, height: viewport, type: type }
       })
       setFirstLoad(false)
     }
@@ -57,10 +60,7 @@ const NewPostImage = ({ left, right, input = {} }) => {
 
     const newFile = await cropper.result({
       type: 'blob',
-      size: {
-        width: 1080,
-        height: 1080
-      }
+      size: size
     })
     newFile.lastModifiedDate = new Date()
     newFile.name = `${Math.random().toString(36).substr(2, 9)}.png`

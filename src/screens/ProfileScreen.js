@@ -46,7 +46,6 @@ const ProfileScreen = ({ id }) => {
     const getData = async () => {
       const response = await axios.get(`http://localhost:9090/users?id=${id}`)
       const user = response.data.data[0]
-      console.log(user)
       // const user = await near.contract.getUserByid({
       //   id: id
       // })

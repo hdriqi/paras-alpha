@@ -1,7 +1,6 @@
 import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import { addMementoList } from '../../actions/me'
 
 import near from '../../lib/near'
 import { setLoading } from '../../actions/ui'
@@ -19,30 +18,29 @@ import Push from '../Push'
 import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
 
-const MementoEdit = ({ memento }) => {
-  const me = useSelector(state => state.me.profile)
+const ProfileEdit = ({ me }) => {
   const dispatch = useDispatch()
   const bodyRef = useRef(null)
   const inputImgRef = useRef(null)
   const descRef = useRef(null)
 
   const router = useRouter()
-  const [desc, setDesc] = useState('')
+  const [bio, setBio] = useState('')
   const [descBackground, setDescBackground] = useState('bg-dark-2')
   const [showImgCrop, setShowImgCrop] = useState(false)
   const [img, setImg] = useState({})
   const [imgFile, setImgFile] = useState({})
 
   useEffect(() => {
-    if (memento.id) {
-      setImg(memento.img)
-      setDesc(memento.desc)
+    if (me.id) {
+      setImg(me.imgAvatar)
+      setBio(me.bio)
     }
-  }, [memento])
+  }, [me])
 
   const _validateSubmit = () => {
     if (
-      (desc.length <= 150)) {
+      (bio.length <= 150)) {
       return true
     }
     return false
@@ -51,8 +49,8 @@ const MementoEdit = ({ memento }) => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    dispatch(setLoading(true, 'Updating memento...'))
-    let img = memento.img
+    dispatch(setLoading(true, 'Updating profile...'))
+    let img = me.imgAvatar
     if (imgFile.size > 0) {
       for await (const file of ipfs.client.add([{
         content: imgFile
@@ -65,15 +63,14 @@ const MementoEdit = ({ memento }) => {
     }
 
     const newData = {
-      id: memento.id,
-      img: img,
-      desc: desc
+      imgAvatar: img,
+      bio: bio
     }
     
-    const m = await near.contract.updateMemento(newData)
-    console.log(m)
+    const newMe = await near.contract.updateUser(newData)
+    console.log(newMe)
     dispatch(setLoading(false))
-    // dispatch(addMementoList([m]))
+    dispatch(setProfile(newProfile))
     router.back()
   }
 
@@ -105,11 +102,11 @@ const MementoEdit = ({ memento }) => {
               setImg(result.payload.imgUrl)
               setShowImgCrop(false)
             }}
+            type='circle'
             size={{
               width: 200,
               height: 200
             }}
-          // left, right, input
           />
         )
       }
@@ -125,7 +122,7 @@ const MementoEdit = ({ memento }) => {
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white px-2">Update Memento</h3>
+          <h3 className="text-lg font-bold text-white px-2">Update Profile</h3>
         }
         right={
           <button disabled={!_validateSubmit()} onClick={_submit}>
@@ -137,15 +134,11 @@ const MementoEdit = ({ memento }) => {
           </button>
         }
       />
-      <div className="mt-8">
+      <div className="my-4">
         <div className="px-4">
-          <div className="text-center">
-            <h4 className="text-white text">Update Memento</h4>
-            <h4 className="text-white text-xl font-semibold break-words">{memento.id}</h4>
-          </div>
           <div className="mt-4">
             <div ref={descRef} className="flex justify-between">
-              <label className="block text-sm pb-1 font-semibold text-white">Image</label>
+              <label className="block text-sm pb-1 font-semibold text-white">Avatar</label>
             </div>
             <div className="h-40 w-40 rounded-md relative overflow-hidden cursor-pointer">
               <div className="absolute inset-0 flex items-center justify-center opacity-60 bg-dark-0">
@@ -159,15 +152,15 @@ const MementoEdit = ({ memento }) => {
           </div>
           <div className="mt-4">
             <div ref={descRef} className="flex justify-between">
-              <label className="block text-sm pb-1 font-semibold text-white">Description</label>
-              <p className={`${desc.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{desc.length}/150</p>
+              <label className="block text-sm pb-1 font-semibold text-white">Bio</label>
+              <p className={`${bio.length > 150 ? 'text-red-600 font-bold' : 'text-black-5'} text-sm`}>{bio.length}/150</p>
             </div>
             <div className={`${descBackground} rounded-md h-32 p-2`}>
               <Scrollbars>
                 <RichText
                   inputRef={bodyRef}
-                  text={desc}
-                  setText={setDesc}
+                  text={bio}
+                  setText={setBio}
                   placeholder="Memento description"
                   className="w-full"
                   suggestionsPortalHost={descRef.current}
@@ -188,4 +181,4 @@ const MementoEdit = ({ memento }) => {
   )
 }
 
-export default withRedux(MementoEdit)
+export default withRedux(ProfileEdit)

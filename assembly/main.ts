@@ -53,7 +53,6 @@ export function updateMemento(
 	return null
 }
 
-
 export function createPost(
 	contentList: Content[],
 	mementoId: string
@@ -111,6 +110,22 @@ export function createUser(imgAvatar: Img, bio: string): User {
 	userCollection.set(newUser.id, newUser)
 
 	return newUser
+}
+
+export function updateUser(
+	imgAvatar: Img,
+	bio: string
+): User | null {
+	const user = getUserById(context.sender)
+	if (user) {
+		user.imgAvatar = imgAvatar
+		user.bio = bio
+		
+		userCollection.set(context.sender, user)
+
+		return user
+	}
+	return null
 }
 
 export function getFeedById(id: string): Feed | null {
