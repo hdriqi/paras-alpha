@@ -2,6 +2,7 @@ import { MentionsInput, Mention } from 'react-mentions'
 import near from '../../lib/near'
 import Image from 'components/Image'
 import { mergeDeep } from 'lib/utils'
+import axios from 'axios'
 
 const defaultStyle = {
   control: {
@@ -58,16 +59,8 @@ const RenderUser = (entry) => {
 const RichText = ({ text, onBlur, onFocus, setText, inputRef, autoFocus, placeholder = '', className, style = {}, suggestionsPortalHost}) => {
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const q = [`username_like:=${query}`]
-    const userList = await near.contract.getUserList({
-      query: q,
-      opts: {
-        _embed: true,
-        _sort: 'createdAt',
-        _order: 'desc',
-        _limit: 10
-      }
-    })
+    const response = await axios.get(`http://localhost:9090/users?id_like=${query}`)
+    const userList = response.data.data
     const list = userList.map(user => ({
       display: `@${user.id}`,
       id: user.id,
