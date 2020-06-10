@@ -40,7 +40,7 @@ const Home = ({ postList, page, getPost, hasMore }) => {
       {
         postList ? (
           postList.length > 0 ? (
-            <div>
+            <div className="px-4">
               <InfiniteScroll
                 dataLength={postList.length}
                 next={getPost}
@@ -49,9 +49,8 @@ const Home = ({ postList, page, getPost, hasMore }) => {
               >
                 {
                   postList.map(post => {
-                    console.log(post)
                     return (
-                      <div className="mt-4 mx-4 shadow-subtle" key={post.id}>
+                      <div className="mt-6" key={post.id}>
                         <PostCard post={post} />
                       </div>
                     )
@@ -60,7 +59,7 @@ const Home = ({ postList, page, getPost, hasMore }) => {
               </InfiniteScroll>
             </div>
           ) : (
-            <div className="mt-6 shadow-subtle">
+            <div className="mt-6">
               <div className="p-4 bg-dark-0 text-center">
                 <p className="tracking-tight">Jump into a memento! <br/>Interact or create post carefree</p>
                 <div className="flex flex-wrap justify-center">

@@ -100,10 +100,24 @@ const Post = ({ post }) => {
           <div className="p-2 flex items-center justify-between">
             <div className="flex items-center">
               <div className="h-8 w-8 rounded-full overflow-hidden shadow-inner">
-                <img className="object-fill" src="https://images.pexels.com/photos/2253415/pexels-photo-2253415.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
+                <Push href="/[id]" as={`/${post.owner}`} props={{
+                  id: post.owner,
+                  user: post.user
+                }}>
+                  <a>
+                    <Image className="object-fill" data={post.user.imgAvatar} />
+                  </a>
+                </Push>
               </div>
               <div className="ml-2">
-                <p className="text-white text-sm font-bold">{post.owner}</p>
+                <Push href="/[id]" as={`/${post.owner}`} props={{
+                  id: post.owner,
+                  user: post.user
+                }}>
+                  <a>
+                    <h4 className="text-white text-sm font-bold">{post.owner}</h4>
+                  </a>
+                </Push>
               </div>
             </div>
             <div>
