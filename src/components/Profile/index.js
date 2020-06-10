@@ -18,37 +18,38 @@ import NavTop from '../NavTop'
 import InView from 'react-intersection-observer'
 import ProfileModal from './Modal'
 import axios from 'axios'
+import { RotateSpinLoader } from 'react-css-loaders'
 
 const Profile = ({ user = {}, hasMore, getPost, postList }) => {
   const me = useSelector(state => state.me.profile)
+  const followList = useSelector(state => state.me.followList)
   const pageList = useSelector(state => state.ui.pageList)
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
-  const [view, setView] = useState('post')
-  const dispatch = useDispatch()
 
   const [showModal, setShowModal] = useState(false)
   const [stickySubNav, setStickySubNav] = useState(false)
 
   useEffect(() => {
-    if (me && user) {
-      if (Array.isArray(me.following) && me.following.filter(following => following.id === user.id).length > 0) {
-        setIsFollowing(true)
-      }
+    if (me && user && followList.includes(user.id)) {
+      setIsFollowing(true)
     }
   }, [me, user])
 
   const _toggleFollow = async () => {
+    setIsSubmitting(true)
     const msg = me.id
     const signedMsg = await near.signMessage(msg)
-    console.log(signedMsg)
     const x = await axios.post(`http://localhost:9090/follow`, {
       pubKey: signedMsg.pubKey,
       signature: signedMsg.signature,
       id: me.id,
       targetId: user.id,
-      targetType: 'profile'
+      targetType: 'user'
     })
-    console.log(x)
+    setIsSubmitting(false)
+    setIsFollowing(!isFollowing)
     // cannot follow/unfollow self
     // if (me.id === user.id) {
     //   return
@@ -63,7 +64,6 @@ const Profile = ({ user = {}, hasMore, getPost, postList }) => {
     // dispatch(setLoading(true, msg))
     // const newMe = await near.contract.toggleUserFollow(newData)
 
-    setIsFollowing(!isFollowing)
     // batch(() => {
     //   dispatch(setProfile(newMe))
     //   dispatch(setLoading(false))
@@ -146,12 +146,28 @@ const Profile = ({ user = {}, hasMore, getPost, postList }) => {
                 <div className="pt-2 text-center">
                   <p className="text-white opacity-87">{user.bio}</p>
                 </div>
-                <div className="text-center pt-4">
+                <div className="flex justify-center pt-4">
                   {
                     !isFollowing ? (
-                      <button onClick={_toggleFollow} className="border border-primary-5 bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase tracking-wider w-24">FOLLOW</button>
+                      <button onClick={_toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
+                        {
+                          isSubmitting ? (
+                            <RotateSpinLoader style={{
+                              margin: `auto`
+                            }} color="white" size={1.6} />
+                          ) : 'FOLLOW'
+                        }
+                      </button>
                     ) : (
-                        <button onClick={_toggleFollow} className="border border-primary-5 px-4 py-1 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider w-24">FOLLOWING</button>
+                        <button onClick={_toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
+                          {
+                            isSubmitting ? (
+                              <RotateSpinLoader style={{
+                                margin: `auto`
+                              }} color="#e13128" size={1.6} />
+                            ) : 'FOLLOWING'
+                          }
+                        </button>
                       )
                   }
                 </div>

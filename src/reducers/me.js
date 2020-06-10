@@ -1,16 +1,17 @@
-import { ADD_MEMENTO_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA, DELETE_POST, SET_USER } from '../actions/me'
+import { ADD_MEMENTO_LIST, ADD_POST_LIST, SET_PROFILE, ADD_DATA, DELETE_POST, SET_USER, SET_FOLLOW, TOGGLE_FOLLOW } from '../actions/me'
 
 const initialState = {
   mementoList: [
-    
+
   ],
   postList: [
-    
+
   ],
   user: null,
   profile: {},
   data: {},
-  deletedPostList: []
+  deletedPostList: [],
+  followList: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -49,7 +50,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         deletedPostList: state.deletedPostList.concat(action.id)
-      }      
+      }
+    case SET_FOLLOW:
+      return {
+        ...state,
+        followList: action.followList
+      }
+    case TOGGLE_FOLLOW:
+      const newList = [...state.followList]
+      console.log(newList)
+      const idx = newList.findIndex(action.id)
+      if (idx > -1) newList.splice(idx, 1)
+      return {
+        ...state,
+        followList: newList
+      }
     default:
       return state
   }

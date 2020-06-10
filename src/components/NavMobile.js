@@ -103,7 +103,7 @@ const NavMobile = () => {
       <div className="w-1/5">
         <NavLink name="new-post" href="/new/post" as="/new/post" activePage={activePage}>
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="15" fill="#E13128" stroke="#E13128" stroke-width="2" />
+            <circle cx="16" cy="16" r="15" fill="#E13128" stroke="#E13128" strokeWidth="2" />
             <path fillRule="evenodd" clipRule="evenodd" d="M14.5408 22.3337V17.4598H9.66699V14.5408H14.5408V9.66699H17.4598V14.5408H22.3337V17.4598H17.4598V22.3337H14.5408Z" fill="white" />
           </svg>
         </NavLink>

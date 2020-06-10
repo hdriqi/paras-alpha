@@ -15,22 +15,25 @@ import InView, { useInView } from 'react-intersection-observer'
 import Image from 'components/Image'
 import MementoModal from './Modal'
 import PostCard from '../PostCard'
+import axios from 'axios'
+import { RotateSpinLoader } from 'react-css-loaders'
 
 const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFound }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
-  const meMementoList = useSelector(state => state.me.mementoList)
+  const followList = useSelector(state => state.me.followList)
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [stickySubNav, setStickySubNav] = useState(false)
 
   useEffect(() => {
-    if (Array.isArray(me.following) && me.following.filter(following => following.id === memento.id).length > 0) {
+    if (memento && memento.id && followList.includes(memento.id)) {
       setIsFollowing(true)
     }
-  }, [me, memento])
+  }, [memento])
 
   useEffect(() => {
     if (showModal) {
@@ -44,22 +47,18 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
   }, [showModal])
 
   const _toggleFollow = async () => {
-    const msg = isFollowing ? 'Unfollowing memento...' : 'Following memento...'
-    dispatch(setLoading(true, msg))
-    const target = {
-      id: memento.id,
-      type: 'memento'
-    }
-    console.log(target)
-    const newMe = await near.contract.toggleFollow({
-      target: target
+    setIsSubmitting(true)
+    const msg = me.id
+    const signedMsg = await near.signMessage(msg)
+    const x = await axios.post(`http://localhost:9090/follow`, {
+      pubKey: signedMsg.pubKey,
+      signature: signedMsg.signature,
+      id: me.id,
+      targetId: memento.id,
+      targetType: 'memento'
     })
-
+    setIsSubmitting(false)
     setIsFollowing(!isFollowing)
-    batch(() => {
-      dispatch(setProfile(newMe))
-      dispatch(setLoading(false))
-    })
   }
 
   return (
@@ -110,12 +109,28 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
         <div className="pt-2 text-center">
           <p className="text-white opacity-87">{memento.desc}</p>
         </div>
-        <div className="text-center pt-4">
+        <div className="flex justify-center pt-4">
           {
             !isFollowing ? (
-              <button onClick={_toggleFollow} className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">FOLLOW</button>
+              <button onClick={_toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
+                {
+                  isSubmitting ? (
+                    <RotateSpinLoader style={{
+                      margin: `auto`
+                    }} color="white" size={1.6} />
+                  ) : 'FOLLOW'
+                }
+              </button>
             ) : (
-                <button onClick={_toggleFollow} className="border-primary-5 px-4 py-1 text-xs font-bold text-primary-5 rounded-md uppercase">FOLLOWING</button>
+                <button onClick={_toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
+                  {
+                    isSubmitting ? (
+                      <RotateSpinLoader style={{
+                        margin: `auto`
+                      }} color="#e13128" size={1.6} />
+                    ) : 'FOLLOWING'
+                  }
+                </button>
               )
           }
         </div>
@@ -123,7 +138,7 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
       {
         postList.map(post => {
           return (
-            <div className="mx-4 mt-4">
+            <div key={post.id} className="mx-4 mt-4">
               <PostCard post={post} />
             </div>
           )

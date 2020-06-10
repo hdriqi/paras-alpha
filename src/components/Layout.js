@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import Head from 'next/head'
-import { setProfile, addMementoList, setUser } from "../actions/me"
+import { setProfile, addMementoList, setUser, setFollow } from "../actions/me"
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
 import { useRouter } from "next/router"
@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const user = useSelector(state => state.me.user)
-  const profile = useSelector(state => state.me.profile)
+  const me = useSelector(state => state.me.profile)
   const mementoList = useSelector(state => state.me.mementoList)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [onboardingView, setOnboardingView] = useState(0)
@@ -95,13 +95,21 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const getUserMementoData = async () => {
-      const response = await axios.get(`http://localhost:9090/mementos?owner=${profile.id}`)
+      const response = await axios.get(`http://localhost:9090/mementos?owner=${me.id}`)
       dispatch(addMementoList(response.data.data))
     }
-    if (!isLoading && profile.id && mementoList.length === 0) {
-      getUserMementoData()
+    const getUserFollowing = async () => {
+      const msg = me.id
+      const signedMsg = await near.signMessage(msg)
+      const response = await axios.get(`http://localhost:9090/follow?pubKey=${signedMsg.pubKey}&signature=${signedMsg.signature}&id=${me.id}&_limit=${100}`)
+      const followList = response.data.data.map(follow => follow.targetId)
+      dispatch(setFollow(followList))
     }
-  }, [isLoading, profile])
+    if (!isLoading && me.id && mementoList.length === 0) {
+      getUserMementoData()
+      getUserFollowing()
+    }
+  }, [isLoading, me])
 
   const _validateSubmit = () => {
     const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -129,8 +137,6 @@ const Layout = ({ children }) => {
     window.location.replace(window.location.origin + '/login')
   }
 
-  console.log(near.wallet)
-
   return (
     <Fragment>
       <Head>
@@ -152,7 +158,7 @@ const Layout = ({ children }) => {
                     {children}
                   </div>
                   <div className="flex-auto hidden sm:block w-1/3">
-                    <div className={`${profile && profile.id ? 'visible' : 'invisible'} z-10 sticky min-h-screen top-0 flex flex-col w-full`} style={{
+                    <div className={`${me && me.id ? 'visible' : 'invisible'} z-10 sticky min-h-screen top-0 flex flex-col w-full`} style={{
                       boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
                     }}>
                       <div className="h-12 px-4 flex items-center bg-dark-12">
@@ -165,7 +171,7 @@ const Layout = ({ children }) => {
                       <div className="ml-auto w-full" style={{
                         maxWidth: `10rem`
                       }}>
-                        
+
                       </div>
                       <div className="w-full mt-6"></div>
                     </div>

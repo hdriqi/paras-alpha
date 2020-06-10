@@ -46,3 +46,19 @@ export const deletePost = (id) => {
     id: id
   }
 }
+
+export const TOGGLE_FOLLOW = 'TOGGLE_FOLLOW'
+export const toggleFollow = (id) => {
+  return {
+    type: TOGGLE_FOLLOW,
+    id: id
+  }
+}
+
+export const SET_FOLLOW = 'SET_FOLLOW'
+export const setFollow = (followList) => {
+  return {
+    type: SET_FOLLOW,
+    followList: followList
+  }
+}
