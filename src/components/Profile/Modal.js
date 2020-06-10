@@ -51,7 +51,7 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
             {
               me && me.id == user.id && (
                 <button className="w-full text-left">
-                  <Push href="/[id]/edit" as={`/${user.id}/edit`} props={{
+                  <Push href="/me/edit" as="/me/edit" props={{
                     id: user.id,
                     user: user
                   }}>

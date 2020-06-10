@@ -106,8 +106,8 @@ const MementoEdit = ({ memento }) => {
               setShowImgCrop(false)
             }}
             size={{
-              width: 200,
-              height: 200
+              width: 512,
+              height: 512
             }}
           // left, right, input
           />

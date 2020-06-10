@@ -17,6 +17,7 @@ import InfiniteLoader from '../InfiniteLoader'
 import NavTop from '../NavTop'
 import InView from 'react-intersection-observer'
 import ProfileModal from './Modal'
+import axios from 'axios'
 
 const Profile = ({ user = {}, hasMore, getPost, postList }) => {
   const me = useSelector(state => state.me.profile)
@@ -36,26 +37,37 @@ const Profile = ({ user = {}, hasMore, getPost, postList }) => {
     }
   }, [me, user])
 
-  const _toggleFollow = async (me, user) => {
-    // cannot follow/unfollow self
-    if (me.id === user.id) {
-      return
-    }
-
-    const newData = {
+  const _toggleFollow = async () => {
+    const msg = me.id
+    const signedMsg = await near.signMessage(msg)
+    console.log(signedMsg)
+    const x = await axios.post(`http://localhost:9090/follow`, {
+      pubKey: signedMsg.pubKey,
+      signature: signedMsg.signature,
       id: me.id,
       targetId: user.id,
-      targetType: 'user'
-    }
-    const msg = isFollowing ? 'Unfollowing user...' : 'Following user...'
-    dispatch(setLoading(true, msg))
-    const newMe = await near.contract.toggleUserFollow(newData)
+      targetType: 'profile'
+    })
+    console.log(x)
+    // cannot follow/unfollow self
+    // if (me.id === user.id) {
+    //   return
+    // }
+
+    // const newData = {
+    //   id: me.id,
+    //   targetId: user.id,
+    //   targetType: 'user'
+    // }
+    // const msg = isFollowing ? 'Unfollowing user...' : 'Following user...'
+    // dispatch(setLoading(true, msg))
+    // const newMe = await near.contract.toggleUserFollow(newData)
 
     setIsFollowing(!isFollowing)
-    batch(() => {
-      dispatch(setProfile(newMe))
-      dispatch(setLoading(false))
-    })
+    // batch(() => {
+    //   dispatch(setProfile(newMe))
+    //   dispatch(setLoading(false))
+    // })
   }
 
   return (
@@ -137,9 +149,9 @@ const Profile = ({ user = {}, hasMore, getPost, postList }) => {
                 <div className="text-center pt-4">
                   {
                     !isFollowing ? (
-                      <button onClick={_toggleFollow} className="bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase">FOLLOW</button>
+                      <button onClick={_toggleFollow} className="border border-primary-5 bg-primary-5 px-4 py-1 text-xs font-bold text-white rounded-md uppercase tracking-wider w-24">FOLLOW</button>
                     ) : (
-                        <button onClick={_toggleFollow} className="border-primary-5 px-4 py-1 text-xs font-bold text-primary-5 rounded-md uppercase">FOLLOWING</button>
+                        <button onClick={_toggleFollow} className="border border-primary-5 px-4 py-1 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider w-24">FOLLOWING</button>
                       )
                   }
                 </div>

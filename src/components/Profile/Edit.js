@@ -104,8 +104,8 @@ const ProfileEdit = ({ me }) => {
             }}
             type='circle'
             size={{
-              width: 200,
-              height: 200
+              width: 512,
+              height: 512
             }}
           />
         )
