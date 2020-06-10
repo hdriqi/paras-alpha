@@ -152,7 +152,7 @@ const Layout = ({ children }) => {
                     {children}
                   </div>
                   <div className="flex-auto hidden sm:block w-1/3">
-                    <div className={`${profile && profile.id ? 'visible' : 'invisible'} sticky min-h-screen top-0 flex flex-col w-full`} style={{
+                    <div className={`${profile && profile.id ? 'visible' : 'invisible'} z-10 sticky min-h-screen top-0 flex flex-col w-full`} style={{
                       boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
                     }}>
                       <div className="h-12 px-4 flex items-center bg-dark-12">
