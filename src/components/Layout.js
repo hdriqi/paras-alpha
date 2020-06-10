@@ -55,13 +55,6 @@ const Layout = ({ children }) => {
       if (typeof window !== 'undefined') {
         await near.init()
 
-        //
-        // await near.contract.devDeleteAllUser()
-        // await near.contract.devDeleteAllPost()
-        // await near.contract.devDeleteAllMemento()
-        // await near.contract.devDeleteAllComment()
-        //
-
         if (near.wallet.isSignedIn()) {
           let onboarding = await axios.get(`${BASE_URL}/register/adopters/${near.currentUser.accountId}`)
           if (onboarding.data.success == 0) {
@@ -149,6 +142,7 @@ const Layout = ({ children }) => {
           <SplashScreen />
         ) : (
             <div className="bg-dark-0">
+              <div className="fixed top-0 z-10 bg-dark-12 w-full h-12"></div>
               <div>
                 <div className="flex m-auto">
                   <div className="flex-auto hidden sm:block w-1/3">

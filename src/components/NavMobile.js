@@ -84,7 +84,7 @@ const NavMobile = () => {
   return (
     <div className={
       `${profile && profile.id ? 'visible' : 'invisible'} 
-      block md:hidden flex h-12 w-full bg-dark-12`}
+      block sm:hidden flex h-12 w-full bg-dark-12`}
     >
       <div className="w-1/5">
         <NavLink name="feed" href="/" as="/" activePage={activePage} >
