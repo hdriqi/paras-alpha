@@ -53,7 +53,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
         onComplete={_ => _deleteMemento()}
         leftText="Cancel"
         rightText="Forget"
-        mainText="Forget this memory?"
+        mainText="Forget this memento?"
       />
       <List show={showModal} onClose={_ => setShowModal(false)}>
         <div className="opacity-0 absolute" style={{

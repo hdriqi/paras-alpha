@@ -5,6 +5,7 @@ import Notify from "components/Utils/Notify"
 import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
+import Push from "components/Push"
 
 const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const dispatch = useDispatch()
@@ -46,7 +47,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
       <Notify show={showNotifyCopyLink}>
         <p className="text-white p-2">Link copied!</p>
       </Notify>
-      <Confirm 
+      <Confirm
         show={showConfirmForget}
         onClose={_ => setShowConfirmForget(false)}
         onComplete={_ => _deletePost()}
@@ -66,9 +67,20 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
             {
-              (me && me.id == post.owner || meMementoList.findIndex(memento => memento.id === post.mementoId)   > -1) && (
+              (me && me.id == post.owner || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
                 <button className="w-full text-left" onClick={_ => _forget()}>
                   <h4 className="p-4 text-white font-bold">Forget</h4>
+                </button>
+              )
+            }
+            {
+              me && me.id == post.owner && (
+                <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+                  <Push href="/post/[id]/edit" as={`/post/${post.id}/edit`} props={{
+                    id: post.id
+                  }}>
+                    <h4 className="p-4 text-white font-bold">Edit</h4>
+                  </Push>
                 </button>
               )
             }

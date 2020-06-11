@@ -21,21 +21,19 @@ const Confirm = ({ show, onClose, onComplete, mainText, leftText, rightText }) =
     }
   }, [show])
 
-  useEffect(() => {
-    if (show) {
-      disableBodyScroll(document.querySelector('.container-confirm-modal-bg'), {
-        reserveScrollBarGap: true,
-      })
-    }
-    else {
-      enableBodyScroll(document.querySelector('.container-confirm-modal-bg'))
-    }
-  }, [show])
-
   const _bgClick = (e) => {
     if (e.target.id === 'confirm-modal-bg') {
       onClose()
     }
+  }
+
+  if (show) {
+    disableBodyScroll(document.querySelector('.container-confirm-modal-bg'), {
+      reserveScrollBarGap: true,
+    })
+  }
+  else {
+    enableBodyScroll(document.querySelector('.container-confirm-modal-bg'))
   }
 
   return (

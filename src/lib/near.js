@@ -74,6 +74,7 @@ class Near {
         'updateMemento',
         'deleteMemento',
         'createPost',
+        'editPost',
         'deletePost',
         'toggleFollow',
         'createUser',

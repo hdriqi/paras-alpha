@@ -79,6 +79,22 @@ export function createPost(
 	return p
 }
 
+export function editPost(
+	id: string,
+	contentList: Content[],
+	mementoId: string
+): Post | null {
+	const post = getPostById(id)
+	if (post) {
+		post.contentList = contentList
+		post.mementoId = mementoId
+
+		postCollection.set(post.id, post)
+		return post
+	}
+	return null
+}
+
 export function getPostById(
 	id: string
 ): Post | null {

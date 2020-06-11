@@ -1,6 +1,6 @@
 const Image = ({ data = {}, className, style, onClick, id}) => {
   let url = ''
-  if(data.type === 'ipfs') {
+  if(data && data.type === 'ipfs') {
     url = `https://ipfs-gateway.paras.id/ipfs/${data.url}`
   }
   else if(typeof data === 'string') {

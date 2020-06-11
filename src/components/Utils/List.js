@@ -18,21 +18,19 @@ const List = ({ show, onClose, children }) => {
     }
   }, [show])
 
-  useEffect(() => {
-    if (show) {
-      disableBodyScroll(document.querySelector('.container-modal'), {
-        reserveScrollBarGap: true,
-      })
-    }
-    else {
-      enableBodyScroll(document.querySelector('.container-modal'))
-    }
-  }, [show])
-
   const _bgClick = (e) => {
     if (e.target.id === 'confirm-modal-bg') {
       onClose()
     }
+  }
+
+  if (show) {
+    disableBodyScroll(document.querySelector('.container-modal'), {
+      reserveScrollBarGap: true,
+    })
+  }
+  else {
+    enableBodyScroll(document.querySelector('.container-modal'))
   }
 
   return (
