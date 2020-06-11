@@ -76,6 +76,7 @@ class Near {
         'createPost',
         'editPost',
         'deletePost',
+        'redactPost',
         'toggleFollow',
         'createUser',
         'updateUser',

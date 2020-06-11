@@ -95,6 +95,23 @@ export function editPost(
 	return null
 }
 
+export function redactPost(
+	id: string
+): boolean {
+	const post = getPostById(id)
+	if (post) {
+		const memento = getMementoById(post.mementoId)
+		assert(
+			!!memento && memento.owner == context.sender,
+			'Post can only be redacted by memento owner'
+		)
+
+		post.mementoId = ''
+		postCollection.set(post.id, post)
+	}
+	return true
+}
+
 export function getPostById(
 	id: string
 ): Post | null {
@@ -110,9 +127,8 @@ export function deletePost(
 ): boolean {
 	const post = getPostById(id)
 	if (post) {
-		const memento = getMementoById(post.mementoId)
 		assert(
-			post.owner == context.sender || !!memento && memento.owner == context.sender,
+			post.owner == context.sender,
 			'Post can only be deleted by post owner or memento owner'
 		)
 

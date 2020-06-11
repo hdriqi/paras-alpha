@@ -11,9 +11,10 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const dispatch = useDispatch()
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
+  const [showConfirmRedact, setShowConfirmRedact] = useState(false)
 
   const _deletePost = async () => {
-    dispatch(setLoading(true, 'Forgetting memory...'))
+    dispatch(setLoading(true, 'Forgetting the memory...'))
     await near.contract.deletePost({
       id: post.id
     })
@@ -25,9 +26,26 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
     setShowConfirmForget(false)
   }
 
+  const _redactPost = async () => {
+    dispatch(setLoading(true, 'Redacting the memory...'))
+    await near.contract.redactPost({
+      id: post.id
+    })
+
+    batch(() => {
+      dispatch(setLoading(false))
+    })
+    setShowConfirmRedact(false)
+  }
+
   const _forget = () => {
     setShowModal(false)
     setShowConfirmForget(true)
+  }
+
+  const _redact = () => {
+    setShowModal(false)
+    setShowConfirmRedact(true)
   }
 
   const _copyLink = (e) => {
@@ -48,6 +66,14 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
         <p className="text-white p-2">Link copied!</p>
       </Notify>
       <Confirm
+        show={showConfirmRedact}
+        onClose={_ => setShowConfirmRedact(false)}
+        onComplete={_ => _redactPost()}
+        leftText="Cancel"
+        rightText="Redact"
+        mainText={`Remove this memory from ${post.mementoId}?`}
+      />
+      <Confirm
         show={showConfirmForget}
         onClose={_ => setShowConfirmForget(false)}
         onComplete={_ => _deletePost()}
@@ -67,13 +93,6 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
             {
-              (me && me.id == post.owner || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
-                <button className="w-full text-left" onClick={_ => _forget()}>
-                  <h4 className="p-4 text-white font-bold">Forget</h4>
-                </button>
-              )
-            }
-            {
               me && me.id == post.owner && (
                 <button className="w-full text-left" onClick={_ => setShowModal(false)}>
                   <Push href="/post/[id]/edit" as={`/post/${post.id}/edit`} props={{
@@ -81,6 +100,20 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
                   }}>
                     <h4 className="p-4 text-white font-bold">Edit</h4>
                   </Push>
+                </button>
+              )
+            }
+            {
+              me && me.id == post.owner && (
+                <button className="w-full text-left" onClick={_ => _forget()}>
+                  <h4 className="p-4 text-white font-bold">Forget</h4>
+                </button>
+              )
+            }
+            {
+              meMementoList.findIndex(memento => memento.id === post.mementoId) > -1 && (
+                <button className="w-full text-left" onClick={_ => _redact()}>
+                  <h4 className="p-4 text-white font-bold">Redact</h4>
                 </button>
               )
             }
