@@ -98,7 +98,7 @@ const NewPostText = ({ left, right, input = '' }) => {
 
   return (
     <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
-      backgroundColor: `rgba(0,0,0,0.8)`
+      backgroundColor: `rgba(0,0,0,0.86)`
     }}>
       <Confirm
         show={showConfirm}

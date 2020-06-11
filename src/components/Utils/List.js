@@ -38,7 +38,7 @@ const List = ({ show, onClose, children }) => {
       {
         show ? (
           <div id="confirm-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
-            backgroundColor: `rgba(0,0,0,0.8)`
+            backgroundColor: `rgba(0,0,0,0.86)`
           }}>
             <div className="max-w-xs m-auto w-full p-4">
               <div className="bg-dark-1 w-full rounded-md overflow-hidden">

@@ -92,7 +92,7 @@ const NewPostImage = ({ left, right, input = {}, type = 'square', size = {
       fixed inset-0 z-50 flex items-center
       `
     } style={{
-      backgroundColor: `rgba(0,0,0,0.8)`
+      backgroundColor: `rgba(0,0,0,0.86)`
     }}>
       <Confirm
         show={showConfirm}

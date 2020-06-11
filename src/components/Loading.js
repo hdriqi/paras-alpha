@@ -23,7 +23,7 @@ const Loading = () => {
       zIndex: 1000
     }}>
       <div style={{
-        backgroundColor: `rgba(0,0,0,0.8)`
+        backgroundColor: `rgba(0,0,0,0.86)`
       }} className="flex items-center justify-center h-full w-full">
         <div className="text-center px-4">
           <svg className="rotate-z m-auto" width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
