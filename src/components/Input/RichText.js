@@ -56,18 +56,23 @@ const RenderUser = (entry) => {
   )
 }
 
-const RichText = ({ text, onBlur, onFocus, setText, inputRef, autoFocus, placeholder = '', className, style = {}, suggestionsPortalHost}) => {
+let timeout = null
+
+const RichText = ({ text, onBlur, onFocus, setText, inputRef, autoFocus, placeholder = '', className, style = {}, suggestionsPortalHost }) => {
   const _getUsers = async (query, callback) => {
     if (!query) return
-    const response = await axios.get(`http://localhost:9090/users?id_like=${query}`)
-    const userList = response.data.data
-    const list = userList.map(user => ({
-      display: `@${user.id}`,
-      id: user.id,
-      imgAvatar: user.imgAvatar,
-      username: user.id
-    }))
-    callback(list)
+    clearTimeout(timeout)
+    timeout = setTimeout(async () => {
+      const response = await axios.get(`http://localhost:9090/users?id_like=${query}`)
+      const userList = response.data.data
+      const list = userList.map(user => ({
+        display: `@${user.id}`,
+        id: user.id,
+        imgAvatar: user.imgAvatar,
+        username: user.id
+      }))
+      callback(list)
+    }, 250);
   }
 
   const _onChange = (e) => {
