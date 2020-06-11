@@ -3,16 +3,10 @@ import Profile from '../components/Profile'
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { addData } from '../actions/me'
-import near from '../lib/near'
 import axios from 'axios'
 
 const ProfileScreen = ({ id }) => {
   const dispatch = useDispatch()
-
-  // const [localUser, setLocalUser] = useState(user)
-  // const [localMementoList, setLocalMementoList] = useState(mementoList)
-  // const [localPostList, setLocalPostList] = useState(postList)
-
   const user = useSelector(state => state.me.data[`/${id}_user`])
   const mementoList = useSelector(state => state.me.data[`/${id}_mementoList`])
   const postList = useSelector(state => state.me.data[`/${id}_postList`])
@@ -21,7 +15,6 @@ const ProfileScreen = ({ id }) => {
 
   const getPost = async () => {
     const ITEM_LIMIT = 5
-    const query = [`owner:=${id}`, 'status:=published']
     const curList = postList ? [...postList] : []
     const page = pageCount || 0
 
@@ -46,10 +39,6 @@ const ProfileScreen = ({ id }) => {
     const getData = async () => {
       const response = await axios.get(`http://localhost:9090/users?id=${id}`)
       const user = response.data.data[0]
-      // const user = await near.contract.getUserByid({
-      //   id: id
-      // })
-      // setLocalUser(user)
       dispatch(addData(`/${id}_user`, user))
     }
 

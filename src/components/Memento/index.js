@@ -17,7 +17,7 @@ import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 import { useRouter } from 'next/router'
 
-const Memento = ({ memento, postList, notFound }) => {
+const Memento = ({ memento, postList, notFound, getPost, hasMore }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -150,15 +150,22 @@ const Memento = ({ memento, postList, notFound }) => {
                   }
                 </div>
               </div>
-              {
-                postList.map(post => {
-                  return (
-                    <div key={post.id} className="mx-4 mt-4">
-                      <PostCard post={post} />
-                    </div>
-                  )
-                })
-              }
+              <InfiniteScroll
+                dataLength={postList.length}
+                next={getPost}
+                hasMore={hasMore}
+                loader={<InfiniteLoader key={0} />}
+              >
+                {
+                  postList.map(post => {
+                    return (
+                      <div key={post.id} className="mx-4 mt-4">
+                        <PostCard post={post} />
+                      </div>
+                    )
+                  })
+                }
+              </InfiniteScroll>
               <div className="sticky block md:hidden" style={{
                 bottom: `2rem`
               }}>

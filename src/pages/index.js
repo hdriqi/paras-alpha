@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div>
       <HomeScreen />
-      <div className="fixed bottom-0 right-0 left-0 z-20">
+      <div className="sticky bottom-0 right-0 left-0 z-20">
         <NavMobile />
       </div>
     </div>

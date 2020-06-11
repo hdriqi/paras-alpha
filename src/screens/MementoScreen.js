@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Memento from '../components/Memento'
-import near from '../lib/near'
-import { useSelector } from 'react-redux'
 import axios from 'axios'
 
 const MementoScreen = ({ id }) => {
-  const me = useSelector(state => state.me.profile)
   const [localMemento, setLocalMemento] = useState({})
   const [localPostList, setLocalPostList] = useState([])
-  const [localPendingPostCount, setLocalPendingPostCount] = useState(null)
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
   const [notFound, setNotFound] = useState(false)
@@ -57,27 +53,8 @@ const MementoScreen = ({ id }) => {
     }
   }, [id])
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get(`http://localhost:9090/posts?mementoId=${localMemento.id}`)
-      const postList = response.data.data
-      if(postList.length > 0) {
-        if(postList.length > 9) {
-          setLocalPendingPostCount('9+')
-        }
-        else {
-          setLocalPendingPostCount(postList.length)
-        }
-      }
-    }
-    if(localMemento && localMemento.id && me.id === localMemento.owner) {
-      console.log('get memento pending post list')
-      getData()
-    }
-  }, [localMemento, me])
-
   return (
-    <Memento memento={localMemento} postList={localPostList} getPost={getPost} page={page} hasMore={hasMore} pendingPostCount={localPendingPostCount} notFound={notFound} />
+    <Memento memento={localMemento} postList={localPostList} getPost={getPost} hasMore={hasMore} notFound={notFound} />
   )
 }
 
