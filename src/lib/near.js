@@ -1,5 +1,6 @@
-import getConfig from '../config';
-import * as nearAPI from 'near-api-js';
+import getConfig from '../config'
+import * as nearAPI from 'near-api-js'
+import { Base64 } from 'js-base64'
 
 class Near {
   constructor() {
@@ -8,6 +9,20 @@ class Near {
     this.config = {}
     this.wallet = {}
     this.signer = {}
+  }
+
+  async authToken() {
+    const userId = near.currentUser.accountId
+    const arr = new Array(userId)
+    for (var i = 0; i < userId.length; i++) {
+      arr[i] = userId.charCodeAt(i)
+    }
+    const msgBuf = new Uint8Array(arr)
+    const signedMsg = await this.signer.signMessage(msgBuf, this.wallet._authData.accountId, this.wallet._networkId)
+    const pubKey = Buffer.from(signedMsg.publicKey.data).toString('hex')
+    const signature = Buffer.from(signedMsg.signature).toString('hex')
+    const payload = [userId, pubKey, signature]
+    return Base64.encode(payload.join('&'))
   }
 
   async signMessage(msg) {

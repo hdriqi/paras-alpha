@@ -25,12 +25,8 @@ const HomeScreen = ({  }) => {
     const query = [`status:=published`]
     const curList = postList ? [...postList] : []
     let page = pageCount || 0 
-    
-    const msg = me.id
-    const signedMsg = await near.signMessage(msg)
-    const response = await axios.get(`http://localhost:9090/feeds?pubKey=${signedMsg.pubKey}&signature=${signedMsg.signature}&id=${me.id}&_skip=${page * 5}&_limit=${5}`)
 
-    // const response = await axios.get(`http://localhost:9090/posts?_skip=${page * 5}&_limit=${5}`)
+    const response = await axios.get(`http://localhost:9090/feeds?_skip=${page * 5}&_limit=${5}`)
     let newPostList = response.data.data || []
     
     // if(me && me.id) {
