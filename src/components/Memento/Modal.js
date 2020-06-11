@@ -12,14 +12,14 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
 
-  const _deletePost = async () => {
-    dispatch(setLoading(true, 'Forgetting memory...'))
-    await near.contract.deletePost({
-      id: post.id
+  const _deleteMemento = async () => {
+    dispatch(setLoading(true, 'Forgetting memento...'))
+    await near.contract.deleteMemento({
+      id: memento.id
     })
 
     batch(() => {
-      dispatch(deletePost(id))
+      // dispatch(deletePost(id))
       dispatch(setLoading(false))
     })
     setShowConfirmForget(false)
@@ -50,7 +50,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
       <Confirm
         show={showConfirmForget}
         onClose={_ => setShowConfirmForget(false)}
-        onComplete={_ => _deletePost()}
+        onComplete={_ => _deleteMemento()}
         leftText="Cancel"
         rightText="Forget"
         mainText="Forget this memory?"
@@ -77,6 +77,15 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
                       <h4 className="p-4 text-white font-bold">Edit Memento</h4>
                     </a>
                   </Push>
+                </button>
+              )
+            }
+            {
+              me && me.id == memento.owner && (
+                <button className="w-full text-left" onClick={_ => _forget()}>
+                  <a>
+                    <h4 className="p-4 text-white font-bold">Forget Memento</h4>
+                  </a>
                 </button>
               )
             }

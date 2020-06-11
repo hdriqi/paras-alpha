@@ -2,7 +2,6 @@ import ParseBody from '../parseBody'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { withRedux } from '../../lib/redux'
 import TimeAgo from 'javascript-time-ago'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
 import en from 'javascript-time-ago/locale/en'
 import Push from '../Push'
@@ -20,7 +19,7 @@ const timeAgo = new TimeAgo('en-US')
 const MetadataComp = ({ post }) => {
   const carouselContext = useContext(CarouselContext);
   const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
-  
+
   useEffect(() => {
     function onChange() {
       setCurrentSlide(carouselContext.state.currentSlide);
@@ -80,20 +79,25 @@ const Post = ({ post }) => {
             showModal={showModal}
             setShowModal={setShowModal}
             post={post}
+            me={me}
             meMementoList={meMementoList}
           />
-          <div className="bg-dark-2 text-center p-2 flex justify-center">
-            <Push href="/m/[id]" as={`/m/${post.memento.id}`} props={{
-              id: post.memento.id
-            }}>
-              <a className="flex items-center">
-                <div className="w-4 h-4 rounded-sm overflow-hidden">
-                  <Image className="w-full h-full object-fill" data={post.memento.img} />
-                </div>
-                <h4 className="ml-2 font-bold text-white text-sm">{post.memento.id}</h4>
-              </a>
-            </Push>
-          </div>
+          {
+            post.memento && (
+              <div className="bg-dark-2 text-center p-2 flex justify-center">
+                <Push href="/m/[id]" as={`/m/${post.mementoId}`} props={{
+                  id: post.mementoId
+                }}>
+                  <a className="flex items-center">
+                    <div className="w-4 h-4 rounded-sm overflow-hidden">
+                      <Image className="w-full h-full object-fill" data={post.memento.img} />
+                    </div>
+                    <h4 className="ml-2 font-bold text-white text-sm">{post.mementoId}</h4>
+                  </a>
+                </Push>
+              </div>
+            )
+          }
           <div className="p-2 flex items-center justify-between">
             <div className="flex items-center">
               <div className="h-8 w-8 rounded-full overflow-hidden shadow-inner">

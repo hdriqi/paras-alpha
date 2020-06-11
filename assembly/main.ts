@@ -53,6 +53,21 @@ export function updateMemento(
 	return null
 }
 
+export function deleteMemento(
+	id: string
+): boolean {
+	const memento = getMementoById(id)
+	if (memento) {
+		assert(
+			memento.owner == context.sender,
+			'Memento can only be deleted by owner'
+		)
+
+		mementoCollection.delete(memento.id)
+	}
+	return true
+}
+
 export function createPost(
 	contentList: Content[],
 	mementoId: string

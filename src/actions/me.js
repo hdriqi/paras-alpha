@@ -47,6 +47,14 @@ export const deletePost = (id) => {
   }
 }
 
+export const DELETE_MEMENTO = 'DELETE_MEMENTO'
+export const deleteMemento = (id) => {
+  return {
+    type: DELETE_MEMENTO,
+    id: id
+  }
+}
+
 export const TOGGLE_FOLLOW = 'TOGGLE_FOLLOW'
 export const toggleFollow = (id) => {
   return {

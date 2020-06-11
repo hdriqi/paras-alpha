@@ -66,43 +66,13 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
             {
-              (me && me.id == post.user.id || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
+              (me && me.id == post.owner || meMementoList.findIndex(memento => memento.id === post.mementoId)   > -1) && (
                 <button className="w-full text-left" onClick={_ => _forget()}>
                   <h4 className="p-4 text-white font-bold">Forget</h4>
                 </button>
               )
             }
           </div>
-          {/* {
-          view === 'default' && (
-            <div>
-              <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-              {
-                (me && me.id == post.user.id || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
-                  <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
-                )
-              }
-            </div>
-          )
-        }
-        {
-          view === 'confirmDelete' && (
-            <div>
-              <p className="p-4">Do you want to forget this memory?</p>
-              <div className="flex justify-end">
-                <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                <button className="p-4 text-red-600 font-medium text-left" onClick={_ => _delete(post.id)}>Forget</button>
-              </div>
-            </div>
-          )
-        }
-        {
-          view === 'confirmCopyLink' && (
-            <div>
-              <p className="p-4">Link copied!</p>
-            </div>
-          )
-        } */}
         </div>
       </List>
     </div>
