@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import near from '../lib/near'
-import PostMemento from '../components/PostMemento'
+import PostMemento from '../components/Post/Memento'
+import axios from 'axios'
 
 const PostScreen = ({ id, post = {}, mementoList = [] }) => {
   const [localPost, setLocalPost] = useState(post)
@@ -10,9 +10,8 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const post = await near.contract.getPostById({
-          id: id
-        })
+        const response = await axios.get(`http://localhost:9090/posts?id=${id}`)
+        const post = response.data.data[0]
         
         if(!post) {
           setNotFound(true)
@@ -30,16 +29,9 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const q = [`originalId:=${localPost.originalId}`]
-      const similarPost = await near.contract.getPostList({
-        query: q,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'desc',
-          _limit: 10
-        }
-      })
+      const response = await axios.get(`http://localhost:9090/posts?originalId=${localPost
+    .originalId}&_limit=100`)
+      const similarPost = response.data.data
       const mementoList = similarPost.map(post => post.memento)
       setLocalMementoList(mementoList)
     }

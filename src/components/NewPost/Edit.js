@@ -37,17 +37,22 @@ const EditPost = ({ post = {} }) => {
         else if (content.type === 'url') {
           if (content.payload) {
             newContent.body = content.payload
-            const response = await axios.get(content.payload.img, {
-              responseType: 'blob'
-            })
-            const img = await compressImg(response.data)
-            for await (const file of ipfs.client.add([{
-              content: img
-            }])) {
-              newContent.body.img = {
-                url: file.path,
-                type: 'ipfs'
+            try {
+              const response = await axios.get(content.payload.img, {
+                responseType: 'blob'
+              })
+              const img = await compressImg(response.data)
+              for await (const file of ipfs.client.add([{
+                content: img
+              }])) {
+                newContent.body.img = {
+                  url: file.path,
+                  type: 'ipfs'
+                }
               }
+            } catch (err) {
+              console.log(err)
+            } finally {
               newContent.body = JSON.stringify(newContent.body)
             }
           }

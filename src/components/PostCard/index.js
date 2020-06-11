@@ -2,8 +2,8 @@ import ParseBody from '../parseBody'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { withRedux } from '../../lib/redux'
 import TimeAgo from 'javascript-time-ago'
-
 import en from 'javascript-time-ago/locale/en'
+
 import Push from '../Push'
 import { useState, useEffect, useContext } from 'react'
 import PostCardLoader from '../PostCardLoader'
@@ -42,7 +42,17 @@ const MetadataComp = ({ post }) => {
       </div>
       <div className="w-1/3 text-right">
         <p className="text-white opacity-60 text-xs">
-          {/* Original Post */}
+          {
+            post.id !== post.originalId && (
+              <Push href="/post/[id]" as={`/post/${post.originalId}`} props={{
+                id: post.originalId
+              }}>
+                <a>
+                  Original Post
+                </a>
+              </Push>
+            )
+          }
         </p>
       </div>
     </div>
@@ -163,11 +173,17 @@ const Post = ({ post }) => {
               </svg>
               <p className="ml-1 text-white text-xs">Piece</p>
             </button>
-            <button className="w-1/3 flex items-center justify-center">
-              <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.2527 5.75274H4.05714M16.2527 5.75274L13.5849 3.08496M16.2527 5.75274L13.5849 8.42052M3.29492 12.6127H10.1549M3.29492 12.6127L5.9627 9.94496M3.29492 12.6127L5.9627 15.2805" stroke="#E2E2E2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="ml-1 text-white text-xs">Transmit</p>
+            <button className="w-1/3">
+              <Push href="/post/[id]/memento" as={`/post/${post.id}/memento`} props={{
+                id: post.id
+              }}>
+                <a className="flex items-center justify-center hover:bg-dark-2 py-1 rounded-md">
+                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.2527 5.75274H4.05714M16.2527 5.75274L13.5849 3.08496M16.2527 5.75274L13.5849 8.42052M3.29492 12.6127H10.1549M3.29492 12.6127L5.9627 9.94496M3.29492 12.6127L5.9627 15.2805" stroke="#E2E2E2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <h4 className="ml-1 text-white text-xs font-semibold tracking-wide">Transmit</h4>
+                </a>
+              </Push>
             </button>
             <button className="w-1/3 flex items-center justify-center">
               <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">

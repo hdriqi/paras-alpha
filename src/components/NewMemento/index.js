@@ -45,6 +45,7 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
   const _validateSubmit = () => {
     if (
       (_validateName()) &&
+      (name.length > 0) &&
       (!!domain.value) &&
       (!!type.value) &&
       (desc.length <= 150)) {

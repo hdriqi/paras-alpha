@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Scrollbars from 'react-custom-scrollbars'
 
-const Select = ({ isSearchable = true, placeholder = 'Select...', initial = {}, options, onChange }) => {
+const Select = ({ className, isSearchable = true, placeholder = 'Select...', initial = {}, options, onChange, onInputChange, beforeSelect }) => {
   const [text, setText] = useState('')
   const [showOptions, setShowOptions] = useState(false)
   const [option, setOption] = useState(initial)
@@ -40,9 +40,18 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', initial = {}, 
     }
     setText(val)
     setShowOptions(true)
+    if (typeof onInputChange === 'function') {
+      onInputChange(val)
+    }
   }
 
   const _chooseOpt = (opt) => {
+    if (typeof beforeSelect === 'function') {
+      const next = beforeSelect(opt)
+      if (!next) {
+        return
+      }
+    }
     setText('')
     setOption(opt)
     setShowOptions(false)
@@ -51,10 +60,10 @@ const Select = ({ isSearchable = true, placeholder = 'Select...', initial = {}, 
   const filteredOptions = isSearchable ? options.filter(opt => opt.label.toLowerCase().includes(text.toLowerCase())) : options
 
   const computedPlaceholder = option.label ? '' : placeholder
-  
+
   return (
-    <div ref={selectRef} className="relative">
-      <div onClick={_ => setShowOptions(!showOptions)}  className={`
+    <div ref={selectRef} className={`${className} relative`}>
+      <div onClick={_ => setShowOptions(!showOptions)} className={`
         ${showOptions ? 'bg-dark-16' : 'bg-dark-2'}
         flex items-center w-full rounded-md outline-none
       `}>

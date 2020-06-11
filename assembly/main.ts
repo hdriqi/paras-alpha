@@ -20,7 +20,7 @@ export function createMemento(
 		!exist,
 		'Memento id already taken'
 	)
-	
+
 	mementoCollection.set(m.id, m)
 
 	return m
@@ -45,7 +45,7 @@ export function updateMemento(
 	if (memento) {
 		memento.img = img
 		memento.desc = desc
-		
+
 		mementoCollection.set(id, memento)
 
 		return memento
@@ -72,11 +72,26 @@ export function createPost(
 	contentList: Content[],
 	mementoId: string
 ): Post {
-	const p = new Post(contentList, mementoId)
+	const p = new Post(contentList, mementoId, null)
 
 	postCollection.set(p.id, p)
 
 	return p
+}
+
+export function transmitPost(
+	id: string,
+	mementoId: string
+): Post | null {
+	const post = getPostById(id)
+	if (post) {
+		const p = new Post(post.contentList, mementoId, post.originalId)
+
+		postCollection.set(p.id, p)
+
+		return p
+	}
+	return null
 }
 
 export function editPost(
@@ -167,7 +182,7 @@ export function updateUser(
 	if (user) {
 		user.imgAvatar = imgAvatar
 		user.bio = bio
-		
+
 		userCollection.set(context.sender, user)
 
 		return user
@@ -176,9 +191,9 @@ export function updateUser(
 }
 
 export function getFeedById(id: string): Feed | null {
-	
+
 	const feed = feedCollection.get(id)
-	if(feed) {
+	if (feed) {
 		return feed
 	}
 	return null
@@ -206,7 +221,7 @@ export function toggleFollow(target: Following): boolean {
 			const idx = new FeedIndex(feed.list.length - 1)
 			feedIndex.set(feedId.concat('->').concat(target.id), idx)
 		}
-		
+
 		return true
 	}
 

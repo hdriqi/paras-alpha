@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Post from '../components/Post'
-import near from '../lib/near'
+import axios from 'axios'
 
-const PostScreen = ({ id, post = {}, mementoList = [], commentList = [] }) => {
+const PostScreen = ({ id, post = {} }) => {
   const [localPost, setLocalPost] = useState(post)
-  const [localMementoList, setLocalMementoList] = useState(mementoList)
-  const [localCommentList, setLocalCommentList] = useState(commentList)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const post = await near.contract.getPostById({
-          id: id
-        })
+        const response = await axios.get(`http://localhost:9090/posts?id=${id}`)
+        const post = response.data.data[0]
         
         if(!post) {
           setNotFound(true)

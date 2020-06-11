@@ -58,11 +58,11 @@ export class Post {
   user: User | null
   memento: Memento | null
 
-  constructor(contentList: Content[], mementoId: string) {
+  constructor(contentList: Content[], mementoId: string, originalId: string | null) {
     const id = generateId()
 
     this.id = id
-    this.originalId = id
+    this.originalId = originalId ? originalId : id
     this.contentList = contentList
     this.mementoId = mementoId
     this.owner = context.sender

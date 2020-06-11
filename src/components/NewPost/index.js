@@ -22,6 +22,7 @@ const NewPost = ({ memento = null }) => {
   const [chosenMemento, setChosenMemento] = useState(memento)
 
   const _submit = async () => {
+    dispatch(setLoading(true, 'Creating post...'))
     const postContentList = content.map(content => {
       return new Promise(async (resolve, reject) => {
         let newContent = {
@@ -32,17 +33,22 @@ const NewPost = ({ memento = null }) => {
         }
         else if (content.type === 'url') {
           newContent.body = content.body
-          const response = await axios.get(content.body.img, {
-            responseType: 'blob'
-          })
-          const img = await compressImg(response.data)
-          for await (const file of ipfs.client.add([{
-            content: img
-          }])) {
-            newContent.body.img = {
-              url: file.path,
-              type: 'ipfs'
+          try {
+            const response = await axios.get(content.body.img, {
+              responseType: 'blob'
+            })
+            const img = await compressImg(response.data)
+            for await (const file of ipfs.client.add([{
+              content: img
+            }])) {
+              newContent.body.img = {
+                url: file.path,
+                type: 'ipfs'
+              }
             }
+          } catch(err)  {
+            console.log(err)
+          } finally {
             newContent.body = JSON.stringify(newContent.body)
           }
         }
@@ -80,7 +86,6 @@ const NewPost = ({ memento = null }) => {
       contentList: newContentList,
       mementoId: chosenMemento.id,
     }
-    dispatch(setLoading(true, 'Creating post...'))
     await near.contract.createPost(newData)
     dispatch(setLoading(false))
     dispatch(addPostList([newData]))
