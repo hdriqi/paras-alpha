@@ -24,7 +24,9 @@ const Page = ({ page }) => {
   }
   else if (page.type === 'url') {
     return (
-      <SlideUrl body={page.body} />
+      <div className="-m-2">
+        <SlideUrl body={page.body} />
+      </div>
     )
   }
 }

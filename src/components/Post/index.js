@@ -109,7 +109,7 @@ const PostDetail = ({ post, notFound }) => {
                         </Fragment>
                       )
                     }
-                    <div className="p-2 flex items-center">
+                    <div className="py-2 flex items-center">
                       <div className="flex items-center">
                         <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner">
                           <Push href="/[id]" as={`/${post.owner}`} props={{
@@ -173,7 +173,7 @@ const PostDetail = ({ post, notFound }) => {
                         </p>
                       </div>
                     </div>
-                    <div className="fixed bg-dark-6 mx-6 rounded-md overflow-hidden duration-500" style={{
+                    <div className="fixed bg-dark-16 rounded-md overflow-hidden duration-500" style={{
                       bottom: `1rem`,
                       transform: `translate3d(0, ${showAction ? `0` : `200%`}, 0)`,
                       width: `300px`,
