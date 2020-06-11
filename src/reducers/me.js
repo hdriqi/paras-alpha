@@ -58,9 +58,13 @@ const reducer = (state = initialState, action) => {
       }
     case TOGGLE_FOLLOW:
       const newList = [...state.followList]
-      console.log(newList)
-      const idx = newList.findIndex(action.id)
-      if (idx > -1) newList.splice(idx, 1)
+      const idx = newList.indexOf(action.id)
+      if (idx > -1) {
+        newList.splice(idx, 1)
+      }
+      else {
+        newList.push(action.id)
+      }
       return {
         ...state,
         followList: newList

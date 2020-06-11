@@ -10,6 +10,7 @@ import Modal from './Modal'
 import axios from 'axios'
 import { setLoading } from "../actions/ui"
 import NavDesktop from "./NavDesktop"
+import { Base64 } from 'js-base64'
 
 const DEFAULT_AVATAR = {
   url: 'QmbmkUNfVEQwUHzufSbC5nZQbdEMnNp6Hzfr88sQhZAois',
@@ -79,6 +80,12 @@ const Layout = ({ children }) => {
               }
             }
           }
+
+          const { pubKey, signature } = await near.signMessage(near.currentUser.accountId)
+          const payload = [near.currentUser.accountId, pubKey, signature]
+          const authToken = Base64.encode(payload.join('&'))
+          axios.defaults.headers.common['Authorization'] = authToken
+
           batch(() => {
             dispatch(setUser(near.currentUser))
             dispatch(setProfile(profile))

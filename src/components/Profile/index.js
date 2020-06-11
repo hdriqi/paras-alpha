@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
-import { setProfile } from '../../actions/me'
+import { toggleFollow } from '../../actions/me'
 
 import PostCard from '../PostCard'
 import ParseBody from '../parseBody'
@@ -21,6 +21,8 @@ import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 
 const Profile = ({ user = {}, hasMore, getPost, postList }) => {
+  const dispatch = useDispatch()
+
   const me = useSelector(state => state.me.profile)
   const followList = useSelector(state => state.me.followList)
   const pageList = useSelector(state => state.ui.pageList)
@@ -39,35 +41,17 @@ const Profile = ({ user = {}, hasMore, getPost, postList }) => {
 
   const _toggleFollow = async () => {
     setIsSubmitting(true)
-    const msg = me.id
-    const signedMsg = await near.signMessage(msg)
-    const x = await axios.post(`http://localhost:9090/follow`, {
-      pubKey: signedMsg.pubKey,
-      signature: signedMsg.signature,
-      id: me.id,
-      targetId: user.id,
-      targetType: 'user'
-    })
+    try {
+      await axios.post(`http://localhost:9090/follow`, {
+        targetId: user.id,
+        targetType: 'user'
+      })
+      setIsFollowing(!isFollowing)
+      dispatch(toggleFollow(user.id))
+    } catch (err) {
+      console.log(err)
+    }
     setIsSubmitting(false)
-    setIsFollowing(!isFollowing)
-    // cannot follow/unfollow self
-    // if (me.id === user.id) {
-    //   return
-    // }
-
-    // const newData = {
-    //   id: me.id,
-    //   targetId: user.id,
-    //   targetType: 'user'
-    // }
-    // const msg = isFollowing ? 'Unfollowing user...' : 'Following user...'
-    // dispatch(setLoading(true, msg))
-    // const newMe = await near.contract.toggleUserFollow(newData)
-
-    // batch(() => {
-    //   dispatch(setProfile(newMe))
-    //   dispatch(setLoading(false))
-    // })
   }
 
   return (

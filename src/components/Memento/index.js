@@ -1,17 +1,15 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector, batch } from 'react-redux'
-import { setProfile } from '../../actions/me'
+import { toggleFollow } from '../../actions/me'
 import { withRedux } from '../../lib/redux'
 import Pop from '../Pop'
 import Push from '../Push'
 
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import near from '../../lib/near'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { setLoading } from '../../actions/ui'
 import InfiniteLoader from '../InfiniteLoader'
 import NavTop from '../NavTop'
-import InView, { useInView } from 'react-intersection-observer'
+import InView from 'react-intersection-observer'
 import Image from 'components/Image'
 import MementoModal from './Modal'
 import PostCard from '../PostCard'
@@ -48,17 +46,17 @@ const Memento = ({ memento, postList, getPost, hasMore, pendingPostCount, notFou
 
   const _toggleFollow = async () => {
     setIsSubmitting(true)
-    const msg = me.id
-    const signedMsg = await near.signMessage(msg)
-    const x = await axios.post(`http://localhost:9090/follow`, {
-      pubKey: signedMsg.pubKey,
-      signature: signedMsg.signature,
-      id: me.id,
-      targetId: memento.id,
-      targetType: 'memento'
-    })
+    try {
+      await axios.post(`http://localhost:9090/follow`, {
+        targetId: memento.id,
+        targetType: 'memento'
+      })
+      setIsFollowing(!isFollowing)
+      dispatch(toggleFollow(memento.id))
+    } catch (err) {
+      console.log(err)
+    } 
     setIsSubmitting(false)
-    setIsFollowing(!isFollowing)
   }
 
   return (
