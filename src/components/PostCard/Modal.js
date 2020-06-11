@@ -92,6 +92,24 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
             <button className="w-full text-left" onClick={_ => _copyLink()}>
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
+            <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+              <Push href="/[id]" as={`/${post.owner}`} props={{
+                id: post.owner
+              }}>
+                <h4 className="p-4 text-white font-bold">View Creator</h4>
+              </Push>
+            </button>
+            {
+              post.mementoId && (
+                <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+                  <Push href="/m/[id]" as={`/m/${post.mementoId}`} props={{
+                    id: post.mementoId
+                  }}>
+                    <h4 className="p-4 text-white font-bold">View Memento</h4>
+                  </Push>
+                </button>
+              )
+            }
             {
               me && me.id == post.owner && (
                 <button className="w-full text-left" onClick={_ => setShowModal(false)}>
