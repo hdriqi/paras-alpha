@@ -57,6 +57,15 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
                 </a>
               </Push>
             </button>
+            <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+              <Push href="/me/memento" as="/me/memento" props={{
+                id: user.id
+              }}>
+                <a>
+                  <h4 className="p-4 text-white font-bold">My Memento</h4>
+                </a>
+              </Push>
+            </button>
             {
               me && me.id == user.id && (
                 <button className="w-full text-left" onClick={_ => setShowModal(false)}>
