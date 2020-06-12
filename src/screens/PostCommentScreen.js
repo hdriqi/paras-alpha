@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import near from '../lib/near'
-import PostComment from '../components/PostComment'
+import PostComment from '../components/Post/Comment'
+import axios from 'axios'
 
 const PostCommentScreen = ({ id, post = {}, commentList = [] }) => {
   const [localPost, setLocalPost] = useState(post)
@@ -10,9 +11,8 @@ const PostCommentScreen = ({ id, post = {}, commentList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const post = await near.contract.getPostById({
-          id: id
-        })
+        const response = await axios.get(`http://localhost:9090/posts?id=${id}`)
+        const post = response.data.data[0]
         
         if(!post) {
           setNotFound(true)
@@ -30,17 +30,9 @@ const PostCommentScreen = ({ id, post = {}, commentList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const q = [`postId:=${localPost.id}`]
-      const commentList = await near.contract.getCommentList({
-        query: q,
-        opts: {
-          _embed: true,
-          _sort: 'createdAt',
-          _order: 'asc',
-          _skip: 0,
-          _limit: 10
-        }
-      })
+      const response = await axios.get(`http://localhost:9090/comments?postId=${localPost
+    .id}&_limit=100&_sort=asc`)
+      const commentList = response.data.data
 
       setLocalCommentList(commentList)
     }

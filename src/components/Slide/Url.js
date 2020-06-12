@@ -4,7 +4,7 @@ import { parseJSON } from "lib/utils"
 const SlideUrl = ({ body }) => {
   const parsed = parseJSON(body)
   return (
-    <div className="w-full relative pb-full">
+    <div className="w-full relative pb-full cursor-default">
       <div className="absolute m-auto w-full h-full p-2">
         <a href={parsed.url} target="_blank">
           <div className="bg-dark-2 rounded-md overflow-hidden h-full hover:opacity-87">

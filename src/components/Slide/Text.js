@@ -4,7 +4,7 @@ import { parseJSON } from 'lib/utils'
 
 const SlideText = ({ body }) => {
   return (
-    <div className="w-full relative pb-full">
+    <div className="w-full relative pb-full cursor-default">
       <div className="absolute m-auto w-full h-full p-2">
         <Scrollbars>
           <div className="flex h-full">

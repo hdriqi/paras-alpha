@@ -3,7 +3,7 @@ import { parseJSON } from "lib/utils"
 
 const SlideImage = ({ body }) => {
   return (
-    <div className="w-full relative pb-full">
+    <div className="w-full relative pb-full cursor-default">
       <div className="absolute m-auto w-full h-full object-contain">
         <div className="flex items-center h-full">
           <Image data={parseJSON(body)} />

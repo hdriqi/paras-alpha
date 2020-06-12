@@ -2,10 +2,12 @@ import { useRef, useState, useEffect } from 'react'
 import Confirm from '../Utils/Confirm'
 import RichText from 'components/Input/RichText'
 import Scrollbars from 'react-custom-scrollbars'
+import { RotateSpinLoader } from 'react-css-loaders'
+import near from 'lib/near'
 
 const MAX_CHAR = 400
 
-const NewPostText = ({ left, right, input = '', title }) => {
+const CommentAdd = ({ left, right, post, input }) => {
   const containerRef = useRef(null)
   const inputRef = useRef(null)
   const [textRaw, setTextRaw] = useState(input || '')
@@ -13,6 +15,7 @@ const NewPostText = ({ left, right, input = '', title }) => {
   const [lineCount, setLineCount] = useState(0)
   const [err, setErr] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (textRaw.length > MAX_CHAR) {
@@ -32,23 +35,6 @@ const NewPostText = ({ left, right, input = '', title }) => {
     else {
       setLineCount(0)
     }
-    // if (inputRef.current.scrollHeight > maxHeight) {
-    //   setTextRaw(curText)
-    //   setErr(true)
-    //   setTimeout(() => {
-    //     setErr(false)
-    //   }, 500)
-    // }
-    // else {
-    //   setCurText(textRaw)
-    // }
-    // if (textRaw.length > 0) {
-    //   const lineCount = Math.round(inputRef.current.scrollHeight * 100 / maxHeight)
-    //   setLineCount(lineCount)
-    // }
-    // else {
-    //   setLineCount(0)
-    // }
   }, [textRaw])
 
   useEffect(() => {
@@ -68,15 +54,20 @@ const NewPostText = ({ left, right, input = '', title }) => {
     return textRaw.length > 0
   }
 
-  const _right = () => {
-    right({
-      type: 'text',
-      body: textRaw,
-      payload: {
-        text: inputRef.current.value,
-        raw: textRaw
-      }
-    })
+  const _right = async () => {
+    setLoading(true)
+
+    try {
+      const newComment = await near.contract.createComment({
+        postId: post.id,
+        body: textRaw
+      })
+    
+      right(newComment)
+    } catch (err) {
+      alert(err)
+    }
+    setLoading(false)
   }
 
   const _left = () => {
@@ -93,8 +84,6 @@ const NewPostText = ({ left, right, input = '', title }) => {
       _left()
     }
   }
-
-  const header = title || (input && input.length > 0 ? `Edit Text` : `Add Text`)
 
   return (
     <div id="new-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
@@ -122,15 +111,24 @@ const NewPostText = ({ left, right, input = '', title }) => {
                 </svg>
               </button>
             </div>
-            <div className="flex-auto text-white overflow-hidden px-2">{header}</div>
+            <div className="flex-auto text-white overflow-hidden px-2">Add Comment</div>
             <div className="w-8 text-white flex items-center justify-end">
-              <button disabled={!_validateSubmit()} className="ml-auto" onClick={e => _right(e)}>
-                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
-                  <circle cx="16" cy="16" r="16" fill="#E13128" />
-                  <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
-                </svg>
-              </button>
+              {
+                loading ? (
+                  <RotateSpinLoader style={{
+                    marginLeft: `auto`,
+                    marginRight: 0
+                  }} color="#e13128" size={2.4} />
+                ) : (
+                    <button disabled={!_validateSubmit()} className="ml-auto" onClick={e => _right(e)}>
+                      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
+                        <circle cx="16" cy="16" r="16" fill="#E13128" />
+                        <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
+                      </svg>
+                    </button>
+                  )
+              }
             </div>
           </div>
           <div className="h-1 w-full relative bg-dark-6 relative">
@@ -145,8 +143,8 @@ const NewPostText = ({ left, right, input = '', title }) => {
                 flex items-center h-full p-2
               `}>
                 <Scrollbars
-                 autoHeight={true}
-                 autoHeightMax={containerRef && containerRef.current ? (containerRef.current.clientWidth - 16) : 200}
+                  autoHeight={true}
+                  autoHeightMax={containerRef && containerRef.current ? (containerRef.current.clientWidth - 16) : 200}
                 >
                   <RichText
                     autoFocus
@@ -154,7 +152,7 @@ const NewPostText = ({ left, right, input = '', title }) => {
                     text={textRaw}
                     setText={setTextRaw}
                     initialText={textRaw}
-                    placeholder="Share your ideas and thought"
+                    placeholder="Write a comment..."
                     className="w-full"
                     suggestionsPortalHost={containerRef.current}
                     style={{
@@ -173,4 +171,4 @@ const NewPostText = ({ left, right, input = '', title }) => {
   )
 }
 
-export default NewPostText
+export default CommentAdd

@@ -75,16 +75,14 @@ export class Comment {
   id: string
   postId: string
   body: string
-  bodyRaw: string
   owner: string
   createdAt: u64
   user: User | null
 
-  constructor(id: string, postId: string, body: string, bodyRaw: string) {
-    this.id = id
+  constructor(postId: string, body: string) {
+    this.id = generateId()
     this.postId = postId
     this.body = body
-    this.bodyRaw = bodyRaw
     this.owner = context.sender
     this.createdAt = context.blockTimestamp
   }
@@ -165,10 +163,4 @@ export class SearchResult {
 export const mementoCollection = new PersistentMap<string, Memento>('memento')
 export const postCollection = new PersistentMap<string, Post>('post')
 export const userCollection = new PersistentMap<string, User>('user')
-export const feedCollection = new PersistentMap<string, Feed>('feed')
-export const feedIndex = new PersistentMap<string, FeedIndex>('feedIdx')
-
-// export const postCollection = new PersistentMap<string, PostList>("p")
-// export const mementoCollection = new PersistentMap<string, MementoList>("m")
-
-// export const commentCollection = new PersistentMap<string, CommentList>("c")
+export const commentCollection = new PersistentMap<string, Comment>('comment')

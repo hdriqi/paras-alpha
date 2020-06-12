@@ -23,7 +23,6 @@ const PageManager = ({ children }) => {
   const dispatch = useDispatch()
   const pageList = useSelector(state => state.ui.pageList)
   const me = useSelector(state => state.me.profile)
-  const [rootEl, setRootEl] = useState(null)
   const [prevPageLen, setPrevPageLen] = useState(null)
 
   const screenList = {
@@ -42,9 +41,6 @@ const PageManager = ({ children }) => {
   }
 
   useEffect(() => {
-    if(router.asPath === '/' || router.asPath === `/${me.id}` || pageList.length === 0) {
-      setRootEl(cloneElement(children))
-    }
     // if back, then pop page
     if(pageList.length > 0 && pageList.length === prevPageLen) {
       setPrevPageLen(Math.max(0, pageList.length - 1))
@@ -59,7 +55,7 @@ const PageManager = ({ children }) => {
     <div className="bg-dark-0">
       <Loading />
       <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
-        { rootEl }
+        { children }
       </div>
       {
         pageList.map((page, idx) => {

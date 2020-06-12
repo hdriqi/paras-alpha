@@ -1,5 +1,5 @@
-import { context, math, base58, logging } from 'near-sdk-as'
-import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Following, feedCollection, feedIndex, Feed, FeedIndex } from './model'
+import { context, math } from 'near-sdk-as'
+import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Comment, commentCollection } from './model'
 
 export function createMemento(
 	name: string,
@@ -190,44 +190,37 @@ export function updateUser(
 	return null
 }
 
-export function getFeedById(id: string): Feed | null {
+export function createComment(
+	postId: string,
+	body: string
+): Comment {
+	const c = new Comment(postId, body)
 
-	const feed = feedCollection.get(id)
-	if (feed) {
-		return feed
+	commentCollection.set(c.id, c)
+
+	return c
+}
+
+export function getCommentById(id: string): Comment | null {
+	const comment = commentCollection.get(id)
+	if (comment) {
+		return comment
 	}
 	return null
 }
 
-export function toggleFollow(target: Following): boolean {
-	const feedId = math.hash32(context.sender).toString()
+export function deleteComment(
+	id: string
+): boolean {
+	const comment = getCommentById(id)
+	if (comment) {
+		const post = getPostById(comment.postId)
+		assert(
+			comment.owner == context.sender || !!post && post.owner == context.sender,
+			'Comment can only be deleted by comment owner or post owner'
+		)
 
-	const feed = getFeedById(feedId)
-	const feedIdx = feedId.concat('->').concat(target.id)
-	if (feed) {
-		const isFollowing = feedIndex.get(feedIdx)
-		// if already following, set to unfollow target
-		if (isFollowing) {
-			feed.list.splice(isFollowing.index, 1)
-			feed.id = feedId
-			feedCollection.set(feedId, feed)
-			feedIndex.delete(feedId.concat('->').concat(target.id))
-		}
-		// else follow target
-		else {
-			feed.list.push(target)
-			feed.id = feedId
-			feedCollection.set(feedId, feed)
-			const idx = new FeedIndex(feed.list.length - 1)
-			feedIndex.set(feedId.concat('->').concat(target.id), idx)
-		}
-
-		return true
+		commentCollection.delete(comment.id)
 	}
-
-	const newFeed = new Feed(feedId, [target])
-	feedCollection.set(feedId, newFeed)
-	const idx = new FeedIndex(0)
-	feedIndex.set(feedIdx, idx)
 	return true
 }
