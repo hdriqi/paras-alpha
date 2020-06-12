@@ -24,6 +24,12 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
     }, 1000)
   }
 
+  const _logout = () => {
+    near.wallet.signOut()
+
+    window.location.replace(window.location.origin + '/login')
+  }
+
   return (
     <div>
       <Notify show={showNotifyCopyLink}>
@@ -32,7 +38,7 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
       <Confirm
         show={showConfirmLogout}
         onClose={_ => setShowConfirmLogout(false)}
-        onComplete={_ => _deletePost()}
+        onComplete={_ => _logout()}
         leftText="Cancel"
         rightText="Logout"
         mainText="Log out from Paras?"
@@ -49,23 +55,27 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
             <button className="w-full text-left" onClick={_ => setShowModal(false)}>
-              <Push href="/me/following" as="/me/following" props={{
+              <Push href="/[id]/memento" as={`/${user.id}/memento`} props={{
                 id: user.id
               }}>
                 <a>
-                  <h4 className="p-4 text-white font-bold">Following</h4>
+                  <h4 className="p-4 text-white font-bold">View Memento</h4>
                 </a>
               </Push>
             </button>
-            <button className="w-full text-left" onClick={_ => setShowModal(false)}>
-              <Push href="/me/memento" as="/me/memento" props={{
-                id: user.id
-              }}>
-                <a>
-                  <h4 className="p-4 text-white font-bold">My Memento</h4>
-                </a>
-              </Push>
-            </button>
+            {
+              me && me.id == user.id && (
+                <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+                  <Push href="/me/following" as="/me/following" props={{
+                    id: user.id
+                  }}>
+                    <a>
+                      <h4 className="p-4 text-white font-bold">View Following</h4>
+                    </a>
+                  </Push>
+                </button>
+              )
+            }
             {
               me && me.id == user.id && (
                 <button className="w-full text-left" onClick={_ => setShowModal(false)}>
@@ -77,6 +87,16 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
                       <h4 className="p-4 text-white font-bold">Edit Profile</h4>
                     </a>
                   </Push>
+                </button>
+              )
+            }
+            {
+              me && me.id == user.id && (
+                <button className="w-full text-left" onClick={_ => {
+                  setShowModal(false)
+                  setShowConfirmLogout(true)
+                }}>
+                  <h4 className="p-4 text-white font-bold">Log out</h4>
                 </button>
               )
             }
