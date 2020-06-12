@@ -48,9 +48,18 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
             <button className="w-full text-left" onClick={_ => _copyLink()}>
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
+            <button className="w-full text-left" onClick={_ => setShowModal(false)}>
+              <Push href="/me/following" as="/me/following" props={{
+                id: user.id
+              }}>
+                <a>
+                  <h4 className="p-4 text-white font-bold">Following</h4>
+                </a>
+              </Push>
+            </button>
             {
               me && me.id == user.id && (
-                <button className="w-full text-left">
+                <button className="w-full text-left" onClick={_ => setShowModal(false)}>
                   <Push href="/me/edit" as="/me/edit" props={{
                     id: user.id,
                     user: user
