@@ -53,10 +53,10 @@ const PostMemento = ({ post, commentList, notFound }) => {
       {
         !notFound ? (
           <div>
-            <div className="px-4">
+            <div className="px-4 pb-4">
               {
                 combinedCommentList.length === 0 ? (
-                  <div className="text-center mt-2 p-2 ">
+                  <div className="text-center mt-2 p-2">
                     <h4 className="text-white text-lg font-semibold">Write a Comment</h4>
                     <p className="text-white-1 pt-2">Click on button at top right to add a comment</p>
                   </div>

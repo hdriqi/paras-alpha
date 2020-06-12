@@ -44,7 +44,7 @@ const ModalComment = ({ showModal, setShowModal, me, post, comment, onDelete }) 
         <div className="opacity-0 absolute" style={{
           zIndex: `-1`
         }}>
-          <input readOnly type="text" value={`${window.location.origin}/post/${post.id}`} id={`urlLink_${post.id}`} />
+          <input readOnly type="text" value={`${window.location.origin}/post/${comment.postId}`} id={`urlLink_${comment.postId}`} />
         </div>
         <div>
           <div>
@@ -56,7 +56,7 @@ const ModalComment = ({ showModal, setShowModal, me, post, comment, onDelete }) 
               </Push>
             </button>
             {
-              ((me && me.id == post.owner) || (me && me.id == comment.owner)) && (
+              ((me && post && me.id == post.owner) || (me && me.id == comment.owner)) && (
                 <button className="w-full text-left" onClick={_ => _forget()}>
                   <h4 className="p-4 text-white font-bold">Forget</h4>
                 </button>

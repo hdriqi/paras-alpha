@@ -4,10 +4,12 @@ import RichText from 'components/Input/RichText'
 import Scrollbars from 'react-custom-scrollbars'
 import { RotateSpinLoader } from 'react-css-loaders'
 import near from 'lib/near'
+import { useSelector } from 'react-redux'
 
 const MAX_CHAR = 400
 
 const CommentAdd = ({ left, right, post, input }) => {
+  const me = useSelector(state => state.me.profile)
   const containerRef = useRef(null)
   const inputRef = useRef(null)
   const [textRaw, setTextRaw] = useState(input || '')
@@ -62,6 +64,9 @@ const CommentAdd = ({ left, right, post, input }) => {
         postId: post.id,
         body: textRaw
       })
+
+      newComment.user = me
+      newComment.post = post
     
       right(newComment)
     } catch (err) {

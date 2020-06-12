@@ -103,9 +103,10 @@ const Layout = ({ children }) => {
       dispatch(addMementoList(response.data.data))
     }
     const getUserFollowing = async () => {
-      const msg = me.id
-      const signedMsg = await near.signMessage(msg)
-      const response = await axios.get(`http://localhost:9090/follow?pubKey=${signedMsg.pubKey}&signature=${signedMsg.signature}&id=${me.id}&_limit=${100}`)
+      const token = await near.authToken()
+      axios.defaults.headers.common['Authorization'] = token
+      
+      const response = await axios.get(`http://localhost:9090/follow`)
       const followList = response.data.data.map(follow => follow.targetId)
       dispatch(setFollow(followList))
     }
