@@ -1,7 +1,7 @@
 const InfiniteLoader = () => {
   return (
     <div className="py-8">
-        <svg className="m-auto" width="60" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#222">
+        <svg className="m-auto" width="60" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="white">
     <circle cx="15" cy="15" r="15">
         <animate attributeName="r" from="15" to="15"
                  begin="0s" dur="0.8s"

@@ -10,12 +10,9 @@ const ParseBody = ({ body = '' }) => {
     if(match) {
       return (
         <Push key={idx} href="/[id]" as={`/${match[1]}`} props={{
-          username: match[1]
+          id: match[1]
         }}>
-          <a style={{
-            backgroundColor: `#df4544`,
-            borderRadius: `.1rem`
-          }}>@{ match[1] }</a>
+          <a className="bg-primary-5 rounded-sm hover:bg-primary-7">@{ match[1] }</a>
         </Push>
       )
     }
