@@ -10,8 +10,11 @@ import InfiniteLoader from "components/InfiniteLoader"
 
 const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
   const DECIMALS = 18
+  const len = 8
 
-  const formattedBalance = (balance / (10 ** DECIMALS)).toLocaleString()
+  const diff = balance.toString().length - (10 ** DECIMALS).toString().length
+  const fixedPoint = Math.max(1, Math.min(len, len - diff))
+  const formattedBalance = (balance / (10 ** DECIMALS)).toFixed(fixedPoint)
 
   return (
     <div className="bg-dark-0 min-h-screen pb-6">
@@ -42,7 +45,9 @@ const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
             >
               {
                 txList.map(tx => {
-                  const formattedBalance = (tx.value / (10 ** DECIMALS)).toLocaleString()
+                  const diff = tx.value.toString().length - (10 ** DECIMALS).toString().length
+                  const fixedPoint = Math.max(1, Math.min(len, len - diff))
+                  const formattedBalance = (tx.value / (10 ** DECIMALS)).toFixed(fixedPoint)
                   const isOutTx = tx.from === me.id
                   const user = isOutTx ? tx.toUser : tx.fromUser
                   return (

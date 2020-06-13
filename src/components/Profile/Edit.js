@@ -17,6 +17,7 @@ import ipfs from 'lib/ipfs'
 import Push from '../Push'
 import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
+import { setProfile } from 'actions/me'
 
 const ProfileEdit = ({ me }) => {
   const dispatch = useDispatch()

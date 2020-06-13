@@ -6,7 +6,7 @@ import axios from 'axios'
 const WalletScreen = () => {
   const me = useSelector(state => state.me.profile)
 
-  const [balance, setBalance] = useState(balance)
+  const [balance, setBalance] = useState(0)
   const [txList, setTxList] = useState([])
   const [pageCount, setPageCount] = useState(0)
   const [hasMore, setHasMore] = useState(true)
