@@ -103,9 +103,6 @@ const Layout = ({ children }) => {
       dispatch(addMementoList(response.data.data))
     }
     const getUserFollowing = async () => {
-      const token = await near.authToken()
-      axios.defaults.headers.common['Authorization'] = token
-      
       const response = await axios.get(`http://localhost:9090/follow`)
       const followList = response.data.data.map(follow => follow.targetId)
       dispatch(setFollow(followList))

@@ -5,13 +5,15 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import ui from './reducers/ui'
 import me from './reducers/me'
 import near from './reducers/near'
+import explore from './reducers/explore'
 
 const initialState = {}
 
 const reducer = combineReducers({
   ui,
   me,
-  near
+  near,
+  explore
 })
 
 let middleware = composeWithDevTools(
