@@ -66,7 +66,13 @@ class Near {
       // View methods are read-only – they don't modify the state, but usually return some value
       viewMethods: [
         'getUserById',
-        'getMementoById'
+        'getMementoById',
+        'name',
+        'symbol',
+        'decimals',
+        'balanceOf',
+        'allowance',
+        'getBalance'
       ],
       // Change methods can modify the state, but you don't receive the returned value when called
       changeMethods: [
@@ -82,12 +88,22 @@ class Near {
         'createUser',
         'updateUser',
         'createComment',
-        'deleteComment'
+        'deleteComment',
+        'init',
+        'transfer',
+        'approve',
+        'transferFrom',
+        'piecePost'
       ],
       // Sender is the account ID to initialize transactions.
       // getAccountId() will return empty string if user is still unauthorized
       sender: wallet.getAccountId(),
     })
+
+    // const response = await contract.init({
+    //   initialOwner: 'riqi.testnet'
+    // })
+    // console.log(response)
 
     this.contract = contract
     this.currentUser = currentUser

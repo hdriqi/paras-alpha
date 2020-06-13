@@ -1,4 +1,4 @@
-import { context, PersistentMap, PersistentVector } from 'near-sdk-as'
+import { context, PersistentMap, PersistentVector, u128 } from 'near-sdk-as'
 import { generateId } from './utils'
 
 @nearBindgen
@@ -34,7 +34,7 @@ export class Memento {
   user: User | null
 
   constructor(name: string, category: string, img: Img, desc: string, type: string) {
-    const tail = type == 'personal' ? context.sender : category
+    const tail = type == 'personal' ? context.sender.split('.')[0] : category
 
     this.id = name.concat('.').concat(tail)
     this.name = name
@@ -160,7 +160,25 @@ export class SearchResult {
   }
 }
 
+@nearBindgen
+export class Transaction {
+  id: string
+  from: string
+  to: string
+  value: u128
+
+  constructor(from: string, to: string, value: u128) {
+    this.id = generateId()
+    this.from = from
+    this.to = to
+    this.value = value
+  }
+}
+
 export const mementoCollection = new PersistentMap<string, Memento>('memento')
 export const postCollection = new PersistentMap<string, Post>('post')
 export const userCollection = new PersistentMap<string, User>('user')
 export const commentCollection = new PersistentMap<string, Comment>('comment')
+export const balances = new PersistentMap<string, u128>("pac:b")
+export const approves = new PersistentMap<string, u128>("pac:a")
+export const transactions = new PersistentVector<Transaction>('pac:tx')

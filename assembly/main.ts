@@ -1,5 +1,142 @@
-import { context, math } from 'near-sdk-as'
-import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Comment, commentCollection } from './model'
+import { context, storage, logging, u128 } from 'near-sdk-as'
+import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Comment, commentCollection, balances, approves, transactions, Transaction } from './model'
+
+const NAME: string = 'Paras Action Coin'
+const SYMBOL: string = 'PAC'
+const DECIMALS: u8 = 18
+const TOTAL_SUPPLY: u128 = u128.fromString("23000000000000000000000000")
+
+export function name(): string {
+	return NAME
+}
+
+export function symbol(): string {
+	return SYMBOL
+}
+
+export function decimals(): u8 {
+	return DECIMALS
+}
+
+export function totalSupply(): u128 {
+	return TOTAL_SUPPLY
+}
+
+export function init(initialOwner: string): void {
+	assert(storage.get<string>("init") == null, "Already initialized token supply");
+	balances.set(initialOwner, TOTAL_SUPPLY);
+	storage.set("init", "done");
+}
+
+export function balanceOf(tokenOwner: string): u128 {
+	if (!balances.contains(tokenOwner)) {
+		return u128.fromI32(0);
+	}
+	const result = balances.getSome(tokenOwner);
+	return result;
+}
+
+export function allowance(tokenOwner: string, spender: string): u128 {
+	const key = tokenOwner + ":" + spender;
+	if (!approves.contains(key)) {
+		return u128.fromI32(0);
+	}
+	return approves.getSome(key);
+}
+
+export function transfer(to: string, tokens: u128): boolean {
+	const fromAmount = getBalance(context.sender);
+	assert(fromAmount >= tokens, "not enough tokens on account");
+	assert(getBalance(to) <= u128.add(getBalance(to), tokens), "overflow at the receiver side");
+	balances.set(context.sender, u128.sub(fromAmount, tokens));
+	balances.set(to, u128.add(getBalance(to), tokens));
+	const tx = new Transaction(context.sender, to, tokens)
+	transactions.push(tx)
+	return true;
+}
+
+export function approve(spender: string, tokens: u128): boolean {
+	approves.set(context.sender + ":" + spender, tokens);
+	return true;
+}
+
+export function transferFrom(from: string, to: string, tokens: u128): boolean {
+	const fromAmount = getBalance(from);
+	assert(fromAmount >= tokens, "not enough tokens on account");
+	const approvedAmount = allowance(from, to);
+	assert(tokens <= approvedAmount, "not enough tokens approved to transfer");
+	assert(getBalance(to) <= u128.add(getBalance(to), tokens), "overflow at the receiver side");
+	balances.set(from, u128.sub(fromAmount, tokens));
+	balances.set(to, u128.add(getBalance(to), tokens));
+	const tx = new Transaction(from, to, tokens)
+	transactions.push(tx)
+	return true;
+}
+
+function getBalance(owner: string): u128 {
+	return balances.contains(owner) ? balances.getSome(owner) : u128.fromI32(0);
+}
+
+function _percent(value: u128, percent: u32): u128 {
+	return u128.div(u128.mul(value, u128.from(percent)), u128.from(100))
+}
+
+export function piecePost(
+	postId: string,
+	value: string
+): boolean {
+	const tokens = u128.fromString(value)
+	const senderBalance = getBalance(context.sender)
+	assert(senderBalance >= tokens, 'not enough tokens on account')
+	const post = getPostById(postId)
+	if (!!post && tokens > u128.from(0)) {
+		const memento = getMementoById(post.mementoId)
+		const originalPost = getPostById(post.originalId)
+		let originalMemento: Memento | null = null
+
+		let postOwnerQuota = 1
+		let postMementoQuota = 0
+		let postOriginalOwnerQuota = 0
+		let postOriginalMementoQuota = 0
+		if (memento) {
+			postOwnerQuota = 90
+			postMementoQuota = 10
+			if (post.id != post.originalId) {
+				if (originalPost) {
+					postOwnerQuota = 5
+					postMementoQuota = 5
+					postOriginalOwnerQuota = 90
+					originalMemento = getMementoById(originalPost.id)
+					if (originalMemento) {
+						postOriginalOwnerQuota = 80
+						postOriginalMementoQuota = 10
+					}
+				}
+			}
+		}
+		const forPostOwner = _percent(tokens, postOwnerQuota)
+		if (forPostOwner > u128.from(0)) {
+			// log(forPostOwner)
+			transfer(post.owner, forPostOwner)
+		}
+		const forMementoOwner = _percent(tokens, postMementoQuota)
+		if (!!memento && forMementoOwner > u128.from(0)) {
+			// log(forMementoOwner)
+			transfer(memento.owner, forMementoOwner)
+		}
+		const forOriginalOwner = _percent(tokens, postOriginalOwnerQuota)
+		if (!!originalPost && forOriginalOwner > u128.from(0)) {
+			// log(forOriginalOwner)
+			transfer(originalPost.owner, forOriginalOwner)
+		}
+		const forOriginalMemento = _percent(tokens, postOriginalMementoQuota)
+		if (!!originalPost && !!originalMemento && forOriginalMemento > u128.from(0)) {
+			// log(forOriginalMemento)
+			transfer(originalMemento.owner, forOriginalMemento)
+		}
+	}
+	return true
+}
 
 export function createMemento(
 	name: string,

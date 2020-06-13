@@ -39,7 +39,6 @@ describe('Memento ', () => {
     if(newM) {
       expect(newM.desc).toBe(newDesc)  
     }
-    
   })
 
   // itThrows('should throw error Memento type', () => {
