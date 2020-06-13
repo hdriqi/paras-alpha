@@ -20,7 +20,7 @@ import ProfileModal from './Modal'
 import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 
-const Profile = ({ user = {}, hasMore, getPost, postList }) => {
+const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -161,20 +161,21 @@ const Profile = ({ user = {}, hasMore, getPost, postList }) => {
         <div>
           <div>
             {
-              postList ? (
+              postListIds ? (
                 <InfiniteScroll
-                  dataLength={postList.length}
+                  dataLength={postListIds.length}
                   next={getPost}
                   hasMore={hasMore}
                   loader={<InfiniteLoader key={0} />}
                 >
                   {
-                    postList.map(post => {
-                      return (
+                    postListIds.map(id => {
+                      const post = postById[id]
+                      return post ? (
                         <div className='mt-6 shadow-subtle' key={post.id}>
                           <PostCard post={post} />
                         </div>
-                      )
+                      ) : null
                     })
                   }
                 </InfiniteScroll>

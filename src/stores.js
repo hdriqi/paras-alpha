@@ -8,6 +8,7 @@ import near from './reducers/near'
 import explore from './reducers/explore'
 import wallet from './reducers/wallet'
 import home from './reducers/home'
+import user from './reducers/user'
 import entities from './reducers/entities'
 
 const initialState = {}
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   explore,
   wallet,
   home,
+  user,
   entities
 })
 

@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Profile from '../components/Profile'
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { addData } from '../actions/me'
 import axios from 'axios'
+import { addPostList } from 'actions/entities'
+import { setUserPostListIds, setUserPageCount, setUserHasMore, initUser, setUserData } from 'actions/user'
 
-const ProfileScreen = ({ id }) => {
+const ProfileScreen = ({ id, fetch = false }) => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.me.data[`/${id}_user`])
-  const mementoList = useSelector(state => state.me.data[`/${id}_mementoList`])
-  const postList = useSelector(state => state.me.data[`/${id}_postList`])
-  const pageCount = useSelector(state => state.me.data[`/${id}_pageCount`])
-  const hasMore = useSelector(state => state.me.data[`/${id}_hasMore`])
+  
+  const postById = useSelector(state => state.entities.postById)
+  const userData = useSelector(state => state.user[id]?.data)
+  const postListIds = useSelector(state => state.user[id]?.postListIds)
+  const pageCount = useSelector(state => state.user[id]?.pageCount)
+  const hasMore = useSelector(state => state.user[id]?.hasMore)
 
   const getPost = async () => {
     const ITEM_LIMIT = 5
-    const curList = postList ? [...postList] : []
+    const curList = postListIds ? [...postListIds] : []
     const page = pageCount || 0
 
     const response = await axios.get(`http://localhost:9090/posts?owner=${id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
     const newPostList = response.data.data
-
-    const newList = curList.concat(newPostList)
-    dispatch(addData(`/${id}_postList`, postList))
+    const newPostListIds = newPostList.map(post => post.id)
+    const latestPostListIds = curList.concat(newPostListIds)
     batch(() => {
-      dispatch(addData(`/${id}_postList`, newList))
-      dispatch(addData(`/${id}_pageCount`, page + 1))
+      // add new post to entities
+      dispatch(addPostList(newPostList))
+      // set new post with new data
+      dispatch(setUserPostListIds(id, latestPostListIds))
+      dispatch(setUserPageCount(id, page + 1))
     })
-    if(page === 0) {
-      dispatch(addData(`/${id}_hasMore`, true))
-    }
     if(newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
-      dispatch(addData(`/${id}_hasMore`, false))
+      dispatch(setUserHasMore(id, false))
     }
   }
 
@@ -39,24 +41,28 @@ const ProfileScreen = ({ id }) => {
     const getData = async () => {
       const response = await axios.get(`http://localhost:9090/users?id=${id}`)
       const user = response.data.data[0]
-      dispatch(addData(`/${id}_user`, user))
+      dispatch(setUserData(id, user))
     }
 
-    if(id) {
-      console.log('get user data')
+    if(id && userData && !userData.id) {
       getData()
     }    
-  }, [id])
+  }, [id, userData])
 
   useEffect(() => {
-    if(id && !postList) {
-      console.log('get user post list')
+    if (id && pageCount === 0) {
       getPost()
+    }
+  }, [id, pageCount])
+
+  useEffect(() => {
+    if((id && !userData) | fetch) {
+      dispatch(initUser(id))
     }
   }, [id])
 
   return (
-    <Profile user={user} hasMore={hasMore} getPost={getPost} mementoList={mementoList} postList={postList} />
+    <Profile user={userData} hasMore={hasMore} getPost={getPost} postListIds={postListIds} postById={postById} />
   )
 }
 

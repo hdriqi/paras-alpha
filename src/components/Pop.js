@@ -8,7 +8,6 @@ const Pop = ({ children }) => {
   const router = useRouter()
 
   const _navigate = () => {
-    console.log('hello')
     router.back()
   }
 

@@ -6,6 +6,7 @@ import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
+import { updatePost, deletePost } from "actions/entities"
 
 const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const dispatch = useDispatch()
@@ -15,12 +16,13 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
-    await near.contract.deletePost({
+    const newPost = await near.contract.deletePost({
       id: post.id
     })
+    // const newPost = post
 
     batch(() => {
-      dispatch(deletePost(id))
+      dispatch(deletePost(newPost.id))
       dispatch(setLoading(false))
     })
     setShowConfirmForget(false)
@@ -28,12 +30,20 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
 
   const _redactPost = async () => {
     dispatch(setLoading(true, 'Redacting the memory...'))
-    await near.contract.redactPost({
+    const newPost = await near.contract.redactPost({
       id: post.id
     })
+    // const newPost = post
+    // newPost.mementoId = ''
+
+    const updatedPost = {
+      ...post,
+      ...newPost
+    }
 
     batch(() => {
       dispatch(setLoading(false))
+      dispatch(updatePost(updatedPost.id, updatedPost))
     })
     setShowConfirmRedact(false)
   }

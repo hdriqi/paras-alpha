@@ -251,7 +251,7 @@ export function editPost(
 
 export function redactPost(
 	id: string
-): boolean {
+): Post | null {
 	const post = getPostById(id)
 	if (post) {
 		const memento = getMementoById(post.mementoId)
@@ -262,8 +262,10 @@ export function redactPost(
 
 		post.mementoId = ''
 		postCollection.set(post.id, post)
+		
+		return post
 	}
-	return true
+	return null
 }
 
 export function getPostById(
