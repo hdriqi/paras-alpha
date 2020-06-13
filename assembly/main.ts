@@ -151,18 +151,19 @@ export function createMemento(
 		type == 'public' || type == 'personal',
 		'Memento type must be public or personal'
 	)
-	const m = new Memento(name, category, img, desc, type)
+	const memento = new Memento(name, category, img, desc, type)
 
 	// check if memento id already taken
-	const exist = getMementoById(m.id)
+	const exist = getMementoById(memento.id)
 	assert(
 		!exist,
 		'Memento id already taken'
 	)
 
-	mementoCollection.set(m.id, m)
+	mementoCollection.set(memento.id, memento)
+	memento.user = getUserById(memento.owner)
 
-	return m
+	return memento
 }
 
 export function getMementoById(
@@ -186,6 +187,7 @@ export function updateMemento(
 		memento.desc = desc
 
 		mementoCollection.set(id, memento)
+		memento.user = getUserById(memento.owner)
 
 		return memento
 	}
@@ -194,7 +196,7 @@ export function updateMemento(
 
 export function deleteMemento(
 	id: string
-): boolean {
+): Memento | null {
 	const memento = getMementoById(id)
 	if (memento) {
 		assert(
@@ -203,19 +205,23 @@ export function deleteMemento(
 		)
 
 		mementoCollection.delete(memento.id)
+		memento.user = getUserById(memento.owner)
+
+		return memento
 	}
-	return true
+	return null
 }
 
 export function createPost(
 	contentList: Content[],
 	mementoId: string
 ): Post {
-	const p = new Post(contentList, mementoId, null)
+	const post = new Post(contentList, mementoId, null)
 
-	postCollection.set(p.id, p)
-
-	return p
+	postCollection.set(post.id, post)
+	post.memento = getMementoById(post.mementoId)
+	post.user = getUserById(post.owner)
+	return post
 }
 
 export function transmitPost(
@@ -224,11 +230,12 @@ export function transmitPost(
 ): Post | null {
 	const post = getPostById(id)
 	if (post) {
-		const p = new Post(post.contentList, mementoId, post.originalId)
+		const newPost = new Post(post.contentList, mementoId, post.originalId)
 
-		postCollection.set(p.id, p)
-
-		return p
+		postCollection.set(newPost.id, newPost)
+		newPost.memento = getMementoById(newPost.mementoId)
+		newPost.user = getUserById(newPost.owner)
+		return newPost
 	}
 	return null
 }
@@ -264,7 +271,7 @@ export function redactPost(
 
 		post.mementoId = ''
 		postCollection.set(post.id, post)
-		
+		post.user = getUserById(post.owner)
 		return post
 	}
 	return null
@@ -282,7 +289,7 @@ export function getPostById(
 
 export function deletePost(
 	id: string
-): boolean {
+): Post | null {
 	const post = getPostById(id)
 	if (post) {
 		assert(
@@ -291,8 +298,10 @@ export function deletePost(
 		)
 
 		postCollection.delete(post.id)
+
+		return post
 	}
-	return true
+	return null
 }
 
 export function getUserById(id: string): User | null {
@@ -354,7 +363,7 @@ export function getCommentById(id: string): Comment | null {
 
 export function deleteComment(
 	id: string
-): boolean {
+): Comment | null {
 	const comment = getCommentById(id)
 	if (comment) {
 		const post = getPostById(comment.postId)
@@ -364,6 +373,8 @@ export function deleteComment(
 		)
 
 		commentCollection.delete(comment.id)
+
+		return comment
 	}
-	return true
+	return null
 }
