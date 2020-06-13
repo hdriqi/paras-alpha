@@ -20,6 +20,7 @@ import PostEditScreen from 'screens/PostEditScreen'
 import FollowingScreen from 'screens/FollowingScreen'
 import ProfileMementoScreen from 'screens/ProfileMementoScreen'
 import WalletScreen from 'screens/WalletScreen'
+import NavMobile from './NavMobile'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
@@ -48,7 +49,7 @@ const PageManager = ({ children }) => {
 
   useEffect(() => {
     // if back, then pop page
-    if(pageList.length > 0 && pageList.length === prevPageLen) {
+    if (pageList.length > 0 && pageList.length === prevPageLen) {
       setPrevPageLen(Math.max(0, pageList.length - 1))
       dispatch(popPage())
     }
@@ -61,12 +62,15 @@ const PageManager = ({ children }) => {
     <div className="bg-dark-0">
       <Loading />
       <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
-        { children }
+        {children}
+        <div className="sticky bottom-0 right-0 left-0 z-20">
+          <NavMobile />
+        </div>
       </div>
       {
         pageList.map((page, idx) => {
           const Page = page.component || screenList[page.href]
-          if(!Page) {
+          if (!Page) {
             throw Error('Page not registered')
           }
           return (

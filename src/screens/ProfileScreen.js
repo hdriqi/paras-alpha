@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import Profile from '../components/Profile'
-import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from 'react-redux'
-import { addData } from '../actions/me'
 import axios from 'axios'
 import { addPostList } from 'actions/entities'
 import { setUserPostListIds, setUserPageCount, setUserHasMore, initUser, setUserData } from 'actions/user'
@@ -66,4 +64,4 @@ const ProfileScreen = ({ id, fetch = false }) => {
   )
 }
 
-export default withRedux(ProfileScreen)
+export default ProfileScreen

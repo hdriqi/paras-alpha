@@ -15,7 +15,7 @@ export const setUserData = (userId, data) => {
   }
 }
 
-export const SET_USER_POST_LIST_IDS = 'SET_POST_LIST_IDS'
+export const SET_USER_POST_LIST_IDS = 'SET_USER_POST_LIST_IDS'
 export const setUserPostListIds = (userId, postListIds) => {
   return {
     type: SET_USER_POST_LIST_IDS,
