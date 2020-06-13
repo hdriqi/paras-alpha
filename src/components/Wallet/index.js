@@ -46,7 +46,7 @@ const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
                   const isOutTx = tx.from === me.id
                   const user = isOutTx ? tx.toUser : tx.fromUser
                   return (
-                    <div key={tx.id} className="mt-4 p-2 flex items-center justify-between bg-dark-2 rounded-md">
+                    <div key={tx.id} className="mt-4 p-2 flex items-center justify-between bg-dark-1 rounded-md">
                       <div className="flex items-center">
                         <div className="h-8 w-8 rounded-full overflow-hidden shadow-inner">
                           <Push href="/[id]" as={`/${user.id}`} props={{
