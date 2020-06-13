@@ -7,6 +7,8 @@ import me from './reducers/me'
 import near from './reducers/near'
 import explore from './reducers/explore'
 import wallet from './reducers/wallet'
+import home from './reducers/home'
+import entities from './reducers/entities'
 
 const initialState = {}
 
@@ -15,7 +17,9 @@ const reducer = combineReducers({
   me,
   near,
   explore,
-  wallet
+  wallet,
+  home,
+  entities
 })
 
 let middleware = composeWithDevTools(

@@ -28,7 +28,7 @@ const RECOMMENDATIONS = [
   }
 ]
 
-const Home = ({ postList, getPost, hasMore }) => {
+const Home = ({ postListIds, postById, getPost, hasMore }) => {
   return (
     <div className="bg-dark-0 min-h-screen pb-6">
       <NavTop
@@ -37,22 +37,23 @@ const Home = ({ postList, getPost, hasMore }) => {
         }
       />
       {
-        postList ? (
-          postList.length > 0 ? (
+        postListIds ? (
+          postListIds.length > 0 ? (
             <div className="px-4">
               <InfiniteScroll
-                dataLength={postList.length}
+                dataLength={postListIds.length}
                 next={getPost}
                 hasMore={hasMore}
                 loader={<InfiniteLoader key={0} />}
               >
                 {
-                  postList.map(post => {
-                    return (
+                  postListIds.map(id => {
+                    const post = postById[id]
+                    return post ? (
                       <div className="mt-6" key={post.id}>
                         <PostCard post={post} />
                       </div>
-                    )
+                    ) : null
                   })
                 }
               </InfiniteScroll>
