@@ -69,9 +69,8 @@ const ProfileEdit = ({ me }) => {
     }
     
     const newMe = await near.contract.updateUser(newData)
-    console.log(newMe)
     dispatch(setLoading(false))
-    dispatch(setProfile(newProfile))
+    dispatch(setProfile(newMe))
     router.back()
   }
 

@@ -21,7 +21,7 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
     setShowModal(false)
     setTimeout(() => {
       setShowNotifyCopyLink(false)
-    }, 1000)
+    }, 1500)
   }
 
   const _logout = () => {

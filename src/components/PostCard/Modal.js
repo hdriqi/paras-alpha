@@ -57,7 +57,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
     setShowModal(false)
     setTimeout(() => {
       setShowNotifyCopyLink(false)
-    }, 1000)
+    }, 1500)
   }
 
   return (

@@ -39,7 +39,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
     setShowModal(false)
     setTimeout(() => {
       setShowNotifyCopyLink(false)
-    }, 1000)
+    }, 1500)
   }
 
   return (

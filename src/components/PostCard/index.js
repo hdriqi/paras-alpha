@@ -12,6 +12,8 @@ import { CarouselProvider, Slider, Slide, CarouselContext, WithStore } from '@ev
 import SlideCommon from '../Slide/Common'
 import ModalPost from './Modal'
 import near from 'lib/near'
+import ModalPiece from './Piece'
+import Notify from 'components/Utils/Notify'
 
 TimeAgo.addLocale(en)
 
@@ -67,14 +69,8 @@ const Post = ({ post }) => {
   const meMementoList = useSelector(state => state.me.mementoList)
   const deletedPostList = useSelector(state => state.me.deletedPostList)
   const [showModal, setShowModal] = useState(false)
-
-  const _piecePost = async () => {
-    const value = 10 * (10 ** 18)
-    await near.contract.piecePost({
-      postId: post.id,
-      value: value.toString()
-    })
-  }
+  const [showPiece, setShowPiece] = useState(false)
+  const [showNotifyPiece, setShowNotifyPiece] = useState(false)
 
   const _isDeleted = () => {
     if (deletedPostList.findIndex(id => id === post.id) > -1) {
@@ -101,6 +97,21 @@ const Post = ({ post }) => {
             me={me}
             meMementoList={meMementoList}
           />
+          <ModalPiece
+            show={showPiece}
+            onClose={_ => setShowPiece(false)}
+            onComplete={_ => {
+              setShowPiece(false)
+              setShowNotifyPiece(true)
+              setTimeout(() => {
+                setShowNotifyPiece(false)
+              }, 2500)
+            }}
+            post={post}
+          />
+          <Notify show={showNotifyPiece}>
+            <p className="text-white p-2 text-center">Your Piece has been sent successfully</p>
+          </Notify>
           {
             post.memento && (
               <div className="bg-dark-2 text-center p-2 flex justify-center">
@@ -175,7 +186,7 @@ const Post = ({ post }) => {
           </div>
           <hr className="mx-2 border-white opacity-60" />
           <div className="flex p-2">
-            <button className="w-1/3" onClick={_piecePost}>
+            <button className="w-1/3" onClick={_ => setShowPiece(true)}>
               <a className="flex items-center justify-center hover:bg-dark-2 py-1 rounded-md">
                 <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" clipRule="evenodd" d="M10.0109 17.1861C14.431 17.1861 18.0143 13.6029 18.0143 9.1828C18.0143 4.76268 14.431 1.17947 10.0109 1.17947C5.59081 1.17947 2.00759 4.76268 2.00759 9.1828C2.00759 13.6029 5.59081 17.1861 10.0109 17.1861ZM10.0109 18.3295C15.0625 18.3295 19.1576 14.2344 19.1576 9.1828C19.1576 4.13124 15.0625 0.0361328 10.0109 0.0361328C4.95936 0.0361328 0.864258 4.13124 0.864258 9.1828C0.864258 14.2344 4.95936 18.3295 10.0109 18.3295Z" fill="white" fillOpacity="0.87" />
