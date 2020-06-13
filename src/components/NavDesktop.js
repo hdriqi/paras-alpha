@@ -30,22 +30,11 @@ const NavLink = ({ name, href, as, activePage, children }) => {
   )
 }
 
-const NavMobile = () => {
+const NavDesktop = () => {
   const activePage = useSelector(state => state.ui.activePage)
   const profile = useSelector(state => state.me.profile)
-  const [showCreateNav, setShowCreateNav] = useState(false)
   const dispatch = useDispatch()
   const router = useRouter()
-
-  const _closeCreateNavOverlay = (e) => {
-    if (e.target.id === 'create-nav-bg') {
-      setShowCreateNav(false)
-    }
-  }
-
-  useEffect(() => {
-    setShowCreateNav(false)
-  }, [router])
 
   useEffect(() => {
     switch (router.asPath) {
@@ -55,11 +44,8 @@ const NavMobile = () => {
       case '/explore':
         dispatch(setActivePage('explore'))
         break
-      case '/hub/following':
-        dispatch(setActivePage('hub'))
-        break
-      case '/hub/recent':
-        dispatch(setActivePage('hub'))
+      case '/wallet':
+        dispatch(setActivePage('wallet'))
         break
       case `/${profile.id}`:
         dispatch(setActivePage('me'))
@@ -110,6 +96,16 @@ const NavMobile = () => {
             </div>
           </div>
         </NavLink>
+        <NavLink name="wallet" href="/wallet" as="/wallet" activePage={activePage} >
+          <div className="flex items-center mt-4">
+            <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M21 7C22.1046 7 23 7.89543 23 9V11H19C17.3431 11 16 12.3431 16 14C16 15.6569 17.3431 17 19 17H23V19C23 20.1046 22.1046 21 21 21H3C1.89543 21 1 20.1046 1 19V5.5C1 4.39543 1.89543 3.5 3 3.5H17C18.1046 3.5 19 4.39543 19 5.5H4.25C3.83579 5.5 3.5 5.83579 3.5 6.25C3.5 6.66421 3.83579 7 4.25 7H21ZM19 12.5C18.1716 12.5 17.5 13.1716 17.5 14C17.5 14.8284 18.1716 15.5 19 15.5H23V12.5H19Z" />
+            </svg>
+            <div className="ml-4">
+              <h3 className="font-bold text-xl">Wallet</h3>
+            </div>
+          </div>
+        </NavLink>
         <NavLink name="me" href="/[id]" as={`/${profile.id}`} activePage={activePage} >
           <div className="flex items-center mt-4">
             <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,4 +129,4 @@ const NavMobile = () => {
   )
 }
 
-export default withRedux(NavMobile)
+export default withRedux(NavDesktop)

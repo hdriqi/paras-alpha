@@ -19,6 +19,7 @@ import PostMementoScreen from '../screens/PostMementoScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import FollowingScreen from 'screens/FollowingScreen'
 import ProfileMementoScreen from 'screens/ProfileMementoScreen'
+import WalletScreen from 'screens/WalletScreen'
 
 const PageManager = ({ children }) => {
   const router = useRouter()
@@ -41,7 +42,8 @@ const PageManager = ({ children }) => {
     '/m/[id]/edit': MementoEditScreen,
     '/hub/search': SearchScreen,
     '/new/post': NewPostScreen,
-    '/new/memento': NewMementoScreen
+    '/new/memento': NewMementoScreen,
+    '/wallet': WalletScreen,
   }
 
   useEffect(() => {

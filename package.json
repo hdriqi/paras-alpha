@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@coingecko/cryptoformat": "^0.3.4",
     "@evius/pure-react-carousel": "0.0.0-semantically-released",
     "@fullhuman/postcss-purgecss": "^2.1.0",
     "axios": "^0.19.2",

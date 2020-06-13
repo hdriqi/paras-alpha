@@ -25,6 +25,8 @@ export function totalSupply(): u128 {
 export function init(initialOwner: string): void {
 	assert(storage.get<string>("init") == null, "Already initialized token supply");
 	balances.set(initialOwner, TOTAL_SUPPLY);
+	const tx = new Transaction("0x", initialOwner, TOTAL_SUPPLY)
+	transactions.push(tx)
 	storage.set("init", "done");
 }
 
