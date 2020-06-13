@@ -12,7 +12,7 @@ const Explore = ({ post, getPost }) => {
     await getPost()
     setTimeout(() => {
       setLoading(false)
-    }, 250)
+    }, 1000)
   }
 
   return (
@@ -28,7 +28,7 @@ const Explore = ({ post, getPost }) => {
                 <button>
                   <RotateSpinLoader style={{
                     margin: `auto`
-                  }} color="#E13128" size={2.4} />
+                  }} color="#E13128" size={2.8} />
                 </button>
               ) : (
                   <button onClick={_getPost}>

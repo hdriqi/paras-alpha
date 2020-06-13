@@ -6,7 +6,7 @@ import { setProfile } from "../actions/me"
 import ImageCrop from "./imageCrop"
 import { toggleImageCrop, setLoading } from "../actions/ui"
 import { readFileAsUrl } from "../lib/utils"
-import PopForward from "./PopForward"
+import Pop from "./Pop"
 import ipfs from "../lib/ipfs"
 import near from "../lib/near"
 import Image from "./Image"
@@ -112,11 +112,11 @@ const ProfileEdit = ({ me }) => {
         <div className="bg-dark-0 h-12 px-4">
           <div className="relative w-full h-full flex items-center justify-center">
             <div className="absolute left-0">
-              <PopForward ref={backRef}>
+              <Pop>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
                 </svg>
-              </PopForward>
+              </Pop>
             </div>
             <div>
               <h3 className="text-xl font-bold text-black-1 tracking-tighter">Edit Profile</h3>
