@@ -96,7 +96,7 @@ const NavMobile = () => {
       </div>
       <div className="w-1/5">
         <NavLink name="me" href="/[id]" as={`/${profile.id}`} activePage={activePage} >
-          <div className="w-8 h-8 overflow-hidden rounded-full border border-white">
+          <div className="w-8 h-8 overflow-hidden rounded-full border-2 border-current">
             <Image data={profile.imgAvatar} />
           </div>
         </NavLink>
