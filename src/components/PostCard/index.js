@@ -102,7 +102,7 @@ const Post = ({ post }) => {
           <p className="text-white p-2 text-center">Your Piece has been sent successfully</p>
         </Notify>
         {
-          post.memento.length > 0 && (
+          post.mementoId.length > 0 && post.memento && (
             <div className="bg-dark-2 text-center p-2 flex justify-center">
               <Push href="/m/[id]" as={`/m/${post.mementoId}`} props={{
                 id: post.mementoId

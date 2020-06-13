@@ -244,6 +244,8 @@ export function editPost(
 		post.mementoId = mementoId
 
 		postCollection.set(post.id, post)
+		post.memento = getMementoById(mementoId)
+		post.user = getUserById(post.owner)
 		return post
 	}
 	return null

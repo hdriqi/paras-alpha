@@ -88,7 +88,8 @@ const NewPost = ({ memento = null }) => {
     }
     await near.contract.createPost(newData)
     dispatch(setLoading(false))
-    dispatch(addPostList([newData]))
+    // add to home, profile and memento
+    // dispatch(addPostList([newData]))
 
     router.back()
   }
