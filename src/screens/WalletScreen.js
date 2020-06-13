@@ -1,18 +1,20 @@
 import Wallet from 'components/Wallet'
-import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useSelector, useDispatch, batch } from 'react-redux'
+import { useEffect } from 'react'
 import axios from 'axios'
+import { setTxList, setPageCount, setBalance, setHasMore } from 'actions/wallet'
 
 const WalletScreen = () => {
-  const me = useSelector(state => state.me.profile)
+  const dispatch = useDispatch()
 
-  const [balance, setBalance] = useState(0)
-  const [txList, setTxList] = useState([])
-  const [pageCount, setPageCount] = useState(0)
-  const [hasMore, setHasMore] = useState(true)
+  const me = useSelector(state => state.me.profile)
+  const balance = useSelector(state => state.wallet.balance)
+  const txList = useSelector(state => state.wallet.txList)
+  const hasMore = useSelector(state => state.wallet.hasMore)
+  const pageCount = useSelector(state => state.wallet.pageCount)
 
   useEffect(() => {
-    if (me.id) {
+    if (me.id && pageCount === 0) {
       getBalance()
       getTx()
     }
@@ -20,7 +22,9 @@ const WalletScreen = () => {
 
   const getBalance = async () => {
     const response = await axios.get(`http://localhost:9090/balances?id=${me.id}`)
-    setBalance(response.data.data[0].value)
+    if (response.data.data[0]) {
+      dispatch(setBalance(response.data.data[0].value))
+    }
   }
 
   const getTx = async () => {
@@ -31,18 +35,12 @@ const WalletScreen = () => {
     
     const newTxList = response.data.data
     const newList = [...txList].concat(newTxList)
-    setTxList(newList)
-    setPageCount(page + 1)
-    // dispatch(addData(`/${id}_postList`, postList))
-    // batch(() => {
-    //   dispatch(addData(`/${id}_postList`, newList))
-    //   dispatch(addData(`/${id}_pageCount`, page + 1))
-    // })
-    if (page === 0) {
-      setHasMore(true)
-    }
+    batch(() => {
+      dispatch(setTxList(newList))
+      dispatch(setPageCount(page + 1))
+    })
     if (newTxList.length === 0 && newTxList.length < ITEM_LIMIT) {
-      setHasMore(false)
+      dispatch(setHasMore(false))
     }
   }
 

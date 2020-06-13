@@ -100,26 +100,6 @@ export class Following {
 }
 
 @nearBindgen
-export class Feed {
-  id: string
-  list: Following[]
-
-  constructor(id: string, list: Following[]) {
-    this.id = id
-    this.list = list
-  }
-}
-
-@nearBindgen
-export class FeedIndex {
-  index: u32
-
-  constructor(index: u32) {
-    this.index = index
-  }
-}
-
-@nearBindgen
 export class User {
   id: string
   imgAvatar: Img
@@ -135,43 +115,19 @@ export class User {
 }
 
 @nearBindgen
-export class QueryOpts {
-  _embed: bool
-  _sort: string | null
-  _order: string | null
-  _skip: u32
-  _limit: u32
-}
-
-@nearBindgen
-export class SearchResult {
-  id: string
-  img: Img | null
-  title: string
-  subtitle: string
-  type: string
-
-  constructor(id: string, img: Img | null, title: string, subtitle: string, type: string) {
-    this.id = id
-    this.img = img
-    this.title = title
-    this.subtitle = subtitle
-    this.type = type
-  }
-}
-
-@nearBindgen
 export class Transaction {
   id: string
   from: string
   to: string
   value: u128
+  createdAt: u64
 
   constructor(from: string, to: string, value: u128) {
     this.id = generateId()
     this.from = from
     this.to = to
     this.value = value
+    this.createdAt = context.blockTimestamp
   }
 }
 
