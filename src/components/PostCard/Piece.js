@@ -2,15 +2,20 @@ import { useRef, useEffect, useState } from "react"
 import { RotateSpinLoader } from 'react-css-loaders'
 import near from "lib/near"
 import axios from 'axios'
+import { useSelector } from "react-redux"
+import { prettyBalance } from "lib/utils"
+import Alert from "components/Utils/Alert"
 
 const pieceList = [5, 10, 15, 20]
 
 const ModalPiece = ({ show, onClose, onComplete, post }) => {
   const ref = useRef()
+  const balance = useSelector(state => state.wallet.balance)
   const [chosenPiece, setChosenPiece] = useState(0)
   const [pieceDetail, setPieceDetail] = useState([])
   const [showDetail, setShowDetail] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
 
   useEffect(() => {
     const onClickEv = (e) => {
@@ -83,8 +88,12 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
 
   const _submit = async () => {
     // todo check user wallet first
-    setSubmitting(true)
     const value = chosenPiece * (10 ** 18)
+    if (value >= balance) {
+      setShowAlert(true)
+      return
+    }
+    setSubmitting(true)
     await near.contract.piecePost({
       postId: post.id,
       value: value.toString()
@@ -92,16 +101,26 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
     setSubmitting(false)
     onComplete()
   }
-  
+
+  const _bgClick = (e) => {
+    if (e.target.id === 'confirm-modal-bg') {
+      onClose()
+    }
+  }
+
   return (
     <div className="container-confirm-modal-bg">
       {
         show ? (
-          <div id="confirm-modal-bg" className="fixed inset-0 z-50 flex items-center" style={{
+          <div id="confirm-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
             backgroundColor: `rgba(0,0,0,0.86)`
           }}>
-            <div ref={ref} className="max-w-sm m-auto w-full p-4">
+            <div className="max-w-sm m-auto w-full p-4">
               <div className="bg-dark-1 w-full rounded-md overflow-hidden">
+                <div className="py-2">
+                  <p className="text-white text-lg text-center">Available balance</p>
+                  <p className="text-white text-3xl text-center">{prettyBalance(balance)} Ⓟ</p>
+                </div>
                 <div className="pt-4 text-center flex">
                   {
                     pieceList.map(piece => {
@@ -121,7 +140,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
                 {
                   chosenPiece > 0 && (
                     <div className="pt-4 text-center">
-                      <p className="text-white">Send {chosenPiece} Ⓟ</p>
+                      <p className="text-white text-lg">Send {chosenPiece} Ⓟ</p>
                       <div className="flex items-center justify-center py-2" onClick={_ => setShowDetail(!showDetail)}>
                         <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" clip-rule="evenodd" d="M8.70696 7.29267L15.9998 -0.000226974L17.4141 1.41399L8.70696 10.1211L-0.000150681 1.41399L1.41406 -0.000226974L8.70696 7.29267Z" fill="white" fill-opacity="0.6" />
@@ -173,6 +192,11 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
           </div>
         ) : null
       }
+      <Alert
+        show={showAlert}
+        mainText="You don't have enough coins Ⓟ"
+        onClose={_ => setShowAlert(false)}
+      />
     </div>
   )
 }

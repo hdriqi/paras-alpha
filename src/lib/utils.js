@@ -40,6 +40,12 @@ export const dataURItoBlob = (dataURI) => {
   return new Blob([ab], { type: 'image/png' })
 }
 
+export const prettyBalance = (balance, decimals = 18, len = 8) => {
+  const diff = balance.toString().length - (10 ** decimals).toString().length
+  const fixedPoint = Math.max(1, Math.min(len, len - diff))
+  return (balance / (10 ** decimals)).toFixed(fixedPoint)
+}
+
 export const svgToPng = (file) => {
   return new Promise(async (resolve) => {
     var image = new Image();

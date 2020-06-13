@@ -7,14 +7,10 @@ import Push from "components/Push"
 import Image from "components/Image"
 import InfiniteScroll from "react-infinite-scroll-component"
 import InfiniteLoader from "components/InfiniteLoader"
+import { prettyBalance } from "lib/utils"
 
 const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
-  const DECIMALS = 18
-  const len = 8
-
-  const diff = balance.toString().length - (10 ** DECIMALS).toString().length
-  const fixedPoint = Math.max(1, Math.min(len, len - diff))
-  const formattedBalance = (balance / (10 ** DECIMALS)).toFixed(fixedPoint)
+  const formattedBalance = prettyBalance(balance)
 
   return (
     <div className="bg-dark-0 min-h-screen pb-6">
@@ -45,9 +41,7 @@ const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
             >
               {
                 txList.map(tx => {
-                  const diff = tx.value.toString().length - (10 ** DECIMALS).toString().length
-                  const fixedPoint = Math.max(1, Math.min(len, len - diff))
-                  const formattedBalance = (tx.value / (10 ** DECIMALS)).toFixed(fixedPoint)
+                  const formattedBalance = prettyBalance(tx.value)
                   const isOutTx = tx.from === me.id
                   const user = isOutTx ? tx.toUser : tx.fromUser
                   return (
