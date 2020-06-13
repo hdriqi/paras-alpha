@@ -38,7 +38,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
       let originalPost = null
       let originalMemento = null
 
-      let postOwnerQuota = 1
+      let postOwnerQuota = 100
       let postMementoQuota = 0
       let postOriginalOwnerQuota = 0
       let postOriginalMementoQuota = 0

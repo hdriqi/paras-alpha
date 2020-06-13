@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { setTxList, setPageCount, setBalance, setHasMore } from 'actions/wallet'
 
-const WalletScreen = () => {
+const WalletScreen = ({ fetch = false }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -14,7 +14,14 @@ const WalletScreen = () => {
   const pageCount = useSelector(state => state.wallet.pageCount)
 
   useEffect(() => {
-    if (me.id && pageCount === 0) {
+    if (me.id && (pageCount === 0 || fetch)) {
+      if (fetch) {
+        batch(() => {
+          dispatch(setTxList([]))
+          dispatch(setPageCount(0))
+          dispatch(setHasMore(true))
+        })
+      }
       getBalance()
       getTx()
     }
@@ -32,7 +39,7 @@ const WalletScreen = () => {
     const page = pageCount || 0
 
     const response = await axios.get(`http://localhost:9090/transactions?id=${me.id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
-    
+
     const newTxList = response.data.data
     const newList = [...txList].concat(newTxList)
     batch(() => {

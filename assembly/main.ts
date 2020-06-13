@@ -96,7 +96,7 @@ export function piecePost(
 		const originalPost = getPostById(post.originalId)
 		let originalMemento: Memento | null = null
 
-		let postOwnerQuota = 1
+		let postOwnerQuota = 100
 		let postMementoQuota = 0
 		let postOriginalOwnerQuota = 0
 		let postOriginalMementoQuota = 0
