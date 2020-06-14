@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Post from '../components/Post'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { addPostList } from 'actions/entities'
 
-const PostScreen = ({ id, post = {} }) => {
-  const [localPost, setLocalPost] = useState(post)
+const PostScreen = ({ id }) => {
+  const dispatch = useDispatch()
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
@@ -15,19 +17,18 @@ const PostScreen = ({ id, post = {} }) => {
         if(!post) {
           setNotFound(true)
         }
-        setLocalPost(post)
+        dispatch(addPostList([post]))
       } catch (err) {
         console.log(err)
       }
     }
-    if(localPost && !localPost.id && id) {
-      console.log('get post data')
+    if(id) {
       getData()
     }
-  }, [id, localPost])
+  }, [id])
 
   return (
-    <Post post={localPost} notFound={notFound} />
+    <Post id={id} notFound={notFound} />
   )
 }
 

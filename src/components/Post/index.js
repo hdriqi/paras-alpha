@@ -9,6 +9,8 @@ import Image from 'components/Image'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ModalPiece from 'components/PostCard/Piece'
+import PostCardLoader from 'components/PostCardLoader'
+import { useRouter } from 'next/router'
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -16,12 +18,15 @@ const timeAgo = new TimeAgo('en-US')
 let lastScrollTop = 0
 let timeout
 
-const PostDetail = ({ post, notFound }) => {
+const PostDetail = ({ id, notFound }) => {
+  const router = useRouter()
+
   const me = useSelector(state => state.me.profile)
+  const postById = useSelector(state => state.entities.postById)
   const pageList = useSelector(state => state.ui.pageList)
   const meMementoList = useSelector(state => state.me.mementoList)
-  const deletedPostList = useSelector(state => state.me.deletedPostList)
 
+  const [post, setPost] = useState(undefined)
   const [showModal, setShowModal] = useState(false)
   const [showAction, setShowAction] = useState(true)
   const [showPiece, setShowPiece] = useState(false)
@@ -45,12 +50,13 @@ const PostDetail = ({ post, notFound }) => {
       document.removeEventListener('scroll', scrollEv)
     }
   }, [pageList])
-
+  
   useEffect(() => {
-    if (deletedPostList.findIndex(id => id === post.id) > -1) {
-      router.back()
+    const post = postById[id]
+    if (post) {
+      setPost(post)
     }
-  }, [deletedPostList])
+  }, [id, postById])
 
   return (
     <div>
@@ -86,9 +92,11 @@ const PostDetail = ({ post, notFound }) => {
               <p className="text-white-1 pt-2">This post is either deleted or not exist</p>
             </div>
           ) : (
-              !post.id ? (
+              !post ? (
                 <div className="px-4">
-                  <h4 className="text-white">Loading...</h4>
+                  <div className="bg-dark-0">
+                    <PostCardLoader />
+                  </div>
                 </div>
               ) : (
                   <div className="px-4 py-6">
