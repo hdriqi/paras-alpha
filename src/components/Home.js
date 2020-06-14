@@ -67,7 +67,8 @@ const Home = ({ postListIds, postById, getPost, hasMore }) => {
                       RECOMMENDATIONS.map(rec => {
                         return (
                           <Push href="/m/[id]" as={`/m/${rec.id}`} props={{
-                            id: rec.id
+                            id: rec.id,
+                            fetch: true
                           }}>
                             <a>
                               <p className="p-2 text-sm bg-black-3 text-white mr-2 mt-4 `rou`nded-md">{rec.name}</p>

@@ -40,7 +40,8 @@ const ProfileMemento = ({ mementoList }) => {
               return (
                 <div key={m.id}>
                   <Push href="/m/[id]" as={`/m/${m.id}`} props={{
-                    id: m.id
+                    id: m.id,
+                    fetch: true
                   }}>
                     <div className="flex items-center mt-4 bg-dark-2 rounded-md p-2 cursor-pointer hover:bg-dark-24">
                       <div className="flex w-4/5">

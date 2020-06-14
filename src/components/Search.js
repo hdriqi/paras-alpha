@@ -80,7 +80,8 @@ const Search = () => {
                     </Push>
                   ) : (
                     <Push href="/m/[id]" as={ `/m/${data.id}` } props={{
-                      id: data.id
+                      id: data.id,
+                      fetch: true
                     }}>
                       <a>
                         <div className="flex items-center bg-dark-0 shadow-subtle mt-4 p-4">

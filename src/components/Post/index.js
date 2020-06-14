@@ -95,7 +95,8 @@ const PostDetail = ({ post, notFound }) => {
                         <Fragment>
                           <div className="text-center flex justify-center">
                             <Push href="/m/[id]" as={`/m/${post.mementoId}`} props={{
-                              id: post.mementoId
+                              id: post.mementoId,
+                              fetch: true
                             }}>
                               <a className="flex items-center bg-dark-2 rounded-md p-2">
                                 <div className="w-4 h-4 rounded-sm overflow-hidden">

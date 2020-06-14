@@ -105,7 +105,8 @@ const Post = ({ post }) => {
           post.mementoId.length > 0 && post.memento && (
             <div className="bg-dark-2 text-center p-2 flex justify-center">
               <Push href="/m/[id]" as={`/m/${post.mementoId}`} props={{
-                id: post.mementoId
+                id: post.mementoId,
+                fetch: true
               }}>
                 <a className="flex items-center">
                   <div className="w-4 h-4 rounded-sm overflow-hidden">
