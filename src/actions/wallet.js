@@ -6,26 +6,26 @@ export const setBalance = (balance) => {
   }
 }
 
-export const SET_TX_LIST = 'SET_TX_LIST'
-export const setTxList = (txList) => {
+export const SET_WALLET_TX_LIST = 'SET_WALLET_TX_LIST'
+export const setWalletTxList = (txList) => {
   return {
-    type: SET_TX_LIST,
+    type: SET_WALLET_TX_LIST,
     txList: txList
   }
 }
 
-export const SET_HAS_MORE = 'SET_HAS_MORE'
-export const setHasMore = (hasMore) => {
+export const SET_WALLET_HAS_MORE = 'SET_WALLET_HAS_MORE'
+export const setWalletHasMore = (hasMore) => {
   return {
-    type: SET_HAS_MORE,
+    type: SET_WALLET_HAS_MORE,
     hasMore: hasMore
   }
 }
 
-export const SET_PAGE_COUNT = 'SET_PAGE_COUNT'
-export const setPageCount = (pageCount) => {
+export const SET_WALLET_PAGE_COUNT = 'SET_WALLET_PAGE_COUNT'
+export const setWalletPageCount = (pageCount) => {
   return {
-    type: SET_PAGE_COUNT,
+    type: SET_WALLET_PAGE_COUNT,
     pageCount: pageCount
   }
 }

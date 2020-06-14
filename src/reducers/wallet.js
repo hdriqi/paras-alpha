@@ -1,4 +1,4 @@
-import { SET_BALANCE, SET_TX_LIST, SET_HAS_MORE, SET_PAGE_COUNT } from '../actions/wallet'
+import { SET_BALANCE, SET_WALLET_TX_LIST, SET_WALLET_HAS_MORE, SET_WALLET_PAGE_COUNT } from '../actions/wallet'
 
 const initialState = {
   balance: 0,
@@ -14,17 +14,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         balance: action.balance
       }
-    case SET_TX_LIST:
+    case SET_WALLET_TX_LIST:
       return {
         ...state,
         txList: action.txList
       }
-    case SET_HAS_MORE:
+    case SET_WALLET_HAS_MORE:
       return {
         ...state,
         hasMore: action.hasMore
       }
-    case SET_PAGE_COUNT:
+    case SET_WALLET_PAGE_COUNT:
       return {
         ...state,
         pageCount: action.pageCount

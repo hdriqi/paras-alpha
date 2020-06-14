@@ -2,7 +2,7 @@ import Wallet from 'components/Wallet'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useEffect } from 'react'
 import axios from 'axios'
-import { setTxList, setPageCount, setBalance, setHasMore } from 'actions/wallet'
+import { setBalance, setWalletTxList, setWalletPageCount, setWalletHasMore } from 'actions/wallet'
 
 const WalletScreen = ({ fetch = false }) => {
   const dispatch = useDispatch()
@@ -43,11 +43,11 @@ const WalletScreen = ({ fetch = false }) => {
     const newTxList = response.data.data
     const newList = [...txList].concat(newTxList)
     batch(() => {
-      dispatch(setTxList(newList))
-      dispatch(setPageCount(page + 1))
+      dispatch(setWalletTxList(newList))
+      dispatch(setWalletPageCount(page + 1))
     })
     if (newTxList.length === 0 && newTxList.length < ITEM_LIMIT) {
-      dispatch(setHasMore(false))
+      dispatch(setWalletHasMore(false))
     }
   }
 
