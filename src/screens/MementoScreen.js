@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Memento from '../components/Memento'
 import axios from 'axios'
 import { initMemento, setMementoPostListIds, setMementoPageCount, setMementoHasMore, setMementoData } from 'actions/memento'
@@ -40,16 +40,15 @@ const MementoScreen = ({ id, fetch = false }) => {
       const response = await axios.get(`http://localhost:9090/mementos?id=${id}`)
       const memento = response.data.data[0]
       if (memento) {
-        dispatch(setMementoData(id, memento))
+        memento.isNotFound = false
       }
       else {
-        dispatch(setMementoData(id, {
-          isNotFound: true
-        }))
+        memento.isNotFound = true
       }
+      dispatch(setMementoData(id, memento))
     }
 
-    if(id && mementoData && !mementoData.id) {
+    if(id && mementoData && mementoData.isNotFound === undefined) {
       getData()
     }    
   }, [id, mementoData])

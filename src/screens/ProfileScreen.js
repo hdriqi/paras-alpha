@@ -39,10 +39,17 @@ const ProfileScreen = ({ id, fetch = false }) => {
     const getData = async () => {
       const response = await axios.get(`http://localhost:9090/users?id=${id}`)
       const user = response.data.data[0]
+      if (user) {
+        user.isNotFound = false
+      }
+      else {
+        user.isNotFound = true
+      }
       dispatch(setUserData(id, user))
     }
 
-    if(id && userData && !userData.id) {
+    if(id && userData && userData.isNotFound === undefined) {
+      console.log('hmm')
       getData()
     }    
   }, [id, userData])

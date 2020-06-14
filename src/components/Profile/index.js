@@ -20,6 +20,61 @@ import ProfileModal from './Modal'
 import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 
+const ProfileData = ({ user, setStickySubNav, isFollowing, isSubmitting, toggleFollow }) => {
+  if (user.isNotFound) {
+    return (
+      <div className="p-4 text-center">
+        <h4 className="text-white text-lg font-semibold">Not Found</h4>
+        <p className="text-white-1 pt-2">This user is not exist</p>
+      </div>
+    )
+  }
+  return (
+    <div>
+      <div className="flex justify-center items-center">
+        <div className="w-40 h-40 rounded-md overflow-hidden">
+          <Image className="object-cover h-full" data={user.imgAvatar} />
+        </div>
+      </div>
+      <div className="pt-4 flex justify-center items-center">
+        <div>
+          <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
+            <p className="text-white text-xl font-semibold">{user.id}</p>
+          </InView>
+        </div>
+      </div>
+      <div className="pt-2 text-center">
+        <p className="text-white opacity-87">{user.bio}</p>
+      </div>
+      <div className="flex justify-center pt-4">
+        {
+          !isFollowing ? (
+            <button onClick={toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
+              {
+                isSubmitting ? (
+                  <RotateSpinLoader style={{
+                    margin: `auto`
+                  }} color="white" size={1.6} />
+                ) : 'FOLLOW'
+              }
+            </button>
+          ) : (
+              <button onClick={toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
+                {
+                  isSubmitting ? (
+                    <RotateSpinLoader style={{
+                      margin: `auto`
+                    }} color="#e13128" size={1.6} />
+                  ) : 'FOLLOWING'
+                }
+              </button>
+            )
+        }
+      </div>
+    </div>
+  )
+}
+
 const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
   const dispatch = useDispatch()
 
@@ -114,48 +169,7 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
           !user ? (
             <InfiniteLoader />
           ) : (
-              <div>
-                <div className="flex justify-center items-center">
-                  <div className="w-40 h-40 rounded-md overflow-hidden">
-                    <Image className="object-cover h-full" data={user.imgAvatar} />
-                  </div>
-                </div>
-                <div className="pt-4 flex justify-center items-center">
-                  <div>
-                    <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
-                      <p className="text-white text-xl font-semibold">{user.id}</p>
-                    </InView>
-                  </div>
-                </div>
-                <div className="pt-2 text-center">
-                  <p className="text-white opacity-87">{user.bio}</p>
-                </div>
-                <div className="flex justify-center pt-4">
-                  {
-                    !isFollowing ? (
-                      <button onClick={_toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
-                        {
-                          isSubmitting ? (
-                            <RotateSpinLoader style={{
-                              margin: `auto`
-                            }} color="white" size={1.6} />
-                          ) : 'FOLLOW'
-                        }
-                      </button>
-                    ) : (
-                        <button onClick={_toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
-                          {
-                            isSubmitting ? (
-                              <RotateSpinLoader style={{
-                                margin: `auto`
-                              }} color="#e13128" size={1.6} />
-                            ) : 'FOLLOWING'
-                          }
-                        </button>
-                      )
-                  }
-                </div>
-              </div>
+              <ProfileData user={user} setStickySubNav={setStickySubNav} isFollowing={isFollowing} isSubmitting={isSubmitting} toggleFollow={_toggleFollow} />
             )
         }
         <div>
