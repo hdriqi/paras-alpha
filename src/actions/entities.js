@@ -22,3 +22,28 @@ export const deletePost = (id) => {
     id: id
   }
 }
+
+export const ENTITIES_ADD_MEMENTO = 'ENTITIES_ADD_MEMENTO'
+export const entitiesAddMemento = (mementoList) => {
+  return {
+    type: ENTITIES_ADD_MEMENTO,
+    mementoList: mementoList
+  }
+}
+
+export const ENTITIES_UPDATE_MEMENTO = 'ENTITIES_UPDATE_MEMENTO'
+export const entitiesUpdateMemento = (id, memento) => {
+  return {
+    type: ENTITIES_UPDATE_MEMENTO,
+    id: id,
+    memento: memento
+  }
+}
+
+export const ENTITIES_DELETE_MEMENTO = 'ENTITIES_DELETE_MEMENTO'
+export const entititesDeleteMemento = (id) => {
+  return {
+    type: ENTITIES_DELETE_MEMENTO,
+    id: id
+  }
+}

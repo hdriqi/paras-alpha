@@ -2,12 +2,13 @@ import React, { useEffect } from 'react'
 import Memento from '../components/Memento'
 import axios from 'axios'
 import { initMemento, setMementoPostListIds, setMementoPageCount, setMementoHasMore, setMementoData } from 'actions/memento'
-import { addPostList } from 'actions/entities'
+import { addPostList, entitiesAddMemento } from 'actions/entities'
 import { useDispatch, useSelector, batch } from 'react-redux'
 
 const MementoScreen = ({ id, fetch = false }) => {
   const dispatch = useDispatch()
   
+  const mementoById = useSelector(state => state.entities.mementoById)
   const postById = useSelector(state => state.entities.postById)
   const mementoData = useSelector(state => state.memento[id]?.data)
   const postListIds = useSelector(state => state.memento[id]?.postListIds)
@@ -41,6 +42,7 @@ const MementoScreen = ({ id, fetch = false }) => {
       const memento = response.data.data[0]
       if (memento) {
         memento.isNotFound = false
+        dispatch(entitiesAddMemento([memento]))
       }
       else {
         memento.isNotFound = true
@@ -66,7 +68,7 @@ const MementoScreen = ({ id, fetch = false }) => {
   }, [id])
 
   return (
-    <Memento memento={mementoData} postListIds={postListIds} postById={postById} getPost={getPost} hasMore={hasMore}  />
+    <Memento memento={mementoData} postListIds={postListIds} postById={postById} mementoById={mementoById} getPost={getPost} hasMore={hasMore}  />
   )
 }
 

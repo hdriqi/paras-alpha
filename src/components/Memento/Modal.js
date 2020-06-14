@@ -6,23 +6,29 @@ import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
+import { entititesDeleteMemento } from "actions/entities"
+import { useRouter } from "next/router"
 
 const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
   const dispatch = useDispatch()
+  const router = useRouter()
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
 
   const _deleteMemento = async () => {
     dispatch(setLoading(true, 'Forgetting memento...'))
-    await near.contract.deleteMemento({
-      id: memento.id
-    })
+    // await near.contract.deleteMemento({
+    //   id: memento.id
+    // })
 
     batch(() => {
       // dispatch(deletePost(id))
       dispatch(setLoading(false))
+      dispatch(entititesDeleteMemento(memento.id))
     })
+    // notify and back
     setShowConfirmForget(false)
+    router.back()
   }
 
   const _forget = () => {

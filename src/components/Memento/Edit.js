@@ -18,6 +18,7 @@ import ipfs from 'lib/ipfs'
 import Push from '../Push'
 import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
+import { entitiesUpdateMemento } from 'actions/entities'
 
 const MementoEdit = ({ memento }) => {
   const me = useSelector(state => state.me.profile)
@@ -71,9 +72,10 @@ const MementoEdit = ({ memento }) => {
     }
     
     const m = await near.contract.updateMemento(newData)
-    console.log(m)
-    dispatch(setLoading(false))
-    // dispatch(addMementoList([m]))
+    batch(() => {
+      dispatch(setLoading(false))
+      dispatch(entitiesUpdateMemento(m.id, m))
+    })
     router.back()
   }
 

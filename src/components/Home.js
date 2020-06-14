@@ -49,7 +49,7 @@ const Home = ({ postListIds, postById, getPost, hasMore }) => {
                 {
                   postListIds.map(id => {
                     const post = postById[id]
-                    return post ? (
+                    return post && !post.isDeleted ? (
                       <div className="mt-6" key={post.id}>
                         <PostCard post={post} />
                       </div>

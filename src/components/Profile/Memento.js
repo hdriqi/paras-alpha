@@ -69,7 +69,7 @@ const ProfileMemento = ({ mementoList }) => {
           ) : (
               <div className="text-center mt-2 p-2 ">
                 <h4 className="text-white text-lg font-semibold">Empty Memento</h4>
-                <p className="text-white-1 pt-2">Click on button at top right to add Memento</p>
+                <p className="text-white-1 pt-2">This user hasn't create any memento</p>
               </div>
             )
         }
