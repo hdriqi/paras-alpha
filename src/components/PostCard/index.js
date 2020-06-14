@@ -78,7 +78,7 @@ const Post = ({ id }) => {
     <div>
       {
         !post ? (
-          <div className="bg-dark-0 p-4">
+          <div className="bg-dark-0">
             <PostCardLoader />
           </div>
         ) : (

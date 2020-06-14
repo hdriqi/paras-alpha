@@ -46,7 +46,7 @@ const Explore = ({ post, getPost }) => {
       {
         !loading ? (
           <div className="px-4 pt-6" key={post.id}>
-            <PostCard post={post} />
+            <PostCard id={post.id} />
           </div>
         ) : (
             <div>

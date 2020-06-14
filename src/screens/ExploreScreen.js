@@ -1,8 +1,9 @@
 import Explore from "components/Explore"
 import { useState, useEffect } from "react"
 import axios from 'axios'
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, batch } from "react-redux"
 import { addExplorePost } from "actions/explore"
+import { addPostList } from "actions/entities"
 
 const ExploreScreen = () => {
   const explorePost = useSelector(state => state.explore.postList)
@@ -13,7 +14,10 @@ const ExploreScreen = () => {
     const response = await axios.get(`http://localhost:9090/explore`)
     const p = response.data.data[0]
 
-    dispatch(addExplorePost(p))
+    batch(() => {
+      dispatch(addExplorePost(p))
+      dispatch(addPostList([p]))
+    })
     setPost(p)
   }
 
