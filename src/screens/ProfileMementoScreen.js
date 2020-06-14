@@ -8,7 +8,7 @@ const ProfileMementoScreen = ({ id }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`http://localhost:9090/mementos?owner=${id}`)
+        const response = await axios.get(`http://localhost:9090/mementos?owner=${id}_limit=100`)
         const list = response.data.data
 
         setMementolist(list)

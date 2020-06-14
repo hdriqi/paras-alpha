@@ -37,7 +37,7 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
     if (me && user && followList.includes(user.id)) {
       setIsFollowing(true)
     }
-  }, [me, user])
+  }, [me, user, followList])
 
   const _toggleFollow = async () => {
     setIsSubmitting(true)

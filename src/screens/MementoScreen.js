@@ -1,60 +1,73 @@
 import React, { useEffect, useState } from 'react'
 import Memento from '../components/Memento'
 import axios from 'axios'
+import { initMemento, setMementoPostListIds, setMementoPageCount, setMementoHasMore, setMementoData } from 'actions/memento'
+import { addPostList } from 'actions/entities'
+import { useDispatch, useSelector, batch } from 'react-redux'
 
-const MementoScreen = ({ id }) => {
-  const [localMemento, setLocalMemento] = useState({})
-  const [localPostList, setLocalPostList] = useState([])
-  const [hasMore, setHasMore] = useState(true)
-  const [page, setPage] = useState(0)
-  const [notFound, setNotFound] = useState(false)
+const MementoScreen = ({ id, fetch = false }) => {
+  const dispatch = useDispatch()
+  
+  const postById = useSelector(state => state.entities.postById)
+  const mementoData = useSelector(state => state.memento[id]?.data)
+  const postListIds = useSelector(state => state.memento[id]?.postListIds)
+  const pageCount = useSelector(state => state.memento[id]?.pageCount)
+  const hasMore = useSelector(state => state.memento[id]?.hasMore)
 
   const getPost = async () => {
-    try {
-      const ITEM_COUNT = 5
-      const response = await axios.get(`http://localhost:9090/posts?mementoId=${id}&_skip=${page * ITEM_COUNT}&_limit=${ITEM_COUNT}`)
-      const postList = response.data.data || []
+    const ITEM_LIMIT = 5
+    const curList = postListIds ? [...postListIds] : []
+    const page = pageCount || 0
 
-      const newList = [...localPostList].concat(postList)
-      setLocalPostList(newList)
-      setPage(page + 1)
-      if(postList.length === 0 || postList.length < ITEM_COUNT) {
-        setHasMore(false)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await axios.get(`http://localhost:9090/posts?mementoId=${id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
+    const newPostList = response.data.data
+    const newPostListIds = newPostList.map(post => post.id)
+    const latestPostListIds = curList.concat(newPostListIds)
+    batch(() => {
+      // add new post to entities
+      dispatch(addPostList(newPostList))
+      // set new post with new data
+      dispatch(setMementoPostListIds(id, latestPostListIds))
+      dispatch(setMementoPageCount(id, page + 1))
+    })
+    if(newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
+      dispatch(setMementoHasMore(id, false))
     }
   }
-  
+
   useEffect(() => {
     const getData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:9090/mementos?id=${id}`)
-        const memento = response.data.data[0]
-
-        if(!memento) {
-          setNotFound(true)
-        }
-        setLocalMemento(memento)
-      } catch (err) {
-        console.log(err)
+      const response = await axios.get(`http://localhost:9090/mementos?id=${id}`)
+      const memento = response.data.data[0]
+      if (memento) {
+        dispatch(setMementoData(id, memento))
+      }
+      else {
+        dispatch(setMementoData(id, {
+          isNotFound: true
+        }))
       }
     }
-    if(id) {
-      console.log('get memento data')
+
+    if(id && mementoData && !mementoData.id) {
       getData()
-    }
-  }, [id])
+    }    
+  }, [id, mementoData])
 
   useEffect(() => {
-    if(id) {
-      console.log('get memento post list')
-      getPost(0)
+    if (id && pageCount === 0) {
+      getPost()
+    }
+  }, [id, pageCount])
+
+  useEffect(() => {
+    if((id && !mementoData) | fetch) {
+      dispatch(initMemento(id))
     }
   }, [id])
 
   return (
-    <Memento memento={localMemento} postList={localPostList} getPost={getPost} hasMore={hasMore} notFound={notFound} />
+    <Memento memento={mementoData} postListIds={postListIds} postById={postById} getPost={getPost} hasMore={hasMore}  />
   )
 }
 

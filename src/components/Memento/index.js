@@ -16,8 +16,76 @@ import PostCard from '../PostCard'
 import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 import { useRouter } from 'next/router'
+import PostCardLoader from 'components/PostCardLoader'
 
-const Memento = ({ memento, postList, notFound, getPost, hasMore }) => {
+const MementoData = ({ memento, isFollowing, isSubmitting, toggleFollow, setStickySubNav }) => {
+  if (memento.isNotFound) {
+    return (
+      <div className="p-4 text-center">
+        <h4 className="text-white text-lg font-semibold">Not Found</h4>
+        <p className="text-white-1 pt-2">This memento is either deleted or not exist</p>
+      </div>
+    )
+  }
+  return (
+    <div className="p-4">
+      <div className="sticky block md:hidden" style={{
+        bottom: `2rem`
+      }}>
+        <Push href="/new/post" as="/new/post" props={{
+          memento: memento
+        }}>
+          <svg className="ml-auto mr-4" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28Z" fill="#E13128" />
+            <path fillRule="evenodd" clipRule="evenodd" d="M26.5292 38.6667V30.1375H18V26.5292H26.5292V18H30.1375V26.5292H38.6667V30.1375H30.1375V38.6667H26.5292Z" fill="white" />
+          </svg>
+        </Push>
+      </div>
+      <div className="flex justify-center items-center">
+        <div className="w-40 h-40 rounded-md overflow-hidden">
+          <Image className="object-cover h-full" data={memento.img} />
+        </div>
+      </div>
+      <div className="pt-4 flex justify-center items-center">
+        <div>
+          <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
+            <p className="text-white text-xl font-semibold">{memento.id}</p>
+          </InView>
+        </div>
+      </div>
+      <div className="pt-2 text-center">
+        <p className="text-white opacity-87">{memento.desc}</p>
+      </div>
+      <div className="flex justify-center pt-4">
+        {
+          !isFollowing ? (
+            <button onClick={toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
+              {
+                isSubmitting ? (
+                  <RotateSpinLoader style={{
+                    margin: `auto`
+                  }} color="white" size={1.6} />
+                ) : 'FOLLOW'
+              }
+            </button>
+          ) : (
+              <button onClick={toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
+                {
+                  isSubmitting ? (
+                    <RotateSpinLoader style={{
+                      margin: `auto`
+                    }} color="#e13128" size={1.6} />
+                  ) : 'FOLLOWING'
+                }
+              </button>
+            )
+        }
+      </div>
+    </div>
+  )
+}
+
+const Memento = ({ memento, postListIds, postById, getPost, hasMore }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -34,7 +102,7 @@ const Memento = ({ memento, postList, notFound, getPost, hasMore }) => {
     if (memento && memento.id && followList.includes(memento.id)) {
       setIsFollowing(true)
     }
-  }, [memento])
+  }, [memento, followList])
 
   useEffect(() => {
     if (deletedMementoList.findIndex(id => id === memento.id) > -1) {
@@ -101,86 +169,39 @@ const Memento = ({ memento, postList, notFound, getPost, hasMore }) => {
         }
       />
       {
-        notFound ? (
-          <div className="text-center mt-2 p-2 ">
-            <h4 className="text-white text-lg font-semibold">Not Found</h4>
-            <p className="text-white-1 pt-2">This memento is either deleted or not exist</p>
-          </div>
+        !memento ? (
+          <InfiniteLoader />
         ) : (
-            <div>
-              <div className="p-4">
-                <div className="flex justify-center items-center">
-                  <div className="w-40 h-40 rounded-md overflow-hidden">
-                    <Image className="object-cover h-full" data={memento.img} />
-                  </div>
-                </div>
-                <div className="pt-4 flex justify-center items-center">
-                  <div>
-                    <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
-                      <p className="text-white text-xl font-semibold">{memento.id}</p>
-                    </InView>
-                  </div>
-                </div>
-                <div className="pt-2 text-center">
-                  <p className="text-white opacity-87">{memento.desc}</p>
-                </div>
-                <div className="flex justify-center pt-4">
-                  {
-                    !isFollowing ? (
-                      <button onClick={_toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
-                        {
-                          isSubmitting ? (
-                            <RotateSpinLoader style={{
-                              margin: `auto`
-                            }} color="white" size={1.6} />
-                          ) : 'FOLLOW'
-                        }
-                      </button>
-                    ) : (
-                        <button onClick={_toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
-                          {
-                            isSubmitting ? (
-                              <RotateSpinLoader style={{
-                                margin: `auto`
-                              }} color="#e13128" size={1.6} />
-                            ) : 'FOLLOWING'
-                          }
-                        </button>
-                      )
-                  }
-                </div>
-              </div>
-              <InfiniteScroll
-                dataLength={postList.length}
-                next={getPost}
-                hasMore={hasMore}
-                loader={<InfiniteLoader key={0} />}
-              >
-                {
-                  postList.map(post => {
-                    return (
-                      <div key={post.id} className="mx-4 mt-4">
-                        <PostCard post={post} />
-                      </div>
-                    )
-                  })
-                }
-              </InfiniteScroll>
-              <div className="sticky block md:hidden" style={{
-                bottom: `2rem`
-              }}>
-                <Push href="/new/post" as="/new/post" props={{
-                  memento: memento
-                }}>
-                  <svg className="ml-auto mr-4" width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M56 28C56 43.464 43.464 56 28 56C12.536 56 0 43.464 0 28C0 12.536 12.536 0 28 0C43.464 0 56 12.536 56 28Z" fill="#E13128" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M26.5292 38.6667V30.1375H18V26.5292H26.5292V18H30.1375V26.5292H38.6667V30.1375H30.1375V38.6667H26.5292Z" fill="white" />
-                  </svg>
-                </Push>
-              </div>
-            </div>
+            <MementoData memento={memento} isFollowing={isFollowing} isSubmitting={isSubmitting} toggleFollow={_toggleFollow} setStickySubNav={setStickySubNav} />
           )
       }
+      <div>
+        {
+          postListIds ? (
+            <InfiniteScroll
+              dataLength={postListIds.length}
+              next={getPost}
+              hasMore={hasMore}
+              loader={<InfiniteLoader key={0} />}
+            >
+              {
+                postListIds.map(id => {
+                  const post = postById[id]
+                  return post ? (
+                    <div key={post.id} className="mx-4 mt-4">
+                      <PostCard post={post} />
+                    </div>
+                  ) : null
+                })
+              }
+            </InfiniteScroll>
+          ) : (
+              <div className="p-4">
+                <PostCardLoader />
+              </div>
+            )
+        }
+      </div>
     </div>
   )
 }
