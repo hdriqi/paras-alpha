@@ -14,15 +14,20 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
   const router = useRouter()
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
+  const [showNotifyDeleteMemento, setShowNotifyDeleteMemento] = useState(false)
 
   const _deleteMemento = async () => {
     dispatch(setLoading(true, 'Forgetting memento...'))
-    // await near.contract.deleteMemento({
-    //   id: memento.id
-    // })
+    await near.contract.deleteMemento({
+      id: memento.id
+    })
+
+    setShowNotifyDeleteMemento(true)
+    setTimeout(() => {
+      setShowNotifyDeleteMemento(false)
+    }, 2500)
 
     batch(() => {
-      // dispatch(deletePost(id))
       dispatch(setLoading(false))
       dispatch(entititesDeleteMemento(memento.id))
     })
@@ -52,6 +57,9 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
     <div>
       <Notify show={showNotifyCopyLink}>
         <p className="text-white p-2">Link copied!</p>
+      </Notify>
+      <Notify show={showNotifyDeleteMemento}>
+        <p className="text-white p-2">Memento has been forgotten</p>
       </Notify>
       <Confirm
         show={showConfirmForget}
