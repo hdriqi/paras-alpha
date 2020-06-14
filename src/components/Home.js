@@ -48,12 +48,11 @@ const Home = ({ postListIds, postById, getPost, hasMore }) => {
               >
                 {
                   postListIds.map(id => {
-                    const post = postById[id]
-                    return post && !post.isDeleted ? (
-                      <div className="mt-6" key={post.id}>
-                        <PostCard post={post} />
+                    return (
+                      <div className="mt-6" key={id}>
+                        <PostCard id={id} />
                       </div>
-                    ) : null
+                    )
                   })
                 }
               </InfiniteScroll>

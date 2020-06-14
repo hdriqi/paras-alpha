@@ -8,18 +8,30 @@ import near from "lib/near"
 import Push from "components/Push"
 import { updatePost, deletePost } from "actions/entities"
 
+const Del = () => {
+  return (
+    <p>Delete</p>
+  )
+}
+
 const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const dispatch = useDispatch()
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
   const [showConfirmRedact, setShowConfirmRedact] = useState(false)
+  const [showNotifyDeletePost, setShowNotifyDeletePost] = useState(false)
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
-    const newPost = await near.contract.deletePost({
-      id: post.id
-    })
-    // const newPost = post
+    // const newPost = await near.contract.deletePost({
+    //   id: post.id
+    // })
+    const newPost = post
+
+    setShowNotifyDeletePost(true)
+    setTimeout(() => {
+      setShowNotifyDeletePost(false)
+    }, 2500)
 
     batch(() => {
       dispatch(deletePost(newPost.id))
@@ -74,6 +86,9 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
     <div>
       <Notify show={showNotifyCopyLink}>
         <p className="text-white p-2">Link copied!</p>
+      </Notify>
+      <Notify show={showNotifyDeletePost}>
+        <p className="text-white p-2">Post has been forgotten</p>
       </Notify>
       <Confirm
         show={showConfirmRedact}
