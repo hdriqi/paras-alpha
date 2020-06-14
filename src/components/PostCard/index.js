@@ -69,7 +69,6 @@ const Post = ({ id }) => {
   const [post, setPost] = useState(undefined)
   const [showModal, setShowModal] = useState(false)
   const [showPiece, setShowPiece] = useState(false)
-  const [showNotifyPiece, setShowNotifyPiece] = useState(false)
 
   useEffect(() => {
     setPost(postById[id])
@@ -96,16 +95,9 @@ const Post = ({ id }) => {
                 onClose={_ => setShowPiece(false)}
                 onComplete={_ => {
                   setShowPiece(false)
-                  setShowNotifyPiece(true)
-                  setTimeout(() => {
-                    setShowNotifyPiece(false)
-                  }, 2500)
                 }}
                 post={post}
               />
-              <Notify show={showNotifyPiece}>
-                <p className="text-white p-2 text-center">Your Piece has been sent successfully</p>
-              </Notify>
               {
                 post.mementoId.length > 0 && post.memento && (
                   <div className="bg-dark-2 text-center p-2 flex justify-center">

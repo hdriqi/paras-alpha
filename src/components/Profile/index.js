@@ -184,12 +184,11 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
                 >
                   {
                     postListIds.map(id => {
-                      const post = postById[id]
-                      return post && !post.isDeleted ? (
-                        <div className='mt-6 shadow-subtle' key={post.id}>
-                          <PostCard post={post} />
+                      return (
+                        <div key={id} className="mx-4 mt-4">
+                          <PostCard id={id} />
                         </div>
-                      ) : null
+                      )
                     })
                   }
                 </InfiniteScroll>

@@ -189,12 +189,11 @@ const Memento = ({ memento, postListIds, postById, mementoById, getPost, hasMore
             >
               {
                 postListIds.map(id => {
-                  const post = postById[id]
-                  return post && !post.isDeleted ? (
-                    <div key={post.id} className="mx-4 mt-4">
-                      <PostCard post={post} />
+                  return (
+                    <div key={id} className="mx-4 mt-4">
+                      <PostCard id={id} />
                     </div>
-                  ) : null
+                  )
                 })
               }
             </InfiniteScroll>

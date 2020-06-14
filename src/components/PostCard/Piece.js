@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useSelector } from "react-redux"
 import { prettyBalance } from "lib/utils"
 import Alert from "components/Utils/Alert"
+import Notify from "components/Utils/Notify"
 
 const pieceList = [5, 10, 15, 20]
 
@@ -16,6 +17,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
   const [showDetail, setShowDetail] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
+  const [showNotifyPiece, setShowNotifyPiece] = useState(false)
 
   useEffect(() => {
     const onClickEv = (e) => {
@@ -99,6 +101,10 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
       value: value.toString()
     })
     setSubmitting(false)
+    setShowNotifyPiece(true)
+    setTimeout(() => {
+      setShowNotifyPiece(false)
+    }, 2500)
     onComplete()
   }
 
@@ -110,6 +116,9 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
 
   return (
     <div className="container-confirm-modal-bg">
+      <Notify show={showNotifyPiece}>
+        <p className="text-white p-2 text-center">Your Piece has been sent successfully</p>
+      </Notify>
       {
         show ? (
           <div id="confirm-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{

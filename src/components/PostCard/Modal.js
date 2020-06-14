@@ -20,13 +20,14 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const [showConfirmForget, setShowConfirmForget] = useState(false)
   const [showConfirmRedact, setShowConfirmRedact] = useState(false)
   const [showNotifyDeletePost, setShowNotifyDeletePost] = useState(false)
+  const [showNotifyRedactPost, setShowNotifyRedactPost] = useState(false)
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
-    // const newPost = await near.contract.deletePost({
-    //   id: post.id
-    // })
-    const newPost = post
+    const newPost = await near.contract.deletePost({
+      id: post.id
+    })
+    // const newPost = post
 
     setShowNotifyDeletePost(true)
     setTimeout(() => {
@@ -52,6 +53,11 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
       ...post,
       ...newPost
     }
+
+    setShowNotifyRedactPost(true)
+    setTimeout(() => {
+      setShowNotifyRedactPost(false)
+    }, 2500)
 
     batch(() => {
       dispatch(setLoading(false))
@@ -89,6 +95,9 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
       </Notify>
       <Notify show={showNotifyDeletePost}>
         <p className="text-white p-2">Post has been forgotten</p>
+      </Notify>
+      <Notify show={showNotifyRedactPost}>
+        <p className="text-white p-2">Post has been redacted</p>
       </Notify>
       <Confirm
         show={showConfirmRedact}
