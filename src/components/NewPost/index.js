@@ -3,26 +3,34 @@ import { useState, useRef } from 'react'
 import NewPostCreate from './Create'
 import NavTop from '../NavTop'
 import Pop from '../Pop'
-import { useDispatch } from 'react-redux'
-import { addPostList } from 'actions/me'
+import { useDispatch, useSelector } from 'react-redux'
+import { addPostList } from 'actions/entities'
 import { compressImg } from 'lib/utils'
 import ipfs from 'lib/ipfs'
 import axios from 'axios'
 import near from 'lib/near'
 import { setLoading } from 'actions/ui'
 import { useRouter } from 'next/router'
+import { setMementoPostListIds } from 'actions/memento'
+import { setPostListIds } from 'actions/home'
+import { setUserPostListIds } from 'actions/user'
+import { RotateSpinLoader } from 'react-css-loaders'
 
 const NewPost = ({ memento = null }) => {
-  const backRef = useRef(null)
   const dispatch = useDispatch()
   const router = useRouter()
   const [content, setContent] = useState([{
     type: 'blank'
   }])
   const [chosenMemento, setChosenMemento] = useState(memento)
+  const me = useSelector(state => state.me.profile)
+  const postListIds = useSelector(state => state.home.postListIds)
+  const userPostListIds = useSelector(state => state.user[me.id]?.postListIds)
+  const mementoPostListIds = useSelector(state => state.memento[chosenMemento?.id]?.postListIds)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const _submit = async () => {
-    dispatch(setLoading(true, 'Creating post...'))
+    setIsSubmitting(true)
     const postContentList = content.map(content => {
       return new Promise(async (resolve, reject) => {
         let newContent = {
@@ -46,7 +54,7 @@ const NewPost = ({ memento = null }) => {
                 type: 'ipfs'
               }
             }
-          } catch(err)  {
+          } catch (err) {
             console.log(err)
           } finally {
             newContent.body = JSON.stringify(newContent.body)
@@ -86,10 +94,28 @@ const NewPost = ({ memento = null }) => {
       contentList: newContentList,
       mementoId: chosenMemento.id,
     }
-    await near.contract.createPost(newData)
-    dispatch(setLoading(false))
-    // add to home, profile and memento
-    // dispatch(addPostList([newData]))
+    const newPost = await near.contract.createPost(newData)
+    setIsSubmitting(false)
+
+    // add new post to home & profile & memento
+    dispatch(addPostList([newPost]))
+    if (postListIds && Array.isArray(postListIds)) {
+      const newPostListIds = [...postListIds]
+      newPostListIds.unshift(newPost.id)
+      dispatch(setPostListIds(newPostListIds))
+    }
+
+    if (userPostListIds && Array.isArray(userPostListIds)) {
+      const newUserPostListIds = [...userPostListIds]
+      newUserPostListIds.unshift(newPost.id)
+      dispatch(setUserPostListIds(newPost.owner, newUserPostListIds))
+    }
+
+    if (mementoPostListIds && Array.isArray(mementoPostListIds)) {
+      const mementoPostListIds = [...mementoPostListIds]
+      mementoPostListIds.unshift(newPost.id)
+      dispatch(setMementoPostListIds(newPost.mementoId, mementoPostListIds))
+    }
 
     router.back()
   }
@@ -119,13 +145,20 @@ const NewPost = ({ memento = null }) => {
           <h3 className="text-lg font-bold text-white px-2">New Post</h3>
         }
         right={
-          <button disabled={!_validateSubmit()} onClick={_submit}>
-            <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
-              <circle cx="16" cy="16" r="16" fill="#E13128" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
-            </svg>
-          </button>
+          isSubmitting ? (
+            <RotateSpinLoader style={{
+              marginLeft: `auto`,
+              marginRight: 0
+            }} color="#e13128" size={2.4} />
+          ) : (
+              <button disabled={!_validateSubmit()} onClick={_submit}>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
+                  <circle cx="16" cy="16" r="16" fill="#E13128" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
+                </svg>
+              </button>
+            )
         }
       />
       <NewPostCreate content={content} setContent={setContent} chosenMemento={chosenMemento} setChosenMemento={setChosenMemento} />
