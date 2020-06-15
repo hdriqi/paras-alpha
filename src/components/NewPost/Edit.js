@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import NewPostCreate from './Create'
 import NavTop from '../NavTop'
 import Pop from '../Pop'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { compressImg } from 'lib/utils'
 import ipfs from 'lib/ipfs'
 import axios from 'axios'
@@ -15,9 +15,16 @@ import { RotateSpinLoader } from 'react-css-loaders'
 const EditPost = ({ post = {} }) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const me = useSelector(state => state.me.profile)
   const [content, setContent] = useState(post.contentList)
   const [chosenMemento, setChosenMemento] = useState(post.memento)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (me.id !== post.owner) {
+      router.replace('/post/[id]', `/post/${post.id}`)
+    }
+  }, [me, post])
 
   const _submit = async () => {
     setIsSubmitting(true)
@@ -126,7 +133,7 @@ const EditPost = ({ post = {} }) => {
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white px-2">New Post</h3>
+          <h3 className="text-lg font-bold text-white px-2">Edit Post</h3>
         }
         right={
           isSubmitting ? (
