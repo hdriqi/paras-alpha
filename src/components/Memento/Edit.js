@@ -1,7 +1,6 @@
 import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useState, useRef, useEffect } from 'react'
-import { addMementoList } from '../../actions/me'
 
 import near from '../../lib/near'
 import { setLoading } from '../../actions/ui'
@@ -9,14 +8,12 @@ import Image from '../Image'
 import RichText from '../Input/RichText'
 import NavTop from 'components/NavTop'
 import Scrollbars from 'react-custom-scrollbars'
-import Select from 'components/Input/Select'
-import Alert from 'components/Utils/Alert'
 import Pop from 'components/Pop'
 import ipfs from 'lib/ipfs'
-import Push from '../Push'
 import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
 import { entitiesUpdateMemento } from 'actions/entities'
+import { RotateSpinLoader } from 'react-css-loaders'
 
 const MementoEdit = ({ memento = {} }) => {
   const me = useSelector(state => state.me.profile)
@@ -31,6 +28,7 @@ const MementoEdit = ({ memento = {} }) => {
   const [showImgCrop, setShowImgCrop] = useState(false)
   const [img, setImg] = useState({})
   const [imgFile, setImgFile] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     if (me && memento && me.id !== memento.owner) {
@@ -56,7 +54,7 @@ const MementoEdit = ({ memento = {} }) => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    dispatch(setLoading(true, 'Updating memento...'))
+    setIsSubmitting(true)
     let img = memento.img
     if (imgFile.size > 0) {
       for await (const file of ipfs.client.add([{
@@ -74,8 +72,9 @@ const MementoEdit = ({ memento = {} }) => {
       img: img,
       desc: desc
     }
-    
+
     const m = await near.contract.updateMemento(newData)
+    setIsSubmitting(false)
     batch(() => {
       dispatch(setLoading(false))
       dispatch(entitiesUpdateMemento(m.id, m))
@@ -138,13 +137,20 @@ const MementoEdit = ({ memento = {} }) => {
           <h3 className="text-lg font-bold text-white px-2">Edit Memento</h3>
         }
         right={
-          <button disabled={!_validateSubmit()} onClick={_submit}>
-            <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
-              <circle cx="16" cy="16" r="16" fill="#E13128" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
-            </svg>
-          </button>
+          isSubmitting ? (
+            <RotateSpinLoader style={{
+              marginLeft: `auto`,
+              marginRight: 0
+            }} color="#e13128" size={2.4} />
+          ) : (
+              <button disabled={!_validateSubmit()} onClick={_submit}>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
+                  <circle cx="16" cy="16" r="16" fill="#E13128" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
+                </svg>
+              </button>
+            )
         }
       />
       <div className="mt-8">

@@ -6,9 +6,6 @@ import Push from "../Push"
 import Image from "../Image"
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
-import Confirm from "../Utils/Confirm"
-import near from "lib/near"
-import { setLoading } from "actions/ui"
 import ModalComment from "./Modal"
 
 TimeAgo.addLocale(en)

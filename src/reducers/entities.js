@@ -41,7 +41,7 @@ const reducer = (state = initialState, action) => {
       }
     case ENTITIES_UPDATE_MEMENTO:
       const nextStateUpdateMemento = { ...state.mementoById }
-      nextStateUpdatePost[action.id] = action.memento
+      nextStateUpdateMemento[action.id] = action.memento
       return {
         ...state,
         mementoById: nextStateUpdateMemento

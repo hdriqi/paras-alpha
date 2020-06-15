@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
 import NewPostCreate from './Create'
 import NavTop from '../NavTop'
@@ -9,7 +9,6 @@ import { compressImg } from 'lib/utils'
 import ipfs from 'lib/ipfs'
 import axios from 'axios'
 import near from 'lib/near'
-import { setLoading } from 'actions/ui'
 import { useRouter } from 'next/router'
 import { setMementoPostListIds } from 'actions/memento'
 import { setPostListIds } from 'actions/home'
