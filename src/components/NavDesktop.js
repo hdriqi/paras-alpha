@@ -8,7 +8,13 @@ import Push from "./Push"
 const NavLink = ({ name, href, as, activePage, children }) => {
   const router = useRouter()
 
-  const _navigate = () => {
+  const _navigate = (e) => {
+    if (!!(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey)) {
+      return
+    }
+
+    e.preventDefault()
+    
     if (router.asPath == as) {
       window.scroll({
         top: 0,
@@ -22,11 +28,11 @@ const NavLink = ({ name, href, as, activePage, children }) => {
   }
 
   return (
-    <span onClick={(e) => _navigate(e)}>
-      <a className={`flex h-full items-center  relative ${activePage === name ? `text-white` : `text-white-3`}`}>
+    <a href={href} className={`flex h-full items-center  relative ${activePage === name ? `text-white` : `text-white-3`}`} onClick={(e) => _navigate(e)}>
+      <span>
         {children}
-      </a>
-    </span>
+      </span>
+    </a>
   )
 }
 

@@ -14,7 +14,7 @@ const Push = ({ href, as, props, children, component }) => {
       return
     }
 
-    if (!!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)) {
+    if (!!(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey)) {
       return
     }
     else {
