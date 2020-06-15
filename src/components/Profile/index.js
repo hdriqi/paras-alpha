@@ -185,7 +185,7 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
                   {
                     postListIds.map(id => {
                       return (
-                        <div key={id} className="mx-4 mt-4">
+                        <div key={id} className="mt-6">
                           <PostCard id={id} />
                         </div>
                       )

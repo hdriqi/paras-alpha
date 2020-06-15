@@ -18,6 +18,7 @@ import Push from '../Push'
 import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
 import { setProfile } from 'actions/me'
+import { setUserData } from 'actions/user'
 
 const ProfileEdit = ({ me }) => {
   const dispatch = useDispatch()
@@ -69,8 +70,10 @@ const ProfileEdit = ({ me }) => {
     }
     
     const newMe = await near.contract.updateUser(newData)
+    newMe.isNotFound = false
     dispatch(setLoading(false))
     dispatch(setProfile(newMe))
+    dispatch(setUserData(newMe.id, newMe))
     router.back()
   }
 

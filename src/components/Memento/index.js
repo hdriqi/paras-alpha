@@ -190,7 +190,7 @@ const Memento = ({ memento, postListIds, postById, mementoById, getPost, hasMore
               {
                 postListIds.map(id => {
                   return (
-                    <div key={id} className="mx-4 mt-4">
+                    <div key={id} className="mx-4 mt-6">
                       <PostCard id={id} />
                     </div>
                   )
