@@ -11,7 +11,6 @@ import { CarouselProvider, Slider, Slide, CarouselContext, WithStore } from '@ev
 import SlideCommon from '../Slide/Common'
 import ModalPost from './Modal'
 import ModalPiece from './Piece'
-import Notify from 'components/Utils/Notify'
 
 TimeAgo.addLocale(en)
 
@@ -73,6 +72,10 @@ const Post = ({ id }) => {
   useEffect(() => {
     setPost(postById[id])
   }, [id, postById])
+
+  if (post && post.isDeleted) {
+    return null
+  }
 
   return (
     <div>

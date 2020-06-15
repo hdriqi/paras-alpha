@@ -8,12 +8,6 @@ import near from "lib/near"
 import Push from "components/Push"
 import { updatePost, deletePost } from "actions/entities"
 
-const Del = () => {
-  return (
-    <p>Delete</p>
-  )
-}
-
 const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const dispatch = useDispatch()
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
@@ -24,10 +18,9 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
-    const newPost = await near.contract.deletePost({
+    await near.contract.deletePost({
       id: post.id
     })
-    // const newPost = post
 
     setShowNotifyDeletePost(true)
     setTimeout(() => {
@@ -35,7 +28,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
     }, 2500)
 
     batch(() => {
-      dispatch(deletePost(newPost.id))
+      dispatch(deletePost(post.id))
       dispatch(setLoading(false))
     })
     setShowConfirmForget(false)
