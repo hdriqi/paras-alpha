@@ -86,7 +86,7 @@ function _percent(value: u128, percent: u32): u128 {
 export function piecePost(
 	postId: string,
 	value: string
-): boolean {
+): u128 {
 	const tokens = u128.fromString(value)
 	const senderBalance = getBalance(context.sender)
 	assert(senderBalance >= tokens, 'not enough tokens on account')
@@ -137,7 +137,8 @@ export function piecePost(
 			transfer(originalMemento.owner, forOriginalMemento)
 		}
 	}
-	return true
+	const latestBalance = getBalance(context.sender)
+	return latestBalance
 }
 
 export function createMemento(

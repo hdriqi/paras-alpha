@@ -10,6 +10,7 @@ import Modal from './Modal'
 import axios from 'axios'
 import { setLoading } from "../actions/ui"
 import NavDesktop from "./NavDesktop"
+import { setBalance } from "actions/wallet"
 
 const DEFAULT_AVATAR = {
   url: 'QmbmkUNfVEQwUHzufSbC5nZQbdEMnNp6Hzfr88sQhZAois',
@@ -107,9 +108,16 @@ const Layout = ({ children }) => {
       const followList = response.data.data.map(follow => follow.targetId)
       dispatch(setFollow(followList))
     }
+    const getUserBalance = async () => {
+      const response = await axios.get(`http://localhost:9090/balances?id=${me.id}`)
+      if (response.data.data[0]) {
+        dispatch(setBalance(response.data.data[0].value))
+      }
+    }
     if (!isLoading && me.id && mementoList.length === 0) {
       getUserMementoData()
       getUserFollowing()
+      getUserBalance()
     }
   }, [isLoading, me])
 

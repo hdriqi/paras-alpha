@@ -2,15 +2,17 @@ import { useRef, useEffect, useState, useContext } from "react"
 import { RotateSpinLoader } from 'react-css-loaders'
 import near from "lib/near"
 import axios from 'axios'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { prettyBalance } from "lib/utils"
 import Alert from "components/Utils/Alert"
 import { NotifyContext } from "components/Utils/NotifyProvider"
+import { setBalance } from "actions/wallet"
 
 const pieceList = [5, 10, 15, 20]
 
 const ModalPiece = ({ show, onClose, onComplete, post }) => {
   const ref = useRef()
+  const dispatch = useDispatch()
   const useNotify = useContext(NotifyContext)
   const balance = useSelector(state => state.wallet.balance)
   const [chosenPiece, setChosenPiece] = useState(0)
@@ -96,10 +98,11 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
       return
     }
     setSubmitting(true)
-    await near.contract.piecePost({
+    const latestBalance = await near.contract.piecePost({
       postId: post.id,
       value: value.toString()
     })
+    dispatch(setBalance(latestBalance))
     setSubmitting(false)
     useNotify.setText('Your Piece has been sent successfully')
     useNotify.setShow(true)

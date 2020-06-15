@@ -20,6 +20,7 @@ import PostEditScreen from 'screens/PostEditScreen'
 import FollowingScreen from 'screens/FollowingScreen'
 import ProfileMementoScreen from 'screens/ProfileMementoScreen'
 import WalletScreen from 'screens/WalletScreen'
+import WalletTransactionScreen from 'screens/WalletTransactionScreen'
 import NavMobile from './NavMobile'
 
 const PageManager = ({ children }) => {
@@ -45,6 +46,7 @@ const PageManager = ({ children }) => {
     '/new/post': NewPostScreen,
     '/new/memento': NewMementoScreen,
     '/wallet': WalletScreen,
+    '/wallet/transaction': WalletTransactionScreen
   }
 
   useEffect(() => {

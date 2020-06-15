@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { setBalance, setWalletTxList, setWalletPageCount, setWalletHasMore } from 'actions/wallet'
 
-const WalletScreen = ({ fetch = false }) => {
+const WalletScreen = ({ fetch = true }) => {
   const dispatch = useDispatch()
 
   const me = useSelector(state => state.me.profile)
@@ -17,9 +17,9 @@ const WalletScreen = ({ fetch = false }) => {
     if (me.id && (pageCount === 0 || fetch)) {
       if (fetch) {
         batch(() => {
-          dispatch(setTxList([]))
-          dispatch(setPageCount(0))
-          dispatch(setHasMore(true))
+          dispatch(setWalletTxList([]))
+          dispatch(setWalletPageCount(0))
+          dispatch(setWalletHasMore(true))
         })
       }
       getBalance()
@@ -35,7 +35,7 @@ const WalletScreen = ({ fetch = false }) => {
   }
 
   const getTx = async () => {
-    const ITEM_LIMIT = 12
+    const ITEM_LIMIT = 3
     const page = pageCount || 0
 
     const response = await axios.get(`http://localhost:9090/transactions?id=${me.id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
