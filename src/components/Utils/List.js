@@ -24,14 +24,14 @@ const List = ({ show, onClose, children }) => {
     }
   }
 
-  if (show) {
-    disableBodyScroll(document.querySelector('.container-modal'), {
-      reserveScrollBarGap: true,
-    })
-  }
-  else {
-    enableBodyScroll(document.querySelector('.container-modal'))
-  }
+  // if (show) {
+  //   disableBodyScroll(document.querySelector('.container-modal'), {
+  //     reserveScrollBarGap: true,
+  //   })
+  // }
+  // else {
+  //   enableBodyScroll(document.querySelector('.container-modal'))
+  // }
 
   return (
     <div id="container-modal">

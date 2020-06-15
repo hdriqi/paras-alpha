@@ -27,14 +27,14 @@ const Confirm = ({ show, onClose, onComplete, mainText, leftText, rightText }) =
     }
   }
 
-  if (show) {
-    disableBodyScroll(document.querySelector('.container-confirm-modal-bg'), {
-      reserveScrollBarGap: true,
-    })
-  }
-  else {
-    enableBodyScroll(document.querySelector('.container-confirm-modal-bg'))
-  }
+  // if (show) {
+  //   disableBodyScroll(document.querySelector('.container-confirm-modal-bg'), {
+  //     reserveScrollBarGap: true,
+  //   })
+  // }
+  // else {
+  //   enableBodyScroll(document.querySelector('.container-confirm-modal-bg'))
+  // }
 
   return (
     <div className="container-confirm-modal-bg">

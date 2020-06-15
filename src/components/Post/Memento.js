@@ -4,8 +4,15 @@ import Push from '../Push'
 import Image from '../Image'
 import NavTop from '../NavTop'
 import MementoTransmit from './MementoTransmit'
+import { setPostListIds } from 'actions/home'
+import { useSelector, useDispatch } from 'react-redux'
+import { setUserPostListIds } from 'actions/user'
+import { addPostList } from 'actions/entities'
 
 const PostMemento = ({ post, mementoList, notFound }) => {
+  const dispatch = useDispatch()  
+  const postListIds = useSelector(state => state.home.postListIds)
+  const userPostListIds = useSelector(state => state.user[post.owner]?.postListIds)
   const [newMementoList, setNewMementoList] = useState([])
   const [showMementoTransmit, setShowMementoTransmit] = useState(false)
 
@@ -16,9 +23,24 @@ const PostMemento = ({ post, mementoList, notFound }) => {
           <MementoTransmit
             left={_ => setShowMementoTransmit(false)}
             right={newPost => {
+              // hide memento transmit modal
               setShowMementoTransmit(false)
+              // add new memento to list
               const nextMementoList = [...newMementoList].concat([newPost.memento])
               setNewMementoList(nextMementoList)
+              // add new post to home & profile
+              dispatch(addPostList([newPost]))
+              if (postListIds && Array.isArray(postListIds)) {
+                const newPostListIds = [...postListIds]
+                newPostListIds.unshift(newPost.id)
+                dispatch(setPostListIds(newPostListIds))
+              }
+
+              if (userPostListIds && Array.isArray(userPostListIds)) {
+                const newUserPostListIds = [...userPostListIds]
+                newUserPostListIds.unshift(newPost.id)
+                dispatch(setUserPostListIds(post.owner, newUserPostListIds))
+              }
             }}
             post={post}
             currentTransmitList={mementoList}
