@@ -75,7 +75,7 @@ const PostMemento = ({ post, mementoList, notFound }) => {
           <div>
             <div className="px-4 py-2">
               {
-                mementoList.concat(newMementoList).map(m => {
+                mementoList.sort((a,b) => a.id.localeCompare(b.id)).concat(newMementoList).map(m => {
                   return (
                     <Push key={m.id} href='/m/[id]' as={`/m/${m.id}`} props={{
                       id: m.id,
