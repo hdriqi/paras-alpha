@@ -59,12 +59,12 @@ const MementoTransmit = ({ left, right, post, currentTransmitList }) => {
 
   const _right = async () => {
     setLoading(true)
-    await near.contract.transmitPost({
+    const newPost = await near.contract.transmitPost({
       id: post.id,
       mementoId: chosenMemento.value.id
     })
     setLoading(false)
-    right(chosenMemento.value)
+    right(newPost)
   }
 
   const _left = () => {

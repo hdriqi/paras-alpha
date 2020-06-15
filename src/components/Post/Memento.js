@@ -15,9 +15,9 @@ const PostMemento = ({ post, mementoList, notFound }) => {
         showMementoTransmit && (
           <MementoTransmit
             left={_ => setShowMementoTransmit(false)}
-            right={m => {
+            right={newPost => {
               setShowMementoTransmit(false)
-              const nextMementoList = [...newMementoList].concat([m])
+              const nextMementoList = [...newMementoList].concat([newPost.memento])
               setNewMementoList(nextMementoList)
             }}
             post={post}
@@ -56,7 +56,8 @@ const PostMemento = ({ post, mementoList, notFound }) => {
                 mementoList.concat(newMementoList).map(m => {
                   return (
                     <Push key={m.id} href='/m/[id]' as={`/m/${m.id}`} props={{
-                      id: m.id
+                      id: m.id,
+                      fetch: true
                     }}>
                       <div key={m.id} className="flex items-center my-2 bg-dark-2 rounded-md p-2 cursor-pointer hover:bg-dark-24">
                         <div className="flex w-4/5">
