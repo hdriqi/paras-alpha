@@ -41,11 +41,13 @@ const ProfileScreen = ({ id, fetch = false }) => {
       const user = response.data.data[0]
       if (user) {
         user.isNotFound = false
+        dispatch(setUserData(id, user))
       }
       else {
-        user.isNotFound = true
+        dispatch(setUserData(id, {
+          isNotFound: true
+        }))
       }
-      dispatch(setUserData(id, user))
     }
 
     if(id && userData && userData.isNotFound === undefined) {

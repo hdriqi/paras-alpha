@@ -43,11 +43,13 @@ const MementoScreen = ({ id, fetch = false }) => {
       if (memento) {
         memento.isNotFound = false
         dispatch(entitiesAddMemento([memento]))
+        dispatch(setMementoData(id, memento))
       }
       else {
-        memento.isNotFound = true
+        dispatch(setMementoData(id, {
+          isNotFound: true
+        }))
       }
-      dispatch(setMementoData(id, memento))
     }
 
     if(id && mementoData && mementoData.isNotFound === undefined) {

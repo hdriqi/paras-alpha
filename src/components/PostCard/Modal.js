@@ -1,20 +1,18 @@
 import List from "components/Utils/List"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useDispatch, batch } from "react-redux"
-import Notify from "components/Utils/Notify"
 import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
 import { updatePost, deletePost } from "actions/entities"
+import { NotifyContext } from "components/Utils/NotifyProvider"
 
 const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
   const dispatch = useDispatch()
-  const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
+  const useNotify = useContext(NotifyContext)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
   const [showConfirmRedact, setShowConfirmRedact] = useState(false)
-  const [showNotifyDeletePost, setShowNotifyDeletePost] = useState(false)
-  const [showNotifyRedactPost, setShowNotifyRedactPost] = useState(false)
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
@@ -22,9 +20,10 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
       id: post.id
     })
 
-    setShowNotifyDeletePost(true)
+    useNotify.setText('Post has been forgotten')
+    useNotify.setShow(true)
     setTimeout(() => {
-      setShowNotifyDeletePost(false)
+      useNotify.setShow(false)
     }, 2500)
 
     batch(() => {
@@ -47,9 +46,10 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
       ...newPost
     }
 
-    setShowNotifyRedactPost(true)
+    useNotify.setText('Post has been redacted')
+    useNotify.setShow(true)
     setTimeout(() => {
-      setShowNotifyRedactPost(false)
+      useNotify.setShow(false)
     }, 2500)
 
     batch(() => {
@@ -73,25 +73,17 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
     var copyText = document.getElementById(`urlLink_${post.id}`)
     copyText.select()
     copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy")
-    setShowNotifyCopyLink(true)
+    document.execCommand('copy')
+    useNotify.setText('Link copied!')
+    useNotify.setShow(true)
     setShowModal(false)
     setTimeout(() => {
-      setShowNotifyCopyLink(false)
+      useNotify.setShow(false)
     }, 1500)
   }
 
   return (
     <div>
-      <Notify show={showNotifyCopyLink}>
-        <p className="text-white p-2">Link copied!</p>
-      </Notify>
-      <Notify show={showNotifyDeletePost}>
-        <p className="text-white p-2">Post has been forgotten</p>
-      </Notify>
-      <Notify show={showNotifyRedactPost}>
-        <p className="text-white p-2">Post has been redacted</p>
-      </Notify>
       <Confirm
         show={showConfirmRedact}
         onClose={_ => setShowConfirmRedact(false)}

@@ -12,15 +12,13 @@ import Scrollbars from 'react-custom-scrollbars'
 import Select from 'components/Input/Select'
 import Alert from 'components/Utils/Alert'
 import Pop from 'components/Pop'
-import initials from 'initials'
-import { dataURItoBlob } from 'lib/utils'
 import ipfs from 'lib/ipfs'
 import Push from '../Push'
 import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
 import { entitiesUpdateMemento } from 'actions/entities'
 
-const MementoEdit = ({ memento }) => {
+const MementoEdit = ({ memento = {} }) => {
   const me = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
   const bodyRef = useRef(null)
@@ -35,7 +33,13 @@ const MementoEdit = ({ memento }) => {
   const [imgFile, setImgFile] = useState({})
 
   useEffect(() => {
-    if (memento.id) {
+    if (me && memento && me.id !== memento.owner) {
+      router.replace('/m/[id]', `/m/${memento.id}`)
+    }
+  }, [me, memento])
+
+  useEffect(() => {
+    if (memento && memento.id) {
       setImg(memento.img)
       setDesc(memento.desc)
     }
@@ -91,6 +95,10 @@ const MementoEdit = ({ memento }) => {
     setImgFile(e.target.files[0])
   }
 
+  if (!memento) {
+    return null
+  }
+
   return (
     <div id="new-memento" className="bg-dark-0 min-h-screen">
       <input ref={inputImgRef} type="file" accept="image/*" onClick={(e) => { e.target.value = null }} onChange={e => _addImg(e)} className="hidden" />
@@ -127,7 +135,7 @@ const MementoEdit = ({ memento }) => {
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white px-2">Update Memento</h3>
+          <h3 className="text-lg font-bold text-white px-2">Edit Memento</h3>
         }
         right={
           <button disabled={!_validateSubmit()} onClick={_submit}>
@@ -142,7 +150,7 @@ const MementoEdit = ({ memento }) => {
       <div className="mt-8">
         <div className="px-4">
           <div className="text-center">
-            <h4 className="text-white text">Update Memento</h4>
+            <h4 className="text-white text">Edit Memento</h4>
             <h4 className="text-white text-xl font-semibold break-words">{memento.id}</h4>
           </div>
           <div className="mt-4">

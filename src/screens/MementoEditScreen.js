@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import MementoEdit from '../components/Memento/Edit'
 import near from '../lib/near'
 
-const MementoEditScreen = ({ id, memento = {} }) => {
-  const [localMemento, setLocalMemento] = useState(memento)
+const MementoEditScreen = ({ id }) => {
+  const [memento, setMemento] = useState(null)
 
   useEffect(() => {
     const getData = async () => {
@@ -11,16 +11,16 @@ const MementoEditScreen = ({ id, memento = {} }) => {
         id: id
       })
 
-      setLocalMemento(memento)
+      setMemento(memento)
     }
-    if(!localMemento.id && id) {
+    if(id && !memento) {
       console.log('get memento data')
       getData()
     }
   }, [id])
 
   return (
-    <MementoEdit memento={localMemento} />
+    <MementoEdit memento={memento} />
   )
 }
 

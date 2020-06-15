@@ -1,20 +1,19 @@
 import List from "components/Utils/List"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useDispatch, batch } from "react-redux"
-import Notify from "components/Utils/Notify"
 import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
 import { entititesDeleteMemento } from "actions/entities"
 import { useRouter } from "next/router"
+import { NotifyContext } from "components/Utils/NotifyProvider"
 
 const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
+  const useNotify = useContext(NotifyContext)
   const dispatch = useDispatch()
   const router = useRouter()
-  const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
-  const [showNotifyDeleteMemento, setShowNotifyDeleteMemento] = useState(false)
 
   const _deleteMemento = async () => {
     dispatch(setLoading(true, 'Forgetting memento...'))
@@ -22,9 +21,10 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
       id: memento.id
     })
 
-    setShowNotifyDeleteMemento(true)
+    useNotify.setText('Memento has been forgotten')
+    useNotify.setShow(true)
     setTimeout(() => {
-      setShowNotifyDeleteMemento(false)
+      useNotify.setShow(false)
     }, 2500)
 
     batch(() => {
@@ -46,21 +46,18 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy")
-    setShowNotifyCopyLink(true)
-    setShowModal(false)
+    
+    useNotify.setText('Link copied!')
+    useNotify.setShow(true)
     setTimeout(() => {
-      setShowNotifyCopyLink(false)
+      useNotify.setShow(false)
     }, 1500)
+
+    setShowModal(false)
   }
 
   return (
     <div>
-      <Notify show={showNotifyCopyLink}>
-        <p className="text-white p-2">Link copied!</p>
-      </Notify>
-      <Notify show={showNotifyDeleteMemento}>
-        <p className="text-white p-2">Memento has been forgotten</p>
-      </Notify>
       <Confirm
         show={showConfirmForget}
         onClose={_ => setShowConfirmForget(false)}
@@ -88,7 +85,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
                     memento: memento
                   }}>
                     <a>
-                      <h4 className="p-4 text-white font-bold">Edit Memento</h4>
+                      <h4 className="p-4 text-white font-bold">Edit</h4>
                     </a>
                   </Push>
                 </button>
@@ -98,42 +95,12 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
               me && me.id == memento.owner && (
                 <button className="w-full text-left" onClick={_ => _forget()}>
                   <a>
-                    <h4 className="p-4 text-white font-bold">Forget Memento</h4>
+                    <h4 className="p-4 text-white font-bold">Forget</h4>
                   </a>
                 </button>
               )
             }
           </div>
-          {/* {
-          view === 'default' && (
-            <div>
-              <button className="w-full p-4 font-medium text-left" onClick={_ => _copyLink()}>Copy Link</button>
-              {
-                (me && me.id == post.user.id || meMementoList.findIndex(memento => memento.id === post.mementoId) > -1) && (
-                  <button className="w-full p-4  font-medium text-left" onClick={_ => setView('confirmDelete')}>Forget</button>
-                )
-              }
-            </div>
-          )
-        }
-        {
-          view === 'confirmDelete' && (
-            <div>
-              <p className="p-4">Do you want to forget this memory?</p>
-              <div className="flex justify-end">
-                <button className="p-4 font-medium text-left" onClick={_ => setView('default')}>Cancel</button>
-                <button className="p-4 text-red-600 font-medium text-left" onClick={_ => _delete(post.id)}>Forget</button>
-              </div>
-            </div>
-          )
-        }
-        {
-          view === 'confirmCopyLink' && (
-            <div>
-              <p className="p-4">Link copied!</p>
-            </div>
-          )
-        } */}
         </div>
       </List>
     </div>

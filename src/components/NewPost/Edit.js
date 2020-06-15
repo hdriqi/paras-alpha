@@ -119,6 +119,10 @@ const EditPost = ({ post = {} }) => {
     return false
   }
 
+  if (!post) {
+    return null
+  }
+
   return (
     <div className="bg-dark-0 min-h-screen pb-4">
       <NavTop

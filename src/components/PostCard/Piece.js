@@ -1,23 +1,23 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, useContext } from "react"
 import { RotateSpinLoader } from 'react-css-loaders'
 import near from "lib/near"
 import axios from 'axios'
 import { useSelector } from "react-redux"
 import { prettyBalance } from "lib/utils"
 import Alert from "components/Utils/Alert"
-import Notify from "components/Utils/Notify"
+import { NotifyContext } from "components/Utils/NotifyProvider"
 
 const pieceList = [5, 10, 15, 20]
 
 const ModalPiece = ({ show, onClose, onComplete, post }) => {
   const ref = useRef()
+  const useNotify = useContext(NotifyContext)
   const balance = useSelector(state => state.wallet.balance)
   const [chosenPiece, setChosenPiece] = useState(0)
   const [pieceDetail, setPieceDetail] = useState([])
   const [showDetail, setShowDetail] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
-  const [showNotifyPiece, setShowNotifyPiece] = useState(false)
 
   useEffect(() => {
     const onClickEv = (e) => {
@@ -101,9 +101,10 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
       value: value.toString()
     })
     setSubmitting(false)
-    setShowNotifyPiece(true)
+    useNotify.setText('Your Piece has been sent successfully')
+    useNotify.setShow(true)
     setTimeout(() => {
-      setShowNotifyPiece(false)
+      useNotify.setShow(false)
     }, 2500)
     onComplete()
   }
@@ -116,9 +117,6 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
 
   return (
     <div className="container-confirm-modal-bg">
-      <Notify show={showNotifyPiece}>
-        <p className="text-white p-2 text-center">Your Piece has been sent successfully</p>
-      </Notify>
       {
         show ? (
           <div id="confirm-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{

@@ -1,14 +1,15 @@
 import List from "components/Utils/List"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useDispatch, batch } from "react-redux"
 import Notify from "components/Utils/Notify"
 import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
+import { NotifyContext } from "components/Utils/NotifyProvider"
 
 const ProfileModal = ({ showModal, setShowModal, me, user }) => {
-  const dispatch = useDispatch()
+  const useNotify = useContext(NotifyContext)
   const [showNotifyCopyLink, setShowNotifyCopyLink] = useState(false)
   const [showConfirmLogout, setShowConfirmLogout] = useState(false)
 
@@ -17,11 +18,12 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy")
-    setShowNotifyCopyLink(true)
-    setShowModal(false)
+    useNotify.setText('Link copied!')
+    useNotify.setShow(true)
     setTimeout(() => {
-      setShowNotifyCopyLink(false)
+      useNotify.setShow(false)
     }, 1500)
+    setShowModal(false)
   }
 
   const _logout = () => {
