@@ -62,7 +62,9 @@ const PostMemento = ({ post, commentList, notFound }) => {
                   </div>
                 ) : commentList.concat(newCommentList).map(c => {
                   return (
-                    <Comment comment={c} />
+                    <div key={c.id} >
+                      <Comment comment={c} />
+                    </div>
                   )
                 })
               }
