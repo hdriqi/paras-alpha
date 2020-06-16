@@ -160,31 +160,12 @@ const Layout = ({ children }) => {
             <div className="bg-dark-0">
               <div className="fixed top-0 z-10 bg-dark-12 w-full h-12"></div>
               <div>
-                <div className="flex m-auto">
-                  <div className="flex-auto hidden sm:block w-1/3">
+                <div className="flex m-auto max-w-2xl">
+                  <div className="flex-auto hidden sm:block w-1/3 flex-grow-0 px-4">
                     <NavDesktop />
                   </div>
-                  <div className="w-full max-w-md m-auto flex-grow-0 flex-shrink-0">
+                  <div className="w-full sm:max-w-md m-auto flex-grow-0 flex-shrink-0">
                     {children}
-                  </div>
-                  <div className="flex-auto hidden sm:block w-1/3">
-                    <div className={`${me && me.id ? 'visible' : 'invisible'} z-10 sticky min-h-screen top-0 flex flex-col w-full`} style={{
-                      boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
-                    }}>
-                      <div className="h-12 px-4 flex items-center bg-dark-12">
-                        <div className="mr-auto w-full" style={{
-                          maxWidth: `10rem`
-                        }}>
-                          <p onClick={_ => _logOut()} className="text-white">Logout</p>
-                        </div>
-                      </div>
-                      <div className="ml-auto w-full" style={{
-                        maxWidth: `10rem`
-                      }}>
-
-                      </div>
-                      <div className="w-full mt-6"></div>
-                    </div>
                   </div>
                 </div>
                 {

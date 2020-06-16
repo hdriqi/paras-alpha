@@ -64,7 +64,7 @@ const NavDesktop = () => {
       boxShadow: `0px -0.5px 0px rgba(0, 0, 0, 0.3)`
     }}>
       <div className="h-12 flex items-center bg-dark-12">
-        <div className="ml-auto w-full px-2" style={{
+        <div className="ml-auto w-full" style={{
           maxWidth: `16rem`
         }}>
           <NavLink name="feed" href="/" as="/" activePage={activePage} >
@@ -79,7 +79,7 @@ const NavDesktop = () => {
           </NavLink>
         </div>
       </div>
-      <div className="ml-auto w-full px-2" style={{
+      <div className="ml-auto w-full" style={{
         maxWidth: `16rem`
       }}>
         <NavLink name="feed" href="/" as="/" activePage={activePage} >

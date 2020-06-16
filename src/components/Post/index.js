@@ -10,46 +10,18 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ModalPiece from 'components/PostCard/Piece'
 import PostCardLoader from 'components/PostCardLoader'
-import { useRouter } from 'next/router'
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
-let lastScrollTop = 0
-let timeout
-
 const PostDetail = ({ id, notFound }) => {
-  const router = useRouter()
-
   const me = useSelector(state => state.me.profile)
   const postById = useSelector(state => state.entities.postById)
-  const pageList = useSelector(state => state.ui.pageList)
   const meMementoList = useSelector(state => state.me.mementoList)
 
   const [post, setPost] = useState(undefined)
   const [showModal, setShowModal] = useState(false)
-  const [showAction, setShowAction] = useState(true)
   const [showPiece, setShowPiece] = useState(false)
-
-  useEffect(() => {
-    const scrollEv = (e) => {
-      var st = window.pageYOffset || document.documentElement.scrollTop
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (st > lastScrollTop) {
-          setShowAction(false)
-        } else {
-          setShowAction(true)
-        }
-        lastScrollTop = st <= 0 ? 0 : st;
-      }, 50)
-    }
-    document.addEventListener('scroll', scrollEv)
-
-    return () => {
-      document.removeEventListener('scroll', scrollEv)
-    }
-  }, [pageList])
   
   useEffect(() => {
     const post = postById[id]
@@ -191,13 +163,7 @@ const PostDetail = ({ id, notFound }) => {
                         </p>
                       </div>
                     </div>
-                    <div className="fixed bg-dark-16 rounded-md overflow-hidden duration-500" style={{
-                      bottom: `1rem`,
-                      transform: `translate3d(0, ${showAction ? `0` : `200%`}, 0)`,
-                      width: `300px`,
-                      marginLeft: `-150px`,
-                      left: `50%`,
-                    }}>
+                    <div className="bg-dark-6 rounded-md mt-6">
                       <div className="flex p-2">
                         <button className="w-1/3" onClick={_ => setShowPiece(true)}>
                           <a className="flex items-center justify-center hover:bg-dark-2 py-1 rounded-md">

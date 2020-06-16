@@ -15,7 +15,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
   const dispatch = useDispatch()
   const useNotify = useContext(NotifyContext)
   const balance = useSelector(state => state.wallet.balance)
-  const [chosenPiece, setChosenPiece] = useState(0)
+  const [chosenPiece, setChosenPiece] = useState(5)
   const [pieceDetail, setPieceDetail] = useState([])
   const [showDetail, setShowDetail] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -179,7 +179,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
                 <hr className="border-dark-0 mt-4" />
                 <div className="flex">
                   <div className="w-1/2 border-r border-dark-0">
-                    <button onClick={onClose} className="hover:bg-dark-24 flex items-center justify-center w-full text-white font-semibold text-sm text-center p-2">
+                    <button onClick={onClose} className="hover:bg-dark-24 h-10 flex items-center justify-center w-full text-white font-semibold text-sm text-center p-2">
                       Cancel
                     </button>
                   </div>
