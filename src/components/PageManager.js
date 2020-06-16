@@ -22,6 +22,7 @@ import ProfileMementoScreen from 'screens/ProfileMementoScreen'
 import WalletScreen from 'screens/WalletScreen'
 import WalletTransactionScreen from 'screens/WalletTransactionScreen'
 import NavMobile from './NavMobile'
+import login from 'pages/login'
 
 const RootNavMobile = ({ router, pageList }) => {
   if (pageList.length === 0) {
@@ -66,7 +67,8 @@ const PageManager = ({ children }) => {
     '/new/post': NewPostScreen,
     '/new/memento': NewMementoScreen,
     '/wallet': WalletScreen,
-    '/wallet/transaction': WalletTransactionScreen
+    '/wallet/transaction': WalletTransactionScreen,
+    '/login': login
   }
 
   useEffect(() => {

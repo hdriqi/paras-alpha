@@ -6,6 +6,7 @@ import { withRedux } from '../lib/redux'
 import axios from 'axios'
 import { setPageCount, setHasMore, setPostListIds } from 'actions/home'
 import { addPostList } from 'actions/entities'
+import ExploreScreen from './ExploreScreen'
 
 const HomeScreen = ({  }) => {
   const dispatch = useDispatch()
@@ -43,9 +44,9 @@ const HomeScreen = ({  }) => {
   }, [me])
   
 
-  return (
+  return me.id ? (
     <Home page={`feed`} postListIds={postListIds} postById={postById} getPost={getFeed} pageCount={pageCount} hasMore={hasMore} />
-  )
+  ) : <ExploreScreen />
 }
 
 export default withRedux(HomeScreen)
