@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import PostCardLoader from 'components/PostCardLoader'
 
 const MementoData = ({ isNotFound, memento, isFollowing, isSubmitting, toggleFollow, setStickySubNav }) => {
+  const me = useSelector(state => state.me.profile)
   if (isNotFound) {
     return (
       <div className="p-4 text-center">
@@ -45,31 +46,35 @@ const MementoData = ({ isNotFound, memento, isFollowing, isSubmitting, toggleFol
         <div className="pt-2 text-center">
           <p className="text-white opacity-87">{memento.desc}</p>
         </div>
-        <div className="flex justify-center pt-4">
-          {
-            !isFollowing ? (
-              <button onClick={toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
-                {
-                  isSubmitting ? (
-                    <RotateSpinLoader style={{
-                      margin: `auto`
-                    }} color="white" size={1.6} />
-                  ) : 'FOLLOW'
-                }
-              </button>
-            ) : (
-                <button onClick={toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
-                  {
-                    isSubmitting ? (
-                      <RotateSpinLoader style={{
-                        margin: `auto`
-                      }} color="#e13128" size={1.6} />
-                    ) : 'FOLLOWING'
-                  }
-                </button>
-              )
-          }
-        </div>
+        {
+          me && me.id && (
+            <div className="flex justify-center pt-4">
+              {
+                !isFollowing ? (
+                  <button onClick={toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-32">
+                    {
+                      isSubmitting ? (
+                        <RotateSpinLoader style={{
+                          margin: `auto`
+                        }} color="white" size={1.6} />
+                      ) : 'FOLLOW'
+                    }
+                  </button>
+                ) : (
+                    <button onClick={toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-32">
+                      {
+                        isSubmitting ? (
+                          <RotateSpinLoader style={{
+                            margin: `auto`
+                          }} color="#e13128" size={1.6} />
+                        ) : 'FOLLOWING'
+                      }
+                    </button>
+                  )
+              }
+            </div>
+          )
+        }
       </div>
     )
   }

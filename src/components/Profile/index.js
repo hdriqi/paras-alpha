@@ -21,6 +21,8 @@ import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 
 const ProfileData = ({ user, setStickySubNav, isFollowing, isSubmitting, toggleFollow }) => {
+  const me = useSelector(state => state.me.profile)
+
   if (user.isNotFound) {
     return (
       <div className="p-4 text-center">
@@ -46,31 +48,39 @@ const ProfileData = ({ user, setStickySubNav, isFollowing, isSubmitting, toggleF
       <div className="pt-2 text-center">
         <p className="text-white opacity-87">{user.bio}</p>
       </div>
-      <div className="flex justify-center pt-4">
-        {
-          !isFollowing ? (
-            <button onClick={toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-24">
-              {
-                isSubmitting ? (
-                  <RotateSpinLoader style={{
-                    margin: `auto`
-                  }} color="white" size={1.6} />
-                ) : 'FOLLOW'
-              }
-            </button>
-          ) : (
-              <button onClick={toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-24">
-                {
-                  isSubmitting ? (
-                    <RotateSpinLoader style={{
-                      margin: `auto`
-                    }} color="#e13128" size={1.6} />
-                  ) : 'FOLLOWING'
-                }
-              </button>
-            )
-        }
-      </div>
+      {
+        me && me.id && (
+          <div className="flex justify-center pt-4">
+            {
+              me.id === user.id ? (
+                <Push href="/me/edit" as="/me/edit">
+                  <button className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-32">EDIT PROFILE</button>
+                </Push>
+              ) : !isFollowing ? (
+                <button onClick={toggleFollow} className="border border-primary-5 bg-primary-5 px-4 text-xs font-bold text-white rounded-md uppercase tracking-wider h-8 w-32">
+                  {
+                    isSubmitting ? (
+                      <RotateSpinLoader style={{
+                        margin: `auto`
+                      }} color="white" size={1.6} />
+                    ) : 'FOLLOW'
+                  }
+                </button>
+              ) : (
+                    <button onClick={toggleFollow} className="border border-primary-5 px-4 text-xs font-bold text-primary-5 rounded-md uppercase tracking-wider h-8 w-32">
+                      {
+                        isSubmitting ? (
+                          <RotateSpinLoader style={{
+                            margin: `auto`
+                          }} color="#e13128" size={1.6} />
+                        ) : 'FOLLOWING'
+                      }
+                    </button>
+                  )
+            }
+          </div>
+        )
+      }
     </div>
   )
 }
