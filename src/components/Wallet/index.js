@@ -45,7 +45,7 @@ const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
           <div>
             {
               txList.slice(0, 3).map(tx => {
-                const formattedBalance = prettyBalance(tx.value)
+                const formattedBalance = prettyBalance(tx.value, 18, 4)
                 const isOutTx = tx.from === me.id
                 const user = isOutTx ? tx.toUser : tx.fromUser
                 return (
