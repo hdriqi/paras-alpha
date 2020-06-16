@@ -23,9 +23,29 @@ import WalletScreen from 'screens/WalletScreen'
 import WalletTransactionScreen from 'screens/WalletTransactionScreen'
 import NavMobile from './NavMobile'
 
+const RootNavMobile = ({ router, pageList }) => {
+  if (pageList.length === 0) {
+    switch (router.pathname) {
+      case '/':
+      case '/explore':
+      case '/wallet':
+      case '/[id]':
+        return (
+          <div className="sticky bottom-0 right-0 left-0 z-20">
+            <NavMobile />
+          </div>
+        )
+      default:
+        return null
+    }
+  }
+  return null
+}
+
 const PageManager = ({ children }) => {
   const router = useRouter()
   const dispatch = useDispatch()
+  const [rootEl, setRootEl] = useState(null)
   const pageList = useSelector(state => state.ui.pageList)
   const me = useSelector(state => state.me.profile)
   const [prevPageLen, setPrevPageLen] = useState(null)
@@ -50,6 +70,10 @@ const PageManager = ({ children }) => {
   }
 
   useEffect(() => {
+    // prevent re-render on root element when route navigating
+    if (pageList.length === 0) {
+      setRootEl(cloneElement(children))
+    }
     // if back, then pop page
     if (pageList.length > 0 && pageList.length === prevPageLen) {
       setPrevPageLen(Math.max(0, pageList.length - 1))
@@ -64,10 +88,8 @@ const PageManager = ({ children }) => {
     <div className="bg-dark-0">
       <Loading />
       <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
-        {children}
-        <div className="sticky bottom-0 right-0 left-0 z-20">
-          <NavMobile />
-        </div>
+        {rootEl}
+        <RootNavMobile router={router} pageList={pageList} />
       </div>
       {
         pageList.map((page, idx) => {

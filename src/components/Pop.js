@@ -8,6 +8,9 @@ const Pop = ({ children }) => {
   const router = useRouter()
 
   const _navigate = () => {
+    if (pageList.length === 0) {
+      return router.replace('/')
+    }
     router.back()
   }
 
