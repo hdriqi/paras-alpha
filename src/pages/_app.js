@@ -7,12 +7,12 @@ import NotifyProvider from 'components/Utils/NotifyProvider'
 
 export default function MyApp({ Component, pageProps }) {
   return <ScrollPositionProvider>
-    <Layout>
-      <PageManager>
-        <NotifyProvider>
+    <NotifyProvider>
+      <Layout>
+        <PageManager>
           <Component {...pageProps} />
-        </NotifyProvider>
-      </PageManager>
-    </Layout>
+        </PageManager>
+      </Layout>
+    </NotifyProvider>
   </ScrollPositionProvider>
 }
