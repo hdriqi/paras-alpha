@@ -88,7 +88,6 @@ const NewPost = ({ memento = null }) => {
         mementoId: chosenMemento.id,
       }
       const newPost = await near.contract.createPost(newData)
-      setIsSubmitting(false)
 
       // add new post to home & profile & memento
       dispatch(addPostList([newPost]))
@@ -115,6 +114,7 @@ const NewPost = ({ memento = null }) => {
       useNotify.setText('Something went wrong, try again later')
       useNotify.setShow(true, 2500)
     }
+    setIsSubmitting(false)
   }
 
   const _validateSubmit = () => {
