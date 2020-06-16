@@ -1,25 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { withRedux } from '../lib/redux'
-import near from '../lib/near'
 import Push from 'components/Push'
+import axios from 'axios'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
-const LoginPage = () => {
+const ConfirmPage = () => {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(true)
+  const useNotify = useContext(NotifyContext)
 
   useEffect(() => {
-    if (near.wallet.isSignedIn()) {
-      router.push('/')
-    }
-  }, [])
+    const checkConfirm = async () => {
 
-  const _signIn = async () => {
-    const appTitle = 'Paras'
-    await near.wallet.requestSignIn(
-      near.config.contractName,
-      appTitle
-    )
-  }
+      try {
+        await axios.post(`http://localhost:9090/confirm`, {
+          token: router.query.id
+        })
+        setIsLoading(false)
+      } catch (err) {
+        if (err.response.data.message === 'already_confirmed') {
+          useNotify.setText('Email already confirmed')
+          useNotify.setShow(true, 2500)
+          setIsLoading(false)
+        }
+        else {
+          useNotify.setText('Something went wrong, try again later')
+          useNotify.setShow(true, 2500)
+        }
+      }
+    }
+    if (router.query && router.query.id) {
+      checkConfirm()
+    }
+  }, [router])
 
   return (
     <div className="px-4 h-screen">
@@ -36,7 +49,7 @@ const LoginPage = () => {
           </Push>
         </div>
       </div>
-      <div className="flex items-center justify-center h-full -mt-20">
+      <div className="flex -mt-20 items-center justify-center h-full">
         <div className="w-full p-4">
           <div>
             <svg width="99" height="71" viewBox="0 0 99 71" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,17 +61,31 @@ const LoginPage = () => {
               <path fill-rule="evenodd" clip-rule="evenodd" d="M5 71H11.5514L9.88473 58.096C16.8676 59.1101 31.6667 59.5228 35 53.0603C38.3333 59.5228 53.1324 59.1101 60.1153 58.096L58.4486 71H65L70 24L51.7195 29.0357C45.5908 30.5744 35 35.4562 35 42.6741C35 35.4562 24.4092 30.5744 18.2805 29.0357L0 24L5 71ZM9.16653 30.1802C15.8332 31.8588 30.1439 37.9016 33.4772 48.6445C29.9363 53.9937 22.7253 53.8185 18.2594 53.7078C17.6803 53.6935 17.145 53.6802 16.6667 53.6802C7.50001 53.6802 8.79396 31.6276 9.16653 30.1802ZM60.8335 30.1802C54.1668 31.8588 39.8561 37.9016 36.5228 48.6445C40.0638 53.9937 47.2748 53.8185 51.7406 53.7078C52.3197 53.6935 52.8551 53.6802 53.3333 53.6802C62.5 53.6802 61.2061 31.6276 60.8335 30.1802Z" fill="white" />
             </svg>
           </div>
-          <div className="mt-4">
-            <h3 className="text-3xl text-white font-semibold">Welcome,</h3>
-            <p className="text-white-2">Log in to Paras</p>
-          </div>
-          <div className="mt-4" >
-            <button onClick={() => _signIn()} className="w-full rounded-md p-2 bg-primary-5 text-white font-semibold">Login</button>
-          </div>
+          {
+            isLoading ? (
+              <div className="mt-4">
+                <h3 className="text-3xl text-white font-semibold">Confirming...</h3>
+              </div>
+            ) : (
+              <div>
+                <div className="mt-4">
+                  <h3 className="text-3xl text-white font-semibold">Email confirmed</h3>
+                  <p className="text-white-2">Yeay, your email has been verified.</p>
+                </div>
+                <div className="mt-4">
+                  <Push href="/" as="/">
+                    <a>
+                      <button className="w-full rounded-md p-2 bg-primary-5 text-white font-semibold">Explore Paras</button>
+                    </a>
+                  </Push>
+                </div>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>
   )
 }
 
-export default withRedux(LoginPage)
+export default ConfirmPage

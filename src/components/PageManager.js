@@ -23,6 +23,7 @@ import WalletScreen from 'screens/WalletScreen'
 import WalletTransactionScreen from 'screens/WalletTransactionScreen'
 import NavMobile from './NavMobile'
 import login from 'pages/login'
+import NavDesktop from './NavDesktop'
 
 const RootNavMobile = ({ router, pageList }) => {
   if (pageList.length === 0) {
@@ -87,27 +88,36 @@ const PageManager = ({ children }) => {
   }, [router])
 
   return (
-    <div className="bg-dark-0">
+    <div className="flex m-auto max-w-2xl bg-dark-0">
       <Loading />
-      <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
-        {rootEl}
-        <RootNavMobile router={router} pageList={pageList} />
-      </div>
       {
-        pageList.map((page, idx) => {
-          const Page = page.component || screenList[page.href]
-          if (!Page) {
-            throw Error('Page not registered')
-          }
-          return (
-            <div key={idx} className={pageList.length === idx + 1 ? 'block' : 'hidden'} id={`page-${idx}`} style={{
-              zIndex: 100 + idx
-            }}>
-              <Page {...page.props} />
-            </div>
-          )
-        })
+        me.id && router.pathname !== '/confirm-email/[id]' && (
+          <div className="flex-auto hidden sm:block w-1/3 flex-grow-0 px-4">
+            <NavDesktop />
+          </div>
+        )
       }
+      <div className="w-full sm:max-w-md m-auto flex-grow-0 flex-shrink-0">
+        <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
+          {rootEl}
+          <RootNavMobile router={router} pageList={pageList} />
+        </div>
+        {
+          pageList.map((page, idx) => {
+            const Page = page.component || screenList[page.href]
+            if (!Page) {
+              throw Error('Page not registered')
+            }
+            return (
+              <div key={idx} className={pageList.length === idx + 1 ? 'block' : 'hidden'} id={`page-${idx}`} style={{
+                zIndex: 100 + idx
+              }}>
+                <Page {...page.props} />
+              </div>
+            )
+          })
+        }
+      </div>
     </div>
   )
 }

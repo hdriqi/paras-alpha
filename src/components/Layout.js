@@ -169,17 +169,8 @@ const Layout = ({ children }) => {
             <div className="bg-dark-0">
               <div>
                 <div className="fixed top-0 z-10 bg-dark-12 w-full h-12"></div>
-                <div className="flex m-auto max-w-2xl">
-                  {
-                    me.id && (
-                      <div className="flex-auto hidden sm:block w-1/3 flex-grow-0 px-4">
-                        <NavDesktop />
-                      </div>
-                    )
-                  }
-                  <div className="w-full sm:max-w-md m-auto flex-grow-0 flex-shrink-0">
-                    {children}
-                  </div>
+                <div>
+                  {children}
                 </div>
                 {
                   showOnboarding && (
