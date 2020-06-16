@@ -28,7 +28,7 @@ const NavLink = ({ name, href, as, activePage, children }) => {
   }
 
   return (
-    <a href={href} className={`flex h-full items-center  relative ${activePage === name ? `text-white` : `text-white-3`}`} onClick={(e) => _navigate(e)}>
+    <a href={as} className={`flex h-full items-center hover:text-white relative ${activePage === name ? `text-white` : `text-white-3`}`} onClick={(e) => _navigate(e)}>
       <span>
         {children}
       </span>
