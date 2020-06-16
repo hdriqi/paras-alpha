@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import NewPostCreate from './Create'
 import NavTop from '../NavTop'
@@ -11,10 +11,12 @@ import near from 'lib/near'
 import { useRouter } from 'next/router'
 import { updatePost } from 'actions/entities'
 import { RotateSpinLoader } from 'react-css-loaders'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 const EditPost = ({ post = {} }) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const useNotify = useContext(NotifyContext)
   const me = useSelector(state => state.me.profile)
   const [content, setContent] = useState(post.contentList)
   const [chosenMemento, setChosenMemento] = useState(post.memento)
@@ -91,24 +93,30 @@ const EditPost = ({ post = {} }) => {
       })
     })
 
-    const newContentList = await Promise.all(postContentList)
+    try {
+      const newContentList = await Promise.all(postContentList)
 
-    const payload = {
-      id: post.id,
-      contentList: newContentList,
-      mementoId: chosenMemento.id
-    }
-    const newData = await near.contract.editPost(payload)
-    const updatedData = {
-      ...post,
-      ...newData
-    }
-    if (newData) {
-      dispatch(updatePost(updatedData.id, updatedData))
+      const payload = {
+        id: post.id,
+        contentList: newContentList,
+        mementoId: chosenMemento.id
+      }
+
+      const newData = await near.contract.editPost(payload)
+      const updatedData = {
+        ...post,
+        ...newData
+      }
+      if (newData) {
+        dispatch(updatePost(updatedData.id, updatedData))
+      }
+      
+      router.back()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
     }
     setIsSubmitting(false)
-
-    router.back()
   }
 
   const _validateSubmit = () => {

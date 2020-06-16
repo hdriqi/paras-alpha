@@ -16,46 +16,50 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
-    await near.contract.deletePost({
-      id: post.id
-    })
+    try {
+      await near.contract.deletePost({
+        id: post.id
+      })
 
-    useNotify.setText('Post has been forgotten')
-    useNotify.setShow(true)
-    setTimeout(() => {
-      useNotify.setShow(false)
-    }, 2500)
+      useNotify.setText('Post has been forgotten')
+      useNotify.setShow(true, 2500)
 
-    batch(() => {
-      dispatch(deletePost(post.id))
-      dispatch(setLoading(false))
-    })
+      batch(() => {
+        dispatch(deletePost(post.id))
+      })
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
     setShowConfirmForget(false)
+    dispatch(setLoading(false))
   }
 
   const _redactPost = async () => {
     dispatch(setLoading(true, 'Redacting the memory...'))
-    const newPost = await near.contract.redactPost({
-      id: post.id
-    })
-    // const newPost = post
-    // newPost.mementoId = ''
+    try {
+      const newPost = await near.contract.redactPost({
+        id: post.id
+      })
+      // const newPost = post
+      // newPost.mementoId = ''
 
-    const updatedPost = {
-      ...post,
-      ...newPost
+      const updatedPost = {
+        ...post,
+        ...newPost
+      }
+
+      useNotify.setText('Post has been redacted')
+      useNotify.setShow(true, 2500)
+
+      batch(() => {
+        dispatch(updatePost(updatedPost.id, updatedPost))
+      })
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
     }
-
-    useNotify.setText('Post has been redacted')
-    useNotify.setShow(true)
-    setTimeout(() => {
-      useNotify.setShow(false)
-    }, 2500)
-
-    batch(() => {
-      dispatch(setLoading(false))
-      dispatch(updatePost(updatedPost.id, updatedPost))
-    })
+    dispatch(setLoading(false))
     setShowConfirmRedact(false)
   }
 

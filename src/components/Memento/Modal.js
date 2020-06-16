@@ -17,23 +17,24 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
 
   const _deleteMemento = async () => {
     dispatch(setLoading(true, 'Forgetting memento...'))
-    await near.contract.deleteMemento({
-      id: memento.id
-    })
+    try {
+      await near.contract.deleteMemento({
+        id: memento.id
+      })
+      useNotify.setText('Memento has been forgotten')
+      useNotify.setShow(true, 2500)
 
-    useNotify.setText('Memento has been forgotten')
-    useNotify.setShow(true)
-    setTimeout(() => {
-      useNotify.setShow(false)
-    }, 2500)
-
-    batch(() => {
-      dispatch(setLoading(false))
-      dispatch(entititesDeleteMemento(memento.id))
-    })
-    // notify and back
+      batch(() => {
+        dispatch(entititesDeleteMemento(memento.id))
+      })
+      // notify and back
+      router.back()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
+    dispatch(setLoading(false))
     setShowConfirmForget(false)
-    router.back()
   }
 
   const _forget = () => {
@@ -46,7 +47,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy")
-    
+
     useNotify.setText('Link copied!')
     useNotify.setShow(true)
     setTimeout(() => {

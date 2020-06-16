@@ -1,15 +1,17 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useContext } from 'react'
 import Confirm from '../Utils/Confirm'
 import RichText from 'components/Input/RichText'
 import Scrollbars from 'react-custom-scrollbars'
 import { RotateSpinLoader } from 'react-css-loaders'
 import near from 'lib/near'
 import { useSelector } from 'react-redux'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 const MAX_CHAR = 400
 
 const CommentAdd = ({ left, right, post, input }) => {
   const me = useSelector(state => state.me.profile)
+  const useNotify = useContext(NotifyContext)
   const containerRef = useRef(null)
   const inputRef = useRef(null)
   const [textRaw, setTextRaw] = useState(input || '')
@@ -70,7 +72,8 @@ const CommentAdd = ({ left, right, post, input }) => {
     
       right(newComment)
     } catch (err) {
-      alert(err)
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
     }
     setLoading(false)
   }

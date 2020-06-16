@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { RotateSpinLoader } from 'react-css-loaders'
 import Confirm from 'components/Utils/Confirm'
@@ -6,12 +6,14 @@ import Select from 'components/Input/Select'
 import near from 'lib/near'
 import { useSelector } from 'react-redux'
 import Alert from 'components/Utils/Alert'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 let timeout
 
 const MementoTransmit = ({ left, right, post, currentTransmitList }) => {
   const [err, setErr] = useState(false)
   const me = useSelector(state => state.me.profile)
+  const useNotify = useContext(NotifyContext)
   const [chosenMemento, setChosenMemento] = useState({})
   const [searchMemento, setSearchMemento] = useState([])
   const [loading, setLoading] = useState(false)
@@ -59,12 +61,17 @@ const MementoTransmit = ({ left, right, post, currentTransmitList }) => {
 
   const _right = async () => {
     setLoading(true)
-    const newPost = await near.contract.transmitPost({
-      id: post.id,
-      mementoId: chosenMemento.value.id
-    })
+    try {
+      const newPost = await near.contract.transmitPost({
+        id: post.id,
+        mementoId: chosenMemento.value.id
+      })
+      right(newPost)
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
     setLoading(false)
-    right(newPost)
   }
 
   const _left = () => {

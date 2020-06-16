@@ -1,6 +1,6 @@
 import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { addMementoList } from '../../actions/me'
 
 import near from '../../lib/near'
@@ -16,10 +16,12 @@ import initials from 'initials'
 import { dataURItoBlob } from 'lib/utils'
 import ipfs from 'lib/ipfs'
 import { RotateSpinLoader } from 'react-css-loaders'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 const NewMemento = ({ onClose, onComplete, edit = false }) => {
   const me = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
+  const useNotify = useContext(NotifyContext)
   const bodyRef = useRef(null)
   const descRef = useRef(null)
 
@@ -112,13 +114,18 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
       desc: '',
       type: type.value
     }
-    const m = await near.contract.createMemento(newData)
+    try {
+      const m = await near.contract.createMemento(newData)
 
-    setIsSubmitting(false)
-    dispatch(addMementoList([m]))
-    if (typeof onComplete === 'function') {
-      onComplete(m)
+      dispatch(addMementoList([m]))
+      if (typeof onComplete === 'function') {
+        onComplete(m)
+      }
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
     }
+    setIsSubmitting(false)
   }
 
   const _descOnFocus = (e) => {

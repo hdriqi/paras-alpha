@@ -98,18 +98,20 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
       return
     }
     setSubmitting(true)
-    const latestBalance = await near.contract.piecePost({
-      postId: post.id,
-      value: value.toString()
-    })
-    dispatch(setBalance(latestBalance))
+    try {
+      const latestBalance = await near.contract.piecePost({
+        postId: post.id,
+        value: value.toString()
+      })
+      dispatch(setBalance(latestBalance))
+      useNotify.setText('Your Piece has been sent successfully')
+      useNotify.setShow(true, 2500)
+      onComplete()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
     setSubmitting(false)
-    useNotify.setText('Your Piece has been sent successfully')
-    useNotify.setShow(true)
-    setTimeout(() => {
-      useNotify.setShow(false)
-    }, 2500)
-    onComplete()
   }
 
   const _bgClick = (e) => {

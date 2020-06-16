@@ -1,6 +1,6 @@
 import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 
 import near from '../../lib/near'
 import { setLoading } from '../../actions/ui'
@@ -19,14 +19,17 @@ import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
 import { setProfile } from 'actions/me'
 import { setUserData } from 'actions/user'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 const ProfileEdit = ({ me }) => {
   const dispatch = useDispatch()
+  const useNotify = useContext(NotifyContext)
   const bodyRef = useRef(null)
   const inputImgRef = useRef(null)
   const descRef = useRef(null)
 
   const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [bio, setBio] = useState('')
   const [descBackground, setDescBackground] = useState('bg-dark-2')
   const [showImgCrop, setShowImgCrop] = useState(false)
@@ -51,30 +54,35 @@ const ProfileEdit = ({ me }) => {
   const _submit = async (e) => {
     e.preventDefault()
 
-    dispatch(setLoading(true, 'Updating profile...'))
-    let img = me.imgAvatar
-    if (imgFile.size > 0) {
-      for await (const file of ipfs.client.add([{
-        content: imgFile
-      }])) {
-        img = {
-          url: file.path,
-          type: 'ipfs'
+    setIsSubmitting(true)
+    try {
+      let img = me.imgAvatar
+      if (imgFile.size > 0) {
+        for await (const file of ipfs.client.add([{
+          content: imgFile
+        }])) {
+          img = {
+            url: file.path,
+            type: 'ipfs'
+          }
         }
       }
-    }
 
-    const newData = {
-      imgAvatar: img,
-      bio: bio
+      const newData = {
+        imgAvatar: img,
+        bio: bio
+      }
+
+      const newMe = await near.contract.updateUser(newData)
+      newMe.isNotFound = false
+      dispatch(setProfile(newMe))
+      dispatch(setUserData(newMe.id, newMe))
+      router.back()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
     }
-    
-    const newMe = await near.contract.updateUser(newData)
-    newMe.isNotFound = false
-    dispatch(setLoading(false))
-    dispatch(setProfile(newMe))
-    dispatch(setUserData(newMe.id, newMe))
-    router.back()
+    setIsSubmitting(false)
   }
 
   const _descOnFocus = (e) => {
@@ -128,13 +136,20 @@ const ProfileEdit = ({ me }) => {
           <h3 className="text-lg font-bold text-white px-2">Update Profile</h3>
         }
         right={
-          <button disabled={!_validateSubmit()} onClick={_submit}>
-            <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
-              <circle cx="16" cy="16" r="16" fill="#E13128" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
-            </svg>
-          </button>
+          isSubmitting ? (
+            <RotateSpinLoader style={{
+              marginLeft: `auto`,
+              marginRight: 0
+            }} color="#e13128" size={2.4} />
+          ) : (
+              <button disabled={!_validateSubmit()} onClick={_submit}>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#E13128" />
+                  <circle cx="16" cy="16" r="16" fill="#E13128" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M13.7061 19.2929L22.999 10L24.4132 11.4142L13.7061 22.1213L7.99902 16.4142L9.41324 15L13.7061 19.2929Z" fill="white" />
+                </svg>
+              </button>
+            )
         }
       />
       <div className="my-4">

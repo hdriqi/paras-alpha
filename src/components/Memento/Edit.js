@@ -1,6 +1,6 @@
 import { withRedux } from '../../lib/redux'
 import { useSelector, useDispatch, batch } from 'react-redux'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 
 import near from '../../lib/near'
 import { setLoading } from '../../actions/ui'
@@ -14,9 +14,11 @@ import NewPostImage from 'components/NewPost/Image'
 import { useRouter } from 'next/router'
 import { entitiesUpdateMemento } from 'actions/entities'
 import { RotateSpinLoader } from 'react-css-loaders'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 const MementoEdit = ({ memento = {} }) => {
   const me = useSelector(state => state.me.profile)
+  const useNotify = useContext(NotifyContext)
   const dispatch = useDispatch()
   const bodyRef = useRef(null)
   const inputImgRef = useRef(null)
@@ -73,13 +75,16 @@ const MementoEdit = ({ memento = {} }) => {
       desc: desc
     }
 
-    const m = await near.contract.updateMemento(newData)
-    setIsSubmitting(false)
-    batch(() => {
-      dispatch(setLoading(false))
+    try {
+      const m = await near.contract.updateMemento(newData)
       dispatch(entitiesUpdateMemento(m.id, m))
-    })
-    router.back()
+      router.back()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
+    dispatch(setLoading(false))
+    setIsSubmitting(false)
   }
 
   const _descOnFocus = (e) => {

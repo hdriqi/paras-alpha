@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 import NewPostCreate from './Create'
 import NavTop from '../NavTop'
@@ -14,10 +14,12 @@ import { setMementoPostListIds } from 'actions/memento'
 import { setPostListIds } from 'actions/home'
 import { setUserPostListIds } from 'actions/user'
 import { RotateSpinLoader } from 'react-css-loaders'
+import { NotifyContext } from 'components/Utils/NotifyProvider'
 
 const NewPost = ({ memento = null }) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const useNotify = useContext(NotifyContext)
   const [content, setContent] = useState([{
     type: 'blank'
   }])
@@ -78,45 +80,41 @@ const NewPost = ({ memento = null }) => {
       })
     })
 
-    const newContentList = await Promise.all(postContentList)
+    try {
+      const newContentList = await Promise.all(postContentList)
 
-    // mock
-    // const newData = {
-    //   id: `123`,
-    //   originalId: '123',
-    //   contentList: newContentList,
-    //   owner: 'john.doe',
-    //   mementoId: chosenMemento.id,
-    //   createdAt: new Date().toISOString()
-    // }
-    const newData = {
-      contentList: newContentList,
-      mementoId: chosenMemento.id,
+      const newData = {
+        contentList: newContentList,
+        mementoId: chosenMemento.id,
+      }
+      const newPost = await near.contract.createPost(newData)
+      setIsSubmitting(false)
+
+      // add new post to home & profile & memento
+      dispatch(addPostList([newPost]))
+      if (postListIds && Array.isArray(postListIds)) {
+        const newPostListIds = [...postListIds]
+        newPostListIds.unshift(newPost.id)
+        dispatch(setPostListIds(newPostListIds))
+      }
+
+      if (userPostListIds && Array.isArray(userPostListIds)) {
+        const newUserPostListIds = [...userPostListIds]
+        newUserPostListIds.unshift(newPost.id)
+        dispatch(setUserPostListIds(newPost.owner, newUserPostListIds))
+      }
+
+      if (mementoPostListIds && Array.isArray(mementoPostListIds)) {
+        const mementoPostListIds = [...mementoPostListIds]
+        mementoPostListIds.unshift(newPost.id)
+        dispatch(setMementoPostListIds(newPost.mementoId, mementoPostListIds))
+      }
+
+      router.back()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
     }
-    const newPost = await near.contract.createPost(newData)
-    setIsSubmitting(false)
-
-    // add new post to home & profile & memento
-    dispatch(addPostList([newPost]))
-    if (postListIds && Array.isArray(postListIds)) {
-      const newPostListIds = [...postListIds]
-      newPostListIds.unshift(newPost.id)
-      dispatch(setPostListIds(newPostListIds))
-    }
-
-    if (userPostListIds && Array.isArray(userPostListIds)) {
-      const newUserPostListIds = [...userPostListIds]
-      newUserPostListIds.unshift(newPost.id)
-      dispatch(setUserPostListIds(newPost.owner, newUserPostListIds))
-    }
-
-    if (mementoPostListIds && Array.isArray(mementoPostListIds)) {
-      const mementoPostListIds = [...mementoPostListIds]
-      mementoPostListIds.unshift(newPost.id)
-      dispatch(setMementoPostListIds(newPost.mementoId, mementoPostListIds))
-    }
-
-    router.back()
   }
 
   const _validateSubmit = () => {

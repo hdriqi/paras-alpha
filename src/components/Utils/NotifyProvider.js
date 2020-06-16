@@ -4,16 +4,25 @@ import { useState, createContext } from "react"
 export const NotifyContext = createContext()
 
 const NotifyProvider = ({ children }) => {
-  const [show, setShow] = useState(false)
+  const [reveal, setReveal] = useState(false)
   const [text, setText] = useState('')
+
+  const setShow = (val, timeout) => {
+    setReveal(val)
+    if (val && timeout) {
+      setTimeout(() => {
+        setReveal(false)
+      }, timeout)
+    }
+  }
   
-  const value = {show, setShow, text, setText}
+  const value = {setShow, setText}
 
   return (
     <NotifyContext.Provider value={value}>
       {children}
       <Notify 
-        show={show}
+        show={reveal}
         setShow={setShow}
         text={text}
       />

@@ -1,28 +1,33 @@
 import List from "components/Utils/List"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useDispatch, batch } from "react-redux"
-import Notify from "components/Utils/Notify"
 import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
+import { NotifyContext } from "components/Utils/NotifyProvider"
 
 const ModalComment = ({ showModal, setShowModal, me, post, comment, onDelete }) => {
   const dispatch = useDispatch()
+  const useNotify = useContext(NotifyContext)
   const [showConfirmForget, setShowConfirmForget] = useState(false)
 
   const _deletePost = async () => {
     dispatch(setLoading(true, 'Forgetting the memory...'))
-    await near.contract.deleteComment({
-      id: comment.id
-    })
-
+    try {
+      await near.contract.deleteComment({
+        id: comment.id
+      })
+      onDelete()
+    } catch (err) {
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
+    setShowConfirmForget(false)
+    setShowModal(false)
     batch(() => {
       dispatch(setLoading(false))
     })
-    setShowConfirmForget(false)
-    setShowModal(false)
-    onDelete()
   }
 
   const _forget = () => {
