@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector, batch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toggleFollow } from '../../actions/me'
 
 import PostCard from '../PostCard'
 import ParseBody from '../parseBody'
-import { withRedux } from '../../lib/redux'
 import Pop from '../Pop'
 import Push from '../Push'
 import PostCardLoader from '../PostCardLoader'
 import Image from '../Image'
-import near from '../../lib/near'
-import Modal from '../Modal'
-import { setLoading } from '../../actions/ui'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import InfiniteLoader from '../InfiniteLoader'
 import NavTop from '../NavTop'
@@ -46,7 +42,9 @@ const ProfileData = ({ user, setStickySubNav, isFollowing, isSubmitting, toggleF
         </div>
       </div>
       <div className="pt-2 text-center">
-        <p className="text-white text-white-2">{user.bio}</p>
+        <p className="text-white text-white-2">
+          <ParseBody body={user.bio} />
+        </p>
       </div>
       {
         me && me.id && (
@@ -215,4 +213,4 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
   )
 }
 
-export default withRedux(Profile)
+export default Profile

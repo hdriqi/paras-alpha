@@ -43,8 +43,8 @@ module.exports = {
         '2xs': '.5rem'
       },
       opacity: {
-        '87': '87%',
-        '60': '60%'
+        '87': '.87',
+        '60': '.60'
       },
       boxShadow: {
         'inner-sm': 'inset 0px 1px 8px rgba(0, 0, 0, 0.25)',
