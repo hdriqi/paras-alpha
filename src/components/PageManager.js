@@ -91,7 +91,7 @@ const PageManager = ({ children }) => {
     <div className="flex m-auto max-w-2xl bg-dark-0">
       <Loading />
       {
-        me.id && router.pathname !== '/confirm-email/[id]' && (
+        me.id && router.pathname !== '/confirm-email/[id]' && router.pathname !== '/login' && (
           <div className="flex-auto hidden sm:block w-1/3 flex-grow-0 px-4">
             <NavDesktop />
           </div>
