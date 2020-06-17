@@ -58,7 +58,7 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
 
   const _validateName = () => {
     if (name.length === 0) return true
-    return name.match(/^[a-zA-Z0-9]{1,30}$/)
+    return name.match(/^[a-z0-9]{1,30}$/)
   }
 
   useEffect(() => {
@@ -192,7 +192,7 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
             {
               !_validateName() && (
                 <div className="pt-1">
-                  <p className="text-primary-4 text-sm">Memento name must only contain letters and numbers</p>
+                  <p className="text-primary-4 text-sm">Memento name must be lowercase and only contain letters and numbers</p>
                 </div>
               )
             }
