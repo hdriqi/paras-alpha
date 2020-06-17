@@ -11,6 +11,7 @@ module.exports = {
   },
   env: {
     CONTRACT_NAME: process.env.CONTRACT_NAME,
-    CONTRACT_ENV: 'development'
+    CONTRACT_ENV: 'development',
+    BASE_URL: 'https://api-dev.paras.id'
   }
 }

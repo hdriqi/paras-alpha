@@ -20,7 +20,7 @@ const Distribute = ({ onClose, onSelect }) => {
   const [showAlert, setShowAlert] = useState(false)
 
   const _getMemento = async (query) => {
-    const response = await axios.get(`http://localhost:9090/mementos?id_like=${query}`)
+    const response = await axios.get(`${process.env.BASE_URL}/mementos?id_like=${query}`)
     setSearchMementoList(response.data.data)
   }
 

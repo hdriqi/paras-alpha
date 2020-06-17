@@ -19,7 +19,7 @@ const ProfileScreen = ({ id, fetch = false }) => {
     const curList = postListIds ? [...postListIds] : []
     const page = pageCount || 0
 
-    const response = await axios.get(`http://localhost:9090/posts?owner=${id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
+    const response = await axios.get(`${process.env.BASE_URL}/posts?owner=${id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
     const newPostList = response.data.data
     const newPostListIds = newPostList.map(post => post.id)
     const latestPostListIds = curList.concat(newPostListIds)
@@ -37,7 +37,7 @@ const ProfileScreen = ({ id, fetch = false }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`http://localhost:9090/users?id=${id}`)
+      const response = await axios.get(`${process.env.BASE_URL}/users?id=${id}`)
       const user = response.data.data[0]
       if (user) {
         user.isNotFound = false

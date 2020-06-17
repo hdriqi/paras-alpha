@@ -50,7 +50,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
         postOwnerQuota = 90
         postMementoQuota = 10
         if (post.id != post.originalId) {
-          const response = await axios.get(`http://localhost:9090/posts?id=${post.originalId}`)
+          const response = await axios.get(`${process.env.BASE_URL}/posts?id=${post.originalId}`)
           originalPost = response.data.data[0]
           if (originalPost) {
             postOwnerQuota = 5

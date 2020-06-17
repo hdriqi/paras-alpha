@@ -7,7 +7,7 @@ const MementoEditScreen = ({ id, memento = null }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`http://localhost:9090/mementos?id=${id}`)
+      const response = await axios.get(`${process.env.BASE_URL}/mementos?id=${id}`)
       const memento = response.data.data[0]
 
       setLocalMemento(memento)

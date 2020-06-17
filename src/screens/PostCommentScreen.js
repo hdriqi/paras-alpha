@@ -11,7 +11,7 @@ const PostCommentScreen = ({ id, post = {}, commentList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`http://localhost:9090/posts?id=${id}`)
+        const response = await axios.get(`${process.env.BASE_URL}/posts?id=${id}`)
         const post = response.data.data[0]
         
         if(!post) {
@@ -30,7 +30,7 @@ const PostCommentScreen = ({ id, post = {}, commentList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`http://localhost:9090/comments?postId=${localPost
+      const response = await axios.get(`${process.env.BASE_URL}/comments?postId=${localPost
     .id}&_limit=100&_sort=asc`)
       const commentList = response.data.data
 

@@ -18,7 +18,7 @@ const Follow = ({ follow }) => {
   const _toggleFollow = async () => {
     setIsSubmitting(true)
     try {
-      await axios.post(`http://localhost:9090/follow`, {
+      await axios.post(`${process.env.BASE_URL}/follow`, {
         targetId: follow.targetId,
         targetType: follow.targetType
       })

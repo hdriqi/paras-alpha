@@ -10,7 +10,7 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`http://localhost:9090/posts?id=${id}`)
+        const response = await axios.get(`${process.env.BASE_URL}/posts?id=${id}`)
         const post = response.data.data[0]
         
         if(!post) {
@@ -29,7 +29,7 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`http://localhost:9090/posts?originalId=${localPost
+      const response = await axios.get(`${process.env.BASE_URL}/posts?originalId=${localPost
     .originalId}&_limit=100`)
       const similarPost = response.data.data
       const mementoList = similarPost.map(post => post.memento)

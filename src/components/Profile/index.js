@@ -107,7 +107,7 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
   const _toggleFollow = async () => {
     setIsSubmitting(true)
     try {
-      await axios.post(`http://localhost:9090/follow`, {
+      await axios.post(`${process.env.BASE_URL}/follow`, {
         targetId: user.id,
         targetType: 'user'
       })

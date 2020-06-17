@@ -7,7 +7,7 @@ const PostEditScreen = ({ id }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(`http://localhost:9090/posts?id=${id}`)
+      const response = await axios.get(`${process.env.BASE_URL}/posts?id=${id}`)
       setPost(response.data.data[0])
     }
     if (id) {

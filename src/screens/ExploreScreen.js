@@ -11,7 +11,7 @@ const ExploreScreen = () => {
   const [post, setPost] = useState({})
   
   const getPost = async () => {
-    const response = await axios.get(`http://localhost:9090/explore`)
+    const response = await axios.get(`${process.env.BASE_URL}/explore`)
     const p = response.data.data[0]
 
     batch(() => {

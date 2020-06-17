@@ -63,7 +63,7 @@ const RichText = ({ text, onBlur, onFocus, setText, inputRef, autoFocus, placeho
     if (!query) return
     clearTimeout(timeout)
     timeout = setTimeout(async () => {
-      const response = await axios.get(`http://localhost:9090/users?id_like=${query}`)
+      const response = await axios.get(`${process.env.BASE_URL}/users?id_like=${query}`)
       const userList = response.data.data
       const list = userList.map(user => ({
         display: `@${user.id}`,

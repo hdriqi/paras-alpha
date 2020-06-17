@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
           const token = await near.authToken()
           axios.defaults.headers.common['Authorization'] = token
 
-          let response = await axios.get(`http://localhost:9090/register`)
+          let response = await axios.get(`${process.env.BASE_URL}/register`)
           if (!response.data.data) {
             setShowOnboarding(true)
           }
@@ -102,16 +102,16 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const getUserMementoData = async () => {
-      const response = await axios.get(`http://localhost:9090/mementos?owner=${me.id}`)
+      const response = await axios.get(`${process.env.BASE_URL}/mementos?owner=${me.id}`)
       dispatch(addMementoList(response.data.data))
     }
     const getUserFollowing = async () => {
-      const response = await axios.get(`http://localhost:9090/follow`)
+      const response = await axios.get(`${process.env.BASE_URL}/follow`)
       const followList = response.data.data.map(follow => follow.targetId)
       dispatch(setFollow(followList))
     }
     const getUserBalance = async () => {
-      const response = await axios.get(`http://localhost:9090/balances?id=${me.id}`)
+      const response = await axios.get(`${process.env.BASE_URL}/balances?id=${me.id}`)
       if (response.data.data[0]) {
         dispatch(setBalance(response.data.data[0].value))
       }
@@ -139,7 +139,7 @@ const Layout = ({ children }) => {
       referral: referral,
     }
     try {
-      await axios.post(`http://localhost:9090/register`, newData)
+      await axios.post(`${process.env.BASE_URL}/register`, newData)
       setOnboardingView(2)
     } catch (err) {
       if (err.response.data.message === 'already_registered') {

@@ -13,7 +13,7 @@ const ConfirmPage = () => {
     const checkConfirm = async () => {
 
       try {
-        await axios.post(`http://localhost:9090/confirm`, {
+        await axios.post(`${process.env.BASE_URL}/confirm`, {
           token: router.query.id
         })
         setIsLoading(false)

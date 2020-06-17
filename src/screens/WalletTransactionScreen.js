@@ -18,7 +18,7 @@ const WalletTransactionScreen = ({ fetch = false }) => {
   }, [me])
 
   const getBalance = async () => {
-    const response = await axios.get(`http://localhost:9090/balances?id=${me.id}`)
+    const response = await axios.get(`${process.env.BASE_URL}/balances?id=${me.id}`)
     if (response.data.data[0]) {
       setBalance(response.data.data[0])
     }
@@ -28,7 +28,7 @@ const WalletTransactionScreen = ({ fetch = false }) => {
     const ITEM_LIMIT = 12
     const page = pageCount || 0
 
-    const response = await axios.get(`http://localhost:9090/transactions?id=${me.id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
+    const response = await axios.get(`${process.env.BASE_URL}/transactions?id=${me.id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
 
     const newTxList = response.data.data
     const newList = [...txList].concat(newTxList)
