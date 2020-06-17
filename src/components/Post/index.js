@@ -149,12 +149,12 @@ const PostDetail = ({ id, notFound }) => {
                     }
                     <div className="flex pt-2 justify-between">
                       <div className="w-1/3">
-                        <p className="text-white opacity-60">
+                        <p className="text-white text-white-3">
                           {timeAgo.format(new Date(post.createdAt / (10 ** 6)))}
                         </p>
                       </div>
                       <div className="w-1/3 text-right">
-                        <p className="text-white opacity-60">
+                        <p className="text-white text-white-3">
                           {
                             post.id !== post.originalId && (
                               <Push href="/post/[id]" as={`/post/${post.originalId}`} props={{

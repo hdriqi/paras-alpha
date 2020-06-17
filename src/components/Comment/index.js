@@ -65,7 +65,7 @@ const Comment = ({ comment }) => {
                     <h4 className="text-white font-bold text-sm">{comment.owner}</h4>
                   </a>
                 </Push>
-                <p className="text-white opacity-60 text-xs">
+                <p className="text-white text-white-3 text-xs">
                   {timeAgo.format(new Date(comment.createdAt / (10 ** 6)))}
                 </p>
               </div>

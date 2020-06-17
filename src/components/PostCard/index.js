@@ -32,17 +32,17 @@ const MetadataComp = ({ post }) => {
   return (
     <div className="flex p-2">
       <div className="w-1/3">
-        <p className="text-white opacity-60 text-xs">
+        <p className="text-white text-white-3 text-xs">
           {timeAgo.format(new Date(post.createdAt / (10 ** 6)))}
         </p>
       </div>
       <div className="w-1/3 text-center">
-        <p className="text-white opacity-60 text-xs">
+        <p className="text-white text-white-3 text-xs">
           {currentSlide + 1}/{post.contentList.length}
         </p>
       </div>
       <div className="w-1/3 text-right">
-        <p className="text-white opacity-60 text-xs">
+        <p className="text-white text-white-3 text-xs">
           {
             post.id !== post.originalId && (
               <Push href="/post/[id]" as={`/post/${post.originalId}`} props={{
@@ -180,7 +180,7 @@ const Post = ({ id }) => {
                   </div>
                 </CarouselProvider>
               </div>
-              <hr className="mx-2 border-white opacity-60" />
+              <hr className="mx-2 border-white text-white-3" />
               <div className="flex p-2">
                 {
                   me.id ? (

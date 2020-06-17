@@ -311,13 +311,13 @@ const NewPost = ({ memento }) => {
                                       <div className="h-full overflow-hidden" style={{
                                         maxHeight: `72px`
                                       }}>
-                                        <p className="text-white opacity-60">{content.body.desc}</p>
+                                        <p className="text-white text-white-3">{content.body.desc}</p>
                                       </div>
                                     </div>
                                     <div className="px-2 pb-2" style={{
                                       height: `10%`
                                     }}>
-                                      <p className="text-white font-medium opacity-87 truncate">{content.body.url}</p>
+                                      <p className="text-white font-medium text-white-2 truncate">{content.body.url}</p>
                                     </div>
                                   </div>
                                 </a>

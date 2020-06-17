@@ -7,7 +7,7 @@ const SlideUrl = ({ body }) => {
     <div className="w-full relative pb-full cursor-default">
       <div className="absolute m-auto w-full h-full p-2">
         <a href={parsed.url} target="_blank">
-          <div className="bg-dark-2 rounded-md overflow-hidden h-full hover:opacity-87">
+          <div className="bg-dark-2 rounded-md overflow-hidden h-full hover:text-white-2">
             <div className="relative bg-white" style={{
               height: `60%`
             }}>
@@ -24,13 +24,13 @@ const SlideUrl = ({ body }) => {
               <div className="h-full overflow-hidden" style={{
                 maxHeight: `72px`
               }}>
-                <p className="text-white opacity-60">{parsed.desc}</p>
+                <p className="text-white text-white-3">{parsed.desc}</p>
               </div>
             </div>
             <div className="px-2 pb-2" style={{
               height: `10%`
             }}>
-              <p className="text-white font-medium opacity-87 truncate">{parsed.url}</p>
+              <p className="text-white font-medium text-white-2 truncate">{parsed.url}</p>
             </div>
           </div>
         </a>

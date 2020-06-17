@@ -46,7 +46,7 @@ const ProfileData = ({ user, setStickySubNav, isFollowing, isSubmitting, toggleF
         </div>
       </div>
       <div className="pt-2 text-center">
-        <p className="text-white opacity-87">{user.bio}</p>
+        <p className="text-white text-white-2">{user.bio}</p>
       </div>
       {
         me && me.id && (

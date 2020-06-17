@@ -44,7 +44,7 @@ const MementoData = ({ isNotFound, memento, isFollowing, isSubmitting, toggleFol
           </div>
         </div>
         <div className="pt-2 text-center">
-          <p className="text-white opacity-87">{memento.desc}</p>
+          <p className="text-white text-white-2">{memento.desc}</p>
         </div>
         {
           me && me.id && (
