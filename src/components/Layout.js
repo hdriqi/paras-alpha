@@ -70,7 +70,7 @@ const Layout = ({ children }) => {
           const token = await near.authToken()
           axios.defaults.headers.common['Authorization'] = token
 
-          await sleep()
+          await sleep(2500)
           
           let response = await axios.get(`${process.env.BASE_URL}/register`)
           if (!response.data.data) {
