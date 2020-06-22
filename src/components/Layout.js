@@ -191,8 +191,8 @@ const Layout = ({ children }) => {
                                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5 71H11.5514L9.88473 58.096C16.8676 59.1101 31.6667 59.5228 35 53.0603C38.3333 59.5228 53.1324 59.1101 60.1153 58.096L58.4486 71H65L70 24L51.7195 29.0357C45.5908 30.5744 35 35.4562 35 42.6741C35 35.4562 24.4092 30.5744 18.2805 29.0357L0 24L5 71ZM9.16653 30.1802C15.8332 31.8588 30.1439 37.9016 33.4772 48.6445C29.9363 53.9937 22.7253 53.8185 18.2594 53.7078C17.6803 53.6935 17.145 53.6802 16.6667 53.6802C7.50001 53.6802 8.79396 31.6276 9.16653 30.1802ZM60.8335 30.1802C54.1668 31.8588 39.8561 37.9016 36.5228 48.6445C40.0638 53.9937 47.2748 53.8185 51.7406 53.7078C52.3197 53.6935 52.8551 53.6802 53.3333 53.6802C62.5 53.6802 61.2061 31.6276 60.8335 30.1802Z" fill="white" />
                                 </svg>
                               </div>
-                              <p className="mt-4 text-white">Thank you for your interest in becoming part of the early adopters. Building a social media is hard, that's why we need your help to help us shape this new kind of social media.</p>
-                              <p className="mt-4 text-white">if you have ideas or feedback please share it with us at <a className="text-white-2 hover:text-white underline font-semibold" href="http://ideas.paras.id" target="_blank">https://ideas.paras.id</a></p>
+                              <p className="mt-4 text-white">Thank you for your interest in becoming part of the early adopters. Building a social media is hard, that's why we need your help to shape this new kind of social media.</p>
+                              <p className="mt-4 text-white">If you have ideas or feedback please share it with us at <a className="text-white-2 hover:text-white underline font-semibold" href="http://ideas.paras.id" target="_blank">https://ideas.paras.id</a></p>
                               <button className="mt-8 w-full rounded-md p-2 bg-primary-5 text-white font-semibold" onClick={() => setOnboardingView(1)}>Next</button>
                             </div>
                           )
@@ -223,7 +223,7 @@ const Layout = ({ children }) => {
                           onboardingView == 2 && (
                             <div className="flex flex-col">
                               <p className="mt-4 text-white">We've just sent you an email with a link to verify the email and to claim your 100 Ⓟ</p>
-                              <p className="mt-4 text-white">If you don't see the email, check your spam folder just in case the email got delivered there</p>
+                              <p className="mt-4 text-white">If you don't see the email in few minutes, check your spam folder just in case the email got delivered there</p>
                               <div className="mt-4">
                                 <button className="w-full rounded-md p-2 bg-primary-5 text-white font-semibold" onClick={() => setShowOnboarding(false)}>Enter Paras</button>
                               </div>

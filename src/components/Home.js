@@ -11,20 +11,16 @@ import NavTop from "./NavTop"
 
 const RECOMMENDATIONS = [
   {
-    name: 'Tech',
-    id: "avwcsckgvc6"
+    name: 'Music',
+    id: "music365.life"
   },
   {
-    name: 'Movies',
-    id: "e8jzz3lijyw"
+    name: 'Gaming',
+    id: "tube.gg"
   },
   {
-    name: 'Capture 365',
-    id: "mwsfpwtqrf1"
-  },
-  {
-    name: 'Paras News',
-    id: "fegx4vhpqpu"
+    name: 'Founder\'s Blog',
+    id: "blog.riqi"
   }
 ]
 
@@ -60,7 +56,7 @@ const Home = ({ postListIds, postById, getPost, hasMore }) => {
           ) : (
               <div className="mt-6">
                 <div className="p-4 bg-dark-0 text-center">
-                  <p className="tracking-tight">Jump into a memento! <br />Interact or create post carefree</p>
+                  <p className="tracking-tight text-white">Jump into a memento! <br />Create or discover the digital collective memory</p>
                   <div className="flex flex-wrap justify-center">
                     {
                       RECOMMENDATIONS.map(rec => {
@@ -70,7 +66,7 @@ const Home = ({ postListIds, postById, getPost, hasMore }) => {
                             fetch: true
                           }}>
                             <a>
-                              <p className="p-2 text-sm bg-black-3 text-white mr-2 mt-4 `rou`nded-md">{rec.name}</p>
+                              <p className="p-2 text-sm bg-primary-5 text-white mx-2 mt-4 rounded-md">{rec.name}</p>
                             </a>
                           </Push>
                         )
