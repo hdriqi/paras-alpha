@@ -33,6 +33,14 @@ const SplashScreen = () => {
   )
 }
 
+const sleep = (ms = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, ms)
+  })
+}
+
 const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const router = useRouter()
@@ -62,6 +70,8 @@ const Layout = ({ children }) => {
           const token = await near.authToken()
           axios.defaults.headers.common['Authorization'] = token
 
+          await sleep()
+          
           let response = await axios.get(`${process.env.BASE_URL}/register`)
           if (!response.data.data) {
             setShowOnboarding(true)
