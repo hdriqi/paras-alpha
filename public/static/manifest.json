@@ -3,7 +3,7 @@
   "short_name": "Paras",
   "theme_color": "#333333",
   "background_color": "#121212",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
