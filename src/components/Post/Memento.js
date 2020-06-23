@@ -8,9 +8,10 @@ import { setPostListIds } from 'actions/home'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserPostListIds } from 'actions/user'
 import { addPostList } from 'actions/entities'
+import ReactTooltip from 'react-tooltip'
 
 const PostMemento = ({ post, mementoList, notFound }) => {
-  const dispatch = useDispatch()  
+  const dispatch = useDispatch()
   const postListIds = useSelector(state => state.home.postListIds)
   const userPostListIds = useSelector(state => state.user[post.owner]?.postListIds)
   const [newMementoList, setNewMementoList] = useState([])
@@ -59,7 +60,19 @@ const PostMemento = ({ post, mementoList, notFound }) => {
           </Pop>
         }
         center={
-          <h3 className="text-lg font-bold text-white px-2">Transmit</h3>
+          <div className="flex items-center px-2">
+            <div>
+              <h3 className="text-lg font-bold text-white">Transmit</h3>
+            </div>
+            <div className="px-2 text-white-2">
+              <a data-place="right" data-tip="List of Memento that contains this post">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path className="fill-current" fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM13.0036 13.9983H14.003V15.9983H10.003V13.9983H11.003V11.9983H10.003V9.99835H13.0036V13.9983ZM13.0007 7.99835C13.0007 8.55063 12.5528 8.99835 12.0003 8.99835C11.4479 8.99835 11 8.55063 11 7.99835C11 7.44606 11.4479 6.99835 12.0003 6.99835C12.5528 6.99835 13.0007 7.44606 13.0007 7.99835Z" />
+                </svg>
+              </a>
+              <ReactTooltip />
+            </div>
+          </div>
         }
         right={
           <button onClick={_ => setShowMementoTransmit(true)}>
@@ -75,7 +88,7 @@ const PostMemento = ({ post, mementoList, notFound }) => {
           <div>
             <div className="px-4 py-2">
               {
-                mementoList.sort((a,b) => a.id.localeCompare(b.id)).concat(newMementoList).map(m => {
+                mementoList.sort((a, b) => a.id.localeCompare(b.id)).concat(newMementoList).map(m => {
                   return (
                     <Push key={m.id} href='/m/[id]' as={`/m/${m.id}`} props={{
                       id: m.id,
