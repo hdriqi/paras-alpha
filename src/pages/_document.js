@@ -5,30 +5,23 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>Paras</title>
-          <script async src="https://stat.paras.id/tracker.js" data-ackee-server="https://stat.paras.id" data-ackee-domain-id="fef11e6a-3d7c-4ede-bb9d-64f7b6ef32dc"></script>
+          <meta charset='utf-8' />
           <meta name="theme-color" content="#33333" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
           <meta name='application-name' content='Paras' />
-          <link rel='manifest' href='/static/manifest.json' />
+          <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+          <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
+          <meta name='description' content='Decentralized collective memory' />
+          <meta name='keywords' content='decentralized social media,blockchain social media' />
+          <title>Paras</title>
 
-          {/* <meta name='apple-mobile-web-app-title' content='Paras' />
-          <meta name='description' content='Decentralized Collective Memory' />
-          <meta name='format-detection' content='telephone=no' />
-          <meta name='mobile-web-app-capable' content='yes' />
-          <meta name='msapplication-config' content='/static/icons/browserconfig.xml' />
-          <meta name='msapplication-TileColor' content='#2B5797' />
-          <meta name='msapplication-tap-highlight' content='no' />
-          <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover' /> */}
-
-          {/* <link rel='apple-touch-icon' sizes='180x180' href='/static/icons/apple-touch-icon.png' />
-          <link rel='icon' type='image/png' sizes='32x32' href='/static/icons/favicon-32x32.png' />
-          <link rel='icon' type='image/png' sizes='16x16' href='/static/icons/favicon-16x16.png' />
           <link rel='manifest' href='/static/manifest.json' />
-          <link rel='mask-icon' href='/static/icons/safari-pinned-tab.svg' color='#5bbad5' />
-          <link rel='shortcut icon' href='/static/icons/favicon.ico' />
-          <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' /> */}
+          <link href='/favicon.ico' rel='icon' type='image/png' sizes='16x16' />
+          <link rel='apple-touch-icon' href='/apple-icon.png'></link>
+
+          <script async src="https://stat.paras.id/tracker.js" data-ackee-server="https://stat.paras.id" data-ackee-domain-id="fef11e6a-3d7c-4ede-bb9d-64f7b6ef32dc"></script>
 
           {/* <meta name='twitter:card' content='summary' />
           <meta name='twitter:url' content='https://yourdomain.com' />
