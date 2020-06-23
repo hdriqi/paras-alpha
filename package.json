@@ -47,6 +47,7 @@
     "react-mentions": "^3.3.1",
     "react-redux": "^7.2.0",
     "react-select": "^3.1.0",
+    "react-tooltip": "^4.2.7",
     "redux": "^4.0.5",
     "tailwindcss": "^1.2.0"
   },

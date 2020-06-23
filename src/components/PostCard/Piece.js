@@ -8,6 +8,7 @@ import Alert from "components/Utils/Alert"
 import { NotifyContext } from "components/Utils/NotifyProvider"
 import { setBalance } from "actions/wallet"
 import JSBI from 'jsbi'
+import ReactTooltip from "react-tooltip"
 
 const pieceList = [5, 10, 15, 20]
 
@@ -123,6 +124,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
 
   return (
     <div className="container-confirm-modal-bg">
+      <ReactTooltip />
       {
         show ? (
           <div id="confirm-modal-bg" onClick={e => _bgClick(e)} className="fixed inset-0 z-50 flex items-center" style={{
@@ -130,6 +132,18 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
           }}>
             <div className="max-w-sm m-auto w-full p-4">
               <div className="bg-dark-1 w-full rounded-md overflow-hidden">
+                <div className="flex items-center px-4 py-2 bg-dark-4">
+                  <div>
+                    <p className="text-lg font-bold text-white">Send Piece</p>
+                  </div>
+                  <div className="px-2 text-white-2">
+                    <a data-place="right" data-tip="Show your support of the content by giving the creator a piece of yours">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path className="fill-current" fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM13.0036 13.9983H14.003V15.9983H10.003V13.9983H11.003V11.9983H10.003V9.99835H13.0036V13.9983ZM13.0007 7.99835C13.0007 8.55063 12.5528 8.99835 12.0003 8.99835C11.4479 8.99835 11 8.55063 11 7.99835C11 7.44606 11.4479 6.99835 12.0003 6.99835C12.5528 6.99835 13.0007 7.44606 13.0007 7.99835Z" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
                 <div className="py-2">
                   <p className="text-white text-lg text-center">Available balance</p>
                   <p className="text-white text-3xl text-center">{prettyBalance(balance)} Ⓟ</p>
