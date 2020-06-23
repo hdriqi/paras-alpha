@@ -160,18 +160,8 @@ const Layout = ({ children }) => {
     dispatch(setLoading(false))
   }
 
-  const _logOut = () => {
-    near.wallet.signOut()
-
-    window.location.replace(window.location.origin + '/login')
-  }
-
   return (
     <Fragment>
-      <Head>
-        <title>Paras</title>
-        <script async src="https://stat.paras.id/tracker.js" data-ackee-server="https://stat.paras.id" data-ackee-domain-id="fef11e6a-3d7c-4ede-bb9d-64f7b6ef32dc"></script>
-      </Head>
       {
         isLoading ? (
           <SplashScreen />
