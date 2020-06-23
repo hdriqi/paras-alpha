@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <meta charset='utf-8' />
+          <meta charSet='utf-8' />
           <meta name="theme-color" content="#33333" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -15,7 +15,6 @@ export default class MyDocument extends Document {
           <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
           <meta name='description' content='Decentralized collective memory' />
           <meta name='keywords' content='decentralized social media,blockchain social media' />
-          <title>Paras</title>
 
           <link rel='manifest' href='/static/manifest.json' />
           <link href='/favicon.ico' rel='icon' type='image/png' sizes='16x16' />

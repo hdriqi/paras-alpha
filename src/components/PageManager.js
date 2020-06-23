@@ -24,6 +24,7 @@ import WalletTransactionScreen from 'screens/WalletTransactionScreen'
 import NavMobile from './NavMobile'
 import login from 'pages/login'
 import NavDesktop from './NavDesktop'
+import WalletSendScreen from 'screens/WalletSendScreen'
 
 const RootNavMobile = ({ router, pageList }) => {
   if (pageList.length === 0) {
@@ -69,6 +70,7 @@ const PageManager = ({ children }) => {
     '/new/memento': NewMementoScreen,
     '/wallet': WalletScreen,
     '/wallet/transaction': WalletTransactionScreen,
+    '/wallet/send': WalletSendScreen,
     '/login': login
   }
 

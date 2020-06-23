@@ -7,6 +7,7 @@ import { prettyBalance } from "lib/utils"
 import Alert from "components/Utils/Alert"
 import { NotifyContext } from "components/Utils/NotifyProvider"
 import { setBalance } from "actions/wallet"
+import JSBI from 'jsbi'
 
 const pieceList = [5, 10, 15, 20]
 
@@ -91,9 +92,9 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
   }, [chosenPiece])
 
   const _submit = async () => {
-    // todo check user wallet first
-    const value = chosenPiece * (10 ** 18)
-    if (value >= balance) {
+    const bnValue = JSBI.BigInt(chosenPiece * 10 ** 18)
+    const bnBalance = JSBI.BigInt(balance.value)
+    if (JSBI.greaterThanOrEqual(bnValue, bnBalance)) {
       setShowAlert(true)
       return
     }
@@ -101,7 +102,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
     try {
       const latestBalance = await near.contract.piecePost({
         postId: post.id,
-        value: value.toString()
+        value: bnValue.toString()
       })
       dispatch(setBalance(latestBalance))
       useNotify.setText('Your Piece has been sent successfully')

@@ -162,6 +162,9 @@ const Layout = ({ children }) => {
 
   return (
     <Fragment>
+      <Head>
+        <title>Paras</title>
+      </Head>
       {
         isLoading ? (
           <SplashScreen />
