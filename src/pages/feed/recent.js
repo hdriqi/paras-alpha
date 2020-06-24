@@ -28,8 +28,8 @@ const FeedRecentPage = () => {
         _embed: true,
         _sort: 'createdAt',
         _order: 'desc',
-        _skip: page * 5,
-        _limit: 5
+        __skip: page * 5,
+        __limit: 5
       }
     })
     const newList = curList.concat(newPostList)

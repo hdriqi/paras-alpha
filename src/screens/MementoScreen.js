@@ -20,7 +20,7 @@ const MementoScreen = ({ id, fetch = false }) => {
     const curList = postListIds ? [...postListIds] : []
     const page = pageCount || 0
 
-    const response = await axios.get(`${process.env.BASE_URL}/posts?mementoId=${id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
+    const response = await axios.get(`${process.env.BASE_URL}/posts?mementoId=${id}&__skip=${page * ITEM_LIMIT}&__limit=${ITEM_LIMIT}&__sort=-createdAt`)
     const newPostList = response.data.data
     const newPostListIds = newPostList.map(post => post.id)
     const latestPostListIds = curList.concat(newPostListIds)

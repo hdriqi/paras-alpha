@@ -30,7 +30,7 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get(`${process.env.BASE_URL}/posts?originalId=${localPost
-    .originalId}&_limit=100`)
+    .originalId}&__limit=100`)
       const similarPost = response.data.data
       const mementoList = similarPost.map(post => post.memento)
       setLocalMementoList(mementoList)

@@ -148,7 +148,7 @@ const NewPost = ({ memento }) => {
         _embed: true,
         _sort: 'createdAt',
         _order: 'desc',
-        _limit: 10
+        __limit: 10
       }
     })
     setSearchMemento(mementoList)

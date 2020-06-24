@@ -18,10 +18,18 @@ const Follow = ({ follow }) => {
   const _toggleFollow = async () => {
     setIsSubmitting(true)
     try {
-      await axios.post(`${process.env.BASE_URL}/follow`, {
-        targetId: follow.targetId,
-        targetType: follow.targetType
-      })
+      if (isFollowing) {
+        await axios.post(`${process.env.BASE_URL}/unfollow`, {
+          targetId: follow.targetId,
+          targetType: follow.targetType
+        })
+      }
+      else {
+        await axios.post(`${process.env.BASE_URL}/follow`, {
+          targetId: follow.targetId,
+          targetType: follow.targetType
+        })
+      }
       setIsFollowing(!isFollowing)
       dispatch(toggleFollow(follow.targetId))
     } catch (err) {

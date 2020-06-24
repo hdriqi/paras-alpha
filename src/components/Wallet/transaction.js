@@ -46,30 +46,44 @@ const WalletTransaction = ({ me, txList, getTx, hasMore }) => {
                   return (
                     <div key={tx.id} className="mt-4 p-2 bg-dark-1 rounded-md">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center w-8/12 overflow-hidden ">
-                          <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner flex-shrink-0">
-                            <Push href="/[id]" as={`/${user.id}`} props={{
-                              id: user.id,
-                              user: user.id
-                            }}>
-                              <a>
-                                <Image className="object-fill" data={user.imgAvatar} />
-                              </a>
-                            </Push>
-                          </div>
-                          <div className="ml-2 truncate">
-                            <Push href="/[id]" as={`/${user.id}`} props={{
-                              id: user.id,
-                              user: user.id
-                            }}>
-                              <a>
-                                <h4 className="text-white font-bold truncate">{user.id}</h4>
-                              </a>
-                            </Push>
-                            <p className="text-white-3 text-sm">{timeAgo.format(tx.createdAt / (10**6))}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-end w-4/12">
+                        {
+                          user ? (
+                            <div className="flex items-center w-7/12 overflow-hidden ">
+                              <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner flex-shrink-0">
+                                <Push href="/[id]" as={`/${user.id}`} props={{
+                                  id: user.id,
+                                  user: user.id
+                                }}>
+                                  <a>
+                                    <Image className="object-fill" data={user.imgAvatar} />
+                                  </a>
+                                </Push>
+                              </div>
+                              <div className="ml-2 truncate">
+                                <Push href="/[id]" as={`/${user.id}`} props={{
+                                  id: user.id,
+                                  user: user.id
+                                }}>
+                                  <a>
+                                    <h4 className="text-white font-bold truncate">{user.id}</h4>
+                                  </a>
+                                </Push>
+                                <p className="text-white-3 text-sm">{timeAgo.format(tx.createdAt / (10 ** 6))}</p>
+                              </div>
+                            </div>
+                          ) : (
+                              <div className="flex items-center w-8/12 overflow-hidden ">
+                                <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner flex-shrink-0 bg-dark-0"></div>
+                                <div className="ml-2 truncate">
+                                  <a>
+                                    <h4 className="text-white font-bold truncate">0x</h4>
+                                  </a>
+                                  <p className="text-white-3 text-sm">{timeAgo.format(tx.createdAt / (10 ** 6))}</p>
+                                </div>
+                              </div>
+                            )
+                        }
+                        <div className="flex items-center justify-end w-5/12">
                           <h2 className="text-white text">{isOutTx ? '-' : '+'} {formattedBalance}</h2>
                           <svg className="ml-2" width="16" height="16" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="white" />

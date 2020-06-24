@@ -89,17 +89,6 @@ export class Comment {
 }
 
 @nearBindgen
-export class Following {
-  id: string
-  type: string
-
-  constructor(id: string, type: string) {
-    this.id = id
-    this.type = type
-  }
-}
-
-@nearBindgen
 export class User {
   id: string
   imgAvatar: Img
@@ -120,13 +109,30 @@ export class Transaction {
   from: string
   to: string
   value: u128
+  msg: string
   createdAt: u64
 
-  constructor(from: string, to: string, value: u128) {
+  constructor(from: string, to: string, value: u128, msg: string) {
     this.id = generateId()
     this.from = from
     this.to = to
     this.value = value
+    this.msg = msg
+    this.createdAt = context.blockTimestamp
+  }
+}
+
+@nearBindgen
+export class Event {
+  id: string
+  msg: string
+  params: string
+  createdAt: u64
+
+  constructor(msg: string, params: string) {
+    this.id = events.length.toString()
+    this.msg = msg
+    this.params = params
     this.createdAt = context.blockTimestamp
   }
 }
@@ -135,6 +141,7 @@ export const mementoCollection = new PersistentMap<string, Memento>('memento')
 export const postCollection = new PersistentMap<string, Post>('post')
 export const userCollection = new PersistentMap<string, User>('user')
 export const commentCollection = new PersistentMap<string, Comment>('comment')
+export const transactionCollection = new PersistentMap<string, Transaction>('pac:tx')
 export const balances = new PersistentMap<string, u128>("pac:b")
 export const approves = new PersistentMap<string, u128>("pac:a")
-export const transactions = new PersistentVector<Transaction>('pac:tx')
+export const events = new PersistentVector<Event>('event')

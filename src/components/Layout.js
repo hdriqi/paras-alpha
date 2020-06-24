@@ -66,6 +66,14 @@ const Layout = ({ children }) => {
       if (typeof window !== 'undefined') {
         await near.init()
 
+        // try {
+        //   await near.contract.init({
+        //     initialOwner: 'riqi.testnet'
+        //   }) 
+        // } catch (err) {
+        //   console.log(err)
+        // }
+
         if (near.wallet.isSignedIn()) {
           const token = await near.authToken()
           axios.defaults.headers.common['Authorization'] = token

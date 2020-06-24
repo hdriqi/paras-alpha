@@ -21,7 +21,7 @@ const HomeScreen = ({  }) => {
     const curList = postListIds ? [...postListIds] : []
     let page = pageCount || 0 
 
-    const response = await axios.get(`${process.env.BASE_URL}/feeds?_skip=${page * 5}&_limit=${5}`)
+    const response = await axios.get(`${process.env.BASE_URL}/feeds?__skip=${page * 5}&__limit=${5}&__sort=-createdAt`)
     let newPostList = response.data.data
     const newPostListIds = newPostList.map(post => post.id)
     const latestPostListIds = curList.concat(newPostListIds)

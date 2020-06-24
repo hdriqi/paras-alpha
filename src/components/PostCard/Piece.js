@@ -94,7 +94,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
 
   const _submit = async () => {
     const bnValue = JSBI.BigInt(chosenPiece * 10 ** 18)
-    const bnBalance = JSBI.BigInt(balance.value)
+    const bnBalance = JSBI.BigInt(balance)
     if (JSBI.greaterThanOrEqual(bnValue, bnBalance)) {
       setShowAlert(true)
       return

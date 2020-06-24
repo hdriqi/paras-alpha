@@ -28,7 +28,7 @@ const WalletTransactionScreen = ({ fetch = false }) => {
     const ITEM_LIMIT = 12
     const page = pageCount || 0
 
-    const response = await axios.get(`${process.env.BASE_URL}/transactions?id=${me.id}&_skip=${page * ITEM_LIMIT}&_limit=${ITEM_LIMIT}`)
+    const response = await axios.get(`${process.env.BASE_URL}/transactions?id=${me.id}&__skip=${page * ITEM_LIMIT}&__limit=${ITEM_LIMIT}&__sort=-createdAt`)
 
     const newTxList = response.data.data
     const newList = [...txList].concat(newTxList)

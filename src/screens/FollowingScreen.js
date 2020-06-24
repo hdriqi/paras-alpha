@@ -12,7 +12,7 @@ const FollowingScreen = () => {
   const getFollowingList = async () => {
     try {
       const ITEM_COUNT = 5
-      const response = await axios.get(`${process.env.BASE_URL}/follow?_skip=${page * ITEM_COUNT}&_limit=${ITEM_COUNT}`)
+      const response = await axios.get(`${process.env.BASE_URL}/follow?__skip=${page * ITEM_COUNT}&__limit=${ITEM_COUNT}&__sort=-createdAt`)
       const list = response.data.data || []
 
       const newList = [...followingList].concat(list)

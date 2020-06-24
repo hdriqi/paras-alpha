@@ -120,10 +120,18 @@ const Memento = ({ memento, postListIds, postById, mementoById, getPost, hasMore
   const _toggleFollow = async () => {
     setIsSubmitting(true)
     try {
-      await axios.post(`${process.env.BASE_URL}/follow`, {
-        targetId: memento.id,
-        targetType: 'memento'
-      })
+      if (isFollowing) {
+        await axios.post(`${process.env.BASE_URL}/unfollow`, {
+          targetId: memento.id,
+          targetType: 'memento'
+        })
+      }
+      else {
+        await axios.post(`${process.env.BASE_URL}/follow`, {
+          targetId: memento.id,
+          targetType: 'memento'
+        })
+      }
       setIsFollowing(!isFollowing)
       dispatch(toggleFollow(memento.id))
     } catch (err) {

@@ -30,7 +30,8 @@ const WalletSend = ({ balance }) => {
       dispatch(setLoading(true, 'Sending coin...'))
       await near.contract.transfer({
         to: selectedUser.id,
-        tokens: bnValue.toString()
+        tokens: bnValue.toString(),
+        msg: ''
       })
       useNotify.setText('Your coin has been sent successfully')
       useNotify.setShow(true, 2500)

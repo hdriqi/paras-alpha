@@ -1,10 +1,10 @@
-import { context, storage, logging, u128 } from 'near-sdk-as'
-import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Comment, commentCollection, balances, approves, transactions, Transaction } from './model'
+import { context, storage, u128 } from 'near-sdk-as'
+import { Memento, Img, mementoCollection, User, userCollection, Post, Content, postCollection, Comment, commentCollection, balances, approves, transactionCollection, Transaction, Event, events } from './model'
 
 const NAME: string = 'Paras Action Coin'
 const SYMBOL: string = 'PAC'
 const DECIMALS: u8 = 18
-const TOTAL_SUPPLY: u128 = u128.fromString("23000000000000000000000000")
+const TOTAL_SUPPLY: u128 = u128.fromString("230000000000000000000000000")
 
 export function name(): string {
 	return NAME
@@ -25,8 +25,10 @@ export function totalSupply(): u128 {
 export function init(initialOwner: string): void {
 	assert(storage.get<string>("init") == null, "Already initialized token supply");
 	balances.set(initialOwner, TOTAL_SUPPLY);
-	const tx = new Transaction("0x", initialOwner, TOTAL_SUPPLY)
-	transactions.push(tx)
+	const tx = new Transaction("0x", initialOwner, TOTAL_SUPPLY, 'Initial Supply')
+	transactionCollection.set(tx.id, tx)
+	const ev = new Event('transaction_create', tx.id)
+	events.push(ev)
 	storage.set("init", "done");
 }
 
@@ -46,14 +48,16 @@ export function allowance(tokenOwner: string, spender: string): u128 {
 	return approves.getSome(key);
 }
 
-export function transfer(to: string, tokens: u128): boolean {
+export function transfer(to: string, tokens: u128, msg: string = ''): boolean {
 	const fromAmount = getBalance(context.sender);
 	assert(fromAmount >= tokens, "not enough tokens on account");
 	assert(getBalance(to) <= u128.add(getBalance(to), tokens), "overflow at the receiver side");
 	balances.set(context.sender, u128.sub(fromAmount, tokens));
 	balances.set(to, u128.add(getBalance(to), tokens));
-	const tx = new Transaction(context.sender, to, tokens)
-	transactions.push(tx)
+	const tx = new Transaction(context.sender, to, tokens, msg)
+	transactionCollection.set(tx.id, tx)
+	const ev = new Event('transaction_create', tx.id)
+	events.push(ev)
 	return true;
 }
 
@@ -62,7 +66,7 @@ export function approve(spender: string, tokens: u128): boolean {
 	return true;
 }
 
-export function transferFrom(from: string, to: string, tokens: u128): boolean {
+export function transferFrom(from: string, to: string, tokens: u128, msg: string = ''): boolean {
 	const fromAmount = getBalance(from);
 	assert(fromAmount >= tokens, "not enough tokens on account");
 	const approvedAmount = allowance(from, to);
@@ -70,8 +74,10 @@ export function transferFrom(from: string, to: string, tokens: u128): boolean {
 	assert(getBalance(to) <= u128.add(getBalance(to), tokens), "overflow at the receiver side");
 	balances.set(from, u128.sub(fromAmount, tokens));
 	balances.set(to, u128.add(getBalance(to), tokens));
-	const tx = new Transaction(from, to, tokens)
-	transactions.push(tx)
+	const tx = new Transaction(from, to, tokens, msg)
+	transactionCollection.set(tx.id, tx)
+	const ev = new Event('transaction_create', tx.id)
+	events.push(ev)
 	return true;
 }
 
@@ -119,22 +125,22 @@ export function piecePost(
 		const forPostOwner = _percent(tokens, postOwnerQuota)
 		if (forPostOwner > u128.from(0)) {
 			// log(forPostOwner)
-			transfer(post.owner, forPostOwner)
+			transfer(post.owner, forPostOwner, '[Piece] For Post Owner')
 		}
 		const forMementoOwner = _percent(tokens, postMementoQuota)
 		if (!!memento && forMementoOwner > u128.from(0)) {
 			// log(forMementoOwner)
-			transfer(memento.owner, forMementoOwner)
+			transfer(memento.owner, forMementoOwner, '[Piece] For Memento Owner')
 		}
 		const forOriginalOwner = _percent(tokens, postOriginalOwnerQuota)
 		if (!!originalPost && forOriginalOwner > u128.from(0)) {
 			// log(forOriginalOwner)
-			transfer(originalPost.owner, forOriginalOwner)
+			transfer(originalPost.owner, forOriginalOwner, '[Piece] For Original Post Owner')
 		}
 		const forOriginalMemento = _percent(tokens, postOriginalMementoQuota)
 		if (!!originalPost && !!originalMemento && forOriginalMemento > u128.from(0)) {
 			// log(forOriginalMemento)
-			transfer(originalMemento.owner, forOriginalMemento)
+			transfer(originalMemento.owner, forOriginalMemento, '[Piece] For Original Memento Owner')
 		}
 	}
 	const latestBalance = getBalance(context.sender)
@@ -164,6 +170,9 @@ export function createMemento(
 	mementoCollection.set(memento.id, memento)
 	memento.user = getUserById(memento.owner)
 
+	const ev = new Event('memento_create', memento.id)
+	events.push(ev)
+
 	return memento
 }
 
@@ -190,6 +199,9 @@ export function updateMemento(
 		mementoCollection.set(id, memento)
 		memento.user = getUserById(memento.owner)
 
+		const ev = new Event('memento_update', memento.id)
+		events.push(ev)
+
 		return memento
 	}
 	return null
@@ -208,6 +220,9 @@ export function deleteMemento(
 		mementoCollection.delete(memento.id)
 		memento.user = getUserById(memento.owner)
 
+		const ev = new Event('memento_delete', memento.id)
+		events.push(ev)
+
 		return memento
 	}
 	return null
@@ -222,6 +237,10 @@ export function createPost(
 	postCollection.set(post.id, post)
 	post.memento = getMementoById(post.mementoId)
 	post.user = getUserById(post.owner)
+
+	const ev = new Event('post_create', post.id)
+	events.push(ev)
+
 	return post
 }
 
@@ -236,6 +255,10 @@ export function transmitPost(
 		postCollection.set(newPost.id, newPost)
 		newPost.memento = getMementoById(newPost.mementoId)
 		newPost.user = getUserById(newPost.owner)
+
+		const ev = new Event('post_create', newPost.id)
+		events.push(ev)
+
 		return newPost
 	}
 	return null
@@ -254,6 +277,10 @@ export function editPost(
 		postCollection.set(post.id, post)
 		post.memento = getMementoById(mementoId)
 		post.user = getUserById(post.owner)
+
+		const ev = new Event('post_update', post.id)
+		events.push(ev)
+
 		return post
 	}
 	return null
@@ -273,6 +300,10 @@ export function redactPost(
 		post.mementoId = ''
 		postCollection.set(post.id, post)
 		post.user = getUserById(post.owner)
+
+		const ev = new Event('post_update', post.id)
+		events.push(ev)
+
 		return post
 	}
 	return null
@@ -300,6 +331,9 @@ export function deletePost(
 
 		postCollection.delete(post.id)
 
+		const ev = new Event('post_delete', post.id)
+		events.push(ev)
+
 		return post
 	}
 	return null
@@ -324,6 +358,9 @@ export function createUser(imgAvatar: Img, bio: string): User {
 
 	userCollection.set(newUser.id, newUser)
 
+	const ev = new Event('user_create', newUser.id)
+	events.push(ev)
+
 	return newUser
 }
 
@@ -338,6 +375,9 @@ export function updateUser(
 
 		userCollection.set(context.sender, user)
 
+		const ev = new Event('user_update', user.id)
+		events.push(ev)
+
 		return user
 	}
 	return null
@@ -350,6 +390,9 @@ export function createComment(
 	const c = new Comment(postId, body)
 
 	commentCollection.set(c.id, c)
+
+	const ev = new Event('comment_create', c.id)
+	events.push(ev)
 
 	return c
 }
@@ -375,7 +418,40 @@ export function deleteComment(
 
 		commentCollection.delete(comment.id)
 
+		const ev = new Event('comment_delete', comment.id)
+		events.push(ev)
+
 		return comment
 	}
 	return null
+}
+
+export function getTransactionById(
+	id: string
+): Transaction | null {
+	const tx = transactionCollection.get(id)
+	if (tx) {
+		return tx
+	}
+	return null
+}
+
+export function getEventLength(): u64 {
+	return events.length
+}
+
+export function getEvents(start: i32): Event[] {
+	const maxLen = events.length
+	assert(
+		maxLen > start,
+		"Start index is more than current length"
+	)
+	// only get at most 10 new events
+	const diff = min(maxLen - start, 10)
+	const result: Event[] = []
+	for (let i = start; i < (start + diff); i++) {
+		const ev = events[i]
+		result.push(ev)
+	}
+	return result
 }

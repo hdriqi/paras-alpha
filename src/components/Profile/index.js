@@ -105,10 +105,18 @@ const Profile = ({ user = {}, hasMore, getPost, postListIds, postById }) => {
   const _toggleFollow = async () => {
     setIsSubmitting(true)
     try {
-      await axios.post(`${process.env.BASE_URL}/follow`, {
-        targetId: user.id,
-        targetType: 'user'
-      })
+      if (isFollowing) {
+        await axios.post(`${process.env.BASE_URL}/unfollow`, {
+          targetId: user.id,
+          targetType: 'user'
+        })
+      }
+      else {
+        await axios.post(`${process.env.BASE_URL}/follow`, {
+          targetId: user.id,
+          targetType: 'user'
+        })
+      }
       setIsFollowing(!isFollowing)
       dispatch(toggleFollow(user.id))
     } catch (err) {
