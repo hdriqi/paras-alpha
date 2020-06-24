@@ -6,19 +6,16 @@ import { useDispatch, useSelector, batch } from "react-redux"
 import { useRouter } from "next/router"
 import ipfs from "../lib/ipfs"
 import near from "../lib/near"
-import Modal from './Modal'
 import axios from 'axios'
 import { setLoading } from "../actions/ui"
-import NavDesktop from "./NavDesktop"
 import { setBalance } from "actions/wallet"
 import { NotifyContext } from "./Utils/NotifyProvider"
+import * as rax from 'retry-axios'
 
 const DEFAULT_AVATAR = {
   url: 'QmbmkUNfVEQwUHzufSbC5nZQbdEMnNp6Hzfr88sQhZAois',
   type: 'ipfs'
 }
-
-const BASE_URL = `https://paras.id`
 
 const SplashScreen = () => {
   return (
@@ -45,7 +42,6 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const useNotify = useContext(NotifyContext)
-  const user = useSelector(state => state.me.user)
   const me = useSelector(state => state.me.profile)
   const mementoList = useSelector(state => state.me.mementoList)
   const [showOnboarding, setShowOnboarding] = useState(false)
@@ -76,11 +72,19 @@ const Layout = ({ children }) => {
 
         if (near.wallet.isSignedIn()) {
           const token = await near.authToken()
+          rax.attach()
           axios.defaults.headers.common['Authorization'] = token
 
-          await sleep(2500)
+          // await sleep(500)
           
-          let response = await axios.get(`${process.env.BASE_URL}/register`)
+          let response = await axios.get(`${process.env.BASE_URL}/register`, {
+            raxConfig: {
+              retry: 5,
+              retryDelay: 500,
+              statusCodesToRetry: [[400, 499]]
+            }
+          })
+          
           if (!response.data.data) {
             setShowOnboarding(true)
           }
