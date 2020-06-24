@@ -18,10 +18,8 @@ const WalletTransactionScreen = ({ fetch = false }) => {
   }, [me])
 
   const getBalance = async () => {
-    const response = await axios.get(`${process.env.BASE_URL}/balances?id=${me.id}`)
-    if (response.data.data[0]) {
-      setBalance(response.data.data[0])
-    }
+    const response = await axios.get(`${process.env.BASE_URL}/balances/${me.id}`)
+    dispatch(setBalance(response.data.data))
   }
 
   const getTx = async () => {

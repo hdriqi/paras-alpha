@@ -28,10 +28,8 @@ const WalletScreen = ({ fetch = true }) => {
   }, [me])
 
   const getBalance = async () => {
-    const response = await axios.get(`${process.env.BASE_URL}/balances?id=${me.id}`)
-    if (response.data.data[0]) {
-      dispatch(setBalance(response.data.data[0].value))
-    }
+    const response = await axios.get(`${process.env.BASE_URL}/balances/${me.id}`)
+    dispatch(setBalance(response.data.data))
   }
 
   const getTx = async () => {

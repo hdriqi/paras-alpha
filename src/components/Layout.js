@@ -129,10 +129,8 @@ const Layout = ({ children }) => {
       dispatch(setFollow(followList))
     }
     const getUserBalance = async () => {
-      const response = await axios.get(`${process.env.BASE_URL}/balances?id=${me.id}`)
-      if (response.data.data[0]) {
-        dispatch(setBalance(response.data.data[0].value))
-      }
+      const response = await axios.get(`${process.env.BASE_URL}/balances/${me.id}`)
+      dispatch(setBalance(response.data.data))
     }
     if (!isLoading && me.id && mementoList.length === 0) {
       getUserMementoData()
