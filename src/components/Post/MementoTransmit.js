@@ -92,7 +92,7 @@ const MementoTransmit = ({ left, right, post, currentTransmitList }) => {
   const _getMemento = async (query) => {
     clearTimeout(timeout)
     timeout = setTimeout(async () => {
-      const response = await axios.get(`${process.env.BASE_URL}/mementos?id_like=${query}`)
+      const response = await axios.get(`${process.env.BASE_URL}/mementos?id__re=${query}`)
       const mementoList = response.data.data
       const list = mementoList.map(m => ({
         label: m.id,

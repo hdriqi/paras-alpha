@@ -69,7 +69,7 @@ const WalletSend = ({ balance }) => {
   const _getUser = async (query) => {
     clearTimeout(timeout)
     timeout = setTimeout(async () => {
-      const response = await axios.get(`${process.env.BASE_URL}/users?id_like=${query}`)
+      const response = await axios.get(`${process.env.BASE_URL}/users?id__re=${query}`)
       const userList = response.data.data
       const list = userList.map(m => ({
         label: m.id,

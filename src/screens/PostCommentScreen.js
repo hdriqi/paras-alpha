@@ -31,7 +31,7 @@ const PostCommentScreen = ({ id, post = {}, commentList = [] }) => {
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get(`${process.env.BASE_URL}/comments?postId=${localPost
-    .id}&__limit=100&_sort=asc`)
+    .id}&__limit=100`)
       const commentList = response.data.data
 
       setLocalCommentList(commentList)

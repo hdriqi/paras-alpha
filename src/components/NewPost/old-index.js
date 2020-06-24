@@ -141,7 +141,7 @@ const NewPost = ({ memento }) => {
       return
     }
     if (!query) return
-    const q = [`name_like:=${query}`]
+    const q = [`name__re:=${query}`]
     const mementoList = await near.contract.getMementoList({
       query: q,
       opts: {
