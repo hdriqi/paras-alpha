@@ -14,7 +14,7 @@ const WalletScreen = ({ fetch = true }) => {
   const pageCount = useSelector(state => state.wallet.pageCount)
 
   useEffect(() => {
-    if (me.id && (pageCount === 0 || fetch)) {
+    if (me.id) {
       if (fetch) {
         batch(() => {
           dispatch(setWalletTxList([]))

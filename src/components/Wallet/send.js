@@ -39,7 +39,7 @@ const WalletSend = ({ balance }) => {
       useNotify.setText('Something went wrong, try again later')
       useNotify.setShow(true, 2500)
     }
-    const bnBalance = JSBI.BigInt(balance.value)
+    const bnBalance = JSBI.BigInt(balance)
     const newBalance = JSBI.subtract(bnBalance, bnValue)
     batch(() => {
       dispatch(setBalance(newBalance.toString()))
@@ -85,7 +85,7 @@ const WalletSend = ({ balance }) => {
 
   const _confirmSend = () => {
     const bnValue = JSBI.BigInt(amount * 10 ** 18)
-    const bnBalance = JSBI.BigInt(balance.value)
+    const bnBalance = JSBI.BigInt(balance)
     if (JSBI.greaterThanOrEqual(bnValue, bnBalance)) {
       setShowInsufficientBalance(true)
       return
