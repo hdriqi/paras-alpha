@@ -15,7 +15,7 @@ const WalletSendScreen = () => {
 
   const getBalance = async () => {
     const response = await axios.get(`${process.env.BASE_URL}/balances/${me.id}`)
-    dispatch(setBalance(response.data.data))
+    setBalance(response.data.data)
   }
   return (
     <WalletSend balance={balance} />
