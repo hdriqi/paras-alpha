@@ -43,6 +43,17 @@ const MementoData = ({ isNotFound, memento, isFollowing, isSubmitting, toggleFol
             </InView>
           </div>
         </div>
+        <div className="flex justify-center text-sm">
+          <h4 className="text-white mr-1">by</h4>
+          <Push href="/[id]" as={`/${memento.owner}`} props={{
+            id: memento.owner,
+            fetch: true
+          }}>
+            <a>
+              <h4 className="text-white font-semibold">{memento.owner}</h4>
+            </a>
+          </Push>
+        </div>
         <div className="pt-2 text-center">
           <p className="text-white text-white-2">{memento.desc}</p>
         </div>
