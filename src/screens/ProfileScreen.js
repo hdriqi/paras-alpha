@@ -51,7 +51,6 @@ const ProfileScreen = ({ id, fetch = false }) => {
     }
 
     if(id && userData && userData.isNotFound === undefined) {
-      console.log('hmm')
       getData()
     }    
   }, [id, userData])
