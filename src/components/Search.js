@@ -2,33 +2,29 @@ import { useState } from "react"
 import { withRedux } from "../lib/redux"
 import Push from "./Push"
 import Pop from "./Pop"
-import Fuse from 'fuse.js'
-import near from "../lib/near"
 import Image from "./Image"
+import axios from 'axios'
+import NavTop from "./NavTop"
 
 const Search = () => {
-  const [userList, setUserList] = useState([])
+  const [itemList, setItemList] = useState([])
 
   const [searchText, setSearchText] = useState('')
   const [beginSearch, setBeginSearch] = useState(null)
 
   const _getUsers = async (query) => {
-    if(query.length > 0) {
-      const searchList = await near.contract.searchPostAndMemento({
-        query: query
-      })
-      const fuse = new Fuse(searchList, {
-        includeScore: true,
-        keys: ['title']
-      })
-      const result = fuse.search(query).map(res => res.item)
-      setUserList(result)
+    if (query.length > 0) {
+      const response = await axios.get(`${process.env.BASE_URL}/search?id__re=${query}`)
+      setItemList(response.data.data)
     }
   }
 
   const _search = (val) => {
     clearTimeout(beginSearch)
     setSearchText(val)
+    if (val.length === 0) {
+      setItemList([])
+    }
     setBeginSearch(setTimeout(() => {
       _getUsers(val)
     }, 500))
@@ -36,68 +32,61 @@ const Search = () => {
 
   return (
     <div className="bg-dark-0 min-h-screen">
-      <div className="sticky top-0">
-        <div className="bg-dark-0 shadow-subtle h-12 px-4">
-          <div className="relative w-full h-full flex items-center">
-            <div>
-              <Pop>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M9.41412 12L16.707 19.2929L15.2928 20.7071L6.58569 12L15.2928 3.29291L16.707 4.70712L9.41412 12Z" fill="#222"/>
-                </svg>
-              </Pop>
-            </div>
-            <div className="pl-4 w-full">
-              <input autoFocus value={searchText} onChange={e => _search(e.target.value)} className="outline-none font-medium w-full" placeholder="Search" />
-            </div>
+      <NavTop
+        left={
+          <Pop>
+            <a>
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30ZM16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#F2F2F2" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M14.394 9.93934C14.9798 10.5251 14.9798 11.4749 14.394 12.0607L11.6213 14.8333H24C24.8284 14.8333 25.5 15.5049 25.5 16.3333C25.5 17.1618 24.8284 17.8333 24 17.8333H11.6213L14.394 20.606C14.9798 21.1918 14.9798 22.1415 14.394 22.7273C13.8082 23.3131 12.8585 23.3131 12.2727 22.7273L6.93934 17.394C6.65804 17.1127 6.5 16.7312 6.5 16.3333C6.5 15.9355 6.65804 15.554 6.93934 15.2727L12.2727 9.93934C12.8585 9.35355 13.8082 9.35355 14.394 9.93934Z" fill="#F2F2F2" />
+              </svg>
+            </a>
+          </Pop>
+        }
+        center={
+          <div className="text-white text-xl font-bold">
+            <input autoFocus value={searchText} onChange={e => _search(e.target.value)} className="w-full rounded-md p-2 outline-none bg-dark-2 focus:bg-dark-4 text-white text-sm" placeholder="Search" />
           </div>
-        </div>
-      </div>
+        }
+      />
       <div>
         {
-          userList.map(data => {
+          itemList.map((data, idx) => {
             return (
-              <div key={data.id}>
+              <div className="mt-4 mx-4" key={idx}>
                 {
                   data.type === 'user' ? (
-                    <Push href="/[id]" as={ `/${data.id}` } props={{
+                    <Push href="/[id]" as={`/${data.id}`} props={{
                       username: data.id
                     }}>
-                      <a>
-                        <div className="flex items-center bg-dark-0 shadow-subtle mt-4 p-4">
-                          <div>
-                            <div className="w-10 h-10 rounded-full overflow-hidden">
-                              <Image style={{
-                                boxShadow: `0 0 4px 0px rgba(0, 0, 0, 0.75) inset`
-                              }} className="object-cover w-full h-full" data={data.img} />
-                            </div>
+                      <a className="">
+                        <div className="flex items-center bg-dark-2 p-2 rounded-md">
+                          <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner">
+                            <Image className="object-fill" data={data.img} />
                           </div>
-                          <div className="px-4 w-auto overflow-hidden">
-                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.title }</p>
-                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.subtitle }</p>
+                          <div className="ml-2">
+                            <h4 className="text-white font-bold">{data.id}</h4>
                           </div>
                         </div>
                       </a>
                     </Push>
                   ) : (
-                    <Push href="/m/[id]" as={ `/m/${data.id}` } props={{
-                      id: data.id,
-                      fetch: true
-                    }}>
-                      <a>
-                        <div className="flex items-center bg-dark-0 shadow-subtle mt-4 p-4">
-                          <div>
-                            <div className='flex items-center w-8 h-8 rounded-full overflow-hidden bg-black-1'>
-                              <div className='w-4 h-4 m-auto bg-dark-0'></div>
+                      <Push href="/m/[id]" as={`/m/${data.id}`} props={{
+                        id: data.id,
+                        fetch: true
+                      }}>
+                        <a className="">
+                          <div className="flex items-center bg-dark-2 p-2 rounded-md">
+                            <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner">
+                              <Image className="object-fill" data={data.img} />
+                            </div>
+                            <div className="ml-2">
+                              <h4 className="text-white font-bold">{data.id}</h4>
                             </div>
                           </div>
-                          <div className='px-4 w-auto overflow-hidden'>
-                            <p className="font-semibold text-black-1 truncate whitespace-no-wrap min-w-0">{ data.title }</p>
-                            <p className="text-black-3 text-sm truncate whitespace-no-wrap min-w-0">{ data.subtitle }</p>
-                          </div>
-                        </div>
-                      </a>
-                    </Push>
-                  )
+                        </a>
+                      </Push>
+                    )
                 }
               </div>
             )
