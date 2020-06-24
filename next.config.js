@@ -18,7 +18,7 @@ module.exports = withPWA({
   env: {
     CONTRACT_NAME: process.env.CONTRACT_NAME,
     CONTRACT_ENV: 'development',
-    // BASE_URL: 'https://api-dev.paras.id'
-    BASE_URL: 'http://localhost:9090'
+    BASE_URL: 'https://api-dev.paras.id'
+    // BASE_URL: 'http://localhost:9090'
   }
 })

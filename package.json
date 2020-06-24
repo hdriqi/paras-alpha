@@ -6,10 +6,10 @@
   "scripts": {
     "build:contract": "node asconfig.js",
     "dev:deploy:contract": "near dev-deploy",
-    "deploy:contract": "near deploy",
+    "deploy:contract": "CONTRACT_NAME=contract-alpha.paras.testnet near deploy",
     "dev": "nodemon --watch assembly -e ts --exec \"npm run build:contract && npm run dev:deploy:contract && env-cmd -f ./neardev/dev-account.env next dev\"",
     "dev:web": "next dev",
-    "build:web": "next build",
+    "build:web": "CONTRACT_NAME=contract-alpha.paras.testnet next build",
     "start:web": "next start",
     "test:contract": "asp",
     "dev:contract": "nodemon --watch assembly -e ts --exec asp"
