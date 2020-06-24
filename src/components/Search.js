@@ -57,7 +57,8 @@ const Search = () => {
                 {
                   data.type === 'user' ? (
                     <Push href="/[id]" as={`/${data.id}`} props={{
-                      username: data.id
+                      id: data.id,
+                      fetch: true
                     }}>
                       <a className="">
                         <div className="flex items-center bg-dark-2 p-2 rounded-md">
