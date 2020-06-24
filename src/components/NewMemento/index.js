@@ -18,6 +18,30 @@ import ipfs from 'lib/ipfs'
 import { RotateSpinLoader } from 'react-css-loaders'
 import { NotifyContext } from 'components/Utils/NotifyProvider'
 
+const MEMENTO_DOMAIN = [
+  { value: 'act', label: 'Activism' },
+  { value: 'art', label: 'Art' },
+  { value: 'biz', label: 'Business' },
+  { value: 'crypto', label: 'Crypto' },
+  { value: 'design', label: 'Design' },
+  { value: 'diy', label: 'DIY' },
+  { value: 'edu', label: 'Education' },
+  { value: 'event', label: 'Event' },
+  { value: 'fashion', label: 'Fashion' },
+  { value: 'food', label: 'Food' },
+  { value: 'gg', label: 'Game' },
+  { value: 'info', label: 'General' },
+  { value: 'health', label: 'Health' },
+  { value: 'life', label: 'Lifestyle' },
+  { value: 'music', label: 'Music' },
+  { value: 'movie', label: 'Movie' },
+  { value: 'pet', label: 'Pet' },
+  { value: 'photo', label: 'Photography' },
+  { value: 'science', label: 'Science' },
+  { value: 'sport', label: 'Sport' },
+  { value: 'tech', label: 'Technology' }
+]
+
 const NewMemento = ({ onClose, onComplete, edit = false }) => {
   const me = useSelector(state => state.me.profile)
   const dispatch = useDispatch()
@@ -202,18 +226,7 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
             <Select
               onChange={setDomain}
               placeholder="Memento category"
-              options={[
-                { value: 'art', label: 'Art' },
-                { value: 'com', label: 'Business' },
-                { value: 'gg', label: 'Gaming' },
-                { value: 'info', label: 'General' },
-                { value: 'health', label: 'Health' },
-                { value: 'life', label: 'Lifestyle' },
-                { value: 'science', label: 'Science' },
-                { value: 'sport', label: 'Sport' },
-                { value: 'tech', label: 'Technology' },
-                { value: 'travel', label: 'Travel' },
-              ]}
+              options={MEMENTO_DOMAIN}
             />
           </div>
           <div className="mt-4">
