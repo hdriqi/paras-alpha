@@ -33,10 +33,12 @@ const NewPostImage = ({ left, right, input = {}, type = 'square', size = {
   useEffect(() => {
     if (typeof window !== 'undefined' && imgUrl.length > 0) {
       const Croppie = require('croppie')
-      const viewport = height * 2 / 3
+      const viewport = height * 10 / 12
       cropper = new Croppie(document.getElementById('new-img'), {
         boundary: { width: `100%`, height: height },
-        viewport: { width: viewport, height: viewport, type: type }
+        viewport: { width: viewport, height: viewport, type: type },
+        enforceBoundary: false,
+        minZoom: 0.1
       })
       setFirstLoad(false)
     }
