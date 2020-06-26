@@ -3,10 +3,12 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { setBalance, setWalletTxList, setWalletPageCount, setWalletHasMore } from 'actions/wallet'
+import { useRouter } from 'next/router'
 
 const WalletScreen = ({ fetch = true }) => {
   const dispatch = useDispatch()
-
+  const router = useRouter()
+  
   const me = useSelector(state => state.me.profile)
   const balance = useSelector(state => state.wallet.balance)
   const txList = useSelector(state => state.wallet.txList)
@@ -24,6 +26,9 @@ const WalletScreen = ({ fetch = true }) => {
       }
       getBalance()
       getTx()
+    }
+    else {
+      router.push('/login', '/login')
     }
   }, [me])
 
