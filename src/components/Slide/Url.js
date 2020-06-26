@@ -7,7 +7,7 @@ const SlideUrl = ({ body }) => {
     <div className="w-full relative pb-full cursor-default">
       <div className="absolute m-auto w-full h-full p-2">
         <a href={parsed.url} target="_blank">
-          <div className="bg-dark-2 rounded-md overflow-hidden h-full hover:text-white-2">
+          <div className="bg-dark-2 rounded-md overflow-hidden h-full hover:opacity-75">
             <div className="relative bg-white" style={{
               height: `60%`
             }}>
