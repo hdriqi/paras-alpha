@@ -1,12 +1,14 @@
 import NavTop from 'components/NavTop'
 import Pop from 'components/Pop'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import InfiniteLoader from 'components/InfiniteLoader'
 import Image from 'components/Image'
 import Push from 'components/Push'
-import Follow from './Follow'
+import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 
 const ProfileMemento = ({ mementoList }) => {
+  const router = useRouter()
+  const me = useSelector(state => state.me.profile)
+
   return (
     <div className="bg-dark-0 min-h-screen">
       <NavTop
@@ -24,17 +26,19 @@ const ProfileMemento = ({ mementoList }) => {
           <h3 className="text-lg font-bold text-white px-2">My Memento</h3>
         }
         right={
-          <Push
-            href="/new/memento"
-            as="/new/memento"
-          >
-            <button>
-              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="15" fill="#E13128" stroke="#E13128" strokeWidth="2" />
-                <path fillRule="evenodd" clipRule="evenodd" d="M14.5408 22.3337V17.4598H9.66699V14.5408H14.5408V9.66699H17.4598V14.5408H22.3337V17.4598H17.4598V22.3337H14.5408Z" fill="white" />
-              </svg>
-            </button>
-          </Push>
+          router && me && router.query.id === me.id && (
+            <Push
+              href="/new/memento"
+              as="/new/memento"
+            >
+              <button>
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="15" fill="#E13128" stroke="#E13128" strokeWidth="2" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M14.5408 22.3337V17.4598H9.66699V14.5408H14.5408V9.66699H17.4598V14.5408H22.3337V17.4598H17.4598V22.3337H14.5408Z" fill="white" />
+                </svg>
+              </button>
+            </Push>
+          )
         }
       />
       <div className="px-4">
