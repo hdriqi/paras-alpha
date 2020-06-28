@@ -15,6 +15,7 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
         
         if(!post) {
           setNotFound(true)
+          return
         }
         setLocalPost(post)
       } catch (err) {
