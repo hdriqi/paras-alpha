@@ -42,6 +42,7 @@ const Wallet = ({ me, balance, txList, getTx, hasMore }) => {
             <path d="M12.25 18.3828V25.0625H10V8H16.293C18.1602 8 19.6211 8.47656 20.6758 9.42969C21.7383 10.3828 22.2695 11.6445 22.2695 13.2148C22.2695 14.8711 21.75 16.1484 20.7109 17.0469C19.6797 17.9375 18.1992 18.3828 16.2695 18.3828H12.25ZM12.25 16.543H16.293C17.4961 16.543 18.418 16.2617 19.0586 15.6992C19.6992 15.1289 20.0195 14.3086 20.0195 13.2383C20.0195 12.2227 19.6992 11.4102 19.0586 10.8008C18.418 10.1914 17.5391 9.875 16.4219 9.85156H12.25V16.543Z" fill="white" />
           </svg>
         </div>
+        <a className="text-sm text-white-2 text-underline hover:text-white font-bold" target="_blank" href="https://paras.id/blog/lets-make-a-pac">Learn more about PAC</a>
         <div>
           <Push href="/wallet/send" as="/wallet/send">
             <a>
