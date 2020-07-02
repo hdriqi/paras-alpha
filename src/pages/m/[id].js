@@ -6,7 +6,14 @@ const MementoPage = () => {
   const router = useRouter()
 
   return (
-    <MementoScreen id={router.query.id} />
+    <Fragment>
+      <Head>
+        <meta name='twitter:title' content={`${router.query.id} | Memento`} />
+        <meta property='og:title' content={`${router.query.id} | Memento`} />
+        <meta property='og:site_name' content={`${router.query.id} | Memento`} />
+      </Head>
+      <MementoScreen id={router.query.id} />
+    </Fragment>
   )
 }
 
