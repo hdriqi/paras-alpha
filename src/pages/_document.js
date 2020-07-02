@@ -20,7 +20,7 @@ export default class MyDocument extends Document {
           <link href='/favicon.ico' rel='icon' type='image/png' sizes='16x16' />
           <link rel='apple-touch-icon' href='/apple-icon.png'></link>
 
-          <script async src="https://stat.paras.id/tracker.js" data-ackee-server="https://stat.paras.id" data-ackee-domain-id="fef11e6a-3d7c-4ede-bb9d-64f7b6ef32dc"></script>
+          <script async src="https://stat.paras.id/tracker.js" data-ackee-server="https://stat.paras.id" data-ackee-domain-id="889b9dbd-b828-43f8-a339-420b34b75d39"></script>
 
           {/* <meta name='twitter:card' content='summary' />
           <meta name='twitter:url' content='https://yourdomain.com' />
