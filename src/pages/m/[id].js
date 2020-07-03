@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import MementoScreen from '../../screens/MementoScreen'
+import Head from 'next/head'
 
 const MementoPage = () => {
   const router = useRouter()
