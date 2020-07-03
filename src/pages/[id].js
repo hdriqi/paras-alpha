@@ -23,18 +23,18 @@ const UserPage = ({ id, user }) => {
         user ? (
           <Head>
             <title>{`${id} | profile`}</title>
-            <meta name="description" content={user.desc} />
+            <meta name="description" content={user.bio} />
 
             <meta name='twitter:title' content={`${id} | profile`} />
-            <meta name='twitter:card' content='summary_large_image' />
+            <meta name='twitter:card' content='summary' />
             <meta name="twitter:site" content="@ParasHQ" />
             <meta name='twitter:url' content='https://alpha.paras.id' />
-            <meta name='twitter:description' content={user.desc} />
+            <meta name='twitter:description' content={user.bio} />
             <meta name='twitter:image' content={imgUrl} />
             <meta property='og:type' content='website' />
             <meta property='og:title' content={`${id} | profile`} />
             <meta property='og:site_name' content={`${id} | profile`} />
-            <meta property='og:description' content={user.desc} />
+            <meta property='og:description' content={user.bio} />
             <meta property='og:url' content='https://alpha.paras.id' />
             <meta property='og:image' content={imgUrl} />
           </Head>
