@@ -1,6 +1,9 @@
 const withPWA = require('next-pwa')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
-module.exports = withPWA({
+module.exports = withBundleAnalyzer(withPWA({
   pwa: {
     disable: process.env.NODE_ENV === 'development',
     dest: 'public'
@@ -21,4 +24,4 @@ module.exports = withPWA({
     BASE_URL: 'https://api-dev.paras.id'
     // BASE_URL: 'http://localhost:9090'
   }
-})
+}))

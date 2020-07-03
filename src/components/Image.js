@@ -6,7 +6,7 @@ const Image = ({ data = {}, className, style, onClick, id}) => {
   else if(typeof data === 'string') {
     url = data
   }
-  if(onclick) {
+  if(onClick) {
     return (
       <img id={id} onClick={onClick} className={className} style={style} src={url} />
     )

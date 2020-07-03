@@ -1,12 +1,13 @@
 import React from 'react'
 import HomeScreen from '../screens/HomeScreen'
+import Head from 'next/head'
 
 const HomePage = () => {
   return (
     <div>
       <Head>
         <title>Paras - Digital Collective Memory</title>
-        <meta name="description" content={post.brief} />
+        <meta name="description" content='Meet like-minded people and discover new ideas, thoughts, and creativity. Share, explore, and think independently.' />
         
         <meta name='twitter:title' content='Paras - Digital Collective Memory' />
         <meta name='twitter:card' content='summary_large_image' />

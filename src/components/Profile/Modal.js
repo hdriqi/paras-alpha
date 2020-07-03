@@ -32,7 +32,7 @@ const ProfileModal = ({ showModal, setShowModal, me, user }) => {
     window.location.replace(window.location.origin + '/login')
   }
 
-  return (
+  return showModal && (
     <div>
       <Notify show={showNotifyCopyLink}>
         <p className="text-white p-2">Link copied!</p>

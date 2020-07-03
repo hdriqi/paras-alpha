@@ -25,6 +25,7 @@ import NavMobile from './NavMobile'
 import login from 'pages/login'
 import NavDesktop from './NavDesktop'
 import WalletSendScreen from 'screens/WalletSendScreen'
+import Head from 'next/head'
 
 const RootNavMobile = ({ router, pageList }) => {
   if (pageList.length === 0) {
@@ -101,7 +102,9 @@ const PageManager = ({ children }) => {
       }
       <div className="w-full sm:max-w-md m-auto flex-grow-0 flex-shrink-0">
         <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
-          {rootEl}
+          {
+            rootEl || children
+          }
           <RootNavMobile router={router} pageList={pageList} />
         </div>
         {
