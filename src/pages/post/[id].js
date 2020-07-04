@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { withRedux } from '../../lib/redux'
 import PostScreen from '../../screens/PostScreen'
+import Head from 'next/head'
 
 const PostDetailPage = () => {
   const router = useRouter()
