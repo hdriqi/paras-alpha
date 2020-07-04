@@ -67,18 +67,20 @@ export const svgToPng = (file) => {
   })
 }
 
-export const compressImg = (file, quality) => {
+export const compressImg = (file) => {
   return new Promise(async (resolve, reject) => {
     let _file = file
     if(file.type === 'image/svg+xml') {
       const newFile = await svgToPng(file)
       _file = newFile
     }
+    const threshold = Math.min(Math.floor(file.size / 1000000) / 10, 0.4)
+    const quality = 0.8 - threshold
     new Compressor(_file, {
-      quality: quality || 0.8,
+      quality: quality,
       maxWidth: 1920,
       maxHeight: 1920,
-      convertSize: 1000000,
+      convertSize: Infinity,
       success: resolve,
       error: reject,
     })
