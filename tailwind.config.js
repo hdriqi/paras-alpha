@@ -60,6 +60,9 @@ module.exports = {
         'third': '33.3%',
         'half': '50%',
         'full': '100%'
+      },
+      maxWidth: {
+        'sm': '25rem'
       }
     }
   }
