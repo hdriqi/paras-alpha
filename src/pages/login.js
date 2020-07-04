@@ -3,15 +3,17 @@ import { useRouter } from 'next/router'
 import { withRedux } from '../lib/redux'
 import near from '../lib/near'
 import Push from 'components/Push'
+import { useSelector } from 'react-redux'
 
 const LoginPage = () => {
   const router = useRouter()
+  const me = useSelector(state => state.me.profile)
 
   useEffect(() => {
-    if (near.wallet.isSignedIn()) {
+    if (me.id) {
       router.push('/')
     }
-  }, [])
+  }, [me])
 
   const _signIn = async () => {
     const appTitle = 'Paras'
