@@ -5,8 +5,9 @@ import { useState } from "react"
 import { RotateSpinLoader } from 'react-css-loaders'
 import { useSelector } from "react-redux"
 import Push from "components/Push"
+import Image from "components/Image"
 
-const Explore = ({ post, getPost }) => {
+const Explore = ({ post, getPost, memoryGrant }) => {
   const me = useSelector(state => state.me.profile)
   const [loading, setLoading] = useState(false)
 
@@ -85,6 +86,34 @@ const Explore = ({ post, getPost }) => {
               </div>
             </div>
           )
+      }
+
+      {
+        memoryGrant && (
+          <div className="p-4 pb-0">
+            <Push href="/m/[id]" as={`/m/${memoryGrant.memento.id}`} props={{
+              id: memoryGrant.memento.id
+            }}>
+              <a>
+                <div className="mt-2 flex items-center bg-primary-5 rounded-md overflow-hidden">
+                  <div className="w-1/5">
+                    <div className="pb-full relative">
+                      <div className="absolute inset-0">
+                        <Image className="w-full rounded-md" data={memoryGrant.memento.img} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="4/5 px-4">
+                    <p className="text-white">Contribute to <b>{memoryGrant.memento.id}</b> and get a chance to win $50</p>
+                  </div>
+                </div>
+              </a>
+            </Push>
+            <div className="mt-2 text-right">
+              <a className="text-sm text-white-2 text-underline hover:text-white font-bold" target="_blank" href="https://paras.id/blog/introducing-memory-grant">Learn more about Memory Grant Program</a>
+            </div>
+          </div>
+        )
       }
 
       {

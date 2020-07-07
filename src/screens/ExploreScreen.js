@@ -9,6 +9,16 @@ const ExploreScreen = () => {
   const explorePost = useSelector(state => state.explore.postList)
   const dispatch = useDispatch()
   const [post, setPost] = useState({})
+  const [memoryGrant, setMemoryGrant] = useState(null)
+
+  const getMemoryGrant = async () => {
+    const response = await axios.get(`${process.env.BASE_URL}/grants?isActive=true`)
+    const m = response.data.data[0]
+
+    if (m) {
+      setMemoryGrant(m)
+    }
+  }
   
   const getPost = async () => {
     const response = await axios.get(`${process.env.BASE_URL}/explore`)
@@ -30,10 +40,14 @@ const ExploreScreen = () => {
         getPost()
       }
     }
+
+    if (memoryGrant == null) {
+      getMemoryGrant()
+    }
   }, [])
 
   return (
-    <Explore post={post} getPost={getPost} />
+    <Explore post={post} getPost={getPost} memoryGrant={memoryGrant} />
   )
 }
 
