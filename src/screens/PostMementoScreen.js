@@ -33,7 +33,7 @@ const PostScreen = ({ id, post = {}, mementoList = [] }) => {
       const response = await axios.get(`${process.env.BASE_URL}/posts?originalId=${localPost
     .originalId}&__limit=100`)
       const similarPost = response.data.data
-      const mementoList = similarPost.map(post => post.memento)
+      const mementoList = similarPost.map(post => post.memento).filter(m => !!m)
       setLocalMementoList(mementoList)
     }
     if(localPost && localPost.originalId && localMementoList.length === 0) {
