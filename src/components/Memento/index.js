@@ -39,20 +39,24 @@ const MementoData = ({ isNotFound, memento, isFollowing, isSubmitting, toggleFol
           </div>
         </div>
         <div className="pt-2 flex flex-col justify-center items-center">
-          <div className="flex items-center">
-            <div className="flex p-2 uppercase font-bold tracking-wide bg-dark-6 text-white mx-2 mt-4 rounded-lg" style={{
-              fontSize: '0.75rem'
-            }}>
-              <p>{memento.isArchive && 'Archived'}</p>
-              <div className="pl-1 text-white-2">
-                <a data-place="bottom" data-tip="This memento is currently archived, no one can write new post to this memento.">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path className="fill-current" fillRule="evenodd" clipRule="evenodd" d="M1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM13.0036 13.9983H14.003V15.9983H10.003V13.9983H11.003V11.9983H10.003V9.99835H13.0036V13.9983ZM13.0007 7.99835C13.0007 8.55063 12.5528 8.99835 12.0003 8.99835C11.4479 8.99835 11 8.55063 11 7.99835C11 7.44606 11.4479 6.99835 12.0003 6.99835C12.5528 6.99835 13.0007 7.44606 13.0007 7.99835Z" />
-                  </svg>
-                </a>
+          {
+            memento.isArchive && (
+              <div className="flex items-center">
+                <div className="flex p-2 uppercase font-bold tracking-wide bg-dark-6 text-white mx-2 mt-4 rounded-lg" style={{
+                  fontSize: '0.75rem'
+                }}>
+                  <p>Archived</p>
+                  <div className="pl-1 text-white-2">
+                    <a data-place="bottom" data-tip="This memento is currently archived, no one can write new post to this memento.">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path className="fill-current" fillRule="evenodd" clipRule="evenodd" d="M1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM13.0036 13.9983H14.003V15.9983H10.003V13.9983H11.003V11.9983H10.003V9.99835H13.0036V13.9983ZM13.0007 7.99835C13.0007 8.55063 12.5528 8.99835 12.0003 8.99835C11.4479 8.99835 11 8.55063 11 7.99835C11 7.44606 11.4479 6.99835 12.0003 6.99835C12.5528 6.99835 13.0007 7.44606 13.0007 7.99835Z" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )
+          }
           <div className="pt-2">
             <InView rootMargin={`-48px 0px 0px 0px`} onChange={(inView, entry) => setStickySubNav(!inView)}>
               <p className="text-white text-xl font-semibold">{memento.id}</p>
@@ -237,7 +241,7 @@ const Memento = ({ memento, postListIds, postById, mementoById, getPost, hasMore
         }
       </div>
       {
-        me && me.id && mementoById[memento.id] && !mementoById[memento.id].isArchive && 
+        me && me.id && mementoById[memento.id] && !mementoById[memento.id].isArchive &&
         (mementoById[memento.id].type === 'public' || mementoById[memento.id].owner === me.id)
         && (
           <div className="fixed block md:hidden" style={{
