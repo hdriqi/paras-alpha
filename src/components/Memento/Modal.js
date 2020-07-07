@@ -5,7 +5,7 @@ import Confirm from "components/Utils/Confirm"
 import { setLoading } from "actions/ui"
 import near from "lib/near"
 import Push from "components/Push"
-import { entititesDeleteMemento } from "actions/entities"
+import { entititesDeleteMemento, entitiesUpdateMemento } from "actions/entities"
 import { useRouter } from "next/router"
 import { NotifyContext } from "components/Utils/NotifyProvider"
 
@@ -14,6 +14,7 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [showConfirmForget, setShowConfirmForget] = useState(false)
+  const [showConfirmArchive, setShowConfirmArchive] = useState(false)
 
   const _deleteMemento = async () => {
     dispatch(setLoading(true, 'Forgetting memento...'))
@@ -37,9 +38,45 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
     setShowConfirmForget(false)
   }
 
+  const _toggleArchive = async () => {
+    const loadingMsg = memento.isArchive ? 'Unarchiving memento...' : 'Archiving memento...'
+    dispatch(setLoading(true, loadingMsg))
+    try {
+      let m = null
+      if (memento.isArchive) {
+        m = await near.contract.unarchiveMemento({
+          id: memento.id
+        })
+      }
+      else {
+        m = await near.contract.archiveMemento({
+          id: memento.id
+        })
+      }
+      const notifyMsg = memento.isArchive ? 'Memento has been unarchived' : 'Memento has been archived'
+      useNotify.setText(notifyMsg)
+      useNotify.setShow(true, 2500)
+
+      batch(() => {
+        dispatch(entitiesUpdateMemento(m.id, m))
+      })
+    } catch (err) {
+      console.log(err)
+      useNotify.setText('Something went wrong, try again later')
+      useNotify.setShow(true, 2500)
+    }
+    dispatch(setLoading(false))
+    setShowConfirmArchive(false)
+  }
+
   const _forget = () => {
     setShowModal(false)
     setShowConfirmForget(true)
+  }
+
+  const _confirmToggleArchive = () => {
+    setShowModal(false)
+    setShowConfirmArchive(true)
   }
 
   const _copyLink = (e) => {
@@ -67,6 +104,14 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
         rightText="Forget"
         mainText="Forget this memento?"
       />
+      <Confirm
+        show={showConfirmArchive}
+        onClose={_ => setShowConfirmArchive(false)}
+        onComplete={_ => _toggleArchive()}
+        leftText="Cancel"
+        rightText={memento.isArchive ? 'Unarchive' : 'Archive'}
+        mainText={memento.isArchive ? 'Unarchive this memento?' : 'Archive this memento?'}
+      />
       <List show={showModal} onClose={_ => setShowModal(false)}>
         <div className="opacity-0 absolute" style={{
           zIndex: `-1`
@@ -89,6 +134,15 @@ const MementoModal = ({ showModal, setShowModal, me, memento = {} }) => {
                       <h4 className="p-4 text-white font-bold">Edit</h4>
                     </a>
                   </Push>
+                </button>
+              )
+            }
+            {
+              me && me.id == memento.owner && (
+                <button className="w-full text-left" onClick={_ => _confirmToggleArchive()}>
+                  <a>
+                    <h4 className="p-4 text-white font-bold">{memento.isArchive ? 'Unarchive' : 'Archive'}</h4>
+                  </a>
                 </button>
               )
             }

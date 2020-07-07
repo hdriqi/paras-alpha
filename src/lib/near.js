@@ -78,6 +78,8 @@ class Near {
       changeMethods: [
         'createMemento',
         'updateMemento',
+        'archiveMemento',
+        'unarchiveMemento',
         'deleteMemento',
         'createPost',
         'transmitPost',

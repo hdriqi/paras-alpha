@@ -30,6 +30,7 @@ export class Memento {
   desc: string
   type: string
   owner: string
+  isArchive: bool
   createdAt: u64
   user: User | null
 
@@ -43,6 +44,7 @@ export class Memento {
     this.desc = desc
     this.type = type
     this.owner = context.sender
+    this.isArchive = false
     this.createdAt = context.blockTimestamp
   }
 }
