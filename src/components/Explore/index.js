@@ -104,7 +104,7 @@ const Explore = ({ post, getPost, memoryGrant }) => {
                     </div>
                   </div>
                   <div className="4/5 px-4">
-                    <p className="text-white">Contribute to <b>{memoryGrant.memento.id}</b> and get a chance to win $50</p>
+          <p className="text-white">Contribute to <b>{memoryGrant.memento.id}</b> and get a chance to win ${memoryGrant.reward}</p>
                   </div>
                 </div>
               </a>
