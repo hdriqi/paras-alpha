@@ -18,6 +18,7 @@ const Distribute = ({ onClose, onSelect }) => {
   const [searchMemento, setSearchMemento] = useState('')
   const [searchMementoList, setSearchMementoList] = useState([])
   const [showAlert, setShowAlert] = useState(false)
+  const [alertMsg, setAlertMsg] = useState('')
 
   const _getMemento = async (query) => {
     const response = await axios.get(`${process.env.BASE_URL}/mementos?id__re=${query}`)
@@ -43,7 +44,13 @@ const Distribute = ({ onClose, onSelect }) => {
   }
 
   const _onSelect = (m) => {
+    if (m.isArchive) {
+      setAlertMsg('You cannot write to Archived Memento')
+      setShowAlert(true)
+      return
+    }
     if (m.type === 'personal' && m.owner !== me.id) {
+      setAlertMsg("You cannot write to this Memento")
       setShowAlert(true)
       return
     }
@@ -58,7 +65,7 @@ const Distribute = ({ onClose, onSelect }) => {
           onClose={() => {
             setShowAlert(false)
           }}
-          mainText="You cannot write to this Memento"
+          mainText={alertMsg}
         />
         <NavTop
           left={

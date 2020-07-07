@@ -336,14 +336,6 @@ export function editPost(
 			post.owner == context.sender,
 			'Post can only be edited by owner'
 		)
-		assert(
-			!memento.isArchive,
-			'Cannot write to archived Memento'
-		)
-		assert(
-			memento.type == 'public' || memento.type == 'personal' && memento.owner == context.sender,
-			'Sender does not have access to write to this memento'
-		)
 		post.contentList = contentList
 		post.mementoId = mementoId
 

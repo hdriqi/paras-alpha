@@ -237,7 +237,9 @@ const Memento = ({ memento, postListIds, postById, mementoById, getPost, hasMore
         }
       </div>
       {
-        me && me.id && (
+        me && me.id && mementoById[memento.id] && !mementoById[memento.id].isArchive && 
+        (mementoById[memento.id].type === 'public' || mementoById[memento.id].owner === me.id)
+        && (
           <div className="fixed block md:hidden" style={{
             bottom: `2rem`,
             right: `0`
