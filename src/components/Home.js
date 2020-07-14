@@ -11,16 +11,20 @@ import NavTop from "./NavTop"
 
 const RECOMMENDATIONS = [
   {
+    name: 'Book',
+    id: "bookshelf.info"
+  },
+  {
     name: 'Music',
     id: "music365.life"
   },
   {
-    name: 'Gaming',
-    id: "tube.gg"
+    name: 'Movies',
+    id: "movies.movie"
   },
   {
-    name: 'Founder\'s Blog',
-    id: "blog.riqi"
+    name: 'DIY',
+    id: "designedto.design"
   }
 ]
 
