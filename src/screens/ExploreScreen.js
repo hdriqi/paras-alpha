@@ -2,13 +2,14 @@ import Explore from "components/Explore"
 import { useState, useEffect } from "react"
 import axios from 'axios'
 import { useDispatch, useSelector, batch } from "react-redux"
-import { addExplorePost } from "actions/explore"
+import { setExplorePostListIds, setExploreHasMore, setExplorePageCount } from "actions/explore"
 import { addPostList } from "actions/entities"
 
 const ExploreScreen = () => {
-  const explorePost = useSelector(state => state.explore.postList)
+  const postListIds = useSelector(state => state.explore.postListIds)
+  const hasMore = useSelector(state => state.explore.hasMore)
+  const pageCount = useSelector(state => state.explore.pageCount)
   const dispatch = useDispatch()
-  const [post, setPost] = useState({})
   const [memoryGrant, setMemoryGrant] = useState(null)
 
   const getMemoryGrant = async () => {
@@ -19,26 +20,31 @@ const ExploreScreen = () => {
       setMemoryGrant(m)
     }
   }
-  
-  const getPost = async () => {
-    const response = await axios.get(`${process.env.BASE_URL}/explore`)
-    const p = response.data.data[0]
 
+  const getPost = async () => {
+    const ITEM_LIMIT = 5
+    const curList = postListIds ? [...postListIds] : []
+    let page = pageCount || 0
+
+    const response = await axios.get(`${process.env.BASE_URL}/posts?__skip=${page * 5}&__limit=${5}&__sort=-createdAt`)
+    let newPostList = response.data.data
+    const newPostListIds = newPostList.map(post => post.id)
+    const latestPostListIds = curList.concat(newPostListIds)
     batch(() => {
-      dispatch(addExplorePost(p))
-      dispatch(addPostList([p]))
+      // add new post to entities
+      dispatch(addPostList(newPostList))
+      // set new post with new data
+      dispatch(setExplorePostListIds(latestPostListIds))
+      dispatch(setExplorePageCount(page + 1))
     })
-    setPost(p)
+    if (newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
+      dispatch(setExploreHasMore(false))
+    }
   }
 
   useEffect(() => {
-    if (!post.id) {
-      if (explorePost.length > 0) {
-        setPost(explorePost[explorePost.length - 1])
-      }
-      else {
-        getPost()
-      }
+    if(pageCount === 0) {
+      getPost()
     }
 
     if (memoryGrant == null) {
@@ -47,7 +53,7 @@ const ExploreScreen = () => {
   }, [])
 
   return (
-    <Explore post={post} getPost={getPost} memoryGrant={memoryGrant} />
+    <Explore postListIds={postListIds} getPost={getPost} pageCount={pageCount} hasMore={hasMore} memoryGrant={memoryGrant} />
   )
 }
 

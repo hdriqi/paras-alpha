@@ -28,7 +28,7 @@ const RECOMMENDATIONS = [
   }
 ]
 
-const Home = ({ postListIds, postById, getPost, hasMore }) => {
+const Home = ({ postListIds, getPost, hasMore }) => {
   return (
     <div className="bg-dark-0 min-h-screen pb-6">
       <NavTop

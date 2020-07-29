@@ -11,8 +11,8 @@ import ExploreScreen from './ExploreScreen'
 const HomeScreen = ({  }) => {
   const dispatch = useDispatch()
   const me = useSelector(state => state.me.profile)
-  const postListIds = useSelector(state => state.home.postListIds)
   const postById = useSelector(state => state.entities.postById)
+  const postListIds = useSelector(state => state.home.postListIds)
   const hasMore = useSelector(state => state.home.hasMore)
   const pageCount = useSelector(state => state.home.pageCount)
 
@@ -45,7 +45,7 @@ const HomeScreen = ({  }) => {
   
 
   return me.id ? (
-    <Home page={`feed`} postListIds={postListIds} postById={postById} getPost={getFeed} pageCount={pageCount} hasMore={hasMore} />
+    <Home page={`feed`} postListIds={postListIds} getPost={getFeed} pageCount={pageCount} hasMore={hasMore} />
   ) : <ExploreScreen />
 }
 
