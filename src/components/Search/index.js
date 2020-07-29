@@ -1,10 +1,9 @@
 import { useState } from "react"
-import { withRedux } from "../lib/redux"
-import Push from "./Push"
-import Pop from "./Pop"
-import Image from "./Image"
+import Push from "../Push"
+import Pop from "../Pop"
 import axios from 'axios'
-import NavTop from "./NavTop"
+import NavTop from "../NavTop"
+import Item from './Item'
 
 const Search = () => {
   const [itemList, setItemList] = useState([])
@@ -44,7 +43,7 @@ const Search = () => {
           </Pop>
         }
         center={
-          <div className="text-white text-xl font-bold">
+          <div className="text-white text-xl font-bold pl-2">
             <input autoFocus value={searchText} onChange={e => _search(e.target.value)} className="w-full rounded-md p-2 outline-none bg-dark-2 focus:bg-dark-4 text-white text-sm" placeholder="Search" />
           </div>
         }
@@ -60,15 +59,8 @@ const Search = () => {
                       id: data.id,
                       fetch: true
                     }}>
-                      <a className="">
-                        <div className="flex items-center bg-dark-2 p-2 rounded-md">
-                          <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner">
-                            <Image className="object-fill" data={data.img} />
-                          </div>
-                          <div className="ml-2">
-                            <h4 className="text-white font-bold">{data.id}</h4>
-                          </div>
-                        </div>
+                      <a>
+                        <Item data={data} />
                       </a>
                     </Push>
                   ) : (
@@ -76,15 +68,8 @@ const Search = () => {
                         id: data.id,
                         fetch: true
                       }}>
-                        <a className="">
-                          <div className="flex items-center bg-dark-2 p-2 rounded-md">
-                            <div className="h-10 w-10 rounded-full overflow-hidden shadow-inner">
-                              <Image className="object-fill" data={data.img} />
-                            </div>
-                            <div className="ml-2">
-                              <h4 className="text-white font-bold">{data.id}</h4>
-                            </div>
-                          </div>
+                        <a>
+                          <Item data={data} />
                         </a>
                       </Push>
                     )
@@ -98,4 +83,4 @@ const Search = () => {
   )
 }
 
-export default withRedux(Search)
+export default Search

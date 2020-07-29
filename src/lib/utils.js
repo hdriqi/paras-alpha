@@ -75,7 +75,7 @@ export const compressImg = (file) => {
       _file = newFile
     }
     const threshold = Math.min(Math.floor(file.size / 1000000) / 10, 0.4)
-    const quality = 0.8 - threshold
+    const quality = 0.6 - threshold
     new Compressor(_file, {
       quality: quality,
       maxWidth: 1920,
