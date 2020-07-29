@@ -103,7 +103,7 @@ const PageManager = ({ children }) => {
       <div className="w-full sm:max-w-sm m-auto flex-grow-0 flex-shrink-0">
         <div className={pageList.length === 0 ? 'block' : 'hidden'} id="page-root">
           {
-            rootEl || children
+            children
           }
           <RootNavMobile router={router} pageList={pageList} />
         </div>
