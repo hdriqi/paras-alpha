@@ -10,7 +10,7 @@ const HomePage = () => {
   const dispatch = useDispatch()
   const pageActive = useSelector(state => state.home.pageActive)
   const pageScroll = useSelector(state => state.home.pageScroll)
-  
+
   const _navigate = (to) => {
     const clonePageScroll = { ...pageScroll }
     if (!clonePageScroll[pageActive]) {
@@ -55,8 +55,16 @@ const HomePage = () => {
         <NavTop
           center={
             <div className="flex justify-center ">
-              <h3 onClick={() => _navigate('editorsPick')} className="text-white text-lg font-bold px-2">Picks</h3>
-              <h3 onClick={() => _navigate('following')} className="text-white text-lg font-bold px-2">Following</h3>
+              <h3
+                onClick={() => _navigate('editorsPick')}
+                className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'editorsPick' && 'font-bold'}`}>
+                Picks
+              </h3>
+              <h3
+                onClick={() => _navigate('following')}
+                className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'following' && 'font-bold'}`}>
+                Following
+              </h3>
             </div>
           }
         />
@@ -64,8 +72,8 @@ const HomePage = () => {
           pageActive === 'editorsPick' ? (
             <FeedScreen id="editorsPick" />
           ) : (
-            <HomeScreen />
-          )
+              <HomeScreen />
+            )
         }
       </div>
     </div>
