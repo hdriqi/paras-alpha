@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState, useContext } from "react"
-import Head from 'next/head'
 import { setProfile, addMementoList, setUser, setFollow } from "../actions/me"
 import { withRedux } from '../lib/redux'
 import { useDispatch, useSelector, batch } from "react-redux"
@@ -11,6 +10,38 @@ import { setLoading } from "../actions/ui"
 import { setBalance } from "actions/wallet"
 import { NotifyContext } from "./Utils/NotifyProvider"
 import * as rax from 'retry-axios'
+import initials from 'initials'
+import { dataURItoBlob } from "lib/utils"
+
+const genMementoImg = async (name) => {
+  var canvas = document.createElement('canvas')
+  canvas.width = 512
+  canvas.height = 512
+  var ctx = canvas.getContext('2d')
+
+  ctx.fillStyle = '#232323'
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  ctx.font = 'bold 288px Inconsolata'
+  ctx.fillStyle = 'rgb(225, 49, 40)'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText(initials(name).toUpperCase(), canvas.width / 2, canvas.height / 2)
+
+  const url = canvas.toDataURL('image/' + 'png')
+  const blob = dataURItoBlob(url)
+  let img = null
+  for await (const file of ipfs.client.add([{
+    content: blob
+  }])) {
+    img = {
+      url: file.path,
+      type: 'ipfs'
+    }
+  }
+
+  return img
+}
 
 const DEFAULT_AVATAR = [
   {
@@ -193,8 +224,22 @@ const Layout = ({ children }) => {
     }
     try {
       await axios.post(`${process.env.BASE_URL}/register`, newData)
+
+      const generatedImg = await genMementoImg(fullName)
+
+      const newMementoData = {
+        name: 'timeline',
+        category: 'info',
+        img: generatedImg,
+        desc: 'My Timeline',
+        type: 'personal'
+      }
+      const m = await near.contract.createMemento(newMementoData)
+
+      dispatch(addMementoList([m]))
       setOnboardingView(2)
     } catch (err) {
+      console.log(err)
       if (err.response.data.message === 'already_registered') {
         useNotify.setText('Email already registered!')
         useNotify.setShow(true, 2500)
@@ -230,6 +275,7 @@ const Layout = ({ children }) => {
                             <path fillRule="evenodd" clipRule="evenodd" d="M5 71H11.5514L9.88473 58.096C16.8676 59.1101 31.6667 59.5228 35 53.0603C38.3333 59.5228 53.1324 59.1101 60.1153 58.096L58.4486 71H65L70 24L51.7195 29.0357C45.5908 30.5744 35 35.4562 35 42.6741C35 35.4562 24.4092 30.5744 18.2805 29.0357L0 24L5 71ZM9.16653 30.1802C15.8332 31.8588 30.1439 37.9016 33.4772 48.6445C29.9363 53.9937 22.7253 53.8185 18.2594 53.7078C17.6803 53.6935 17.145 53.6802 16.6667 53.6802C7.50001 53.6802 8.79396 31.6276 9.16653 30.1802ZM60.8335 30.1802C54.1668 31.8588 39.8561 37.9016 36.5228 48.6445C40.0638 53.9937 47.2748 53.8185 51.7406 53.7078C52.3197 53.6935 52.8551 53.6802 53.3333 53.6802C62.5 53.6802 61.2061 31.6276 60.8335 30.1802Z" fill="white" />
                           </svg>
                         </div>
+                        <p className="mt-4 text-white">Hi <b>{me.id}</b>!</p>
                         <p className="mt-4 text-white">Thank you for your interest in becoming part of the early adopters. Building a social media is hard, that's why we need your help to shape this new kind of social media.</p>
                         <p className="mt-4 text-white">If you have ideas or feedback please share it with us at <a className="text-white-2 hover:text-white underline font-semibold" href="http://ideas.paras.id" target="_blank">https://ideas.paras.id</a></p>
                         <button className="mt-8 w-full rounded-md p-2 bg-primary-5 text-white font-semibold" onClick={() => setOnboardingView(1)}>Next</button>

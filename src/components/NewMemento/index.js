@@ -110,7 +110,7 @@ const NewMemento = ({ onClose, onComplete, edit = false }) => {
     canvas.height = 512
     var ctx = canvas.getContext('2d')
 
-    ctx.fillStyle = 'white'
+    ctx.fillStyle = '#232323'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     ctx.font = 'bold 288px Inconsolata'
