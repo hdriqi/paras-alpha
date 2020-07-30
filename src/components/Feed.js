@@ -50,7 +50,7 @@ const Feed = ({ postListIds, getPost, hasMore }) => {
           ) : (
               <div className="mt-6">
                 <div className="p-4 bg-dark-0 text-center">
-                  <p className="tracking-tight text-white">Jump into a memento! <br />Create or discover the digital collective memory</p>
+                  <p className="tracking-tight text-white">Explore the mementos! <br />Discover and follow the digital collective memory</p>
                   <div className="flex flex-wrap justify-center">
                     {
                       RECOMMENDATIONS.map(rec => {
