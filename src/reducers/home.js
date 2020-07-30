@@ -4,7 +4,7 @@ const initialState = {
   postListIds: null,
   hasMore: true,
   pageCount: 0,
-  activePage: 'editorsPick',
+  pageActive: 'editorsPick',
   pageScroll: {}
 }
 

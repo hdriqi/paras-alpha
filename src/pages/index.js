@@ -5,9 +5,11 @@ import FeedScreen from 'screens/FeedScreen'
 import NavTop from 'components/NavTop'
 import { batch, useSelector, useDispatch } from 'react-redux'
 import { setPageActive, setPageScroll } from 'actions/home'
+import ExploreScreen from 'screens/ExploreScreen'
 
 const HomePage = () => {
   const dispatch = useDispatch()
+  const me = useSelector(state => state.me.profile)
   const pageActive = useSelector(state => state.home.pageActive)
   const pageScroll = useSelector(state => state.home.pageScroll)
 
@@ -52,28 +54,36 @@ const HomePage = () => {
         <meta property='og:image' content='https://paras-media.s3-ap-southeast-1.amazonaws.com/paras-twitter-card-large.png' />
       </Head>
       <div>
-        <NavTop
-          center={
-            <div className="flex justify-center ">
-              <h3
-                onClick={() => _navigate('editorsPick')}
-                className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'editorsPick' && 'font-bold'}`}>
-                Picks
-              </h3>
-              <h3
-                onClick={() => _navigate('following')}
-                className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'following' && 'font-bold'}`}>
-                Following
-              </h3>
-            </div>
-          }
-        />
         {
-          pageActive === 'editorsPick' ? (
-            <FeedScreen id="editorsPick" />
+          me.id ? (
+            <div>
+              <NavTop
+                center={
+                  <div className="flex justify-center ">
+                    <h3
+                      onClick={() => _navigate('editorsPick')}
+                      className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'editorsPick' && 'font-bold'}`}>
+                      Picks
+                    </h3>
+                    <h3
+                      onClick={() => _navigate('following')}
+                      className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'following' && 'font-bold'}`}>
+                      Following
+                    </h3>
+                  </div>
+                }
+              />
+              {
+                pageActive === 'editorsPick' ? (
+                  <FeedScreen id="editorsPick" />
+                ) : (
+                    <HomeScreen />
+                  )
+              }
+            </div>
           ) : (
-              <HomeScreen />
-            )
+            <ExploreScreen />
+          )
         }
       </div>
     </div>
