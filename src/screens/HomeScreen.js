@@ -8,10 +8,9 @@ import { setPageCount, setHasMore, setPostListIds } from 'actions/home'
 import { addPostList } from 'actions/entities'
 import ExploreScreen from './ExploreScreen'
 
-const HomeScreen = ({  }) => {
+const HomeScreen = ({ }) => {
   const dispatch = useDispatch()
   const me = useSelector(state => state.me.profile)
-  const postById = useSelector(state => state.entities.postById)
   const postListIds = useSelector(state => state.home.postListIds)
   const hasMore = useSelector(state => state.home.hasMore)
   const pageCount = useSelector(state => state.home.pageCount)
@@ -19,7 +18,7 @@ const HomeScreen = ({  }) => {
   const getFeed = async () => {
     const ITEM_LIMIT = 5
     const curList = postListIds ? [...postListIds] : []
-    let page = pageCount || 0 
+    let page = pageCount || 0
 
     const response = await axios.get(`${process.env.BASE_URL}/feeds?__skip=${page * 5}&__limit=${5}&__sort=-createdAt`)
     let newPostList = response.data.data
@@ -32,17 +31,16 @@ const HomeScreen = ({  }) => {
       dispatch(setPostListIds(latestPostListIds))
       dispatch(setPageCount(page + 1))
     })
-    if(newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
+    if (newPostList.length === 0 && newPostList.length < ITEM_LIMIT) {
       dispatch(setHasMore(false))
     }
   }
 
   useEffect(() => {
-    if(me.id && pageCount === 0) {
+    if (me.id && pageCount === 0) {
       getFeed(0)
     }
   }, [me])
-  
 
   return me.id ? (
     <Home page={`feed`} postListIds={postListIds} getPost={getFeed} pageCount={pageCount} hasMore={hasMore} />

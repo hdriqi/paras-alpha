@@ -1,9 +1,11 @@
-import { SET_HAS_MORE, SET_PAGE_COUNT, SET_POST_LIST_IDS } from '../actions/home'
+import { SET_HAS_MORE, SET_PAGE_COUNT, SET_POST_LIST_IDS, SET_PAGE_ACTIVE, SET_PAGE_SCROLL } from '../actions/home'
 
 const initialState = {
   postListIds: null,
   hasMore: true,
-  pageCount: 0
+  pageCount: 0,
+  activePage: 'editorsPick',
+  pageScroll: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +24,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         pageCount: action.pageCount
+      }
+    case SET_PAGE_ACTIVE:
+      return {
+        ...state,
+        pageActive: action.pageActive
+      }
+    case SET_PAGE_SCROLL:
+      return {
+        ...state,
+        pageScroll: action.pageScroll
       }
     default:
       return state

@@ -21,3 +21,19 @@ export const setPageCount = (pageCount) => {
     pageCount: pageCount
   }
 }
+
+export const SET_PAGE_ACTIVE = 'SET_PAGE_ACTIVE'
+export const setPageActive = (pageActive) => {
+  return {
+    type: SET_PAGE_ACTIVE,
+    pageActive: pageActive
+  }
+}
+
+export const SET_PAGE_SCROLL = 'SET_PAGE_SCROLL'
+export const setPageScroll = (pageScroll) => {
+  return {
+    type: SET_PAGE_SCROLL,
+    pageScroll: pageScroll
+  }
+}

@@ -26,6 +26,7 @@ import login from 'pages/login'
 import NavDesktop from './NavDesktop'
 import WalletSendScreen from 'screens/WalletSendScreen'
 import Head from 'next/head'
+import FeedScreen from 'screens/FeedScreen'
 
 const RootNavMobile = ({ router, pageList }) => {
   if (pageList.length === 0) {
@@ -72,6 +73,7 @@ const PageManager = ({ children }) => {
     '/wallet': WalletScreen,
     '/wallet/transaction': WalletTransactionScreen,
     '/wallet/send': WalletSendScreen,
+    '/feed/[id]': FeedScreen,
     '/login': login
   }
 

@@ -11,6 +11,7 @@ import home from './reducers/home'
 import user from './reducers/user'
 import entities from './reducers/entities'
 import memento from './reducers/memento'
+import feed from './reducers/feed'
 
 const initialState = {}
 
@@ -23,7 +24,8 @@ const reducer = combineReducers({
   home,
   user,
   entities,
-  memento
+  memento,
+  feed
 })
 
 let middleware = composeWithDevTools(
