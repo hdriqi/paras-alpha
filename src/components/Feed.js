@@ -6,20 +6,20 @@ import InfiniteLoader from "./InfiniteLoader"
 
 const RECOMMENDATIONS = [
   {
+    name: 'Art',
+    id: "artprentice.art"
+  },
+  {
     name: 'Book',
     id: "bookshelf.info"
   },
   {
     name: 'Music',
-    id: "music365.life"
+    id: "90nostalgia.music"
   },
   {
     name: 'Movies',
     id: "movies.movie"
-  },
-  {
-    name: 'DIY',
-    id: "designedto.design"
   }
 ]
 
@@ -53,16 +53,18 @@ const Feed = ({ postListIds, getPost, hasMore }) => {
                   <p className="tracking-tight text-white">Explore the mementos! <br />Discover and follow the digital collective memory</p>
                   <div className="flex flex-wrap justify-center">
                     {
-                      RECOMMENDATIONS.map(rec => {
+                      RECOMMENDATIONS.map((rec, idx) => {
                         return (
-                          <Push href="/m/[id]" as={`/m/${rec.id}`} props={{
-                            id: rec.id,
-                            fetch: true
-                          }}>
-                            <a>
-                              <p className="p-2 text-sm bg-primary-5 text-white mx-2 mt-4 rounded-md">{rec.name}</p>
-                            </a>
-                          </Push>
+                          <div key={idx}>
+                            <Push href="/m/[id]" as={`/m/${rec.id}`} props={{
+                              id: rec.id,
+                              fetch: true
+                            }}>
+                              <a>
+                                <p className="p-2 text-sm bg-primary-5 text-white mx-2 mt-4 rounded-md">{rec.name}</p>
+                              </a>
+                            </Push>
+                          </div>
                         )
                       })
                     }
