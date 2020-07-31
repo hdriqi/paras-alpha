@@ -150,9 +150,9 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
                 </div>
                 <div className="pt-4 text-center flex">
                   {
-                    pieceList.map(piece => {
+                    pieceList.map((piece, idx) => {
                       return (
-                        <div className="w-1/4 flex items-center justify-center">
+                        <div className="w-1/4 flex items-center justify-center" key={idx}>
                           <button onClick={_ => setChosenPiece(piece)} className={
                             `${chosenPiece == piece ? 'bg-primary-5 text-white' : 'bg-transparent text-primary-5'} rounded-full w-12 h-12 border border-primary-5
                             `
@@ -170,7 +170,7 @@ const ModalPiece = ({ show, onClose, onComplete, post }) => {
                       <p className="text-white text-lg">Send {chosenPiece} Ⓟ</p>
                       <div className="flex items-center justify-center py-2" onClick={_ => setShowDetail(!showDetail)}>
                         <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path fillRule="evenodd" clipRule="evenodd" d="M8.70696 7.29267L15.9998 -0.000226974L17.4141 1.41399L8.70696 10.1211L-0.000150681 1.41399L1.41406 -0.000226974L8.70696 7.29267Z" fill="white" fill-opacity="0.6" />
+                          <path fillRule="evenodd" clipRule="evenodd" d="M8.70696 7.29267L15.9998 -0.000226974L17.4141 1.41399L8.70696 10.1211L-0.000150681 1.41399L1.41406 -0.000226974L8.70696 7.29267Z" fill="white" fillOpacity="0.6" />
                         </svg>
                       </div>
                       {
