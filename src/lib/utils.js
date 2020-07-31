@@ -78,8 +78,8 @@ export const compressImg = (file) => {
     const quality = 0.6 - threshold
     new Compressor(_file, {
       quality: quality,
-      maxWidth: 1920,
-      maxHeight: 1920,
+      maxWidth: 1080,
+      maxHeight: 1080,
       convertSize: Infinity,
       success: resolve,
       error: reject,
