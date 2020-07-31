@@ -86,27 +86,31 @@ const DEFAULT_AVATAR = [
   },
 ]
 
-const SplashScreen = () => {
+const SplashScreen = ({ isAvailable }) => {
   return (
     <div className="fixed inset-0 bg-black-1 flex items-center justify-center" style={{
       zIndex: 100
     }}>
-      <div>
-        <svg className="rotate-z m-auto" width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" clipRule="evenodd" d="M4.28572 39.9438H9.9012L8.47263 28.9771C14.4579 29.839 27.1429 30.1897 30 24.6974C32.8571 30.1897 45.5421 29.839 51.5274 28.9771L50.0988 39.9438H55.7143L60 0L44.331 4.2797C39.0778 5.58738 30 9.73631 30 15.8705C30 9.73631 20.9222 5.58738 15.669 4.2797L0 0L4.28572 39.9438ZM7.85703 5.25234C13.5713 6.67891 25.8376 11.8145 28.6948 20.9446C25.6597 25.4907 19.4788 25.3418 15.6509 25.2477C15.1546 25.2355 14.6957 25.2243 14.2857 25.2243C6.42858 25.2243 7.53768 6.48246 7.85703 5.25234ZM52.143 5.25235C46.4287 6.67892 34.1624 11.8145 31.3053 20.9446C34.3404 25.4907 40.5212 25.3418 44.3491 25.2477C44.8455 25.2355 45.3043 25.2243 45.7143 25.2243C53.5714 25.2243 52.4623 6.48246 52.143 5.25235Z" fill="white" />
-        </svg>
-        <p className="mt-4 text-white text-center">Preparing Paras</p>
-      </div>
+      {
+        isAvailable ? (
+          <div>
+            <svg className="rotate-z m-auto" width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M4.28572 39.9438H9.9012L8.47263 28.9771C14.4579 29.839 27.1429 30.1897 30 24.6974C32.8571 30.1897 45.5421 29.839 51.5274 28.9771L50.0988 39.9438H55.7143L60 0L44.331 4.2797C39.0778 5.58738 30 9.73631 30 15.8705C30 9.73631 20.9222 5.58738 15.669 4.2797L0 0L4.28572 39.9438ZM7.85703 5.25234C13.5713 6.67891 25.8376 11.8145 28.6948 20.9446C25.6597 25.4907 19.4788 25.3418 15.6509 25.2477C15.1546 25.2355 14.6957 25.2243 14.2857 25.2243C6.42858 25.2243 7.53768 6.48246 7.85703 5.25234ZM52.143 5.25235C46.4287 6.67892 34.1624 11.8145 31.3053 20.9446C34.3404 25.4907 40.5212 25.3418 44.3491 25.2477C44.8455 25.2355 45.3043 25.2243 45.7143 25.2243C53.5714 25.2243 52.4623 6.48246 52.143 5.25235Z" fill="white" />
+            </svg>
+            <p className="mt-4 text-white text-center">Preparing Paras</p>
+          </div>
+        ) : (
+            <div>
+              <svg className="m-auto" width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M4.28572 39.9438H9.9012L8.47263 28.9771C14.4579 29.839 27.1429 30.1897 30 24.6974C32.8571 30.1897 45.5421 29.839 51.5274 28.9771L50.0988 39.9438H55.7143L60 0L44.331 4.2797C39.0778 5.58738 30 9.73631 30 15.8705C30 9.73631 20.9222 5.58738 15.669 4.2797L0 0L4.28572 39.9438ZM7.85703 5.25234C13.5713 6.67891 25.8376 11.8145 28.6948 20.9446C25.6597 25.4907 19.4788 25.3418 15.6509 25.2477C15.1546 25.2355 14.6957 25.2243 14.2857 25.2243C6.42858 25.2243 7.53768 6.48246 7.85703 5.25234ZM52.143 5.25235C46.4287 6.67892 34.1624 11.8145 31.3053 20.9446C34.3404 25.4907 40.5212 25.3418 44.3491 25.2477C44.8455 25.2355 45.3043 25.2243 45.7143 25.2243C53.5714 25.2243 52.4623 6.48246 52.143 5.25235Z" fill="white" />
+              </svg>
+              <p className="mt-4 text-white text-center">Paras is currently unavailable</p>
+              <p className="text-white text-center">Try again later</p>
+            </div>
+          )
+      }
     </div>
   )
-}
-
-const sleep = (ms = 1000) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, ms)
-  })
 }
 
 const Layout = ({ children }) => {
@@ -122,6 +126,7 @@ const Layout = ({ children }) => {
   const [referral, setReferral] = useState('')
 
   const [isLoading, setIsLoading] = useState(true)
+  const [isAvailable, setIsAvailable] = useState(true)
 
   useEffect(() => {
     const init = async () => {
@@ -131,56 +136,63 @@ const Layout = ({ children }) => {
 
       ipfs.init()
       if (typeof window !== 'undefined') {
-        await near.init()
+        try {
+          await near.init()
+          if (near.wallet.isSignedIn()) {
+            const token = await near.authToken()
+            rax.attach()
+            axios.defaults.headers.common['Authorization'] = token
 
-        if (near.wallet.isSignedIn()) {
-          const token = await near.authToken()
-          rax.attach()
-          axios.defaults.headers.common['Authorization'] = token
+            // await sleep(500)
 
-          // await sleep(500)
-
-          let response = await axios.get(`${process.env.BASE_URL}/register`, {
-            raxConfig: {
-              retry: 5,
-              retryDelay: 500,
-              statusCodesToRetry: [[400, 499]]
-            }
-          })
-
-          if (!response.data.data) {
-            setShowOnboarding(true)
-          }
-          let profile = await near.contract.getUserById({
-            id: near.currentUser.accountId
-          })
-          if (!profile) {
-            const avatar = DEFAULT_AVATAR[Math.floor(Math.random() * DEFAULT_AVATAR.length)]
-            try {
-              profile = await near.contract.createUser({
-                imgAvatar: avatar,
-                bio: ''
-              })
-            } catch (err) {
-              const msg = err.toString()
-              if (msg.indexOf('User already exist')) {
-                console.log('User already exist')
+            let response = await axios.get(`${process.env.BASE_URL}/register`, {
+              raxConfig: {
+                retry: 5,
+                retryDelay: 500,
+                statusCodesToRetry: [[400, 499]]
               }
-              else {
-                console.log(err)
+            })
+
+            if (!response.data.data) {
+              setShowOnboarding(true)
+            }
+            let profile = await near.contract.getUserById({
+              id: near.currentUser.accountId
+            })
+            if (!profile) {
+              const avatar = DEFAULT_AVATAR[Math.floor(Math.random() * DEFAULT_AVATAR.length)]
+              try {
+                profile = await near.contract.createUser({
+                  imgAvatar: avatar,
+                  bio: ''
+                })
+              } catch (err) {
+                const msg = err.toString()
+                if (msg.indexOf('User already exist')) {
+                  console.log('User already exist')
+                }
+                else {
+                  console.log(err)
+                }
               }
             }
+
+            batch(() => {
+              dispatch(setUser(near.currentUser))
+              dispatch(setProfile(profile))
+            })
           }
 
-          batch(() => {
-            dispatch(setUser(near.currentUser))
-            dispatch(setProfile(profile))
-          })
+          setTimeout(() => {
+            setIsLoading(false)
+          }, 250)
+        } catch (err) {
+          if (err.message.includes("-32000")) {
+            setIsAvailable(false)
+          }
+          console.log(err)
+          console.log(err.message)
         }
-
-        setTimeout(() => {
-          setIsLoading(false)
-        }, 250)
       }
     }
     init()
@@ -323,7 +335,7 @@ const Layout = ({ children }) => {
       </div>
       {
         isLoading && (
-          <SplashScreen />
+          <SplashScreen isAvailable={isAvailable} />
         )
       }
     </Fragment>

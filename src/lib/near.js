@@ -41,77 +41,81 @@ class Near {
   async init() {
     const nearConfig = getConfig(process.env.NODE_ENV || 'development')
 
-    // Initializing connection to the NEAR DevNet
-    const near = await nearAPI.connect({
-      deps: {
-        keyStore: new nearAPI.keyStores.BrowserLocalStorageKeyStore()
-      },
-      ...nearConfig
-    })
+    try {
+      // Initializing connection to the NEAR DevNet
+      const near = await nearAPI.connect({
+        deps: {
+          keyStore: new nearAPI.keyStores.BrowserLocalStorageKeyStore()
+        },
+        ...nearConfig
+      })
 
-    // Needed to access wallet
-    const wallet = new nearAPI.WalletConnection(near)
+      // Needed to access wallet
+      const wallet = new nearAPI.WalletConnection(near)
 
-    // Load in account data
-    let currentUser
-    if (wallet.getAccountId()) {
-      currentUser = {
-        accountId: wallet.getAccountId(),
-        balance: (await wallet.account().state()).amount
+      // Load in account data
+      let currentUser
+      if (wallet.getAccountId()) {
+        currentUser = {
+          accountId: wallet.getAccountId(),
+          balance: (await wallet.account().state()).amount
+        }
       }
+
+      // Initializing our contract APIs by contract name and configuration
+      const contract = await new nearAPI.Contract(wallet.account(), nearConfig.contractName, {
+        // View methods are read-only – they don't modify the state, but usually return some value
+        viewMethods: [
+          'getUserById',
+          'getMementoById',
+          'name',
+          'symbol',
+          'decimals',
+          'balanceOf',
+          'allowance',
+          'getBalance'
+        ],
+        // Change methods can modify the state, but you don't receive the returned value when called
+        changeMethods: [
+          'createMemento',
+          'updateMemento',
+          'archiveMemento',
+          'unarchiveMemento',
+          'deleteMemento',
+          'createPost',
+          'transmitPost',
+          'editPost',
+          'deletePost',
+          'redactPost',
+          'toggleFollow',
+          'createUser',
+          'updateUser',
+          'createComment',
+          'deleteComment',
+          'init',
+          'transfer',
+          'approve',
+          'transferFrom',
+          'piecePost'
+        ],
+        // Sender is the account ID to initialize transactions.
+        // getAccountId() will return empty string if user is still unauthorized
+        sender: wallet.getAccountId(),
+      })
+
+      // const response = await contract.init({
+      //   initialOwner: 'riqi.testnet'
+      // })
+      // console.log(response)
+
+      this.contract = contract
+      this.currentUser = currentUser
+      this.config = nearConfig
+      this.wallet = wallet
+      this.signer = new nearAPI.InMemorySigner(wallet._keyStore)
+    } catch (err) {
+      throw err
     }
-
-    // Initializing our contract APIs by contract name and configuration
-    const contract = await new nearAPI.Contract(wallet.account(), nearConfig.contractName, {
-      // View methods are read-only – they don't modify the state, but usually return some value
-      viewMethods: [
-        'getUserById',
-        'getMementoById',
-        'name',
-        'symbol',
-        'decimals',
-        'balanceOf',
-        'allowance',
-        'getBalance'
-      ],
-      // Change methods can modify the state, but you don't receive the returned value when called
-      changeMethods: [
-        'createMemento',
-        'updateMemento',
-        'archiveMemento',
-        'unarchiveMemento',
-        'deleteMemento',
-        'createPost',
-        'transmitPost',
-        'editPost',
-        'deletePost',
-        'redactPost',
-        'toggleFollow',
-        'createUser',
-        'updateUser',
-        'createComment',
-        'deleteComment',
-        'init',
-        'transfer',
-        'approve',
-        'transferFrom',
-        'piecePost'
-      ],
-      // Sender is the account ID to initialize transactions.
-      // getAccountId() will return empty string if user is still unauthorized
-      sender: wallet.getAccountId(),
-    })
-
-    // const response = await contract.init({
-    //   initialOwner: 'riqi.testnet'
-    // })
-    // console.log(response)
-
-    this.contract = contract
-    this.currentUser = currentUser
-    this.config = nearConfig
-    this.wallet = wallet
-    this.signer = new nearAPI.InMemorySigner(wallet._keyStore)
   }
 }
 
