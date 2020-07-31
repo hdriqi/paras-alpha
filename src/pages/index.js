@@ -60,16 +60,26 @@ const HomePage = () => {
               <NavTop
                 center={
                   <div className="flex justify-center ">
-                    <h3
-                      onClick={() => _navigate('editorsPick')}
-                      className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'editorsPick' && 'font-bold'}`}>
-                      Picks
-                    </h3>
-                    <h3
-                      onClick={() => _navigate('following')}
-                      className={`text-white text-lg mx-2 cursor-pointer ${pageActive === 'following' && 'font-bold'}`}>
-                      Following
-                    </h3>
+                    <div className="flex flex-col justify-center">
+                      <h3
+                        onClick={() => _navigate('editorsPick')}
+                        className={`text-white text-lg mx-2 cursor-pointer font-bold`}>
+                        Picks
+                      </h3>
+                      <svg className={`m-auto fill-current ${pageActive === 'editorsPick' ? 'text-white' : 'text-transparent'}`} width="4" height="4" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="4" cy="4" r="4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3
+                        onClick={() => _navigate('following')}
+                        className={`text-white text-lg mx-2 cursor-pointer font-bold`}>
+                        Following
+                      </h3>
+                      <svg className={`m-auto fill-current ${pageActive === 'following' ? 'text-white' : 'text-transparent'}`} width="4" height="4" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="4" cy="4" r="4" />
+                      </svg>
+                    </div>
                   </div>
                 }
               />
@@ -82,8 +92,8 @@ const HomePage = () => {
               }
             </div>
           ) : (
-            <ExploreScreen />
-          )
+              <ExploreScreen />
+            )
         }
       </div>
     </div>
