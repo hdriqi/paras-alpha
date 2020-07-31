@@ -115,13 +115,6 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
             <button className="w-full text-left" onClick={_ => _copyLink()}>
               <h4 className="p-4 text-white font-bold">Copy Link</h4>
             </button>
-            <button className="w-full text-left" onClick={_ => setShowModal(false)}>
-              <Push href="/post/[id]" as={`/post/${post.id}`} props={{
-                id: post.id
-              }}>
-                <h4 className="p-4 text-white font-bold">View Detail</h4>
-              </Push>
-            </button>
             {
               me && me.id == post.owner && (
                 <button className="w-full text-left" onClick={_ => setShowModal(false)}>
@@ -143,7 +136,7 @@ const ModalPost = ({ showModal, setShowModal, me, meMementoList, post }) => {
             {
               meMementoList.findIndex(memento => memento.id === post.mementoId) > -1 && (
                 <button className="w-full text-left" onClick={_ => _redact()}>
-                  <h4 className="p-4 text-white font-bold">Redact</h4>
+                  <h4 className="p-4 text-white font-bold">Remove from Memento</h4>
                 </button>
               )
             }
