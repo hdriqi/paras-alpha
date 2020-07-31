@@ -43,7 +43,7 @@ const ModalShare = ({ showModal, setShowModal, post }) => {
                 <h4 className="p-4 text-white font-bold">Transmit</h4>
               </button>
             </Push>
-            <button className="w-full text-left" data-sharer="facebook" data-hashtag="hashtag" data-url={`${window.location.origin}/post/${post.id}`}>
+            <button className="w-full text-left" data-sharer="facebook" data-url={`${window.location.origin}/post/${post.id}`}>
               <h4 className="p-4 text-white font-bold">Share to Facebook</h4>
             </button>
             <button className="w-full text-left" data-sharer="twitter" data-url={`${window.location.origin}/post/${post.id}`}>
