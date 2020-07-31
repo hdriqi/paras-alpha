@@ -75,20 +75,16 @@ const Explore = ({ postListIds, getPost, hasMore, memoryGrant }) => {
 
       {
         memoryGrant && (
-          <div className="p-4 pb-0">
+          <div className="pt-4 px-4">
             <Push href="/m/[id]" as={`/m/${memoryGrant.memento.id}`} props={{
               id: memoryGrant.memento.id
             }}>
               <a>
-                <div className="mt-2 flex items-center bg-primary-5 rounded-md overflow-hidden">
-                  <div className="w-1/5">
-                    <div className="pb-full relative">
-                      <div className="absolute inset-0">
-                        <Image className="w-full rounded-md" data={memoryGrant.memento.img} />
-                      </div>
-                    </div>
+                <div className="flex items-center bg-dark-2 overflow-hidden relative rounded-md">
+                  <div className="w-2/12 p-2">
+                    <Image className="w-full h-full rounded-md" data={memoryGrant.memento.img} />
                   </div>
-                  <div className="4/5 px-4">
+                  <div className="w-10/12 p-2">
                     <p className="text-white">Contribute to <b>{memoryGrant.memento.id}</b> and get a chance to win ${memoryGrant.reward}</p>
                   </div>
                 </div>
