@@ -30,9 +30,6 @@ const Swiper = ({ post }) => {
     return () => carouselContext.unsubscribe(onChange);
   }, [carouselContext])
 
-  console.log(currentSlide)
-  console.log(carouselContext.state.totalSlides)
-
   return (
     <div className="relative">
       <Slider ignoreCrossMove={true}>
