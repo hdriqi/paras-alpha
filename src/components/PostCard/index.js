@@ -7,7 +7,7 @@ import Push from '../Push'
 import { useState, useEffect, useContext } from 'react'
 import PostCardLoader from '../PostCardLoader'
 import Image from '../Image'
-import { CarouselProvider, Slider, Slide, CarouselContext, WithStore } from '@evius/pure-react-carousel'
+import { CarouselProvider, Slider, Slide, CarouselContext, WithStore, ButtonBack, ButtonNext } from '@evius/pure-react-carousel'
 import SlideCommon from '../Slide/Common'
 import ModalPost from './Modal'
 import ModalPiece from './Piece'
@@ -17,6 +17,69 @@ import ModalShare from './ModalShare'
 TimeAgo.addLocale(en)
 
 const timeAgo = new TimeAgo('en-US')
+
+const Swiper = ({ post }) => {
+  const carouselContext = useContext(CarouselContext);
+  const [currentSlide, setCurrentSlide] = useState(carouselContext.state.currentSlide);
+
+  useEffect(() => {
+    function onChange() {
+      setCurrentSlide(carouselContext.state.currentSlide);
+    }
+    carouselContext.subscribe(onChange);
+    return () => carouselContext.unsubscribe(onChange);
+  }, [carouselContext])
+
+  console.log(currentSlide)
+  console.log(carouselContext.state.totalSlides)
+
+  return (
+    <div className="relative">
+      <Slider ignoreCrossMove={true}>
+        {
+          post.contentList.map((page, idx) => {
+            return (
+              <Slide key={idx}>
+                <SlideCommon page={page} />
+              </Slide>
+            )
+          })
+        }
+      </Slider>
+      {
+        carouselContext.state.totalSlides > currentSlide + 1 && (
+          <div className="absolute px-2 opacity-75 hover:opacity-100 transition ease-in-out duration-500" style={{
+            top: `50%`,
+            right: 0
+          }}>
+            <ButtonNext>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23Z" fill="#232323" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.29297 8.70718L10.7072 7.29297L15.4143 12.0001L10.7072 16.7072L9.29297 15.293L12.5859 12.0001L9.29297 8.70718Z" fill="white" />
+              </svg>
+
+            </ButtonNext>
+          </div>
+        )
+      }
+      {
+        currentSlide > 0 && (
+          <div className="absolute px-2 opacity-75 hover:opacity-100 transition ease-in-out duration-500" style={{
+            top: `50%`
+          }}>
+            <ButtonBack>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23Z" fill="#232323" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7073 15.293L12.293 16.7072L7.58594 12.0001L12.293 7.29297L13.7073 8.70718L10.4144 12.0001L13.7073 15.293Z" fill="white" />
+              </svg>
+
+            </ButtonBack>
+          </div>
+        )
+      }
+    </div>
+  )
+}
 
 const MetadataComp = ({ post }) => {
   const carouselContext = useContext(CarouselContext);
@@ -38,9 +101,18 @@ const MetadataComp = ({ post }) => {
         </p>
       </div>
       <div className="w-1/3 text-center">
-        <p className="text-white text-white-3 text-xs">
-          {currentSlide + 1}/{post.contentList.length}
-        </p>
+        <div className="flex h-full items-center justify-center">
+          {
+            [...Array(carouselContext.state.totalSlides).keys()].map(idx => {
+              return (
+                <div key={idx} className={`w-2 shadow-sm bg-white ${idx !== currentSlide && 'opacity-50'}`} style={{
+                  margin: `0 .1rem`,
+                  height: `0.15rem`
+                }}></div>
+              )
+            })
+          }
+        </div>
       </div>
       <div className="w-1/3 text-right">
         <p className="text-white text-white-3 text-xs">
@@ -171,17 +243,7 @@ const Post = ({ id }) => {
                   lockOnWindowScroll={true}
                   totalSlides={post.contentList.length}
                 >
-                  <Slider ignoreCrossMove={true}>
-                    {
-                      post.contentList.map((page, idx) => {
-                        return (
-                          <Slide key={idx}>
-                            <SlideCommon page={page} />
-                          </Slide>
-                        )
-                      })
-                    }
-                  </Slider>
+                  <Swiper post={post} />
                   <div>
                     <Metadata post={post} />
                   </div>
